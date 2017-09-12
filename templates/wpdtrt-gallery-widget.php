@@ -9,7 +9,7 @@
  * @since       0.1.0
  *
  * @package     WPDTRT_Gallery
- * @subpackage  WPDTRT_Gallery/views
+ * @subpackage  WPDTRT_Gallery/templates
  */
 ?>
 

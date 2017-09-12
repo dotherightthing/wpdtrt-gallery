@@ -20,7 +20,9 @@ if ( !function_exists( 'wpdtrt_gallery_css_backend' ) ) {
    */
   function wpdtrt_gallery_css_backend() {
 
-    wp_enqueue_style( 'wpdtrt_gallery_css_backend',
+    $backend = 'wpdtrt_gallery_backend';
+
+    wp_enqueue_style( $backend,
       WPDTRT_GALLERY_URL . 'css/wpdtrt-gallery-admin.css',
       array(),
       WPDTRT_GALLERY_VERSION
@@ -41,8 +43,17 @@ if ( !function_exists( 'wpdtrt_gallery_css_frontend' ) ) {
    */
   function wpdtrt_gallery_css_frontend() {
 
-    wp_enqueue_style( 'wpdtrt_gallery_css_frontend',
+    $frontend = 'wpdtrt_gallery_frontend';
+
+    wp_enqueue_style( $frontend,
       WPDTRT_GALLERY_URL . 'css/wpdtrt-gallery.css',
+      array(),
+      WPDTRT_GALLERY_VERSION
+      //'all'
+    );
+
+    wp_enqueue_style( 'wpdtrt_gallery_paver',
+      WPDTRT_GALLERY_URL . 'vendor/bower_components/paver/dist/css/paver.min.css',
       array(),
       WPDTRT_GALLERY_VERSION
       //'all'

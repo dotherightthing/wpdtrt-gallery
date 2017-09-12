@@ -81,15 +81,17 @@ if( ! defined( 'WPDTRT_GALLERY_URL' ) ) {
  * Include plugin logic
  */
 
-  require_once(WPDTRT_GALLERY_PATH . 'app/wpdtrt-gallery-api.php');
+  //require_once(WPDTRT_GALLERY_PATH . 'app/wpdtrt-gallery-api.php');
   require_once(WPDTRT_GALLERY_PATH . 'app/wpdtrt-gallery-css.php');
-  require_once(WPDTRT_GALLERY_PATH . 'app/wpdtrt-gallery-html.php');
+  //require_once(WPDTRT_GALLERY_PATH . 'app/wpdtrt-gallery-html.php');
   require_once(WPDTRT_GALLERY_PATH . 'app/wpdtrt-gallery-js.php');
-  require_once(WPDTRT_GALLERY_PATH . 'app/wpdtrt-gallery-options.php');
+  //require_once(WPDTRT_GALLERY_PATH . 'app/wpdtrt-gallery-options.php');
   require_once(WPDTRT_GALLERY_PATH . 'app/wpdtrt-gallery-shortcode.php');
-  require_once(WPDTRT_GALLERY_PATH . 'app/wpdtrt-gallery-widget.php');
+  //require_once(WPDTRT_GALLERY_PATH . 'app/wpdtrt-gallery-widget.php');
 
-  require_once(WPDTRT_GALLERY_PATH . 'vendor/tgm-plugin-activation/class-tgm-plugin-activation.php');
+  require_once(WPDTRT_GALLERY_PATH . 'app/wpdtrt-gallery-attachment-fields.php');
+  require_once(WPDTRT_GALLERY_PATH . 'app/wpdtrt-gallery-attachment-geodata.php');
+
   require_once(WPDTRT_GALLERY_PATH . 'config/tgm-plugin-activation.php');
 
 ?>

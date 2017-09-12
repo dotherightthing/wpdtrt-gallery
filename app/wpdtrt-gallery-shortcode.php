@@ -8,25 +8,45 @@
  * @link        https://generatewp.com/shortcodes/
  * @since       0.1.0
  *
- * @example     [wpdtrt_gallery number="4" enlargement="yes"]
- * @example     do_shortcode( '[wpdtrt_gallery number="4" enlargement="yes"]' );
+ * @example     [wpdtrt_gallery]H2 heading text[/wpdtrt_gallery]
+ * @example     do_shortcode( '[wpdtrt_gallery]H2 heading text[/wpdtrt_gallery]' );
  *
  * @package     WPDTRT_Gallery
  * @subpackage  WPDTRT_Gallery/app
  */
 
+add_filter( 'the_content', 'wpdtrt_gallery_shortcode_inject' );
+
+/**
+ * Automatically inject plugin shortcodes into the content
+ *
+ * @return $content
+ */
+function wpdtrt_gallery_shortcode_inject($content) {
+
+  //if ( ! function_exists('wpdtrt_content_sections') ) {
+  //  return;
+  //}
+
+  $content = preg_replace("/(<h2>.+<\/h2>)/", "[wpdtrt-gallery-h2]$1[/wpdtrt-gallery-h2]", $content);
+
+  $content = preg_replace("/<div id='gallery'>/", "<h3>Gallery</h3>$1", $content);
+
+  return $content;
+}
+
 if ( !function_exists( 'wpdtrt_gallery_shortcode' ) ) {
 
   /**
-   * add_shortcode
-   * @param       string $tag
-   *    Shortcode tag to be searched in post content.
-   * @param       callable $func
-   *    Hook to run when shortcode is found.
+   * @param       array $atts
+   *    Optional shortcode attributes specified by the user
+   * @param       string $content
+   *    Content within the enclosing shortcode tags
    *
    * @since       0.1.0
    * @uses        ../../../../wp-includes/shortcodes.php
    * @see         https://codex.wordpress.org/Function_Reference/add_shortcode
+   * @see         https://codex.wordpress.org/Shortcode_API#Enclosing_vs_self-closing_shortcodes
    * @see         http://php.net/manual/en/function.ob-start.php
    * @see         http://php.net/manual/en/function.ob-get-clean.php
    */
@@ -41,8 +61,7 @@ if ( !function_exists( 'wpdtrt_gallery_shortcode' ) ) {
     $title = null;
     $after_title = null;
     $after_widget = null;
-    $number = null;
-    $enlargement = null;
+    $option1 = null;
     $shortcode = 'wpdtrt_gallery_shortcode';
 
     /**
@@ -51,8 +70,7 @@ if ( !function_exists( 'wpdtrt_gallery_shortcode' ) ) {
      */
     $atts = shortcode_atts(
       array(
-        'number' => '4',
-        'enlargement' => 'yes'
+        'option1' => 'foo'
       ),
       $atts,
       $shortcode
@@ -60,14 +78,6 @@ if ( !function_exists( 'wpdtrt_gallery_shortcode' ) ) {
 
     // only overwrite predeclared variables
     extract( $atts, EXTR_IF_EXISTS );
-
-    if ( $enlargement === 'yes') {
-      $enlargement = '1';
-    }
-
-    if ( $enlargement === 'no') {
-      $enlargement = '0';
-    }
 
     $wpdtrt_gallery_options = get_option('wpdtrt_gallery');
     $wpdtrt_gallery_data = $wpdtrt_gallery_options['wpdtrt_gallery_data'];
@@ -80,6 +90,7 @@ if ( !function_exists( 'wpdtrt_gallery_shortcode' ) ) {
      */
     ob_start();
 
+    // template outputs $content enclosed within shortcode tags
     require(WPDTRT_GALLERY_PATH . 'templates/wpdtrt-gallery-front-end.php');
 
     /**
@@ -90,7 +101,13 @@ if ( !function_exists( 'wpdtrt_gallery_shortcode' ) ) {
     return $content;
   }
 
-  add_shortcode( 'wpdtrt_gallery', 'wpdtrt_gallery_shortcode' );
+  /**
+   * @param string $tag
+   *    Shortcode tag to be searched in post content.
+   * @param callable $func
+   *    Hook to run when shortcode is found.
+   */
+  add_shortcode( 'wpdtrt-gallery', 'wpdtrt_gallery_shortcode' );
 
 }
 

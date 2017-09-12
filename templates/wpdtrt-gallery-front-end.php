@@ -1,6 +1,7 @@
 <?php
 /**
  * Template partial for the public front-end
+ * This is run with do_shortcode run on content
  *
  * This file contains PHP, and HTML.
  *
@@ -8,7 +9,7 @@
  * @since       0.1.0
  *
  * @package     WPDTRT_Gallery
- * @subpackage  WPDTRT_Gallery/views
+ * @subpackage  WPDTRT_Gallery/templates
  */
 ?>
 
@@ -18,45 +19,21 @@
   echo $before_title . $title . $after_title;
 ?>
 
-<div class="wpdtrt-gallery-blocks frontend" data-number="<?php echo $number; ?>">
-  <ul>
-
-  <?php
-  /**
-   * cast the $number string to a number
-   * this is required because we are doing a === comparison:
-   * 1 == '1' => true
-   * 1 === '1' => false
-   */
-    $max_length = (int)$number;
-    $count = 0;
-    $display_count = 1;
-
-   /**
-     * filter_var
-     * @link http://stackoverflow.com/a/15075609
-     */
-    $has_enlargement = filter_var( $enlargement, FILTER_VALIDATE_BOOLEAN );
-
-    foreach( $wpdtrt_gallery_data as $key => $val ) {
-
-      echo "<li>";
-
-      echo wpdtrt_gallery_html_image( $key, $has_enlargement );
-
-      echo "</li>\r\n";
-
-      $count++;
-      $display_count++;
-
-      // when we reach the end of the demo sample, stop looping
-      if ($count === $max_length) {
-        break;
-      }
-    }
-    // end foreach
-  ?>
-  </ul>
+<div class="stack stack_link_viewer gallery-viewer h2-viewer" id="[]-viewer" data-has-image="false" data-expanded="false">
+  <div class="gallery-viewer--header">
+    <h2 class="gallery-viewer--heading">
+        <?php echo $content; ?>
+    </h2>
+  </div>
+  <div class="stack--wrapper" style="">
+    <figure class="stack--liner">
+      <img src="" alt="">
+      <iframe width="100%" height="100%" src="" frameborder="0" allowfullscreen="true" scrolling="no" aria-hidden="true"></iframe>
+      <figcaption class="gallery-viewer--footer">
+        <div class="gallery-viewer--caption"></div>
+      </figcaption>
+    </figure>
+  </div>
 </div>
 
 <?php
