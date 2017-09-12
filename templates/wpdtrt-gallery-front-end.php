@@ -21,9 +21,10 @@
 
 <div class="stack stack_link_viewer gallery-viewer h2-viewer" id="[]-viewer" data-has-image="false" data-expanded="false">
   <div class="gallery-viewer--header">
-    <h2 class="gallery-viewer--heading">
-        <?php echo $content; ?>
-    </h2>
+    <?php
+      // <h2>Heading text</h2>
+      echo $content;
+    ?>
   </div>
   <div class="stack--wrapper" style="">
     <figure class="stack--liner">

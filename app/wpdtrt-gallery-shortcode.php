@@ -15,12 +15,15 @@
  * @subpackage  WPDTRT_Gallery/app
  */
 
-add_filter( 'the_content', 'wpdtrt_gallery_shortcode_inject' );
+add_filter( 'the_content', 'wpdtrt_gallery_shortcode_inject', 10 );
 
 /**
  * Automatically inject plugin shortcodes into the content
+ *  Note: do_shortcode() is registered as a default filter on 'the_content' with a priority of 11.
  *
  * @return $content
+ *
+ * @see https://codex.wordpress.org/Shortcode_API#Function_reference
  */
 function wpdtrt_gallery_shortcode_inject($content) {
 
@@ -102,12 +105,12 @@ if ( !function_exists( 'wpdtrt_gallery_shortcode' ) ) {
   }
 
   /**
-   * @param string $tag
-   *    Shortcode tag to be searched in post content.
-   * @param callable $func
-   *    Hook to run when shortcode is found.
+   * Register the shortcode
+   *  Note: do_shortcode() is registered as a default filter on 'the_content' with a priority of 11.
+   * @param string    $tag    Shortcode tag to be searched in post content.
+   * @param callable  $func   Hook to run when shortcode is found.
    */
-  add_shortcode( 'wpdtrt-gallery', 'wpdtrt_gallery_shortcode' );
+  add_shortcode( 'wpdtrt-gallery-h2', 'wpdtrt_gallery_shortcode' );
 
 }
 
