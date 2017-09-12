@@ -1,0 +1,20 @@
+{
+  "name": "wpdtrt-gallery",
+  "version": "0.1.0",
+  "description": "Gallery which supports images, panoramas, maps, SoundCloud and Vimeo",
+  "main": "readme.txt",
+  "authors": [
+    "Dan Smith <dev@dotherightthing.co.nz>"
+  ],
+  "devDependencies": {
+    "WordPress-Admin-Style": "https://github.com/bueltge/WordPress-Admin-Style.git#^1.4.1",
+    "wp-skeleton-plugin": "https://github.com/ptahdunbar/wp-skeleton-plugin.git"
+  },
+  "license": "All Rights Reserved",
+  "homepage": "https://github.com/dotherightthing/wpdtrt-gallery",
+  "ignore": [
+    "**/.*",
+    "bower_components"
+  ],
+  "private": true
+}

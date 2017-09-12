@@ -1,0 +1,24 @@
+{
+  "generator-wp-plugin-boilerplate": {
+    "name": "wpdtrt-gallery",
+    "nameSafe": "wpdtrt_gallery",
+    "nameFriendly": "DTRT Gallery",
+    "nameFriendlySafe": "WPDTRT_Gallery",
+    "nameAdminMenu": "DTRT Gallery",
+    "urlAdminMenu": "wpdtrt-gallery",
+    "description": "Gallery which supports images, panoramas, maps, SoundCloud and Vimeo",
+    "tags": "gallery",
+    "homepage": "https://github.com/dotherightthing/wpdtrt-gallery",
+    "license": "GPLv2 or later",
+    "licenseUrl": "http://www.gnu.org/licenses/gpl-2.0.html",
+    "donateUrl": "http://dotherightthing.co.nz",
+    "wpVersion": "4.8.1",
+    "authorName": "Dan Smith",
+    "authorWordPressName": "dotherightthingnz",
+    "authorEmail": "dev@dotherightthing.co.nz",
+    "authorUrl": "https://profiles.wordpress.org/dotherightthingnz",
+    "repositoryType": "git",
+    "repositoryUrl": "git@github.com:dotherightthing/wpdtrt-gallery.git",
+    "version": "0.1.0"
+  }
+}

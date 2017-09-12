@@ -1,0 +1,10 @@
+docs
+generators
+logs
+node_modules
+tests
+vendor
+!vendor/index.php
+!vendor/tgm-plugin-activation
+composer.phar
+.DS_Store
