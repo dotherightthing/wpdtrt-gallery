@@ -95,7 +95,7 @@ if ( !function_exists( 'wpdtrt_gallery_js' ) ) {
     wp_enqueue_script( 'wpdtrt_gallery',
       WPDTRT_GALLERY_URL . 'js/wpdtrt-gallery.js',
       array(
-        // registered dependencies:
+        // load these registered dependencies first:
         'jquery',
         'jquery_paver',
         'uri',

@@ -55,7 +55,7 @@ if ( !function_exists( 'wpdtrt_gallery_css_frontend' ) ) {
     wp_enqueue_style( 'wpdtrt_gallery_frontend',
       WPDTRT_GALLERY_URL . 'css/wpdtrt-gallery.css',
       array(
-        // registered dependencies:
+        // load these registered dependencies first:
         'paver'
       ),
       WPDTRT_GALLERY_VERSION,
