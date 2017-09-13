@@ -2,7 +2,7 @@
  * Scripts for the public front-end
  *
  * This file contains JavaScript.
- *    PHP variables are provided in wpdtrt_soundcloud_pages_config.
+ *    PHP variables are provided in wpdtrt_gallery_config.
  *
  * @link        https://github.com/dotherightthing/wpdtrt-gallery
  * @since       0.1.0

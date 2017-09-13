@@ -36,6 +36,10 @@ if ( !function_exists( 'wpdtrt_gallery_js' ) ) {
      * WordPress will automatically include the registered script
      * before it includes the enqueued script that lists the registered script’s handle as a dependency.
      *
+     * Note: If a dependency is shared between plugins/theme,
+     *  the hook must match, otherwise the dependency will be loaded twice,
+     *  potentially overriding variables and generating errors.
+     *
      * @see https://developer.wordpress.org/reference/functions/wp_register_script/#more-information
      */
 
@@ -102,7 +106,7 @@ if ( !function_exists( 'wpdtrt_gallery_js' ) ) {
     );
 
     /*
-    wp_localize_script( 'wpdtrt_gallery_js',
+    wp_localize_script( 'wpdtrt_gallery',
       'wpdtrt_gallery_config',
       array(
         'ajax_url' => admin_url( 'admin-ajax.php' ) // wpdtrt_gallery_config.ajax_url
