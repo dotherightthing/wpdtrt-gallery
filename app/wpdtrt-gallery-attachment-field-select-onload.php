@@ -19,13 +19,13 @@
  * @return $form_fields, modified form fields
  */
 
-function dtrt_attachment_field_select_onload( $form_fields, $post ) {
+function wpdtrt_gallery_attachment_field_select_onload( $form_fields, $post ) {
 
   // Set up options
   $options = array( '1' => 'Yes', '0' => 'No' );
 
   // Get currently select value
-  $select = get_post_meta( $post->ID, 'dtrt_select_onload', true );
+  $select = get_post_meta( $post->ID, 'wpdtrt_gallery_attachment_select_onload', true );
 
   // If no select value, default to 'No'
   if( !isset( $select ) )
@@ -50,7 +50,7 @@ function dtrt_attachment_field_select_onload( $form_fields, $post ) {
   }
 
   // Construct the form field
-  $form_fields['dtrt-select-onload'] = array(
+  $form_fields['wpdtrt-gallery-select-onload'] = array(
     'label' => 'Select onload',
     'input' => 'html',
     'html'  => join("\n", $out),
@@ -60,7 +60,7 @@ function dtrt_attachment_field_select_onload( $form_fields, $post ) {
   return $form_fields;
 }
 
-add_filter( 'attachment_fields_to_edit', 'dtrt_attachment_field_select_onload', 10, 2 );
+add_filter( 'attachment_fields_to_edit', 'wpdtrt_gallery_attachment_field_select_onload', 10, 2 );
 
 
 /**
@@ -71,13 +71,13 @@ add_filter( 'attachment_fields_to_edit', 'dtrt_attachment_field_select_onload', 
  * @return $post array, modified post data
  */
 
-function dtrt_attachment_field_select_onload_save( $post, $attachment ) {
+function wpdtrt_gallery_attachment_field_select_onload_save( $post, $attachment ) {
   if( isset( $attachment['dtrt-select-onload'] ) )
-    update_post_meta( $post['ID'], 'dtrt_select_onload', $attachment['dtrt-select-onload'] );
+    update_post_meta( $post['ID'], 'wpdtrt_gallery_attachment_select_onload', $attachment['dtrt-select-onload'] );
 
   return $post;
 }
 
-add_filter( 'attachment_fields_to_save', 'dtrt_attachment_field_select_onload_save', 10, 2 );
+add_filter( 'attachment_fields_to_save', 'wpdtrt_gallery_attachment_field_select_onload_save', 10, 2 );
 
 ?>

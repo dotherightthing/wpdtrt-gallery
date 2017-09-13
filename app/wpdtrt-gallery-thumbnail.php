@@ -86,7 +86,7 @@ function wpdtrt_thumbnail_queryparams($html, $id, $size, $permalink) {
   }
 
   // Geolocation
-  $geo_exif = wpdtrt_get_attachment_geodata($id, 'number');
+  $geo_exif = wpdtrt_gallery_get_attachment_geodata($id, 'number');
 
   $link_options['latitude'] = $geo_exif[0];
   $link_options['longitude'] = $geo_exif[1];

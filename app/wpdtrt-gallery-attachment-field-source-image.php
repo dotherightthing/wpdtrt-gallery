@@ -19,8 +19,8 @@
  * @return $form_fields, modified form fields
  */
 
-function dtrt_attachment_field_source_image( $form_fields, $post ) {
-  $form_fields['dtrt-source-image'] = array(
+function wpdtrt_gallery_attachment_field_source_image( $form_fields, $post ) {
+  $form_fields['wpdtrt-gallery-source-image'] = array(
     'label' => 'Image',
     'input' => 'html',
     'html' => '<a href="' . wp_get_attachment_image_src($post->ID, 'full')[0] . '" target="_blank" title="Source image (opens in a new tab/window). " style="display:block; font-size: 13px; margin-top: .45em;">View original</a>',
@@ -29,6 +29,6 @@ function dtrt_attachment_field_source_image( $form_fields, $post ) {
   return $form_fields;
 }
 
-add_filter( 'attachment_fields_to_edit', 'dtrt_attachment_field_source_image', 10, 2 );
+add_filter( 'attachment_fields_to_edit', 'wpdtrt_gallery_attachment_field_source_image', 10, 2 );
 
 ?>

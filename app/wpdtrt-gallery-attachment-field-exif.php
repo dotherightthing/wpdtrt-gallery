@@ -16,7 +16,7 @@
  * @param string $string The String
  * @return number $number The number
  */
-function dms_to_number( $string ) {
+function wpdtrt_gallery_dms_to_number( $string ) {
 
   $number = 0;
 
@@ -38,15 +38,15 @@ function dms_to_number( $string ) {
  * @param string $seconds Seconds
  * @return string $decimal The decimal value
  */
-function gps_dms_to_decimal( $reference_direction, $degrees, $minutes, $seconds ) {
+function wpdtrt_gallery_gps_dms_to_decimal( $reference_direction, $degrees, $minutes, $seconds ) {
 
   // http://stackoverflow.com/a/32611358
   // http://stackoverflow.com/a/19420991
   // https://www.mail-archive.com/pkg-perl-maintainers@lists.launchpad.net/msg02335.html
 
-  $degrees = dms_to_number( $degrees );
-  $minutes = dms_to_number( $minutes );
-  $seconds = dms_to_number( $seconds );
+  $degrees = wpdtrt_gallery_dms_to_number( $degrees );
+  $minutes = wpdtrt_gallery_dms_to_number( $minutes );
+  $seconds = wpdtrt_gallery_dms_to_number( $seconds );
 
   $decimal = ( $degrees + ( $minutes / 60 ) + ( $seconds / 3600 ) );
 
@@ -74,7 +74,7 @@ function gps_dms_to_decimal( $reference_direction, $degrees, $minutes, $seconds 
  * @see wp-admin/includes/media.php
  * @see wp-includes/media-template.php
  */
-function dtrt_attachment_field_gps( $form_fields, $post ) {
+function wpdtrt_gallery_attachment_field_exif( $form_fields, $post ) {
 
   $file = get_attached_file( $post->ID );
   $exif = @exif_read_data( $file );
@@ -84,7 +84,7 @@ function dtrt_attachment_field_gps( $form_fields, $post ) {
   //wpdtrt_log( 'TEST 2: ' . wp_get_attachment_link($post->ID, 'full') );
 
   if ( !empty( $exif['DateTimeOriginal'] ) ) {
-    $form_fields['dtrt-time'] = array(
+    $form_fields['wpdtrt-gallery-time'] = array(
       'label' => 'Time',
       'input' => 'html',
       'html' => '<input type="text" readonly="readonly" value="' . $exif['DateTimeOriginal'] . '" />',
@@ -94,11 +94,11 @@ function dtrt_attachment_field_gps( $form_fields, $post ) {
   $meta = array();
 
   if ( !empty( $exif['GPSLatitude'] ) && isset( $exif['GPSLatitudeRef'] ) ) {
-    $meta['latitude'] = gps_dms_to_decimal( $exif['GPSLatitudeRef'], $exif["GPSLatitude"][0], $exif["GPSLatitude"][1], $exif["GPSLatitude"][2] );
+    $meta['latitude'] = wpdtrt_gallery_gps_dms_to_decimal( $exif['GPSLatitudeRef'], $exif["GPSLatitude"][0], $exif["GPSLatitude"][1], $exif["GPSLatitude"][2] );
   }
 
   if ( !empty( $exif['GPSLongitude'] ) && isset( $exif['GPSLongitudeRef'] ) ) {
-    $meta['longitude'] = gps_dms_to_decimal( $exif['GPSLongitudeRef'], $exif["GPSLongitude"][0], $exif["GPSLongitude"][1], $exif["GPSLongitude"][2] );
+    $meta['longitude'] = wpdtrt_gallery_gps_dms_to_decimal( $exif['GPSLongitudeRef'], $exif["GPSLongitude"][0], $exif["GPSLongitude"][1], $exif["GPSLongitude"][2] );
   }
 
   // if the values can be pulled from the image
@@ -108,7 +108,7 @@ function dtrt_attachment_field_gps( $form_fields, $post ) {
   }
   // else try to pull these values from the user field
   else {
-    $value = get_post_meta( $post->ID, 'dtrt_gps', true ); // working
+    $value = get_post_meta( $post->ID, 'wpdtrt_gallery_attachment_exif_gps', true ); // working
   }
 
   $gmap = '';
@@ -123,7 +123,7 @@ function dtrt_attachment_field_gps( $form_fields, $post ) {
     $gmap .= '&key=AIzaSyAyMI7z2mnFYdONaVV78weOmB0U2LThZMo';
   }
 
-  $form_fields['dtrt-gps'] = array(
+  $form_fields['wpdtrt-gallery-gps'] = array(
     'label' => 'GPS',
     'input' => 'text',
     'value' => $value,
@@ -133,7 +133,7 @@ function dtrt_attachment_field_gps( $form_fields, $post ) {
   return $form_fields;
 }
 
-add_filter( 'attachment_fields_to_edit', 'dtrt_attachment_field_gps', 10, 2 );
+add_filter( 'attachment_fields_to_edit', 'wpdtrt_gallery_attachment_field_exif', 10, 2 );
 
 /**
  * Save value of Location field in media uploader, for GPS dependent functions (map, weather)
@@ -143,16 +143,16 @@ add_filter( 'attachment_fields_to_edit', 'dtrt_attachment_field_gps', 10, 2 );
  * @return $post array, modified post data
  */
 
-function dtrt_attachment_field_gps_save( $post, $attachment ) {
+function wpdtrt_gallery_attachment_field_exif_save( $post, $attachment ) {
 
   if ( isset( $attachment['dtrt-gps'] ) ) {
-    update_post_meta( $post['ID'], 'dtrt_gps', $attachment['dtrt-gps'] ); // working
+    update_post_meta( $post['ID'], 'wpdtrt_gallery_attachment_exif_gps', $attachment['dtrt-gps'] ); // working
   }
 
   return $post;
 }
 
-add_filter( 'attachment_fields_to_save', 'dtrt_attachment_field_gps_save', 10, 2 );
+add_filter( 'attachment_fields_to_save', 'wpdtrt_gallery_attachment_field_exif_save', 10, 2 );
 
 
 ?>

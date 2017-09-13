@@ -19,18 +19,18 @@
  * @return $form_fields, modified form fields
  */
 
-function dtrt_attachment_field_location( $form_fields, $post ) {
-  $form_fields['dtrt-location'] = array(
+function wpdtrt_gallery_attachment_field_location( $form_fields, $post ) {
+  $form_fields['wpdtrt-gallery-location'] = array(
     'label' => 'Location',
     'input' => 'text',
-    'value' => get_post_meta( $post->ID, 'dtrt_location', true ),
+    'value' => get_post_meta( $post->ID, 'wpdtrt_gallery_attachment_location', true ),
     //'helps' => '50% __%',
   );
 
   return $form_fields;
 }
 
-add_filter( 'attachment_fields_to_edit', 'dtrt_attachment_field_location', 10, 2 );
+add_filter( 'attachment_fields_to_edit', 'wpdtrt_gallery_attachment_field_location', 10, 2 );
 
 /**
  * Save value of Location field in media uploader, for gallery-viewer
@@ -40,14 +40,14 @@ add_filter( 'attachment_fields_to_edit', 'dtrt_attachment_field_location', 10, 2
  * @return $post array, modified post data
  */
 
-function dtrt_attachment_field_location_save( $post, $attachment ) {
+function wpdtrt_gallery_attachment_field_location_save( $post, $attachment ) {
   if ( isset( $attachment['dtrt-location'] ) ) {
-    update_post_meta( $post['ID'], 'dtrt_location', $attachment['dtrt-location'] );
+    update_post_meta( $post['ID'], 'wpdtrt_gallery_attachment_location', $attachment['dtrt-location'] );
   }
 
   return $post;
 }
 
-add_filter( 'attachment_fields_to_save', 'dtrt_attachment_field_location_save', 10, 2 );
+add_filter( 'attachment_fields_to_save', 'wpdtrt_gallery_attachment_field_location_save', 10, 2 );
 
 ?>

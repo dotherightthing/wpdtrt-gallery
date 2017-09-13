@@ -19,13 +19,13 @@
  * @return $form_fields, modified form fields
  */
 
-function dtrt_attachment_field_panorama( $form_fields, $post ) {
+function wpdtrt_gallery_attachment_field_panorama( $form_fields, $post ) {
 
   // Set up options
   $options = array( '1' => 'Yes', '0' => 'No' );
 
   // Get currently select value
-  $select = get_post_meta( $post->ID, 'dtrt_panorama', true );
+  $select = get_post_meta( $post->ID, 'wpdtrt_gallery_attachment_panorama', true );
 
   // If no select value, default to 'No'
   if( !isset( $select ) )
@@ -50,7 +50,7 @@ function dtrt_attachment_field_panorama( $form_fields, $post ) {
   }
 
   // Construct the form field
-  $form_fields['dtrt-panorama'] = array(
+  $form_fields['wpdtrt-gallery-panorama'] = array(
     'label' => 'Panorama',
     'input' => 'html',
     'html'  => join("\n", $out),
@@ -60,7 +60,7 @@ function dtrt_attachment_field_panorama( $form_fields, $post ) {
   return $form_fields;
 }
 
-add_filter( 'attachment_fields_to_edit', 'dtrt_attachment_field_panorama', 10, 2 );
+add_filter( 'attachment_fields_to_edit', 'wpdtrt_gallery_attachment_field_panorama', 10, 2 );
 
 /**
  * Save value of "panorama" selection in media uploader
@@ -71,13 +71,13 @@ add_filter( 'attachment_fields_to_edit', 'dtrt_attachment_field_panorama', 10, 2
  * @todo calculate this automatically, or make it a theme option to do so
  */
 
-function dtrt_attachment_field_panorama_save( $post, $attachment ) {
+function wpdtrt_gallery_attachment_field_panorama_save( $post, $attachment ) {
   if( isset( $attachment['dtrt-panorama'] ) )
-    update_post_meta( $post['ID'], 'dtrt_panorama', $attachment['dtrt-panorama'] );
+    update_post_meta( $post['ID'], 'wpdtrt_gallery_attachment_panorama', $attachment['dtrt-panorama'] );
 
   return $post;
 }
 
-add_filter( 'attachment_fields_to_save', 'dtrt_attachment_field_panorama_save', 10, 2 );
+add_filter( 'attachment_fields_to_save', 'wpdtrt_gallery_attachment_field_panorama_save', 10, 2 );
 
 ?>

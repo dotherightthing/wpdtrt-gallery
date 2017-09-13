@@ -20,13 +20,13 @@
  *
  * @example
  *  include_once( ABSPATH . 'wp-admin/includes/image.php' ); // access wp_read_image_metadata
- *  add_filter('wp_read_image_metadata', 'wpdtrt_read_image_geodata','',3);
+ *  add_filter('wp_read_image_metadata', 'wpdtrt_gallery_read_image_geodata','',3);
  */
 
 include_once( ABSPATH . 'wp-admin/includes/image.php' );
-add_filter('wp_read_image_metadata', 'wpdtrt_read_image_geodata','',3);
+add_filter('wp_read_image_metadata', 'wpdtrt_gallery_read_image_geodata','',3);
 
-function wpdtrt_read_image_geodata( $meta, $file, $sourceImageType ) {
+function wpdtrt_gallery_read_image_geodata( $meta, $file, $sourceImageType ) {
 
   $exif = @exif_read_data( $file );
 
@@ -67,7 +67,7 @@ function wpdtrt_read_image_geodata( $meta, $file, $sourceImageType ) {
   * @uses http://kristarella.blog/2008/12/geo-exif-data-in-wordpress/
   */
 
-function geo_single_fracs2dec($fracs) {
+function wpdtrt_gallery_geo_single_fracs2dec($fracs) {
   return wp_exif_frac2dec($fracs[0]) +
       wp_exif_frac2dec($fracs[1]) / 60 +
       wp_exif_frac2dec($fracs[2]) / 3600;
@@ -84,7 +84,7 @@ function geo_single_fracs2dec($fracs) {
 // reinstate attachment metadata accidentally deleted during development:
 // ini_set('max_execution_time', 300); //300 seconds = 5 minutes
 
-function wpdtrt_get_attachment_geodata($id, $format) {
+function wpdtrt_gallery_get_attachment_geodata($id, $format) {
 
   $lat_out = '';
   $lng_out = '';
@@ -122,8 +122,8 @@ function wpdtrt_get_attachment_geodata($id, $format) {
   $lat_ref = $attachment_metadata['image_meta']['latitude_ref'];
   $lng_ref = $attachment_metadata['image_meta']['longitude_ref'];
 
-  $lat = geo_single_fracs2dec($latitude);
-  $lng = geo_single_fracs2dec($longitude);
+  $lat = wpdtrt_gallery_geo_single_fracs2dec($latitude);
+  $lng = wpdtrt_gallery_geo_single_fracs2dec($longitude);
 
   if ($lat_ref == 'S') {
     $neg_lat = '-';
