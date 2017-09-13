@@ -91,15 +91,15 @@ if( ! defined( 'WPDTRT_GALLERY_URL' ) ) {
 
   require_once(WPDTRT_GALLERY_PATH . 'app/wpdtrt-gallery-attachment-geodata.php');
 
-  require_once(WPDTRT_GALLERY_PATH . 'app/wpdtrt-gallery-attachment-field-source-image.php');
+  require_once(WPDTRT_GALLERY_PATH . 'app/wpdtrt-gallery-attachment-field-source.php');
+  require_once(WPDTRT_GALLERY_PATH . 'app/wpdtrt-gallery-attachment-field-default.php');
+  require_once(WPDTRT_GALLERY_PATH . 'app/wpdtrt-gallery-attachment-field-panorama.php');
   require_once(WPDTRT_GALLERY_PATH . 'app/wpdtrt-gallery-attachment-field-exif.php'); // time + gps
   require_once(WPDTRT_GALLERY_PATH . 'app/wpdtrt-gallery-attachment-field-location.php');
   require_once(WPDTRT_GALLERY_PATH . 'app/wpdtrt-gallery-attachment-field-position-y.php');
   require_once(WPDTRT_GALLERY_PATH . 'app/wpdtrt-gallery-attachment-field-ridewithgps.php');
   require_once(WPDTRT_GALLERY_PATH . 'app/wpdtrt-gallery-attachment-field-soundcloud.php');
   require_once(WPDTRT_GALLERY_PATH . 'app/wpdtrt-gallery-attachment-field-vimeo.php');
-  require_once(WPDTRT_GALLERY_PATH . 'app/wpdtrt-gallery-attachment-field-select-onload.php');
-  require_once(WPDTRT_GALLERY_PATH . 'app/wpdtrt-gallery-attachment-field-panorama.php');
 
   require_once(WPDTRT_GALLERY_PATH . 'app/wpdtrt-gallery-thumbnail.php');
 

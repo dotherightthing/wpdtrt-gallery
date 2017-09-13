@@ -24,7 +24,7 @@ function wpdtrt_gallery_attachment_field_soundcloud_pageid( $form_fields, $post 
     'label' => '<abbr title="SoundCloud">SC</abbr> Page ID',
     'input' => 'text',
     'value' => get_post_meta( $post->ID, 'wpdtrt_gallery_attachment_soundcloud_pageid', true ),
-    'helps' => '//soundcloud.com/dontbelievethehypenz/_________',
+    'helps' => 'soundcloud.com/USER/ID',
   );
 
   return $form_fields;
@@ -63,7 +63,7 @@ function wpdtrt_gallery_attachment_field_soundcloud_trackid( $form_fields, $post
     'label' => '<abbr title="SoundCloud">SC</abbr> Track ID',
     'input' => 'text',
     'value' => get_post_meta( $post->ID, 'wpdtrt_gallery_attachment_soundcloud_trackid', true ),
-    'helps' => '//api.soundcloud.com/tracks/_________',
+    'helps' => 'api.soundcloud.com/tracks/ID',
   );
 
   return $form_fields;

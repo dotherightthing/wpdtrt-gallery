@@ -21,10 +21,10 @@
 
 function wpdtrt_gallery_attachment_field_rwgps_pageid( $form_fields, $post ) {
   $form_fields['wpdtrt-gallery-rwgps-pageid'] = array(
-    'label' => 'Ride With GPS Route ID',
+    'label' => '<abbr title="Ride With GPS">RWGPS</abbr> ID',
     'input' => 'text',
     'value' => get_post_meta( $post->ID, 'wpdtrt_gallery_attachment_rwgps_pageid', true ),
-    'helps' => 'https://ridewithgps.com/routes/_________',
+    'helps' => 'ridewithgps.com/routes/ID',
   );
 
   return $form_fields;

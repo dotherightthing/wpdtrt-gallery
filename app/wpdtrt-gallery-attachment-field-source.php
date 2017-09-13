@@ -21,9 +21,9 @@
 
 function wpdtrt_gallery_attachment_field_source_image( $form_fields, $post ) {
   $form_fields['wpdtrt-gallery-source-image'] = array(
-    'label' => 'Image',
+    'label' => 'Source',
     'input' => 'html',
-    'html' => '<a href="' . wp_get_attachment_image_src($post->ID, 'full')[0] . '" target="_blank" title="Source image (opens in a new tab/window). " style="display:block; font-size: 13px; margin-top: .45em;">View original</a>',
+    'html' => '<a href="' . wp_get_attachment_image_src($post->ID, 'full')[0] . '" target="_blank" title="Source image (opens in a new tab/window). ">View original</a>',
   );
 
   return $form_fields;

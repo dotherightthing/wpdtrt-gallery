@@ -24,7 +24,7 @@ function wpdtrt_gallery_attachment_field_vimeo_pageid( $form_fields, $post ) {
     'label' => 'Vimeo ID',
     'input' => 'text',
     'value' => get_post_meta( $post->ID, 'wpdtrt_gallery_attachment_vimeo_pageid', true ),
-    'helps' => '//vimeo.com/_________',
+    'helps' => 'vimeo.com/ID',
   );
 
   return $form_fields;
