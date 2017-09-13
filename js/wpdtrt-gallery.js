@@ -30,8 +30,6 @@ var wpdtrt_gallery_ui = {
 	  $sections.each( function(i, item) {
 	    var $section = $(item);
 
-	    console.log( typeof Waypoint );
-
 	    var inview = new Waypoint.Inview({
 	      element: $section[0],
 	      enter: function() {
