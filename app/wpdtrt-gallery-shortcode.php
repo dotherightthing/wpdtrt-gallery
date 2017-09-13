@@ -64,7 +64,7 @@ if ( !function_exists( 'wpdtrt_gallery_shortcode' ) ) {
     $title = null;
     $after_title = null;
     $after_widget = null;
-    $option1 = null;
+    //$option1 = null;
     $shortcode = 'wpdtrt_gallery_shortcode';
 
     /**
@@ -73,7 +73,7 @@ if ( !function_exists( 'wpdtrt_gallery_shortcode' ) ) {
      */
     $atts = shortcode_atts(
       array(
-        'option1' => 'foo'
+        //'option1' => 'foo'
       ),
       $atts,
       $shortcode
@@ -82,8 +82,8 @@ if ( !function_exists( 'wpdtrt_gallery_shortcode' ) ) {
     // only overwrite predeclared variables
     extract( $atts, EXTR_IF_EXISTS );
 
-    $wpdtrt_gallery_options = get_option('wpdtrt_gallery');
-    $wpdtrt_gallery_data = $wpdtrt_gallery_options['wpdtrt_gallery_data'];
+    //$wpdtrt_gallery_options = get_option('wpdtrt_gallery');
+    //$wpdtrt_gallery_data = $wpdtrt_gallery_options['wpdtrt_gallery_data'];
 
     /**
      * ob_start — Turn on output buffering
