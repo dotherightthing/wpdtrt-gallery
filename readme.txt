@@ -5,7 +5,7 @@ Donate link: http://dotherightthing.co.nz
 Tags: gallery
 Requires at least: 4.8.1
 Tested up to: 4.8.1
-Stable tag: 0.3.0
+Stable tag: 0.4.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -44,14 +44,17 @@ Note:
 
 == Changelog ==
 
-= 0.3 =
+= 0.4.0 =
+* Fixes to core functionality
+
+= 0.3.0 =
 * Fixes to core functionality
 * Improvements to display of fields in attachment modal
 
-= 0.2 =
+= 0.2.0 =
 * Fixes to core functionality
 
-= 0.1 =
+= 0.1.0 =
 * Initial version
 
 == Upgrade Notice ==

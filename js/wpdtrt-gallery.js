@@ -67,7 +67,7 @@ var wpdtrt_gallery_ui = {
 	  $gallery_item
 	    .attr( 'aria-controls',           viewer_id )
 	    .attr( 'data-position_y',         uri_query.position_y)
-	    .attr( 'data-initial',            uri_query.select_onload )
+	    .attr( 'data-initial',            uri_query.default )
 	    .attr( 'data-vimeo_pageid',       uri_query.vimeo_pageid )
 	    .attr( 'data-soundcloud_pageid',  uri_query.soundcloud_pageid )
 	    .attr( 'data-soundcloud_trackid', uri_query.soundcloud_trackid )

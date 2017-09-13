@@ -33,7 +33,7 @@ function wpdtrt_thumbnail_queryparams($html, $id, $size, $permalink) {
 
   // Vimeo
 
-  $vimeo_pageid = get_post_meta( $id, 'dtrt_vimeo_pageid', true ); // used for embed
+  $vimeo_pageid = get_post_meta( $id, 'wpdtrt_gallery_attachment_vimeo_pageid', true ); // used for embed
 
   if ( $vimeo_pageid ) {
     $link_options['vimeo_pageid'] = $vimeo_pageid;
@@ -41,8 +41,8 @@ function wpdtrt_thumbnail_queryparams($html, $id, $size, $permalink) {
 
   // SoundCloud
 
-  $soundcloud_pageid = get_post_meta( $id, 'dtrt_soundcloud_pageid', true ); // used for SEO
-  $soundcloud_trackid = get_post_meta( $id, 'dtrt_soundcloud_trackid', true ); // used for embed, see also http://stackoverflow.com/a/28182284
+  $soundcloud_pageid = get_post_meta( $id, 'wpdtrt_gallery_attachment_soundcloud_pageid', true ); // used for SEO
+  $soundcloud_trackid = get_post_meta( $id, 'wpdtrt_gallery_attachment_soundcloud_trackid', true ); // used for embed, see also http://stackoverflow.com/a/28182284
 
   if ( $soundcloud_pageid && $soundcloud_trackid ) {
     $link_options['soundcloud_pageid'] = urlencode( $soundcloud_pageid );
@@ -51,7 +51,7 @@ function wpdtrt_thumbnail_queryparams($html, $id, $size, $permalink) {
 
   // Ride With GPS
 
-  $rwgps_pageid = get_post_meta( $id, 'dtrt_rwgps_pageid', true );
+  $rwgps_pageid = get_post_meta( $id, 'wpdtrt_gallery_attachment_rwgps_pageid', true );
 
   if ( $rwgps_pageid ) {
     $link_options['rwgps_pageid'] = urlencode( $rwgps_pageid );
@@ -59,7 +59,7 @@ function wpdtrt_thumbnail_queryparams($html, $id, $size, $permalink) {
 
   // Position Y
 
-  $position_y = get_post_meta( $id, 'dtrt_position_y', true );
+  $position_y = get_post_meta( $id, 'wpdtrt_gallery_attachment_position_y', true );
   $position_y_default = "50";
 
   if ( $position_y !== '' ) {
@@ -71,17 +71,17 @@ function wpdtrt_thumbnail_queryparams($html, $id, $size, $permalink) {
 
   // Select onload
 
-  $select_onload = get_post_meta( $id, 'dtrt_select_onload', true );
+  $default = get_post_meta( $id, 'wpdtrt_gallery_attachment_default', true );
 
-  if ( $select_onload === "1" ) {
-    $link_options['select_onload'] = $select_onload;
+  if ( $default == '1' ) {
+    $link_options['default'] = $default;
   }
 
   // Panorama
 
-  $panorama = get_post_meta( $id, 'dtrt_panorama', true ); // used for JS dragging
+  $panorama = get_post_meta( $id, 'wpdtrt_gallery_attachment_panorama', true ); // used for JS dragging
 
-  if ( $panorama ) {
+  if ( $panorama == '1' ) {
     $link_options['panorama'] = $panorama;
   }
 
