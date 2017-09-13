@@ -1,4 +1,15 @@
 <?php
+/**
+ * Support GPS field in attachment media modal
+ *
+ * This file contains PHP.
+ *
+ * @see http://www.billerickson.net/wordpress-add-custom-fields-media-gallery/
+ * @todo Use ACF field groups
+ *
+ * @package     WPDTRT_Gallery
+ * @subpackage  WPDTRT_Gallery/app
+ */
 
 /**
  * Add Geolocation EXIF to the attachment metadata stored in the WP database
