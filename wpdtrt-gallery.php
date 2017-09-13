@@ -91,6 +91,7 @@ if( ! defined( 'WPDTRT_GALLERY_URL' ) ) {
 
   require_once(WPDTRT_GALLERY_PATH . 'app/wpdtrt-gallery-attachment-fields.php');
   require_once(WPDTRT_GALLERY_PATH . 'app/wpdtrt-gallery-attachment-geodata.php');
+  require_once(WPDTRT_GALLERY_PATH . 'app/wpdtrt-gallery-thumbnail.php');
 
   require_once(WPDTRT_GALLERY_PATH . 'config/tgm-plugin-activation.php');
 
