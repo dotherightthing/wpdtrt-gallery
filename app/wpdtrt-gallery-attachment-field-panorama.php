@@ -4,8 +4,8 @@
  *
  * This file contains PHP.
  *
+ * @since       0.3.0
  * @see http://www.billerickson.net/wordpress-add-custom-fields-media-gallery/
- * @todo Use ACF field groups
  *
  * @package     WPDTRT_Gallery
  * @subpackage  WPDTRT_Gallery/app

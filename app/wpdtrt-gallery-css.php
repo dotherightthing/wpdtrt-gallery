@@ -4,7 +4,6 @@
  *
  * This file contains PHP.
  *
- * @link        https://github.com/dotherightthing/wpdtrt-gallery
  * @since       0.1.0
  *
  * @package     WPDTRT_Gallery
