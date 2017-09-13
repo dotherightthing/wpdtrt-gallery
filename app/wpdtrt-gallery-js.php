@@ -25,52 +25,78 @@ if ( !function_exists( 'wpdtrt_gallery_js' ) ) {
    */
   function wpdtrt_gallery_js() {
 
-    $frontend = 'wpdtrt_gallery';
     $attach_to_footer = true;
 
-    wp_enqueue_script( $frontend,
-      WPDTRT_GALLERY_URL . 'js/wpdtrt-gallery.js',
-      array('jquery'),
-      WPDTRT_GALLERY_VERSION,
-      $attach_to_footer
-    );
+    /**
+     * Registering scripts is technically not necessary, but highly recommended nonetheless.
+     *
+     * Scripts that have been pre-registered using wp_register_script()
+     * do not need to be manually enqueued using wp_enqueue_script()
+     * if they are listed as a dependency of another script that is enqueued.
+     * WordPress will automatically include the registered script
+     * before it includes the enqueued script that lists the registered script’s handle as a dependency.
+     *
+     * @see https://developer.wordpress.org/reference/functions/wp_register_script/#more-information
+     */
 
     // panoramas
-    wp_enqueue_script( 'wpdtrt_gallery_paver_debounce',
+    wp_register_script( 'jquery_ba_throttle_debounce',
       WPDTRT_GALLERY_URL . 'vendor/bower_components/jquery-throttle-debounce/jquery.ba-throttle-debounce.min.js',
-      array('jquery', $frontend),
-      WPDTRT_GALLERY_VERSION,
+      array(
+        'jquery'
+      ),
+      '1.1',
       $attach_to_footer
     );
 
     // panoramas
-    wp_enqueue_script( 'wpdtrt_gallery_paver',
+    wp_register_script( 'jquery_paver',
       WPDTRT_GALLERY_URL . 'vendor/bower_components/paver/dist/js/jquery.paver.min.js',
-      array('jquery', $frontend),
-      WPDTRT_GALLERY_VERSION,
+      array(
+        'jquery_ba_throttle_debounce',
+      ),
+      '1.3.3',
       $attach_to_footer
     );
 
     // thumbnail query params
-    wp_enqueue_script( 'wpdtrt_gallery_uri',
+    wp_register_script( 'uri',
       WPDTRT_GALLERY_URL . 'vendor/bower_components/urijs/src/URI.min.js',
-      array('jquery', $frontend),
-      WPDTRT_GALLERY_VERSION,
+      array(),
+      '1.18.12',
       $attach_to_footer
     );
 
     // inview lazy loading
-    wp_enqueue_script( 'wpdtrt_gallery_waypoints',
+    wp_register_script( 'jquery_waypoints',
       WPDTRT_GALLERY_URL . 'vendor/bower_components/waypoints/lib/jquery.waypoints.min.js',
-      array('jquery', $frontend),
-      WPDTRT_GALLERY_VERSION,
+      array(
+        'jquery',
+      ),
+      '4.0.0',
       $attach_to_footer
     );
 
     // inview lazy loading
-    wp_enqueue_script( 'wpdtrt_gallery_waypoints_inview',
+    wp_register_script( 'waypoints_inview',
       WPDTRT_GALLERY_URL . 'vendor/bower_components/waypoints/lib/shortcuts/inview.min.js',
-      array('jquery', $frontend),
+      array(
+        'jquery_waypoints'
+      ),
+      '4.0.0',
+      $attach_to_footer
+    );
+
+    // init
+    wp_enqueue_script( 'wpdtrt_gallery',
+      WPDTRT_GALLERY_URL . 'js/wpdtrt-gallery.js',
+      array(
+        // registered dependencies:
+        'jquery',
+        'jquery_paver',
+        'uri',
+        'waypoints_inview',
+      ),
       WPDTRT_GALLERY_VERSION,
       $attach_to_footer
     );
