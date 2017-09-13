@@ -8,7 +8,7 @@
  * @since       0.1.0
  *
  * @package     WPDTRT_Gallery
- * @subpackage  WPDTRT_Gallery/views
+ * @subpackage  WPDTRT_Gallery/js
  */
 
 /* globals jQuery, Waypoint, URI */
@@ -17,7 +17,7 @@ var wpdtrt_gallery_ui = {
 
 	/**
 	 * Lazyload a gallery viewer when it is scrolled into view
-	 * to defers automatic loading of initial enlargements
+	 * to defer automatic loading of initial enlargements
 	 * @param {object} $ - jQuery
 	 * @requires includes/attachment.php
 	 * @since 3.0.0
@@ -29,6 +29,8 @@ var wpdtrt_gallery_ui = {
 
 	  $sections.each( function(i, item) {
 	    var $section = $(item);
+
+	    console.log( typeof Waypoint );
 
 	    var inview = new Waypoint.Inview({
 	      element: $section[0],
