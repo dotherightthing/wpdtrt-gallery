@@ -1,7 +1,7 @@
 {
   "name": "wpdtrt-gallery",
-  "version": "0.1.0",
-  "description": "Gallery which supports images, panoramas, maps, SoundCloud and Vimeo",
+  "version": "0.2.0",
+  "description": "Gallery viewer which supports images, panoramas, maps, SoundCloud and Vimeo",
   "main": "readme.txt",
   "authors": [
     "Dan Smith <dev@dotherightthing.co.nz>"

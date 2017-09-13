@@ -6,7 +6,7 @@
     "nameFriendlySafe": "WPDTRT_Gallery",
     "nameAdminMenu": "DTRT Gallery",
     "urlAdminMenu": "wpdtrt-gallery",
-    "description": "Gallery which supports images, panoramas, maps, SoundCloud and Vimeo",
+    "description": "Gallery viewer which supports images, panoramas, maps, SoundCloud and Vimeo",
     "tags": "gallery",
     "homepage": "https://github.com/dotherightthing/wpdtrt-gallery",
     "license": "GPLv2 or later",

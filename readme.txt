@@ -5,15 +5,15 @@ Donate link: http://dotherightthing.co.nz
 Tags: gallery
 Requires at least: 4.8.1
 Tested up to: 4.8.1
-Stable tag: 0.1.0
+Stable tag: 0.2.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Gallery which supports images, panoramas, maps, SoundCloud and Vimeo
+Gallery viewer which supports images, panoramas, maps, SoundCloud and Vimeo
 
 == Description ==
 
-Gallery which supports images, panoramas, maps, SoundCloud and Vimeo
+Gallery viewer which supports images, panoramas, maps, SoundCloud and Vimeo
 
 == Installation ==
 
@@ -32,6 +32,9 @@ For the gallery to work as intended:
 * Gallery settings must be: *Link To: Media File*, *Columns: 3*, *Size: Thumbnail*
 
 == Changelog ==
+
+= 0.2 =
+* Fixes to core functionality
 
 = 0.1 =
 * Initial version
