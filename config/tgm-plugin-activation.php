@@ -59,14 +59,11 @@ function wpdtrt_gallery_register_required_plugins() {
 	 */
 	$plugins = array(
 
-		/*
 	    array(
-	      'name'          => 'Advanced Custom Fields',
-	      'slug'          => 'advanced-custom-fields',
-	      'required'      => true,
-	      'is_callable'   => array( 'acf_field_google_map', 'render_field' )
+	      'name'          => 'DTRT EXIF',
+	      'slug'          => 'wpdtrt-exif',
+	      'required'      => true
 	    ),
-	    */
 
 	);
 

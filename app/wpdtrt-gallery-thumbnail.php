@@ -86,10 +86,12 @@ function wpdtrt_thumbnail_queryparams($html, $id, $size, $permalink) {
   }
 
   // Geolocation
-  $geo_exif = wpdtrt_gallery_get_attachment_geodata($id, 'number');
+  // Could this be replaced by simply looking up the custom field?
+  $attachment_metadata = wpdtrt_exif_get_attachment_metadata( $id );
+  $attachment_metadata_gps = wpdtrt_exif_get_attachment_metadata_gps( $attachment_metadata, 'number' );
 
-  $link_options['latitude'] = $geo_exif[0];
-  $link_options['longitude'] = $geo_exif[1];
+  $link_options['latitude'] = $attachment_metadata_gps['latitude'];
+  $link_options['longitude'] = $attachment_metadata_gps['longitude'];
 
   /**
    * Filter the gallery thumbnail links to link to the 'large' image size and not the 'full' image size.
