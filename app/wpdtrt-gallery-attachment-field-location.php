@@ -41,8 +41,8 @@ add_filter( 'attachment_fields_to_edit', 'wpdtrt_gallery_attachment_field_locati
  */
 
 function wpdtrt_gallery_attachment_field_location_save( $post, $attachment ) {
-  if ( isset( $attachment['dtrt-location'] ) ) {
-    update_post_meta( $post['ID'], 'wpdtrt_gallery_attachment_location', $attachment['dtrt-location'] );
+  if ( isset( $attachment['wpdtrt-gallery-location'] ) ) {
+    update_post_meta( $post['ID'], 'wpdtrt_gallery_attachment_location', $attachment['wpdtrt-gallery-location'] );
   }
 
   return $post;
