@@ -45,7 +45,7 @@ if ( !function_exists( 'wpdtrt_gallery_js' ) ) {
 
     // panoramas
     wp_register_script( 'jquery_ba_throttle_debounce',
-      WPDTRT_GALLERY_URL . 'vendor/bower_components/jquery-throttle-debounce/jquery.ba-throttle-debounce.min.js',
+      WPDTRT_GALLERY_URL . 'vendor/jquery-throttle-debounce/jquery.ba-throttle-debounce.min.js',
       array(
         'jquery'
       ),
@@ -55,7 +55,7 @@ if ( !function_exists( 'wpdtrt_gallery_js' ) ) {
 
     // panoramas
     wp_register_script( 'jquery_paver',
-      WPDTRT_GALLERY_URL . 'vendor/bower_components/paver/dist/js/jquery.paver.min.js',
+      WPDTRT_GALLERY_URL . 'vendor/paver/dist/js/jquery.paver.min.js',
       array(
         'jquery_ba_throttle_debounce',
       ),
@@ -65,7 +65,7 @@ if ( !function_exists( 'wpdtrt_gallery_js' ) ) {
 
     // thumbnail query params
     wp_register_script( 'uri',
-      WPDTRT_GALLERY_URL . 'vendor/bower_components/urijs/src/URI.min.js',
+      WPDTRT_GALLERY_URL . 'vendor/urijs/src/URI.min.js',
       array(),
       '1.18.12',
       $attach_to_footer
@@ -73,7 +73,7 @@ if ( !function_exists( 'wpdtrt_gallery_js' ) ) {
 
     // inview lazy loading
     wp_register_script( 'jquery_waypoints',
-      WPDTRT_GALLERY_URL . 'vendor/bower_components/waypoints/lib/jquery.waypoints.min.js',
+      WPDTRT_GALLERY_URL . 'vendor/waypoints/lib/jquery.waypoints.min.js',
       array(
         'jquery',
       ),
@@ -83,7 +83,7 @@ if ( !function_exists( 'wpdtrt_gallery_js' ) ) {
 
     // inview lazy loading
     wp_register_script( 'waypoints_inview',
-      WPDTRT_GALLERY_URL . 'vendor/bower_components/waypoints/lib/shortcuts/inview.min.js',
+      WPDTRT_GALLERY_URL . 'vendor/waypoints/lib/shortcuts/inview.min.js',
       array(
         'jquery_waypoints'
       ),

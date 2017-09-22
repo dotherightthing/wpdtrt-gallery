@@ -45,7 +45,7 @@ if ( !function_exists( 'wpdtrt_gallery_css_frontend' ) ) {
     $media = 'all';
 
     wp_register_style( 'paver',
-      WPDTRT_GALLERY_URL . 'vendor/bower_components/paver/dist/css/paver.min.css',
+      WPDTRT_GALLERY_URL . 'vendor/paver/dist/css/paver.min.css',
       array(),
       '1.3.3',
       $media

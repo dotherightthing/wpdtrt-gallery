@@ -65,6 +65,14 @@ function wpdtrt_gallery_register_required_plugins() {
 	      'required'      => true
 	    ),
 
+	    array(
+	      	'name'          => 'WordPress Admin Style',
+	      	'slug'          => 'wordpress-admin-style',
+      		'source'        => 'https://github.com/bueltge/wordpress-admin-style/archive/master.zip',
+      		'external_url'  => 'https://github.com/bueltge/wordpress-admin-style',
+      		'required' 		=> false
+	    )
+
 	);
 
 	/*
