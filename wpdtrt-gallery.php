@@ -89,6 +89,7 @@ if( ! defined( 'WPDTRT_GALLERY_URL' ) ) {
   require_once(WPDTRT_GALLERY_PATH . 'app/wpdtrt-gallery-shortcode.php');
   //require_once(WPDTRT_GALLERY_PATH . 'app/wpdtrt-gallery-widget.php');
 
+  require_once(WPDTRT_GALLERY_PATH . 'app/wpdtrt-gallery-attachment-field-heading.php');
   require_once(WPDTRT_GALLERY_PATH . 'app/wpdtrt-gallery-attachment-field-source.php');
   require_once(WPDTRT_GALLERY_PATH . 'app/wpdtrt-gallery-attachment-field-default.php');
   require_once(WPDTRT_GALLERY_PATH . 'app/wpdtrt-gallery-attachment-field-panorama.php');

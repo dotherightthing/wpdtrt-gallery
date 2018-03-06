@@ -24,7 +24,7 @@ function wpdtrt_gallery_attachment_field_location( $form_fields, $post ) {
     'label' => 'Location',
     'input' => 'text',
     'value' => get_post_meta( $post->ID, 'wpdtrt_gallery_attachment_location', true ),
-    //'helps' => '50% __%',
+    'helps' => 'For media library searches',
   );
 
   return $form_fields;

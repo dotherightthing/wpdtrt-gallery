@@ -46,7 +46,7 @@ function wpdtrt_gallery_attachment_field_default( $form_fields, $post ) {
 
   // Construct the form field
   $form_fields['wpdtrt-gallery-default'] = array(
-    'label' => 'Default',
+    'label' => 'Selected',
     'input' => 'html',
     'html'  => join("\n", $out),
   );
