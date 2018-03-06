@@ -296,7 +296,8 @@ var wpdtrt_gallery_ui = {
 
 	    $viewer_liner.paver({
 	      startPosition: 0.5,
-	      tilt: false
+	      tilt: false,
+	      gracefulFailure: false // suppress manual scroll hint
 	    });
 
 	  }

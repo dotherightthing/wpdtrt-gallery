@@ -26,8 +26,24 @@
   visibility: hidden;
 }
 
+.gallery-viewer[data-panorama] .img-wrapper {
+  overflow-x: scroll;
+}
+
 .gallery-viewer[data-panorama] img {
   visibility: visible;
+  width: auto;
+  max-width: none;
+}
+
+.gallery-viewer[data-panorama] .paver--on .img-wrapper {
+  overflow-x: hidden;
+}
+
+.gallery-viewer[data-panorama] .paver--on img {
+  visibility: hidden;
+  width: 100%;
+  max-width: 100%;
 }
 
 .gallery-viewer iframe {

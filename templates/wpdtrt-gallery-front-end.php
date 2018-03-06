@@ -28,7 +28,9 @@
   </div>
   <div class="stack--wrapper" style="">
     <figure class="stack--liner">
-      <img src="" alt="">
+      <div class="img-wrapper">
+        <img src="" alt="">
+      </div>
       <iframe width="100%" height="100%" src="" frameborder="0" allowfullscreen="true" scrolling="no" aria-hidden="true"></iframe>
       <figcaption class="gallery-viewer--footer">
         <div class="gallery-viewer--caption"></div>
