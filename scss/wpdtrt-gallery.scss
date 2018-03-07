@@ -25,7 +25,176 @@ $gallery-viewer-text-color: rgba(255, 255, 255, 1);
 // Styles
 // -------------------------------------------------------------------
 
+// Thumbnail icons
+
+.gallery {
+  position: relative; /* stack on top of sticky nav */
+  clear: left;
+  margin-left: 0;
+  margin-right: 0;
+  margin-bottom: 2em;
+
+  &::after {
+    // maintain gaps between photo gallery and other media embeds
+    content: "";
+    display: table;
+    width: 100%;
+    clear: left;
+  }
+}
+
+.gallery-item {
+
+  position: relative;
+  max-width: 25%;
+  padding: 0; /* prevent caption bleed */
+  margin-bottom: 5px; /* transferred from padding-bottom, prevents caption from bleeding out */
+
+  // Gallery thumb spacing
+  // Note that change to one has to be applied to all, as horz padding/border affects the thumb height.
+  // A side-effect is that the first image is 1px narrow than the caption below it.
+  // This is resolved by the caption left offset + border hack.
+  // However note that the border hack is visible when the dashed focus outline is applied [old styling],
+  // this cannot be resolved as the caption follows the thumb link.
+  // The alternate fix is to hide the overflow, but this hurts accessiblity.
+  padding-left: 1px;
+
+  a {
+    position: relative; /* AP */
+    display: block; /* better transition over state */
+    box-shadow: 0 0 0 0 currentColor;
+
+    &::before {
+      // type icon
+      position: absolute;
+      top: 0;
+      vertical-align: top;
+      line-height: 100%;
+      color: #fff;
+      text-shadow:
+       -1px -1px 0 #000,
+        1px -1px 0 #000,
+        -1px 1px 0 #000,
+         1px 1px 0 #000;
+      width: 100%;
+      height: 100%;
+      border: 4px solid transparent;
+
+      content: "+";
+      right: 0;
+      font-size: 1.5em;
+      text-align: right;
+      padding-right: .3em;
+    }
+
+    &:hover,
+    &:focus,
+    &[data-viewing="true"] {
+      &::before {
+        // unselected icon overstate
+        color: #000;
+        text-shadow:
+         -1px -1px 0 #fff,
+          1px -1px 0 #fff,
+          -1px 1px 0 #fff,
+           1px 1px 0 #fff;
+        // selected icon overstate // ?
+        border-color: transparent;
+      }
+    }
+
+    &:focus {
+      .gallery > & {
+        outline: none;
+
+        &::after {
+          content: "";
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          border: 4px solid rgba(0,0,0,.85);
+        }
+      }
+    }
+
+    &[data-viewing="true"] {
+
+      .gallery > & {
+        cursor: not-allowed;
+        opacity: 1;
+        border-color: #fff;
+      }
+
+      &::before {
+        content: "-";
+        background-color: rgba(255,255,255,.5);
+        transition: none;
+      }
+    }
+
+    &[data-panorama],
+    &[data-soundcloud_pageid],
+    &[data-vimeo_pageid] {
+      &::before {
+        // icomoon
+        // use !important to prevent issues with browser extensions that change fonts
+        font-family: 'icomoon' !important;
+        speak: none;
+        font-style: normal;
+        font-weight: normal;
+        font-variant: normal;
+        text-transform: none;
+        line-height: 1;
+
+        // Better Font Rendering ===========
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+
+        font-size: 1.1em;
+        padding-top: .3em;
+      }
+    }
+
+    &[data-panorama],
+    &[data-panorama][data-viewing="true"] {
+      &::before {
+        content: "\e90a";
+      }
+    }
+
+    &[data-soundcloud_pageid],
+    &[data-soundcloud_pageid][data-viewing="true"] {
+      &::before {
+        content: "\e90c";
+      }
+    }
+
+    &[data-vimeo_pageid],
+    &[data-vimeo_pageid][data-viewing="true"] {
+      &::before {
+        content: "\e90b";
+      }
+    }
+  }
+
+  .gallery-caption {
+    // user can enlarge image or link to media page to read caption
+    display: none;
+  }
+}
+
+// Enlargement viewer
+
 .gallery-viewer {
+
+  &.stack {
+    position: relative; /* AP */
+    z-index: 1; /* stack on top of sticky nav so that text can be selected */
+    display: block;
+    margin-bottom: 2em;
+  }
 
   &--header,
   &--footer {
@@ -42,6 +211,16 @@ $gallery-viewer-text-color: rgba(255, 255, 255, 1);
     display: inline-block;
     background-color: $gallery-viewer-bg-color;
     color: $gallery-viewer-text-color;
+  }
+
+  .stack--wrapper {
+    background-color: transparent;
+    opacity: 1;
+    transition: opacity .3s ease;
+
+    &[data-loading] {
+      opacity: 0;
+    }
   }
 
   .stack--liner {
@@ -407,6 +586,13 @@ $gallery-viewer-text-color: rgba(255, 255, 255, 1);
 
   &[data-panorama] {
 
+    .stack--wrapper {
+      .js & {
+        display: block; // prevent table display from blowing out panorama width
+        background-image: none; // paver adds its own background-image
+      }
+    }
+
     .img-wrapper {
       overflow-x: scroll;
     }
@@ -428,6 +614,55 @@ $gallery-viewer-text-color: rgba(255, 255, 255, 1);
         width: 100%;
         max-width: 100%;
       }
+    }
+  }
+}
+
+// -------------------------------------------------------------------
+// Media Queries
+// -------------------------------------------------------------------
+
+// 14.1 - >= 710px
+// At this BP that the WPDTRT DBTH 3 column layout is applied.
+
+@media screen and (min-width: 44.375em) {
+
+  .gallery {
+    text-align: right;
+    max-width: none;
+    margin-bottom: 0;
+
+    > .gallery-item {
+      max-width: 100%;
+    }
+  }
+
+  .gallery-viewer {
+
+    &--expand {
+      padding-top: .5em;
+      padding-bottom: .5em;
+    }
+
+    &--heading {
+      padding: 13px 13px 9px;
+    }
+  }
+}
+
+
+
+// 14.3 - >= 910px
+// This is the breakpoint that the WPDTRT DBTH MENU button switches to an inline menu
+
+@media screen and (min-width: 56.875em) {
+
+  // display thumbnails
+  .gallery {
+    > .gallery-item {
+      display: block;
+      float: left;
+      max-width: 49.5%; // 1% leftover allows for gaps
     }
   }
 }

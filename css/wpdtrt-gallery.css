@@ -9,6 +9,132 @@
  * @package     WPDTRT_Gallery
  * @subpackage  WPDTRT_Gallery/css
  */
+.gallery {
+  position: relative;
+  /* stack on top of sticky nav */
+  clear: left;
+  margin-left: 0;
+  margin-right: 0;
+  margin-bottom: 2em;
+}
+
+.gallery::after {
+  content: "";
+  display: table;
+  width: 100%;
+  clear: left;
+}
+
+.gallery-item {
+  position: relative;
+  max-width: 25%;
+  padding: 0;
+  /* prevent caption bleed */
+  margin-bottom: 5px;
+  margin-bottom: 0.3125rem;
+  /* transferred from padding-bottom, prevents caption from bleeding out */
+  padding-left: 1px;
+  padding-left: 0.0625rem;
+}
+
+.gallery-item a {
+  position: relative;
+  /* AP */
+  display: block;
+  /* better transition over state */
+  -webkit-box-shadow: 0 0 0 0 currentColor;
+  box-shadow: 0 0 0 0 currentColor;
+}
+
+.gallery-item a::before {
+  position: absolute;
+  top: 0;
+  vertical-align: top;
+  line-height: 100%;
+  color: #fff;
+  text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+  width: 100%;
+  height: 100%;
+  border: 4px solid transparent;
+  content: "+";
+  right: 0;
+  font-size: 1.5em;
+  text-align: right;
+  padding-right: .3em;
+}
+
+.gallery-item a:hover::before, .gallery-item a:focus::before, .gallery-item a[data-viewing="true"]::before {
+  color: #000;
+  text-shadow: -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff;
+  border-color: transparent;
+}
+
+.gallery > .gallery-item a:focus {
+  outline: none;
+}
+
+.gallery > .gallery-item a:focus::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: 4px solid rgba(0, 0, 0, 0.85);
+}
+
+.gallery > .gallery-item a[data-viewing="true"] {
+  cursor: not-allowed;
+  opacity: 1;
+  border-color: #fff;
+}
+
+.gallery-item a[data-viewing="true"]::before {
+  content: "-";
+  background-color: rgba(255, 255, 255, 0.5);
+  -webkit-transition: none;
+  transition: none;
+}
+
+.gallery-item a[data-panorama]::before, .gallery-item a[data-soundcloud_pageid]::before, .gallery-item a[data-vimeo_pageid]::before {
+  font-family: 'icomoon' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-size: 1.1em;
+  padding-top: .3em;
+}
+
+.gallery-item a[data-panorama]::before, .gallery-item a[data-panorama][data-viewing="true"]::before {
+  content: "\e90a";
+}
+
+.gallery-item a[data-soundcloud_pageid]::before, .gallery-item a[data-soundcloud_pageid][data-viewing="true"]::before {
+  content: "\e90c";
+}
+
+.gallery-item a[data-vimeo_pageid]::before, .gallery-item a[data-vimeo_pageid][data-viewing="true"]::before {
+  content: "\e90b";
+}
+
+.gallery-item .gallery-caption {
+  display: none;
+}
+
+.gallery-viewer.stack {
+  position: relative;
+  /* AP */
+  z-index: 1;
+  /* stack on top of sticky nav so that text can be selected */
+  display: block;
+  margin-bottom: 2em;
+}
+
 .gallery-viewer--header, .gallery-viewer--footer {
   margin: 4px;
   margin: 0.25rem;
@@ -22,6 +148,17 @@
   display: inline-block;
   background-color: rgba(0, 0, 0, 0.85);
   color: white;
+}
+
+.gallery-viewer .stack--wrapper {
+  background-color: transparent;
+  opacity: 1;
+  -webkit-transition: opacity .3s ease;
+  transition: opacity .3s ease;
+}
+
+.gallery-viewer .stack--wrapper[data-loading] {
+  opacity: 0;
 }
 
 .gallery-viewer .stack--liner {
@@ -258,6 +395,11 @@
   display: block;
 }
 
+.js .gallery-viewer[data-panorama] .stack--wrapper {
+  display: block;
+  background-image: none;
+}
+
 .gallery-viewer[data-panorama] .img-wrapper {
   overflow-x: scroll;
 }
@@ -276,4 +418,31 @@
   visibility: hidden;
   width: 100%;
   max-width: 100%;
+}
+
+@media screen and (min-width: 44.375em) {
+  .gallery {
+    text-align: right;
+    max-width: none;
+    margin-bottom: 0;
+  }
+  .gallery > .gallery-item {
+    max-width: 100%;
+  }
+  .gallery-viewer--expand {
+    padding-top: .5em;
+    padding-bottom: .5em;
+  }
+  .gallery-viewer--heading {
+    padding: 13px 13px 9px;
+    padding: 0.8125rem 0.8125rem 0.5625rem;
+  }
+}
+
+@media screen and (min-width: 56.875em) {
+  .gallery > .gallery-item {
+    display: block;
+    float: left;
+    max-width: 49.5%;
+  }
 }
