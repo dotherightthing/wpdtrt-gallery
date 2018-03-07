@@ -364,7 +364,7 @@ $gallery-viewer-text-color: rgba(255, 255, 255, 1);
 
     .gallery-viewer--expand {
       position: relative;
-      right: 1px; // seems to be a browser rounding error as it's ok at random breakpoints
+      right: 0; // 1px; // seems to be a browser rounding error as it's ok at random breakpoints
       margin-right: -4.5em;
       opacity: 1;
 
@@ -440,7 +440,7 @@ $gallery-viewer-text-color: rgba(255, 255, 255, 1);
   // viewer is expanded, button will collapse viewer
   // -------------------------------------------------------------------
 
-  &[data-expanded="true"] {
+  &[data-has-image="true"][data-expanded="true"] {
 
     .gallery-viewer--expand {
       background-color: $gallery-viewer-border-color;
@@ -448,7 +448,7 @@ $gallery-viewer-text-color: rgba(255, 255, 255, 1);
       // pin to bottom of header / top of image
       position: absolute;
       bottom: 0;
-      right: 1px;
+      right: 0; // 1px;
       margin-right: 0;
 
       &:hover,
@@ -574,7 +574,7 @@ $gallery-viewer-text-color: rgba(255, 255, 255, 1);
       top: 4px;
       left: 4px;
       right: 4px;
-      z-index: 2; // stack on top of sticky nav and paver so that text can be selected
+      z-index: 2; // stack on top of sticky nav so that text can be selected
       padding-right: 4.5em; // space for expand button
       margin: 0;
 
@@ -597,7 +597,6 @@ $gallery-viewer-text-color: rgba(255, 255, 255, 1);
       position: absolute;
       bottom: 4px;
       right: 4px;
-      z-index: 2; // stack on top of paver
       text-align: right;
       line-height: 1.45;
       margin: 0 0 0 4px; // prevent long captions from hitting the other side
@@ -618,7 +617,7 @@ $gallery-viewer-text-color: rgba(255, 255, 255, 1);
     .stack--wrapper {
       .js & {
         display: block; // prevent table display from blowing out panorama width
-        background-image: none; // paver adds its own background-image
+        background: none !important; // prevent conflict with JS scroll
       }
     }
 
@@ -630,19 +629,6 @@ $gallery-viewer-text-color: rgba(255, 255, 255, 1);
       visibility: visible;
       width: auto;
       max-width: none;
-    }
-
-    .paver--on {
-
-      .img-wrapper {
-        overflow-x: hidden;
-      }
-
-      img {
-        visibility: hidden;
-        width: 100%;
-        max-width: 100%;
-      }
     }
   }
 }
@@ -686,8 +672,6 @@ $gallery-viewer-text-color: rgba(255, 255, 255, 1);
     }
   }
 }
-
-
 
 // 14.3 - >= 910px
 // This is the breakpoint that the WPDTRT DBTH MENU button switches to an inline menu

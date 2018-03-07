@@ -267,65 +267,69 @@ var wpdtrt_gallery_ui = {
 	 * @param {object} $ - jQuery
 	 * @param {object} $viewer - jQuery gallery viewer
 	 * @param {object} $gallery_item - jQuery gallery thumbnail
-	 * @requires includes/attachment.php
-	 * @requires jquery.paver.min.js
+	 * @uses https://stackoverflow.com/a/17308232/6850747
 	 * @since 3.0.0
 	 * @todo Add startPosition parameter in media.php (panorama_position_x)
 	 */
 	gallery_viewer_panorama_update: function($, $viewer, $gallery_item) {
 
 		var panorama =        $gallery_item.data('panorama');
-		var $viewer_liner =   $viewer.find('.stack--liner');
 		var $expand_button =  $viewer.find('.gallery-viewer--expand');
+		var $scroll_liner =   $viewer.find('.img-wrapper');
+		var $gal = 			  $scroll_liner;
+		var galleryScrollTimer;
+		var galleryScrollSetup;
 
-		// destroy current Paver instance regardless
-		if ( $viewer_liner.hasClass('paver--on') ) {
-			$viewer_liner.trigger('destroy.paver');
-			$viewer_liner.css('min-height', '368px');
-			$viewer.removeAttr('data-panorama');
-		}
+		$gal.off('.galleryScroll');
+		clearInterval(galleryScrollTimer);
+		clearTimeout(galleryScrollSetup);
 
-		$expand_button.show();
-
-		// add or remove paver
 		if ( panorama ) {
 
 			$viewer.attr('data-expanded', 'false');
-
 			$expand_button.hide();
 
+			// this data attribute toggles the overflow-x scrollbar
+			// which provides the correct $el[0].scrollWidth value
 			$viewer.attr('data-panorama', panorama);
 
-			enquire.register("screen and (min-width:44.375em)", {
+			// timeout ensures that the related CSS has taken effect
+			galleryScrollSetup = setTimeout( function() {
 
-			    // OPTIONAL
-			    // If supplied, triggered when a media query matches.
-			    match: function() {
+				var galW = $gal.outerWidth(true), // setTimeout reqd for this value
+					galSW = $gal[0].scrollWidth,
+					wDiff = (galSW / galW) - 1, // widths difference ratio
+					mPadd = 75, // Mousemove padding
+					damp = 20, // Mousemove response softness
+					mX = 0, // Real mouse position
+					mX2 = 0, // Modified mouse position
+					posX = 0,
+					mmAA = galW - (mPadd * 2), // The mousemove available area
+					mmAAr = (galW / mmAA); // get available mousemove difference ratio
 
-			    	console.log('match!');
+				$gal
+					.on('mousemove.galleryScroll', function(e) {
+						mX = e.pageX - $(this).offset().left;
+						mX2 = Math.min(Math.max(0, mX - mPadd), mmAA) * mmAAr;
+					})
+					.on('mouseenter.galleryScroll', function() {
+						galleryScrollTimer = setInterval(function() {
+							posX += (mX2 - posX) / damp; // zeno's paradox equation "catching delay"	
+							$gal.scrollLeft(posX * wDiff);
+						}, 10);
+					})
+					.on('mouseleave.galleryScroll', function() {
+						clearInterval(galleryScrollTimer);
+					})
 
-					$viewer_liner.paver({
-						startPosition: 0.5,
-						tilt: false,
-						gracefulFailure: false // suppress manual scroll hint
-					});
-			    },
-
-			    // remove paver
-			    // but leave the expand button hidden
-			    // as we'll show the fallback overflow scrollbar
-			    unmatch: function() {
-
-					if ( $viewer_liner.hasClass('paver--on') ) {
-						$viewer_liner.trigger('destroy.paver');
-						$viewer_liner.css('min-height', '368px');
-						//$viewer.removeAttr('data-panorama');
-					}
-			    }
-			});
-
+			}, 100 );
 		}
 		else {
+			$gal.off('.galleryScroll');
+			clearInterval(galleryScrollTimer);
+			clearTimeout(galleryScrollSetup);
+
+			$viewer.removeAttr('data-panorama');
 			$expand_button.show();
 		}
 	},
@@ -370,7 +374,7 @@ var wpdtrt_gallery_ui = {
 
 	  // set the source of the large image which is uncropped
 	  // after gallery_viewer_panorama_update
-	  $viewer.find('img') // not pre-cached as panorama's paver changes the markup structure
+	  $viewer.find('img')
 	    .attr('src', gallery_item_img_full )
 	    .attr('alt', gallery_item_alt);
 
@@ -461,14 +465,17 @@ var wpdtrt_gallery_ui = {
 
 	      // todo prevent errors - set timeout ?
 
-	      wpdtrt_gallery_ui.gallery_viewer_panorama_update($, $viewer, $gallery_item);
+	      setTimeout( function() {
 
-	      wpdtrt_gallery_ui.gallery_viewer_portrait_update($, $viewer, $gallery_item);
+		      wpdtrt_gallery_ui.gallery_viewer_panorama_update($, $viewer, $gallery_item);
 
-	      wpdtrt_gallery_ui.gallery_viewer_iframe_update($, $viewer, $gallery_item);
+		      wpdtrt_gallery_ui.gallery_viewer_portrait_update($, $viewer, $gallery_item);
 
-	      wpdtrt_gallery_ui.gallery_viewer_caption_update($, $viewer, $gallery_item);
+		      wpdtrt_gallery_ui.gallery_viewer_iframe_update($, $viewer, $gallery_item);
 
+		      wpdtrt_gallery_ui.gallery_viewer_caption_update($, $viewer, $gallery_item);
+
+	      }, 200);
 	    });
 
 	    var $gallery_item_initial = $section_gallery_items.filter('[data-initial]');
