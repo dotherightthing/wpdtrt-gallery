@@ -463,19 +463,14 @@ var wpdtrt_gallery_ui = {
 	        return;
 	      }
 
-	      // todo prevent errors - set timeout ?
+	      wpdtrt_gallery_ui.gallery_viewer_panorama_update($, $viewer, $gallery_item);
 
-	      setTimeout( function() {
+	      wpdtrt_gallery_ui.gallery_viewer_portrait_update($, $viewer, $gallery_item);
 
-		      wpdtrt_gallery_ui.gallery_viewer_panorama_update($, $viewer, $gallery_item);
+	      wpdtrt_gallery_ui.gallery_viewer_iframe_update($, $viewer, $gallery_item);
 
-		      wpdtrt_gallery_ui.gallery_viewer_portrait_update($, $viewer, $gallery_item);
+	      wpdtrt_gallery_ui.gallery_viewer_caption_update($, $viewer, $gallery_item);
 
-		      wpdtrt_gallery_ui.gallery_viewer_iframe_update($, $viewer, $gallery_item);
-
-		      wpdtrt_gallery_ui.gallery_viewer_caption_update($, $viewer, $gallery_item);
-
-	      }, 200);
 	    });
 
 	    var $gallery_item_initial = $section_gallery_items.filter('[data-initial]');
