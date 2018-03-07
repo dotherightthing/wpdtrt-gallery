@@ -274,37 +274,60 @@ var wpdtrt_gallery_ui = {
 	 */
 	gallery_viewer_panorama_update: function($, $viewer, $gallery_item) {
 
-	  var panorama =        $gallery_item.data('panorama');
-	  var $viewer_liner =   $viewer.find('.stack--liner');
-	  var $expand_button =  $viewer.find('.gallery-viewer--expand');
+		var panorama =        $gallery_item.data('panorama');
+		var $viewer_liner =   $viewer.find('.stack--liner');
+		var $expand_button =  $viewer.find('.gallery-viewer--expand');
 
-	  // destroy current Paver instance regardless
-	  if ( $viewer_liner.hasClass('paver--on') ) {
-	    $viewer_liner.trigger('destroy.paver');
-	    $viewer_liner.css('min-height', '368px');
-	    $viewer.removeAttr('data-panorama');
-	  }
+		// destroy current Paver instance regardless
+		if ( $viewer_liner.hasClass('paver--on') ) {
+			$viewer_liner.trigger('destroy.paver');
+			$viewer_liner.css('min-height', '368px');
+			$viewer.removeAttr('data-panorama');
+		}
 
-	  // add or remove paver
-	  if ( panorama ) {
+		$expand_button.show();
 
-	    $viewer.attr('data-expanded', 'false');
+		// add or remove paver
+		if ( panorama ) {
 
-	    $expand_button.hide();
+			$viewer.attr('data-expanded', 'false');
 
-	    $viewer.attr('data-panorama', panorama);
+			$expand_button.hide();
 
-	    $viewer_liner.paver({
-	      startPosition: 0.5,
-	      tilt: false,
-	      gracefulFailure: false // suppress manual scroll hint
-	    });
+			$viewer.attr('data-panorama', panorama);
 
-	  }
-	  else {
-	    $expand_button.show();
-	  }
+			enquire.register("screen and (min-width:44.375em)", {
 
+			    // OPTIONAL
+			    // If supplied, triggered when a media query matches.
+			    match: function() {
+
+			    	console.log('match!');
+
+					$viewer_liner.paver({
+						startPosition: 0.5,
+						tilt: false,
+						gracefulFailure: false // suppress manual scroll hint
+					});
+			    },
+
+			    // remove paver
+			    // but leave the expand button hidden
+			    // as we'll show the fallback overflow scrollbar
+			    unmatch: function() {
+
+					if ( $viewer_liner.hasClass('paver--on') ) {
+						$viewer_liner.trigger('destroy.paver');
+						$viewer_liner.css('min-height', '368px');
+						//$viewer.removeAttr('data-panorama');
+					}
+			    }
+			});
+
+		}
+		else {
+			$expand_button.show();
+		}
 	},
 
 	/**

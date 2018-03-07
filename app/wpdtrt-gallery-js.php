@@ -44,6 +44,16 @@ if ( !function_exists( 'wpdtrt_gallery_js' ) ) {
      */
 
     // panoramas
+    wp_register_script( 'enquire',
+      WPDTRT_GALLERY_URL . 'vendor/enquire/dist/enquire.min.js',
+      array(
+        'jquery'
+      ),
+      '2.1.6',
+      $attach_to_footer
+    );
+
+    // panoramas
     wp_register_script( 'jquery_ba_throttle_debounce',
       WPDTRT_GALLERY_URL . 'vendor/jquery-throttle-debounce/jquery.ba-throttle-debounce.min.js',
       array(
@@ -97,6 +107,7 @@ if ( !function_exists( 'wpdtrt_gallery_js' ) ) {
       array(
         // load these registered dependencies first:
         'jquery',
+        'enquire',
         'jquery_paver',
         'uri',
         'waypoints_inview',
