@@ -25,6 +25,19 @@
   clear: left;
 }
 
+.gallery--icon, .gallery-item a[data-panorama]::before, .gallery-item a[data-soundcloud_pageid]::before, .gallery-item a[data-vimeo_pageid]::before, .gallery-viewer .stack--liner::before {
+  font-family: 'icomoon' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-size: 1.1em;
+}
+
 .gallery-item {
   position: relative;
   max-width: 25%;
@@ -97,16 +110,6 @@
 }
 
 .gallery-item a[data-panorama]::before, .gallery-item a[data-soundcloud_pageid]::before, .gallery-item a[data-vimeo_pageid]::before {
-  font-family: 'icomoon' !important;
-  speak: none;
-  font-style: normal;
-  font-weight: normal;
-  font-variant: normal;
-  text-transform: none;
-  line-height: 1;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  font-size: 1.1em;
   padding-top: .3em;
 }
 
@@ -165,6 +168,19 @@
   vertical-align: bottom;
   text-align: left;
   background: none;
+}
+
+.gallery-viewer .stack--liner::before {
+  content: "\e90a";
+  position: absolute;
+  top: 15.5px;
+  top: 0.96875rem;
+  right: 24px;
+  color: white;
+  font-size: 1.4em;
+  z-index: 2;
+  text-shadow: -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black, 1px 1px 0 black;
+  display: none;
 }
 
 .gallery-viewer figure {
@@ -246,6 +262,10 @@
 
 .gallery-viewer[data-expanded="false"][data-panorama] .stack--liner {
   height: 368px;
+}
+
+.gallery-viewer[data-expanded="false"][data-panorama] .stack--liner::before {
+  display: block;
 }
 
 .gallery-viewer[data-expanded="false"][data-rwgps-pageid] .gallery-viewer--expand, .gallery-viewer[data-expanded="false"][data-soundcloud-trackid] .gallery-viewer--expand, .gallery-viewer[data-expanded="false"][data-vimeo-pageid] .gallery-viewer--expand {
@@ -436,6 +456,11 @@
   .gallery-viewer--heading {
     padding: 13px 13px 9px;
     padding: 0.8125rem 0.8125rem 0.5625rem;
+  }
+  .gallery-viewer .stack--liner::before {
+    top: 20px;
+    top: 1.25rem;
+    right: 23px;
   }
 }
 

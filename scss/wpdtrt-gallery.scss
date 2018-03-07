@@ -41,6 +41,24 @@ $gallery-viewer-text-color: rgba(255, 255, 255, 1);
     width: 100%;
     clear: left;
   }
+
+  &--icon {
+    // icomoon
+    // use !important to prevent issues with browser extensions that change fonts
+    font-family: 'icomoon' !important;
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+
+    // Better Font Rendering ===========
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+
+    font-size: 1.1em;
+  }
 }
 
 .gallery-item {
@@ -138,21 +156,7 @@ $gallery-viewer-text-color: rgba(255, 255, 255, 1);
     &[data-soundcloud_pageid],
     &[data-vimeo_pageid] {
       &::before {
-        // icomoon
-        // use !important to prevent issues with browser extensions that change fonts
-        font-family: 'icomoon' !important;
-        speak: none;
-        font-style: normal;
-        font-weight: normal;
-        font-variant: normal;
-        text-transform: none;
-        line-height: 1;
-
-        // Better Font Rendering ===========
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-
-        font-size: 1.1em;
+        @extend .gallery--icon;
         padding-top: .3em;
       }
     }
@@ -227,6 +231,26 @@ $gallery-viewer-text-color: rgba(255, 255, 255, 1);
     vertical-align: bottom;
     text-align: left;
     background: none;
+
+    &::before {
+      @extend .gallery--icon;
+      content: "\e90a";
+      position: absolute;
+      top: 15.5px;
+      right: 24px;
+      color: $gallery-viewer-text-color;
+      font-size: 1.4em;
+      z-index: 2;
+      text-shadow:
+       -1px -1px 0 $gallery-viewer-border-color,
+        1px -1px 0 $gallery-viewer-border-color,
+        -1px 1px 0 $gallery-viewer-border-color,
+         1px 1px 0 $gallery-viewer-border-color;
+
+      // only shown for data-panorama
+      // TODO fix 2-icons-at-once bug (#7)
+      display: none;
+    }
   }
 
   figure {
@@ -333,6 +357,7 @@ $gallery-viewer-text-color: rgba(255, 255, 255, 1);
 
   // -------------------------------------------------------------------
   // viewer is collapsed, button will expand viewer
+  // Panorama viewer does not expand
   // -------------------------------------------------------------------
 
   &[data-expanded="false"] {
@@ -352,6 +377,10 @@ $gallery-viewer-text-color: rgba(255, 255, 255, 1);
 
       .stack--liner {
         height: 368px;
+
+        &::before {
+          display: block;
+        }
       }
     }
 
@@ -646,6 +675,14 @@ $gallery-viewer-text-color: rgba(255, 255, 255, 1);
 
     &--heading {
       padding: 13px 13px 9px;
+    }
+
+    .stack--liner {
+
+      &::before {
+        top: 20px;
+        right: 23px;
+      }
     }
   }
 }
