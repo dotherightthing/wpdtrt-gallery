@@ -9,6 +9,70 @@
  * @package     WPDTRT_Gallery
  * @subpackage  WPDTRT_Gallery/css
  */
+.gallery-viewer--header, .gallery-viewer--footer {
+  margin: 4px;
+  margin: 0.25rem;
+}
+
+.gallery-viewer--header > h2 {
+  padding: 0.25em 0.8125em;
+}
+
+.gallery-viewer--header > h2, .gallery-viewer--caption {
+  display: inline-block;
+  background-color: rgba(0, 0, 0, 0.85);
+  color: white;
+}
+
+.gallery-viewer .stack--liner {
+  vertical-align: bottom;
+  text-align: left;
+  background: none;
+}
+
+.gallery-viewer figure {
+  display: none;
+}
+
+.gallery-viewer img {
+  width: 100%;
+  height: auto;
+  max-height: 368px;
+  visibility: hidden;
+}
+
+.entry-date .gallery-viewer img {
+  max-height: 400px;
+}
+
+.gallery-viewer iframe {
+  position: relative;
+  z-index: 1;
+  /* make buttons clickable */
+  margin-bottom: 0;
+}
+
+.gallery-viewer--expand {
+  float: right;
+  padding: .275em 1em;
+  background-color: transparent;
+  border: 4px solid transparent;
+  border-radius: 0;
+  color: white;
+  text-shadow: -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black, 1px 1px 0 black;
+}
+
+.gallery-viewer--expand::after {
+  font-size: 2em;
+  font-weight: 100;
+}
+
+.gallery-viewer--expand:hover, .gallery-viewer--expand:focus {
+  outline: none;
+  background-color: black;
+  color: black;
+  text-shadow: -1px -1px 0 white, 1px -1px 0 white, -1px 1px 0 white, 1px 1px 0 white;
+}
 
 .gallery-viewer:focus {
   outline: none;
@@ -18,12 +82,180 @@
   position: relative;
 }
 
-.gallery-viewer img {
-/* hide but display at natural proportions, so that the background version is the full height */
+.gallery-viewer--focus-border, .gallery-viewer:focus .stack--liner::after, .gallery-viewer[data-expanded="true"]:focus .stack--liner::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
-  height: auto;
-  max-height: 368px;
-  visibility: hidden;
+  height: 100%;
+  border: 4px solid rgba(0, 0, 0, 0.85);
+}
+
+.gallery-viewer[data-attachment] .gallery-viewer--caption p {
+  margin-bottom: 0;
+}
+
+.gallery-viewer[data-expanded="false"] .gallery-viewer--expand {
+  position: relative;
+  right: 1px;
+  margin-right: -4.5em;
+  opacity: 1;
+}
+
+.gallery-viewer[data-expanded="false"] .gallery-viewer--expand::after {
+  content: "+";
+}
+
+.gallery-viewer[data-expanded="false"][data-panorama] .stack--liner {
+  height: 368px;
+}
+
+.gallery-viewer[data-expanded="false"][data-rwgps-pageid] .gallery-viewer--expand, .gallery-viewer[data-expanded="false"][data-soundcloud-trackid] .gallery-viewer--expand, .gallery-viewer[data-expanded="false"][data-vimeo-pageid] .gallery-viewer--expand {
+  position: absolute;
+  bottom: 0;
+  right: 1px;
+  margin-right: 0;
+}
+
+.gallery-viewer[data-expanded="false"][data-rwgps-pageid] .gallery-viewer--header > h2, .gallery-viewer[data-expanded="false"][data-soundcloud-trackid] .gallery-viewer--header > h2, .gallery-viewer[data-expanded="false"][data-vimeo-pageid] .gallery-viewer--header > h2 {
+  margin-bottom: 0;
+}
+
+.gallery-viewer[data-expanded="false"][data-rwgps-pageid] .gallery-viewer--header > h2,
+.gallery-viewer[data-expanded="false"][data-rwgps-pageid] .gallery-viewer--caption, .gallery-viewer[data-expanded="false"][data-soundcloud-trackid] .gallery-viewer--header > h2,
+.gallery-viewer[data-expanded="false"][data-soundcloud-trackid] .gallery-viewer--caption, .gallery-viewer[data-expanded="false"][data-vimeo-pageid] .gallery-viewer--header > h2,
+.gallery-viewer[data-expanded="false"][data-vimeo-pageid] .gallery-viewer--caption {
+  background-color: black;
+  border: 4px solid black;
+}
+
+.gallery-viewer[data-expanded="false"][data-rwgps-pageid]:focus .stack--liner::after, .gallery-viewer[data-expanded="false"][data-soundcloud-trackid]:focus .stack--liner::after, .gallery-viewer[data-expanded="false"][data-vimeo-pageid]:focus .stack--liner::after {
+  border-color: transparent;
+}
+
+.gallery-viewer[data-expanded="false"][data-rwgps-pageid] .gallery-viewer--header,
+.gallery-viewer[data-expanded="false"][data-rwgps-pageid] .gallery-viewer--footer, .gallery-viewer[data-expanded="false"][data-soundcloud-trackid] .gallery-viewer--header,
+.gallery-viewer[data-expanded="false"][data-soundcloud-trackid] .gallery-viewer--footer, .gallery-viewer[data-expanded="false"][data-vimeo-pageid] .gallery-viewer--header,
+.gallery-viewer[data-expanded="false"][data-vimeo-pageid] .gallery-viewer--footer {
+  position: relative;
+  top: auto;
+  bottom: auto;
+  left: auto;
+  right: auto;
+}
+
+.gallery-viewer[data-expanded="false"][data-rwgps-pageid] .gallery-viewer--footer, .gallery-viewer[data-expanded="false"][data-soundcloud-trackid] .gallery-viewer--footer, .gallery-viewer[data-expanded="false"][data-vimeo-pageid] .gallery-viewer--footer {
+  background-color: white;
+  margin: 0;
+}
+
+.gallery-viewer[data-expanded="true"] .gallery-viewer--expand {
+  background-color: black;
+  position: absolute;
+  bottom: 0;
+  right: 1px;
+  margin-right: 0;
+}
+
+.gallery-viewer[data-expanded="true"] .gallery-viewer--expand:hover, .gallery-viewer[data-expanded="true"] .gallery-viewer--expand:focus {
+  background-color: #666666;
+  color: #666666;
+}
+
+.gallery-viewer[data-expanded="true"] .gallery-viewer--expand::after {
+  content: "-";
+}
+
+.gallery-viewer[data-expanded="true"] .gallery-viewer--header,
+.gallery-viewer[data-expanded="true"] .gallery-viewer--footer {
+  position: relative;
+  top: auto;
+  bottom: auto;
+  left: auto;
+  right: auto;
+}
+
+.gallery-viewer[data-expanded="true"] .gallery-viewer--header > h2 {
+  margin-bottom: 0;
+}
+
+.gallery-viewer[data-expanded="true"] .gallery-viewer--header > h2,
+.gallery-viewer[data-expanded="true"] .gallery-viewer--caption {
+  background-color: black;
+  border: 4px solid black;
+}
+
+.gallery-viewer[data-expanded="true"] .gallery-viewer--footer {
+  margin-left: 0;
+}
+
+.gallery-viewer[data-expanded="true"]:focus .gallery-viewer--footer {
+  background-color: white;
+  z-index: 1;
+}
+
+.gallery-viewer[data-expanded="true"]:focus .gallery-viewer--footer:before {
+  content: "";
+  position: absolute;
+  z-index: 2;
+  top: 0;
+  left: 0;
+  width: 100%;
+  border-top: 4px solid black;
+}
+
+.gallery-viewer[data-expanded="true"] .stack--wrapper {
+  background: none !important;
+}
+
+.gallery-viewer[data-expanded="true"] img,
+.entry-date .gallery-viewer[data-expanded="true"] img {
+  visibility: visible;
+  max-height: none;
+}
+
+.gallery-viewer[data-has-image="false"] .gallery-viewer--header > h2 {
+  background-color: black;
+}
+
+.no-js .gallery-viewer[data-has-image="false"] .stack--wrapper {
+  display: none;
+}
+
+.gallery-viewer[data-has-image="true"] .gallery-viewer--header {
+  position: absolute;
+  top: 4px;
+  top: 0.25rem;
+  left: 4px;
+  right: 4px;
+  z-index: 2;
+  padding-right: 4.5em;
+  margin: 0;
+}
+
+.attachment .gallery-viewer[data-has-image="true"] .gallery-viewer--header {
+  padding-right: 0;
+}
+
+.gallery-viewer[data-has-image="true"] .gallery-viewer--caption {
+  padding: .75em 0.625em 0.625em;
+}
+
+.gallery-viewer[data-has-image="true"] .gallery-viewer--footer {
+  position: absolute;
+  bottom: 4px;
+  bottom: 0.25rem;
+  right: 4px;
+  z-index: 2;
+  text-align: right;
+  line-height: 1.45;
+  margin: 0 0 0 4px;
+  margin: 0 0 0 0.25rem;
+}
+
+.gallery-viewer[data-has-image="true"] figure {
+  display: block;
 }
 
 .gallery-viewer[data-panorama] .img-wrapper {
@@ -44,296 +276,4 @@
   visibility: hidden;
   width: 100%;
   max-width: 100%;
-}
-
-.gallery-viewer iframe {
-  position: relative;
-  z-index: 1; /* make buttons clickable */
-  margin-bottom: 0;
-}
-
-.entry-date .gallery-viewer img {
-/* ensure that both NZ and China are visible */
-  max-height: 400px;
-}
-
-.gallery-viewer[data-expanded="true"] .stack--wrapper {
-/* override inline styles, remove bgcolor so that caption is not fw */
-  background: none !important;
-}
-
-.no-js .gallery-viewer[data-has-image="false"] .stack--wrapper {
-/* the gallery viewer is the template, but not all sections have galleries */
-  display: none;
-}
-
-.gallery-viewer[data-expanded="true"] img,
-.entry-date .gallery-viewer[data-expanded="true"] img {
-/* display at full height on expand */
-  visibility: visible;
-  max-height: none;
-}
-
-.gallery-viewer figure {
-/* hide default markup unless it's required */
-  display: none;
-}
-
-.gallery-viewer[data-has-image="true"] figure {
-/* here it's required */
-  display: block;
-}
-
-.gallery-viewer .stack--liner {
-  vertical-align: bottom;
-  text-align: left;
-  background: none;
-}
-
-.gallery-viewer[data-panorama][data-expanded="false"] .stack--liner {
-  height: 368px;
-}
-
-.gallery-viewer--header,
-.gallery-viewer--footer {
-/* internal gutters match dash gutters, ie both are in pixels */
-  margin: 4px;
-}
-
-.gallery-viewer[data-expanded="false"][data-vimeo-pageid] .gallery-viewer--footer,
-.gallery-viewer[data-expanded="false"][data-soundcloud-trackid] .gallery-viewer--footer,
-.gallery-viewer[data-expanded="false"][data-rwgps-pageid] .gallery-viewer--footer {
-  margin: 0; /* apply white fill to the edges */
-}
-
-.gallery-viewer--header > h2,
-.gallery-viewer--caption {
-  display: inline-block;
-  background-color: rgba(0, 0, 0, .85);
-  color: #fff;
-}
-
-.gallery-viewer[data-attachment] .gallery-viewer--caption p {
-  margin-bottom: 0;
-}
-
-.gallery-viewer[data-has-image="false"] .gallery-viewer--header > h2 {
-/* the gallery viewer is the template, but not all sections have galleries */
-  background-color: #000;
-}
-
-.gallery-viewer--header > h2 {
-  padding: 0.25em 0.8125em;
-}
-
-.gallery-viewer[data-has-image="true"] .gallery-viewer--header {
-  /*
-  both text elements must be AP
-  so that the inline invisible image can dictate the height that it needs to display fully
-  and be available for ALT inspection
-  TODO: convert the image height to ems
-  so that it scales when the text size is increased
-  -
-  left + right are used instead of width + margin to prevent bleed
-  */
-  position: absolute;
-  top: 4px;
-  left: 4px;
-  right: 4px;
-  z-index: 2; /* stack on top of sticky nav and paver so that text can be selected */
-  padding-right: 4.5em; /* space for expand button */
-  margin: 0;
-}
-
-.attachment .gallery-viewer[data-has-image="true"] .gallery-viewer--header {
-  padding-right: 0;
-}
-
-.gallery-viewer[data-has-image="true"] .gallery-viewer--footer {
-  /*
-  both text elements must be AP
-  so that the inline invisible image can dictate the height that it needs to display fully
-  and be available for ALT inspection
-  TODO: convert the image height to ems
-  so that it scales when the text size is increased
-  */
-  position: absolute;
-  bottom: 4px;
-  right: 4px;
-  z-index: 2; /* stack on top of paver */
-
-  text-align: right;
-  line-height: 1.45;
-  margin: 0 0 0 4px; /* prevent long captions from hitting the other side */
-}
-
-.gallery-viewer[data-expanded="false"][data-vimeo-pageid] .gallery-viewer--footer,
-.gallery-viewer[data-expanded="false"][data-soundcloud-trackid] .gallery-viewer--footer,
-.gallery-viewer[data-expanded="false"][data-rwgps-pageid] .gallery-viewer--footer {
-
-  margin-left: 0; /* apply white fill to the edges */
-}
-
-.gallery-viewer[data-has-image="true"] .gallery-viewer--caption {
-  padding: .75em 0.625em 0.625em;
-}
-
-.gallery-viewer[data-expanded="true"] .gallery-viewer--header,
-.gallery-viewer[data-expanded="true"] .gallery-viewer--footer,
-.gallery-viewer[data-expanded="false"][data-vimeo-pageid] .gallery-viewer--header,
-.gallery-viewer[data-expanded="false"][data-soundcloud-trackid] .gallery-viewer--header,
-.gallery-viewer[data-expanded="false"][data-rwgps-pageid] .gallery-viewer--header,
-.gallery-viewer[data-expanded="false"][data-vimeo-pageid] .gallery-viewer--footer,
-.gallery-viewer[data-expanded="false"][data-soundcloud-trackid] .gallery-viewer--footer,
-.gallery-viewer[data-expanded="false"][data-rwgps-pageid] .gallery-viewer--footer {
-/* when the image is expanded the text gets out of the way so that the image can be viewed in its entirety */
-/* this also applies to media viewers which use their own layout within the 'image' area */
-  position: relative;
-  top: auto;
-  bottom: auto;
-  left: auto;
-  right: auto;
-}
-
-.gallery-viewer[data-expanded="false"][data-vimeo-pageid] .gallery-viewer--footer,
-.gallery-viewer[data-expanded="false"][data-soundcloud-trackid] .gallery-viewer--footer,
-.gallery-viewer[data-expanded="false"][data-rwgps-pageid] .gallery-viewer--footer {
-  background-color: #fff;
-}
-
-.gallery-viewer[data-expanded="true"] .gallery-viewer--header > h2,
-.gallery-viewer[data-expanded="false"][data-vimeo-pageid] .gallery-viewer--header > h2,
-.gallery-viewer[data-expanded="false"][data-soundcloud-trackid] .gallery-viewer--header > h2,
-.gallery-viewer[data-expanded="false"][data-rwgps-pageid] .gallery-viewer--header > h2,
-.gallery-viewer[data-expanded="true"] .gallery-viewer--caption,
-.gallery-viewer[data-expanded="false"][data-vimeo-pageid] .gallery-viewer--caption,
-.gallery-viewer[data-expanded="false"][data-soundcloud-trackid] .gallery-viewer--caption,
-.gallery-viewer[data-expanded="false"][data-rwgps-pageid] .gallery-viewer--caption {
-
-  background-color: #000;
-  border: 4px solid #000;
-}
-
-.gallery-viewer[data-expanded="true"] .gallery-viewer--header > h2,
-.gallery-viewer[data-expanded="false"][data-vimeo-pageid] .gallery-viewer--header > h2,
-.gallery-viewer[data-expanded="false"][data-soundcloud-trackid] .gallery-viewer--header > h2,
-.gallery-viewer[data-expanded="false"][data-rwgps-pageid] .gallery-viewer--header > h2 {
-  margin-bottom: 0;
-}
-
-.gallery-viewer:focus .stack--liner::after,
-.gallery-viewer[data-expanded="true"]:focus .stack--liner::after {
-/* overlay a bordered box on focus */
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  border: 4px solid rgba(0,0,0,.85);
-}
-
-.gallery-viewer[data-expanded="false"][data-vimeo-pageid]:focus .stack--liner::after,
-.gallery-viewer[data-expanded="false"][data-soundcloud-trackid]:focus .stack--liner::after,
-.gallery-viewer[data-expanded="false"][data-rwgps-pageid]:focus .stack--liner::after {
-  border-color: transparent;
-}
-
-.gallery-viewer[data-expanded="true"] .gallery-viewer--footer {
-/* prevents the .stack--liner borders from peeking through */
-  margin-left: 0;
-}
-
-.gallery-viewer[data-expanded="true"]:focus .gallery-viewer--footer {
-/* masks .stack-liner which includes the caption area */
-  background-color: #fff;
-  z-index: 1;
-}
-
-.gallery-viewer[data-expanded="true"]:focus .gallery-viewer--footer:before {
-/* adds a new fake bottom border for the stack-liner overlay (which excludes the caption area) */
-  content: "";
-  position: absolute;
-  z-index: 2;
-  top: 0;
-  left: 0;
-  width: 100%;
-  border-top: 4px solid #000;
-}
-
-/* gallery viewer expand/collapse button */
-/* TODO prevent the heading from hitting this */
-
-.gallery-viewer--expand {
-  float: right;
-  padding: .275em 1em;
-  background-color: transparent;
-  border: 4px solid transparent;
-  border-radius: 0;
-
-  color: #fff;
-  text-shadow:
-   -1px -1px 0 #000,
-    1px -1px 0 #000,
-    -1px 1px 0 #000,
-     1px 1px 0 #000;
-}
-
-.gallery-viewer--expand::after {
-/* the icon */
-  font-size: 2em;
-  font-weight: 100;
-}
-
-.gallery-viewer--expand:hover,
-.gallery-viewer--expand:focus {
-  outline: none;
-  background-color: #000;
-  color: #000;
-  text-shadow:
-   -1px -1px 0 #fff,
-    1px -1px 0 #fff,
-    -1px 1px 0 #fff,
-     1px 1px 0 #fff;
-}
-
-/* viewer is collapsed, button will expand viewer */
-
-.gallery-viewer[data-expanded="false"] .gallery-viewer--expand {
-  position: relative;
-  right: 1px; /* seems to be a browser rounding error as it's ok at random breakpoints */
-  margin-right: -4.5em;
-  opacity: 1;
-}
-
-.gallery-viewer[data-expanded="false"] .gallery-viewer--expand::after {
-  content: "+";
-}
-
-/* viewer is expanded, button will collapse viewer */
-
-.gallery-viewer[data-expanded="true"] .gallery-viewer--expand,
-.gallery-viewer[data-expanded="false"][data-vimeo-pageid] .gallery-viewer--expand,
-.gallery-viewer[data-expanded="false"][data-soundcloud-trackid] .gallery-viewer--expand,
-.gallery-viewer[data-expanded="false"][data-rwgps-pageid] .gallery-viewer--expand {
-
-  /* pin to bottom of header / top of image */
-  position: absolute;
-  bottom: 0;
-  right: 1px;
-  margin-right: 0;
-}
-
-.gallery-viewer[data-expanded="true"] .gallery-viewer--expand {
-  background-color: #000;
-}
-
-.gallery-viewer[data-expanded="true"] .gallery-viewer--expand:hover,
-.gallery-viewer[data-expanded="true"] .gallery-viewer--expand:focus {
-  background-color: #666;
-  color: #666;
-}
-
-.gallery-viewer[data-expanded="true"] .gallery-viewer--expand::after {
-  content: "-";
 }

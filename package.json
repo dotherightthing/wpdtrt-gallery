@@ -4,14 +4,18 @@
   "description": "Gallery viewer which supports images, panoramas, maps, SoundCloud and Vimeo",
   "main": "readme.txt",
   "person": {
-    "name" : "Dan Smith",
-    "email" : "dev@dotherightthing.co.nz",
-    "url" : "https://profiles.wordpress.org/dotherightthingnz"
+    "name": "Dan Smith",
+    "email": "dev@dotherightthing.co.nz",
+    "url": "https://profiles.wordpress.org/dotherightthingnz"
   },
   "devDependencies": {
     "generator-wp-plugin-boilerplate": "git+https://github.com/dotherightthing/generator-wp-plugin-boilerplate.git",
+    "gulp": "^3.9.1",
+    "gulp-autoprefixer": "^4.0.0",
     "gulp-phplint": "^0.3.4",
-    "gulp-phpunit": "^0.22.2"
+    "gulp-postcss": "^7.0.0",
+    "gulp-sass": "^3.1.0",
+    "postcss-pxtorem": "^4.0.1"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -20,6 +24,10 @@
     "type": "git",
     "url": "git@github.com:dotherightthing/wpdtrt-gallery.git"
   },
+  "browserslist": [
+    "last 2 versions",
+    "ie >= 11"
+  ],
   "license": "ISC",
   "homepage": "https://github.com/dotherightthing/wpdtrt-gallery",
   "srcDir": "/Volumes/DanBackup/Websites/wpdtrt-gallery"

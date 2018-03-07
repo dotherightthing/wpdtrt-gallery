@@ -9,35 +9,34 @@
  * @package     WPDTRT_Gallery
  * @subpackage  WPDTRT_Gallery/css
  */
-
-/* hide unused core fields, to show custom fields sooner */
 .attachment-details > [data-setting="url"],
 .attachment-details > [data-setting="title"],
 .attachment-details > [data-setting="description"] {
-	display: none;
+  display: none;
 }
 
-/* hide redundant warning, to show custom fields sooner */
 .media-types-required-info {
-	display: none;
+  display: none;
 }
 
-/* create a visual separator before the custom fields */
 .compat-item table.compat-attachment-fields {
-    padding-top: 5px;
-    border-top: 1px solid #ddd;
-    margin-top: 15px;
+  padding-top: 5px;
+  padding-top: 0.3125rem;
+  border-top: 1px solid #ddd;
+  margin-top: 15px;
+  margin-top: 0.9375rem;
 }
 
-/* reduce size of help text, to compress custom fields */
 .compat-attachment-fields p.help {
-	font-size: 11px;
-	font-style: normal;
-	margin-top: 3px;
+  font-size: 11px;
+  font-size: 0.6875rem;
+  font-style: normal;
+  margin-top: 3px;
+  margin-top: 0.1875rem;
 }
 
-/* align text with label */
 .compat-field-wpdtrt-gallery-source-image .field {
-	font-size: 13px;
-	padding-top: .45em;
+  font-size: 13px;
+  font-size: 0.8125rem;
+  padding-top: .45em;
 }
