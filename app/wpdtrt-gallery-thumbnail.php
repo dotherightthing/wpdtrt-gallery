@@ -101,12 +101,8 @@ function wpdtrt_thumbnail_queryparams($html, $id, $size, $permalink) {
    * [and update the link to include the options ?? ]
    * @see http://johnciacia.com/2012/12/31/filter-wordpress-gallery-image-link/
    * list() is used to assign a list of variables in one operation.
-   *
-   * @todo the 'full' images are massive!
-   * need to resize these proportional to a max height of 350px
-   * @see https://wordpress.stackexchange.com/questions/212768/add-image-size-where-largest-possible-proportional-size-is-generated
    */
-  $image_size = $panorama ? 'full' : 'large';
+  $image_size = $panorama ? 'wpdtrt-gallery-enlargement-panorama' : 'wpdtrt-gallery-enlargement-portrait';
 
   list( $link, , ) = wp_get_attachment_image_src( $id, $image_size );
 

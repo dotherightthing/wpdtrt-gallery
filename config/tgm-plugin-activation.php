@@ -71,6 +71,13 @@ function wpdtrt_gallery_register_required_plugins() {
       		'source'        => 'https://github.com/bueltge/wordpress-admin-style/archive/master.zip',
       		'external_url'  => 'https://github.com/bueltge/wordpress-admin-style',
       		'required' 		=> false
+	    ),
+
+	    // Regenerate Thumbnails after adding an image size via add_image_size
+	    array(
+	     	'name' 			=> 'Regenerate Thumbnails',
+	     	'slug' 			=> 'regenerate-thumbnails',
+	     	'required' 		=> false
 	    )
 
 	);
