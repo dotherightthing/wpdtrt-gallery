@@ -74,7 +74,8 @@ var wpdtrt_gallery_ui = {
 	    .attr( 'data-rwgps_pageid',       uri_query.rwgps_pageid )
 	    .attr( 'data-latitude',           uri_query.latitude )
 	    .attr( 'data-longitude',          uri_query.longitude )
-	    .attr( 'data-panorama',           uri_query.panorama );
+	    .attr( 'data-panorama',           uri_query.panorama )
+	    .attr( 'data-src-mobile',         uri_query.src_mobile );
 
 	  /**
 	   * Strip URL params as all have now been converted into data attrs

@@ -99,7 +99,7 @@ if( ! defined( 'WPDTRT_GALLERY_URL' ) ) {
   require_once(WPDTRT_GALLERY_PATH . 'app/wpdtrt-gallery-attachment-field-soundcloud.php');
   require_once(WPDTRT_GALLERY_PATH . 'app/wpdtrt-gallery-attachment-field-vimeo.php');
 
-  require_once(WPDTRT_GALLERY_PATH . 'app/wpdtrt-gallery-enlargement.php');
+  require_once(WPDTRT_GALLERY_PATH . 'app/wpdtrt-gallery-image-sizes.php');
   require_once(WPDTRT_GALLERY_PATH . 'app/wpdtrt-gallery-thumbnail.php');
 
   require_once(WPDTRT_GALLERY_PATH . 'config/tgm-plugin-activation.php');

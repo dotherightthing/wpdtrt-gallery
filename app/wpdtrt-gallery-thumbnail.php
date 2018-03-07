@@ -97,14 +97,24 @@ function wpdtrt_thumbnail_queryparams($html, $id, $size, $permalink) {
   }
 
   /**
-   * Filter the gallery thumbnail links to link to the 'large' image size and not the 'full' image size.
-   * [and update the link to include the options ?? ]
+   * Filter the gallery thumbnail links to point to custom image sizes, rather than the 'full' image size.
    * @see http://johnciacia.com/2012/12/31/filter-wordpress-gallery-image-link/
    * list() is used to assign a list of variables in one operation.
    */
-  $image_size = $panorama ? 'wpdtrt-gallery-enlargement-panorama' : 'wpdtrt-gallery-enlargement-portrait';
 
-  list( $link, , ) = wp_get_attachment_image_src( $id, $image_size );
+  // see wpdtrt-gallery-enlargement.php
+  $image_size_mobile = 'wpdtrt-gallery-mobile';
+  $image_size_desktop = 'wpdtrt-gallery-desktop';
+  $image_size_panorama = 'wpdtrt-gallery-panorama';
+
+  $image_size_small = $image_size_mobile;
+  $image_size_large = $panorama ? $image_size_panorama : $image_size_desktop;
+
+  // assign a list of variables by taking values from the image_src array
+  list( $link, , ) = wp_get_attachment_image_src( $id, $image_size_large );
+
+  // store the other enlargement sizes in data attributes
+  $link_options['src_mobile'] = wp_get_attachment_image_src( $id, $image_size_small )[0];
 
   // Encode options
   // http://stackoverflow.com/a/39370906
