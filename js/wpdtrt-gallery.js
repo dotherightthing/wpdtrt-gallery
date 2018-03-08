@@ -88,127 +88,172 @@ var wpdtrt_gallery_ui = {
 	},
 
 	/**
+	 * Clean up gallery viewer attributes
+	 * 	to prevent cross contamination between image types
+	 * @param {object} $ - jQuery
+	 * @param {object} $viewer - jQuery gallery viewer
+	 * @since 1.3.0
+	 */
+	gallery_viewer_reset: function($, $viewer) {
+
+		var $expand_button = $viewer.find('.gallery-viewer--expand');
+
+		// remove forced expand used by panorama & iframe viewers
+		$viewer.removeAttr('data-expanded-contenttype');
+		$expand_button.show();
+
+		// reset the viewer state:
+		// to the forced state reqd by the content type, or
+		// to the last state chosen by the user - if that works..., or
+		// to the default state of false
+		$viewer.removeAttr('data-expanded');
+	},
+
+	/**
+	 * Convert expanded state from a data-attribute string to a boolean
+	 * @param {str} str - String
+	 * @return {boolean} viewer_is_expanded
+	 * @since 1.3.0
+	 */
+	string_to_boolean: function(str) {
+		var bool;
+
+		if ( str === 'true' ) {
+			bool = true;
+		}
+		else if ( str === 'false' ) {
+			bool = false;
+		}
+
+		return bool;
+	},
+
+	/**
 	 * Expand or collapse the gallery viewer
 	 * @param {object} $ - jQuery
 	 * @param {object} $expand_button - jQuery gallery expand button
 	 * @param {boolean} triggered - Programmatically triggered
 	 * @return {boolean} viewer_is_expanded
-	 * @requires includes/attachment.php
+	 * @requires includes/attachment.php ?
 	 * @since 3.0.0
 	 */
 	gallery_viewer_toggle_expanded: function($, $expand_button, triggered) {
 
-	  var $expand_button_text =   $expand_button.find('.says');
-	  var viewer_id =             $expand_button.attr('aria-controls');
-	  var $viewer =               $('#' + viewer_id);
-	  var $viewer_img =           $viewer.find('img');
-	  var $viewer_iframe =        $viewer.find('iframe');
+		var $expand_button_text =   $expand_button.find('.says');
+		var viewer_id =             $expand_button.attr('aria-controls');
+		var $viewer =               $('#' + viewer_id);
+		var $viewer_img =           $viewer.find('img');
+		var $viewer_iframe =        $viewer.find('iframe');
 
-	  // read data- attributes from
-	  var vimeo_pageid =          $viewer.data('vimeo-pageid');
-	  var soundcloud_pageid =     $viewer.data('soundcloud-pageid');
-	  var soundcloud_trackid =    $viewer.data('soundcloud-trackid');
-	  var rwgps_pageid =          $viewer.data('rwgps-pageid');
+		// read data- attributes from
+		var vimeo_pageid =          $viewer.data('vimeo-pageid');
+		var soundcloud_pageid =     $viewer.data('soundcloud-pageid');
+		var soundcloud_trackid =    $viewer.data('soundcloud-trackid');
+		var rwgps_pageid =          $viewer.data('rwgps-pageid');
 
-	  // the actual state
-	  var viewer_is_expanded =    $viewer.attr('data-expanded');
+		// the actual state
+		var viewer_is_expanded =    $viewer.attr('data-expanded');
 
-	  // TODO research how jQuery returns truthy and falsey values
-	  if ( viewer_is_expanded === 'true' ) {
-	  	viewer_is_expanded = true;
-	  }
-	  else if ( viewer_is_expanded === 'false' ) {
-	  	viewer_is_expanded = false;
-	  }
+		// post-toggle states to reinstate
+		var user_expanded_saved = $viewer.attr('data-expanded-user');
 
-	  // a post-toggle state to reinstate
-	  var viewer_user_expand_state_intended = $viewer.attr('data-expanded-user');
+		// this is problematic
+		// because when the thumbnail is clicked
+		// this attribute is still hanging around if used previously
+		// because of the sequence in which these _update functions run
+		// and clicking the thumbnail counts as a trigger for some reason
+		// there needs to be a cleanup or destroy or unload function
+		// which strips out all the fancy stuff
+		// except info we want to retain such as the user state
+		// which could always be left there
+		// and if a type has some other data, that could trump it
+		var data_expanded_contenttype = $viewer.attr('data-expanded-contenttype');
 
-	  // TODO research how jQuery returns truthy and falsey values
-	  if ( viewer_user_expand_state_intended === 'true' ) {
-	  	viewer_user_expand_state_intended = true;
-	  }
-	  else if ( viewer_user_expand_state_intended === 'false' ) {
-	  	viewer_user_expand_state_intended = false;
-	  }
+		// ------------------------------
+		// update state
+		// ------------------------------
 
-	  // a post-toggle state to reinstate
-	  var viewer_force_expand_state_intended = $viewer.attr('data-expanded-forced');
+		// A - forced content state
+		// data-expanded-contenttype will only be present if the content type requires it
+		// and the button will be hidden so the user won't have to fight it
+		if ( triggered && data_expanded_contenttype ) {
 
-	  // TODO research how jQuery returns truthy and falsey values
-	  if ( viewer_force_expand_state_intended === 'true' ) {
-	  	viewer_force_expand_state_intended = true;
-	  }
-	  else if ( viewer_force_expand_state_intended === 'false' ) {
-	  	viewer_force_expand_state_intended = false;
-	  }
+			// set viewer state to state required by content type
+			$viewer.attr('data-expanded', data_expanded_contenttype );
 
-	  // ------------------------------
-	  // force state
-	  // ------------------------------
+			// this attribute is removed by the _reset function
+		}
 
-	  // force takes precendent over user state
-	  if ( viewer_force_expand_state_intended === true ) {
-	    $viewer.attr('data-expanded-user', viewer_is_expanded ); // save user state
-	    viewer_is_expanded = false; // in preparation for toggle
-	  }
-	  else if ( viewer_force_expand_state_intended === false ) {
-	    $viewer.attr('data-expanded-user', viewer_is_expanded ); // save user state
-	    viewer_is_expanded = true; // in preparation for toggle
-	  }
-	  else if ( viewer_user_expand_state_intended === true ) {
-	    viewer_is_expanded = false; // in preparation for toggle
-	    // delete saved user state
-	    $viewer.removeAttr('data-expanded-user');
-	  }
-	  else if ( viewer_user_expand_state_intended === false ) {
-	    viewer_is_expanded = true; // in preparation for toggle
-	    // delete saved user state
-	    $viewer.removeAttr('data-expanded-user');
-	  }
+		// B - last user state, only if triggered so we don't fight the user
+		// user state may be present when moving from e.g. an image to an iframe and back
+		// NOTE: clicking on a thumbnail also fires the trigger.....
+		else if ( triggered && user_expanded_saved ) {
 
-	  // ------------------------------
-	  // toggle state
-	  // ------------------------------
+			// set viewer state to last/saved toggle state
+			$viewer.attr('data-expanded', user_expanded_saved);
+			
+			// don't discard attribute after use
+			// so we can reinstate this when switching between types
+			// $viewer.removeAttr('data-expanded-user');
+		}
 
-	  if ( viewer_is_expanded === false ) {
+		// C - clicking on a thumbnail before the button has been clicked yet
+		else if ( triggered ) {
+			// no preference saved - so use the default
+			$viewer.attr('data-expanded', false );
+		}
 
-	    // expand viewer and display the contract button
-	    $viewer
-	      .attr('data-expanded', true);
+		// D - toggle - clicking on the expand button to manually and explicitly toggle the state
+		// sets the value of data-expanded-user if it is missing
+		else {
+			// save the inverse of the current state
+			// as that is the state that we are changing TO
+			// this will result in B being used from now on
 
-	    // update the hidden button text
-	    $expand_button_text
-	      .text('Show cropped image');
-	  }
-	  else if ( viewer_is_expanded === true ) {
+			$viewer.attr('data-expanded-user', ! this.string_to_boolean( viewer_is_expanded ) );
 
-	    // collapse viewer
-	    // scroll to the top of the viewer
-	    $viewer
-	      .attr('data-expanded', false)
-	      .scrollView(100, 150);
+			// for clarity
+			user_expanded_saved = ! this.string_to_boolean( viewer_is_expanded );
 
-	    // update the hidden button text
-	    $expand_button_text
-	      .text('Show full image');
-	  }
+			// use the saved user value
+			$viewer.attr('data-expanded', user_expanded_saved );
+		}
 
-	  // update iframe size
-	  if ( vimeo_pageid || ( soundcloud_pageid && soundcloud_trackid ) || rwgps_pageid ) {
-	    $viewer_iframe
-	      .attr('height', $viewer_img.height() );
-	  }
+		// ------------------------------
+		// update button text
+		// ------------------------------
 
-	  // focus the viewer
-	  if ( ! triggered ) {
-		  $viewer
-		    .removeAttr('data-expanded-user')
-		    .attr('tabindex', '-1')
-		    .focus();
-	  }
+		// if the viewer is now expanded
+		if ( $viewer.attr('data-expanded') === 'true' ) {
 
-	  return ( ! viewer_is_expanded );
+			// update the hidden button text
+			$expand_button_text.text('Show cropped image');
+		}
+
+		// if the viewer is now collapsed
+		else if ( $viewer.attr('data-expanded') === 'false' ) {
+
+			// update the hidden button text
+			$expand_button_text.text('Show full image');
+
+			// scroll to the top of the viewer
+			$viewer.scrollView(100, 150);
+		}
+
+
+		// update iframe size
+		if ( vimeo_pageid || ( soundcloud_pageid && soundcloud_trackid ) || rwgps_pageid ) {
+			$viewer_iframe.attr('height', $viewer_img.height() );
+		}
+
+		// focus the viewer
+		if ( ! triggered ) {
+			$viewer
+				.attr('tabindex', '-1')
+				.focus();
+		}
+
+		return ( ! viewer_is_expanded );
 	},
 
 	/**
@@ -258,7 +303,7 @@ var wpdtrt_gallery_ui = {
 	  if ( vimeo_pageid ) {
 
 		// expand viewer
-		$viewer.attr('data-expanded-forced', true);
+		$viewer.attr('data-expanded-contenttype', true);
 		$expand_button.trigger('click').hide();
 
 	    $viewer
@@ -281,7 +326,7 @@ var wpdtrt_gallery_ui = {
 	  else if ( soundcloud_pageid && soundcloud_trackid ) {
 
 		// expand viewer
-		$viewer.attr('data-expanded-forced', true);
+		$viewer.attr('data-expanded-contenttype', true);
 		$expand_button.trigger('click').hide();
 
 	    $viewer
@@ -304,7 +349,7 @@ var wpdtrt_gallery_ui = {
 	  else if ( rwgps_pageid ) {
 
 		// expand viewer
-		$viewer.attr('data-expanded-forced', true);
+		$viewer.attr('data-expanded-contenttype', true);
 		$expand_button.trigger('click').hide();
 
 	    $viewer
@@ -325,6 +370,7 @@ var wpdtrt_gallery_ui = {
 	  }
 
 	  else {
+	  	// reset viewer type
 	    $viewer
 	      .removeAttr('data-vimeo-pageid')
 	      .removeAttr('data-rwgps-pageid')
@@ -340,10 +386,6 @@ var wpdtrt_gallery_ui = {
 	      .attr('aria-hidden', 'false');
 
 	      clearTimeout(embedHeightTimer);
-
-		// collapse viewer
-		$viewer.removeAttr('data-expanded-forced');
-		$expand_button.trigger('click').show();
 	  }
 	},
 
@@ -370,9 +412,8 @@ var wpdtrt_gallery_ui = {
 		clearTimeout(galleryScrollSetup);
 
 		if ( panorama ) {
-
 			// expand viewer
-			$viewer.attr('data-expanded-forced', true);
+			$viewer.attr('data-expanded-contenttype', true);
 			$expand_button.trigger('click').hide();
 
 			// this data attribute toggles the overflow-x scrollbar
@@ -411,28 +452,28 @@ var wpdtrt_gallery_ui = {
 			}, 100 );
 		}
 		else {
+			// reset viewer type
 			$gal.off('.galleryScroll');
 			clearInterval(galleryScrollTimer);
 			clearTimeout(galleryScrollSetup);
-
 			$viewer.removeAttr('data-panorama');
 
-			// collapse viewer
-			$viewer.removeAttr('data-expanded-forced');
-			$expand_button.trigger('click').show();
+			// reset viewer state
+			$viewer.removeAttr('data-expanded-contenttype');
 		}
 	},
 
 	/**
-	 * Update the gallery portrait image
+	 * Update the gallery image
 	 * @param {object} $ - jQuery
 	 * @param {object} $viewer - jQuery gallery viewer
 	 * @param {object} $gallery_item - jQuery gallery thumbnail
 	 * @requires includes/attachment.php
 	 * @since 3.0.0
 	 */
-	gallery_viewer_portrait_update: function($, $viewer, $gallery_item) {
+	gallery_viewer_image_update: function($, $viewer, $gallery_item) {
 
+	  var $expand_button = 			$viewer.find('.gallery-viewer--expand');
 	  var $gallery_item_image =     $gallery_item.find('img');
 	  var gallery_item_alt =        $gallery_item_image.attr('alt');
 	  var gallery_item_img_full =   $gallery_item.attr('href');
@@ -442,7 +483,7 @@ var wpdtrt_gallery_ui = {
 	  var $viewer_wrapper =         $viewer.find('.stack--wrapper');
 
 	  // the other gallery items
-	  var $gallery_items = $('[aria-controls="' + viewer_id + '"]');
+	  var $gallery_items = 			$('[aria-controls="' + viewer_id + '"]');
 
 	  // unview existing thumbnail and reinstate into tab order
 	  $gallery_items
@@ -466,6 +507,9 @@ var wpdtrt_gallery_ui = {
 	  $viewer.find('img')
 	    .attr('src', gallery_item_img_full )
 	    .attr('alt', gallery_item_alt);
+
+		// setup viewer
+		$expand_button.trigger('click');
 
 	  // focus the viewer, if the user requested this
 	  /*
@@ -555,7 +599,9 @@ var wpdtrt_gallery_ui = {
 	        return;
 	      }
 
-	      wpdtrt_gallery_ui.gallery_viewer_portrait_update($, $viewer, $gallery_item);
+	      wpdtrt_gallery_ui.gallery_viewer_reset($, $viewer);
+
+	      wpdtrt_gallery_ui.gallery_viewer_image_update($, $viewer, $gallery_item);
 
 	      wpdtrt_gallery_ui.gallery_viewer_panorama_update($, $viewer, $gallery_item);
 

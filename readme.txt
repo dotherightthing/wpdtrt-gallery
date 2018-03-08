@@ -45,7 +45,9 @@ Note:
 == Changelog ==
 
 = 1.3.0 =
-* Reduced thumbnail size and set attachment defaults
+* Reduced dimensions of thumbnail image
+* Set attachment defaults
+* Simplify expand state management and favour JS over CSS
 
 = 1.2.0 =
 * Replaced buggy Paver panorama scroll with simpler solution

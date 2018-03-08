@@ -296,8 +296,14 @@ $gallery-viewer-text-color: rgba(255, 255, 255, 1);
       -1px 1px 0 $gallery-viewer-border-color,
        1px 1px 0 $gallery-viewer-border-color;
 
+    position: relative;
+    right: 0; // 1px; // seems to be a browser rounding error as it's ok at random breakpoints
+    margin-right: -4.5em;
+    opacity: 1;
+
     &::after {
       // the icon
+      content: "+";
       font-size: 2em;
       font-weight: 100;
     }
@@ -351,36 +357,6 @@ $gallery-viewer-text-color: rgba(255, 255, 255, 1);
     .gallery-viewer--caption {
       p {
         margin-bottom: 0;
-      }
-    }
-  }
-
-  // -------------------------------------------------------------------
-  // viewer is collapsed, button will expand viewer
-  // Panorama viewer does not expand
-  // -------------------------------------------------------------------
-
-  &[data-expanded="false"] {
-
-    .gallery-viewer--expand {
-      position: relative;
-      right: 0; // 1px; // seems to be a browser rounding error as it's ok at random breakpoints
-      margin-right: -4.5em;
-      opacity: 1;
-
-      &::after {
-        content: "+";
-      }
-    }
-
-    &[data-panorama] {
-
-      .stack--liner {
-        height: 368px;
-
-        &::before {
-          display: block;
-        }
       }
     }
   }
@@ -567,6 +543,14 @@ $gallery-viewer-text-color: rgba(255, 255, 255, 1);
       .js & {
         display: block; // prevent table display from blowing out panorama width
         background: none !important; // prevent conflict with JS scroll
+      }
+    }
+
+    .stack--liner {
+      height: 368px;
+
+      &::before {
+        display: block; // icon
       }
     }
 
