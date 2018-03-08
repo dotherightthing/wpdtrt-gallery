@@ -171,7 +171,6 @@
 }
 
 .gallery-viewer .stack--liner::before {
-  content: "\e90a";
   position: absolute;
   top: 15.5px;
   top: 0.96875rem;
@@ -366,11 +365,8 @@
   background: none !important;
 }
 
-.gallery-viewer[data-panorama] .stack--liner {
-  height: 368px;
-}
-
 .gallery-viewer[data-panorama] .stack--liner::before {
+  content: "\e90a";
   display: block;
 }
 

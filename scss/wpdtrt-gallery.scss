@@ -234,7 +234,7 @@ $gallery-viewer-text-color: rgba(255, 255, 255, 1);
 
     &::before {
       @extend .gallery--icon;
-      content: "\e90a";
+      //content: "\e90a"; as required
       position: absolute;
       top: 15.5px;
       right: 24px;
@@ -248,7 +248,6 @@ $gallery-viewer-text-color: rgba(255, 255, 255, 1);
          1px 1px 0 $gallery-viewer-border-color;
 
       // only shown for data-panorama
-      // TODO fix 2-icons-at-once bug (#7)
       display: none;
     }
   }
@@ -547,10 +546,9 @@ $gallery-viewer-text-color: rgba(255, 255, 255, 1);
     }
 
     .stack--liner {
-      height: 368px;
-
       &::before {
-        display: block; // icon
+        content: "\e90a";
+        display: block;
       }
     }
 
