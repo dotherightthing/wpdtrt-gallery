@@ -268,50 +268,11 @@
   display: block;
 }
 
-.gallery-viewer[data-expanded="false"][data-rwgps-pageid] .gallery-viewer--expand, .gallery-viewer[data-expanded="false"][data-soundcloud-trackid] .gallery-viewer--expand, .gallery-viewer[data-expanded="false"][data-vimeo-pageid] .gallery-viewer--expand {
-  position: absolute;
-  bottom: 0;
-  right: 1px;
-  margin-right: 0;
-}
-
-.gallery-viewer[data-expanded="false"][data-rwgps-pageid] .gallery-viewer--header > h2, .gallery-viewer[data-expanded="false"][data-soundcloud-trackid] .gallery-viewer--header > h2, .gallery-viewer[data-expanded="false"][data-vimeo-pageid] .gallery-viewer--header > h2 {
-  margin-bottom: 0;
-}
-
-.gallery-viewer[data-expanded="false"][data-rwgps-pageid] .gallery-viewer--header > h2,
-.gallery-viewer[data-expanded="false"][data-rwgps-pageid] .gallery-viewer--caption, .gallery-viewer[data-expanded="false"][data-soundcloud-trackid] .gallery-viewer--header > h2,
-.gallery-viewer[data-expanded="false"][data-soundcloud-trackid] .gallery-viewer--caption, .gallery-viewer[data-expanded="false"][data-vimeo-pageid] .gallery-viewer--header > h2,
-.gallery-viewer[data-expanded="false"][data-vimeo-pageid] .gallery-viewer--caption {
-  background-color: black;
-  border: 4px solid black;
-}
-
-.gallery-viewer[data-expanded="false"][data-rwgps-pageid]:focus .stack--liner::after, .gallery-viewer[data-expanded="false"][data-soundcloud-trackid]:focus .stack--liner::after, .gallery-viewer[data-expanded="false"][data-vimeo-pageid]:focus .stack--liner::after {
-  border-color: transparent;
-}
-
-.gallery-viewer[data-expanded="false"][data-rwgps-pageid] .gallery-viewer--header,
-.gallery-viewer[data-expanded="false"][data-rwgps-pageid] .gallery-viewer--footer, .gallery-viewer[data-expanded="false"][data-soundcloud-trackid] .gallery-viewer--header,
-.gallery-viewer[data-expanded="false"][data-soundcloud-trackid] .gallery-viewer--footer, .gallery-viewer[data-expanded="false"][data-vimeo-pageid] .gallery-viewer--header,
-.gallery-viewer[data-expanded="false"][data-vimeo-pageid] .gallery-viewer--footer {
-  position: relative;
-  top: auto;
-  bottom: auto;
-  left: auto;
-  right: auto;
-}
-
-.gallery-viewer[data-expanded="false"][data-rwgps-pageid] .gallery-viewer--footer, .gallery-viewer[data-expanded="false"][data-soundcloud-trackid] .gallery-viewer--footer, .gallery-viewer[data-expanded="false"][data-vimeo-pageid] .gallery-viewer--footer {
-  background-color: white;
-  margin: 0;
-}
-
 .gallery-viewer[data-has-image="true"][data-expanded="true"] .gallery-viewer--expand {
   background-color: black;
   position: absolute;
   bottom: 0;
-  right: 0;
+  right: 1px;
   margin-right: 0;
 }
 

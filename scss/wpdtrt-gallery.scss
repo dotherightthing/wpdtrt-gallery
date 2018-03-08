@@ -383,57 +383,6 @@ $gallery-viewer-text-color: rgba(255, 255, 255, 1);
         }
       }
     }
-
-    &[data-rwgps-pageid],
-    &[data-soundcloud-trackid],
-    &[data-vimeo-pageid] {
-
-      .gallery-viewer--expand {
-        // pin to bottom of header / top of image
-        position: absolute;
-        bottom: 0;
-        right: 1px;
-        margin-right: 0;
-      }
-
-      .gallery-viewer--header > h2 {
-        margin-bottom: 0;
-      }
-
-      .gallery-viewer--header > h2,
-      .gallery-viewer--caption {
-        background-color: $gallery-viewer-border-color;
-        border: 4px solid $gallery-viewer-border-color;
-      }
-
-      &:focus {
-        .stack--liner {
-          &::after {
-            border-color: transparent;
-          }
-        }
-      }
-
-      .gallery-viewer--header,
-      .gallery-viewer--footer {
-        // when the image is expanded the text gets out of the way
-        // so that the image can be viewed in its entirety
-        // this also applies to media viewers
-        // which use their own layout within the 'image' area
-        position: relative;
-        top: auto;
-        bottom: auto;
-        left: auto;
-        right: auto;
-      }
-
-      .gallery-viewer--footer {
-        // apply white fill to the edges
-        background-color: $gallery-viewer-border-color-alt;
-        margin: 0;
-        // margin-left: 0; // apply white fill to the edges
-      }
-    }
   }
 
   // -------------------------------------------------------------------
@@ -448,7 +397,7 @@ $gallery-viewer-text-color: rgba(255, 255, 255, 1);
       // pin to bottom of header / top of image
       position: absolute;
       bottom: 0;
-      right: 0; // 1px;
+      right: 1px; // allow for rounding error here as it's more noticeable
       margin-right: 0;
 
       &:hover,

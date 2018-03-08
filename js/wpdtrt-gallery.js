@@ -66,12 +66,12 @@ var wpdtrt_gallery_ui = {
 	   */
 	  $gallery_item
 	    .attr( 'aria-controls',           viewer_id )
-	    .attr( 'data-position_y',         uri_query.position_y)
+	    .attr( 'data-position-y',         uri_query.position_y)
 	    .attr( 'data-initial',            uri_query.default )
-	    .attr( 'data-vimeo_pageid',       uri_query.vimeo_pageid )
-	    .attr( 'data-soundcloud_pageid',  uri_query.soundcloud_pageid )
-	    .attr( 'data-soundcloud_trackid', uri_query.soundcloud_trackid )
-	    .attr( 'data-rwgps_pageid',       uri_query.rwgps_pageid )
+	    .attr( 'data-vimeo-pageid',       uri_query.vimeo_pageid )
+	    .attr( 'data-soundcloud-pageid',  uri_query.soundcloud_pageid )
+	    .attr( 'data-soundcloud-trackid', uri_query.soundcloud_trackid )
+	    .attr( 'data-rwgps-pageid',       uri_query.rwgps_pageid )
 	    .attr( 'data-latitude',           uri_query.latitude )
 	    .attr( 'data-longitude',          uri_query.longitude )
 	    .attr( 'data-panorama',           uri_query.panorama )
@@ -91,27 +91,87 @@ var wpdtrt_gallery_ui = {
 	 * Expand or collapse the gallery viewer
 	 * @param {object} $ - jQuery
 	 * @param {object} $expand_button - jQuery gallery expand button
+	 * @param {boolean} triggered - Programmatically triggered
 	 * @return {boolean} viewer_is_expanded
 	 * @requires includes/attachment.php
 	 * @since 3.0.0
 	 */
-	gallery_viewer_toggle_expanded: function($, $expand_button) {
+	gallery_viewer_toggle_expanded: function($, $expand_button, triggered) {
 
 	  var $expand_button_text =   $expand_button.find('.says');
-
 	  var viewer_id =             $expand_button.attr('aria-controls');
 	  var $viewer =               $('#' + viewer_id);
 	  var $viewer_img =           $viewer.find('img');
 	  var $viewer_iframe =        $viewer.find('iframe');
 
 	  // read data- attributes from
-	  var viewer_is_expanded =    $viewer.attr('data-expanded');
 	  var vimeo_pageid =          $viewer.data('vimeo-pageid');
 	  var soundcloud_pageid =     $viewer.data('soundcloud-pageid');
 	  var soundcloud_trackid =    $viewer.data('soundcloud-trackid');
 	  var rwgps_pageid =          $viewer.data('rwgps-pageid');
 
-	  if ( viewer_is_expanded === 'false' ) {
+	  // the actual state
+	  var viewer_is_expanded =    $viewer.attr('data-expanded');
+
+	  // TODO research how jQuery returns truthy and falsey values
+	  if ( viewer_is_expanded === 'true' ) {
+	  	viewer_is_expanded = true;
+	  }
+	  else if ( viewer_is_expanded === 'false' ) {
+	  	viewer_is_expanded = false;
+	  }
+
+	  // a post-toggle state to reinstate
+	  var viewer_user_expand_state_intended = $viewer.attr('data-expanded-user');
+
+	  // TODO research how jQuery returns truthy and falsey values
+	  if ( viewer_user_expand_state_intended === 'true' ) {
+	  	viewer_user_expand_state_intended = true;
+	  }
+	  else if ( viewer_user_expand_state_intended === 'false' ) {
+	  	viewer_user_expand_state_intended = false;
+	  }
+
+	  // a post-toggle state to reinstate
+	  var viewer_force_expand_state_intended = $viewer.attr('data-expanded-forced');
+
+	  // TODO research how jQuery returns truthy and falsey values
+	  if ( viewer_force_expand_state_intended === 'true' ) {
+	  	viewer_force_expand_state_intended = true;
+	  }
+	  else if ( viewer_force_expand_state_intended === 'false' ) {
+	  	viewer_force_expand_state_intended = false;
+	  }
+
+	  // ------------------------------
+	  // force state
+	  // ------------------------------
+
+	  // force takes precendent over user state
+	  if ( viewer_force_expand_state_intended === true ) {
+	    $viewer.attr('data-expanded-user', viewer_is_expanded ); // save user state
+	    viewer_is_expanded = false; // in preparation for toggle
+	  }
+	  else if ( viewer_force_expand_state_intended === false ) {
+	    $viewer.attr('data-expanded-user', viewer_is_expanded ); // save user state
+	    viewer_is_expanded = true; // in preparation for toggle
+	  }
+	  else if ( viewer_user_expand_state_intended === true ) {
+	    viewer_is_expanded = false; // in preparation for toggle
+	    // delete saved user state
+	    $viewer.removeAttr('data-expanded-user');
+	  }
+	  else if ( viewer_user_expand_state_intended === false ) {
+	    viewer_is_expanded = true; // in preparation for toggle
+	    // delete saved user state
+	    $viewer.removeAttr('data-expanded-user');
+	  }
+
+	  // ------------------------------
+	  // toggle state
+	  // ------------------------------
+
+	  if ( viewer_is_expanded === false ) {
 
 	    // expand viewer and display the contract button
 	    $viewer
@@ -121,7 +181,7 @@ var wpdtrt_gallery_ui = {
 	    $expand_button_text
 	      .text('Show cropped image');
 	  }
-	  else if ( viewer_is_expanded === 'true' ) {
+	  else if ( viewer_is_expanded === true ) {
 
 	    // collapse viewer
 	    // scroll to the top of the viewer
@@ -141,9 +201,12 @@ var wpdtrt_gallery_ui = {
 	  }
 
 	  // focus the viewer
-	  $viewer
-	    .attr('tabindex', '-1')
-	      .focus();
+	  if ( ! triggered ) {
+		  $viewer
+		    .removeAttr('data-expanded-user')
+		    .attr('tabindex', '-1')
+		    .focus();
+	  }
 
 	  return ( ! viewer_is_expanded );
 	},
@@ -182,15 +245,22 @@ var wpdtrt_gallery_ui = {
 	  var $viewer_iframe =      $viewer.find('iframe');
 	  var $viewer_img =         $viewer.find('img');
 
-	  var vimeo_pageid =        $gallery_item.data('vimeo_pageid');
-	  var soundcloud_pageid =   $gallery_item.data('soundcloud_pageid');
-	  var soundcloud_trackid =  $gallery_item.data('soundcloud_trackid');
-	  var rwgps_pageid =        $gallery_item.data('rwgps_pageid');
+	  var vimeo_pageid =        $gallery_item.data('vimeo-pageid');
+	  var soundcloud_pageid =   $gallery_item.data('soundcloud-pageid');
+	  var soundcloud_trackid =  $gallery_item.data('soundcloud-trackid');
+	  var rwgps_pageid =        $gallery_item.data('rwgps-pageid');
+
+	  var $expand_button = $viewer.find('.gallery-viewer--expand');
 
 	  var embedHeightTimer;
 
 	  // set the src of the video iframe and unhide it
 	  if ( vimeo_pageid ) {
+
+		// expand viewer
+		$viewer.attr('data-expanded-forced', true);
+		$expand_button.trigger('click').hide();
+
 	    $viewer
 	      .attr('data-vimeo-pageid', vimeo_pageid);
 
@@ -209,6 +279,11 @@ var wpdtrt_gallery_ui = {
 	      .attr('aria-hidden', 'true');
 	  }
 	  else if ( soundcloud_pageid && soundcloud_trackid ) {
+
+		// expand viewer
+		$viewer.attr('data-expanded-forced', true);
+		$expand_button.trigger('click').hide();
+
 	    $viewer
 	      .attr('data-soundcloud-pageid', soundcloud_pageid) // https://soundcloud.com/dontbelievethehypenz/saxophonic-snack-manzhouli
 	      .attr('data-soundcloud-trackid', soundcloud_trackid); // 291457131
@@ -227,6 +302,11 @@ var wpdtrt_gallery_ui = {
 	      .attr('aria-hidden', 'true');
 	  }
 	  else if ( rwgps_pageid ) {
+
+		// expand viewer
+		$viewer.attr('data-expanded-forced', true);
+		$expand_button.trigger('click').hide();
+
 	    $viewer
 	      .attr('data-rwgps-pageid', rwgps_pageid); // https://ridewithgps.com/routes/18494494
 
@@ -260,6 +340,10 @@ var wpdtrt_gallery_ui = {
 	      .attr('aria-hidden', 'false');
 
 	      clearTimeout(embedHeightTimer);
+
+		// collapse viewer
+		$viewer.removeAttr('data-expanded-forced');
+		$expand_button.trigger('click').show();
 	  }
 	},
 
@@ -287,8 +371,9 @@ var wpdtrt_gallery_ui = {
 
 		if ( panorama ) {
 
-			$viewer.attr('data-expanded', 'false');
-			$expand_button.hide();
+			// expand viewer
+			$viewer.attr('data-expanded-forced', true);
+			$expand_button.trigger('click').hide();
 
 			// this data attribute toggles the overflow-x scrollbar
 			// which provides the correct $el[0].scrollWidth value
@@ -321,7 +406,7 @@ var wpdtrt_gallery_ui = {
 					})
 					.on('mouseleave.galleryScroll', function() {
 						clearInterval(galleryScrollTimer);
-					})
+					});
 
 			}, 100 );
 		}
@@ -331,7 +416,10 @@ var wpdtrt_gallery_ui = {
 			clearTimeout(galleryScrollSetup);
 
 			$viewer.removeAttr('data-panorama');
-			$expand_button.show();
+
+			// collapse viewer
+			$viewer.removeAttr('data-expanded-forced');
+			$expand_button.trigger('click').show();
 		}
 	},
 
@@ -370,7 +458,7 @@ var wpdtrt_gallery_ui = {
 	  $viewer_wrapper
 	    .css({
 	      'background-image': 'url(' + gallery_item_img_full + ')',
-	      'background-position': '50% ' + $gallery_item.data('position_y') + '%'
+	      'background-position': '50% ' + $gallery_item.data('position-y') + '%'
 	    });
 
 	  // set the source of the large image which is uncropped
@@ -440,10 +528,13 @@ var wpdtrt_gallery_ui = {
 	    //$expand_button.attr('tabindex', 0);
 
 	    $expand_button.click( function(e) {
+
+	      var triggered = e.originalEvent ? false : true;
+
 	      // prevent the click bubbling up to the viewer, creating an infinite loop
 	      e.stopPropagation();
 
-	      wpdtrt_gallery_ui.gallery_viewer_toggle_expanded($, $expand_button);
+	      wpdtrt_gallery_ui.gallery_viewer_toggle_expanded($, $expand_button, triggered);
 	    });
 
 	    $section_gallery_items.each( function(i, item) {
@@ -464,9 +555,9 @@ var wpdtrt_gallery_ui = {
 	        return;
 	      }
 
-	      wpdtrt_gallery_ui.gallery_viewer_panorama_update($, $viewer, $gallery_item);
-
 	      wpdtrt_gallery_ui.gallery_viewer_portrait_update($, $viewer, $gallery_item);
+
+	      wpdtrt_gallery_ui.gallery_viewer_panorama_update($, $viewer, $gallery_item);
 
 	      wpdtrt_gallery_ui.gallery_viewer_iframe_update($, $viewer, $gallery_item);
 
