@@ -29,15 +29,13 @@ function wpdtrt_gallery_atts( $output, $pairs, $atts ) {
 
 /**
 * Add attributes to gallery thumbnail links
-* These are transformed to data attributes by the UI JS
+* These are transformed to data attributes by the plugin JS
 *
 * @param $html
 * @param $id
 * @param $size
 * @param $permalink
 * @return string
-* @todo Update to query all fields in an ACF fieldgroup
-* @todo Create a gallery plugin for this
 */
 function wpdtrt_thumbnail_queryparams($html, $id, $size, $permalink) {
 
@@ -126,7 +124,7 @@ function wpdtrt_thumbnail_queryparams($html, $id, $size, $permalink) {
   $image_size_small = $image_size_mobile;
   $image_size_large = $panorama ? $image_size_panorama : $image_size_desktop;
 
-  // assign a list of variables by taking values from the image_src array
+  // set $link to values from the image_src array
   list( $link, , ) = wp_get_attachment_image_src( $id, $image_size_large );
 
   // store the other enlargement sizes in data attributes
