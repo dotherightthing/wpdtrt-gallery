@@ -316,6 +316,7 @@
 .entry-date .gallery-viewer[data-has-image="true"][data-expanded="true"] img {
   visibility: visible;
   max-height: none;
+  -webkit-user-drag: none;
 }
 
 .gallery-viewer[data-has-image="false"] .gallery-viewer--header > h2 {

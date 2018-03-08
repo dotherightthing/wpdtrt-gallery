@@ -452,6 +452,9 @@ $gallery-viewer-text-color: rgba(255, 255, 255, 1);
         // display at full height on expand
         visibility: visible;
         max-height: none;
+
+        // prevent mousedown+drag inside viewer from dragging a small version of the source panorama
+        -webkit-user-drag: none;
       }
     }
   }

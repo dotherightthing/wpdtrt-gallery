@@ -447,6 +447,14 @@ var wpdtrt_gallery_ui = {
 					})
 					.on('mouseleave.galleryScroll', function() {
 						clearInterval(galleryScrollTimer);
+					})
+					.on('mousedown.galleryScroll', function() {
+						// Use the scroll bar without fighting the cursor-based panning
+						clearInterval(galleryScrollTimer);
+					})
+					.on('mouseup.galleryScroll', function() {
+						// Reactivate the cursor-based panning
+						$gal.trigger('mouseenter.galleryScroll');
 					});
 
 			}, 100 );
