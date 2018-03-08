@@ -12,6 +12,22 @@
  */
 
 /**
+ * Change size of gallery thumbnail images and set attachment defaults
+ * @uses https://mekshq.com/change-image-thumbnail-size-in-wordpress-gallery/
+ * @see https://gist.github.com/mjsdiaz/7204576
+ */
+add_filter( 'shortcode_atts_gallery', 'wpdtrt_gallery_atts', 10, 3 );
+ 
+function wpdtrt_gallery_atts( $output, $pairs, $atts ) {
+
+  $output['columns'] = '2';
+  $output['link'] = 'file';
+  $output['size'] = 'wpdtrt-gallery-thumbnail';
+
+  return $output;
+}
+
+/**
 * Add attributes to gallery thumbnail links
 * These are transformed to data attributes by the UI JS
 *

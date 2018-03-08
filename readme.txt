@@ -44,6 +44,9 @@ Note:
 
 == Changelog ==
 
+= 1.3.0 =
+* Reduced thumbnail size and set attachment defaults
+
 = 1.2.0 =
 * Replaced buggy Paver panorama scroll with simpler solution
 
