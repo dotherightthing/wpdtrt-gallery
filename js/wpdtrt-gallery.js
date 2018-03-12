@@ -236,10 +236,11 @@ var wpdtrt_gallery_ui = {
 			// update the hidden button text
 			$expand_button_text.text('Show full image');
 
-			// scroll to the top of the viewer
-			$viewer.scrollView(100, 150);
+			if ( ! triggered ) {
+				// scroll to the top of the viewer
+				$viewer.scrollView(100, 150);
+			}
 		}
-
 
 		// update iframe size
 		if ( vimeo_pageid || ( soundcloud_pageid && soundcloud_trackid ) || rwgps_pageid ) {
