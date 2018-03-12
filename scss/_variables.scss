@@ -1,0 +1,23 @@
+//
+// Variables
+//
+// @link        https://github.com/dotherightthing/wpdtrt-gallery
+// @since       1.4.1
+//
+// @package     WPDTRT_Gallery
+// @subpackage  WPDTRT_Gallery/scss
+//
+
+@import "node_modules/include-media/dist/_include-media";
+
+// $breakpoints for include-media
+// 710+ wpdtrt-dbth 3 column layout
+// 910+ wpdtrt-dbth MENU button switches to an inline menu
+
+$breakpoints: (
+    phone: 320px,
+    phone_large: 400px,
+    tablet_small: 550px,
+    tablet: 710px,
+    desktop: 910px
+);

@@ -1,16 +1,20 @@
 /**
  * Styles for the public front-end
  *
- * This file contains CSS.
- *
  * @link        https://github.com/dotherightthing/wpdtrt-gallery
  * @since       0.1.0
  *
  * @package     WPDTRT_Gallery
- * @subpackage  WPDTRT_Gallery/css
+ * @subpackage  WPDTRT_Gallery/scss
  */
 /**
- * 12.2 - Galleries
+ * Variables
+ *
+ * @link        https://github.com/dotherightthing/wpdtrt-gallery
+ * @since       1.4.1
+ *
+ * @package     WPDTRT_Gallery
+ * @subpackage  WPDTRT_Gallery/scss
  */
 .gallery {
   position: relative;
@@ -433,7 +437,7 @@
   max-width: none;
 }
 
-@media screen and (min-width: 25em) {
+@media (min-width: 25.0625rem) {
   .gallery-columns-1 .gallery-item {
     max-width: 25%;
   }
@@ -463,7 +467,7 @@
   }
 }
 
-@media screen and (min-width: 34.375em) {
+@media (min-width: 34.4375rem) {
   .gallery-columns-1 .gallery-item {
     max-width: 20%;
   }
@@ -493,7 +497,7 @@
   }
 }
 
-@media screen and (min-width: 44.375em) {
+@media (min-width: 44.4375rem) {
   .gallery {
     text-align: right;
     max-width: none;
@@ -547,7 +551,7 @@
   }
 }
 
-@media screen and (min-width: 56.875em) {
+@media (min-width: 56.9375rem) {
   .gallery-item {
     display: block;
     float: left;

@@ -1,14 +1,14 @@
-/**
- * Styles for the public front-end
- *
- * This file contains CSS.
- *
- * @link        https://github.com/dotherightthing/wpdtrt-gallery
- * @since       0.1.0
- *
- * @package     WPDTRT_Gallery
- * @subpackage  WPDTRT_Gallery/css
- */
+//
+// Styles for the public front-end
+//
+// @link        https://github.com/dotherightthing/wpdtrt-gallery
+// @since       0.1.0
+//
+// @package     WPDTRT_Gallery
+// @subpackage  WPDTRT_Gallery/scss
+//
+
+ @import "variables";
 
 // -------------------------------------------------------------------
 // Variables
@@ -24,10 +24,6 @@ $gallery-viewer-text-color: rgba(255, 255, 255, 1);
 // -------------------------------------------------------------------
 // Styles
 // -------------------------------------------------------------------
-
-/**
- * 12.2 - Galleries
- */
 
 // Thumbnail icons
 
@@ -599,8 +595,7 @@ $gallery-viewer-text-color: rgba(255, 255, 255, 1);
 // Media Queries
 // -------------------------------------------------------------------
 
-// >= 400px
-@media screen and (min-width: 25em) {
+@include media('>phone_large') {
 
   .gallery-item {
 
@@ -612,8 +607,7 @@ $gallery-viewer-text-color: rgba(255, 255, 255, 1);
   }
 }
 
-// >= 550px
-@media screen and (min-width: 34.375em) {
+@include media('>tablet_small') {
 
   .gallery-item {
 
@@ -625,10 +619,7 @@ $gallery-viewer-text-color: rgba(255, 255, 255, 1);
   }
 }
 
-// >= 710px
-// At this BP that the WPDTRT DBTH 3 column layout is applied.
-
-@media screen and (min-width: 44.375em) {
+@include media('>tablet') {
 
   .gallery {
     text-align: right;
@@ -677,10 +668,7 @@ $gallery-viewer-text-color: rgba(255, 255, 255, 1);
   }
 }
 
-// 14.3 - >= 910px
-// This is the breakpoint that the WPDTRT DBTH MENU button switches to an inline menu
-
-@media screen and (min-width: 56.875em) {
+@include media('>desktop') {
 
   .gallery-item {
     display: block;

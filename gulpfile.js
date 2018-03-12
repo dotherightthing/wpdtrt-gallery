@@ -31,7 +31,7 @@ var scssFiles = './scss/*.scss';
 
 // tasks
 
-gulp.task('scss', function () {
+gulp.task('css', function () {
 
   var processors = [
       autoprefixer({
@@ -104,7 +104,7 @@ gulp.task('watch', function () {
 
 gulp.task( 'default', [
     'phplint',
-    'scss',
+    'css',
     'js',
     'watch'
   ]
