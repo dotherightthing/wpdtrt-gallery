@@ -12,9 +12,11 @@
     "generator-wp-plugin-boilerplate": "git+https://github.com/dotherightthing/generator-wp-plugin-boilerplate.git",
     "gulp": "^3.9.1",
     "gulp-autoprefixer": "^4.0.0",
+    "gulp-jshint": "^2.1.0",
     "gulp-phplint": "^0.3.4",
     "gulp-postcss": "^7.0.0",
     "gulp-sass": "^3.1.0",
+    "jshint": "^2.9.5",
     "postcss-pxtorem": "^4.0.1"
   },
   "scripts": {

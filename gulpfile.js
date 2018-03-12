@@ -14,18 +14,20 @@
 // dependencies
 var gulp = require('gulp');
 var autoprefixer = require('autoprefixer');
+var jshint = require('gulp-jshint');
 var phplint = require('gulp-phplint');
 var postcss = require('gulp-postcss');
 var pxtorem = require('postcss-pxtorem');
 var sass = require('gulp-sass');
 
-var scssDir = './scss/*.scss';
 var cssDir = './css/';
+var jsDir = './js/';
 var phpDir = [
   './**/*.php',
   '!vendor/**/*',
   '!node_modules/**/*'
 ];
+var scssDir = './scss/*.scss';
 
 // tasks
 
@@ -69,6 +71,16 @@ gulp.task('scss', function () {
     .pipe(gulp.dest(cssDir));
 });
 
+gulp.task('js', function() {
+  return gulp
+    .src(jsDir + '*.js')
+
+    // validate JS
+    .pipe(jshint())
+    .pipe(jshint.reporter('default', { verbose: true }))
+    .pipe(jshint.reporter('fail'));
+});
+
 gulp.task('phplint', function () {
   return gulp
     .src(phpDir)
@@ -92,6 +104,7 @@ gulp.task('watch', function () {
 gulp.task( 'default', [
     'phplint',
     'scss',
+    'js',
     'watch'
   ]
 );
