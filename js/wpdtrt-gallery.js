@@ -226,12 +226,16 @@ var wpdtrt_gallery_ui = {
 		// if the viewer is now expanded
 		if ( $viewer.attr('data-expanded') === 'true' ) {
 
+			$expand_button.attr('aria-expanded', true);
+
 			// update the hidden button text
 			$expand_button_text.text('Show cropped image');
 		}
 
 		// if the viewer is now collapsed
 		else if ( $viewer.attr('data-expanded') === 'false' ) {
+
+			$expand_button.attr('aria-expanded', false);
 
 			// update the hidden button text
 			$expand_button_text.text('Show full image');
@@ -593,7 +597,7 @@ var wpdtrt_gallery_ui = {
 	      .attr('data-has-image', true);
 
 	    $stack_link_viewer.find('.gallery-viewer--header')
-	      .append('<button id="' + section_id + '-viewer-expand" class="gallery-viewer--expand" aria-controls="' + viewer_id + '"><span class="says">Show full image</span></button>');
+	      .append('<button id="' + section_id + '-viewer-expand" class="gallery-viewer--expand" aria-expanded="false" aria-controls="' + viewer_id + '"><span class="says">Show full image</span></button>');
 
 	    var $expand_button = $('#' + section_id + '-viewer-expand');
 
