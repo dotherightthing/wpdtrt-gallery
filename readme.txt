@@ -5,7 +5,7 @@ Donate link: http://dotherightthing.co.nz
 Tags: gallery
 Requires at least: 4.8.1
 Tested up to: 4.9.4
-Stable tag: 1.3.1
+Stable tag: 1.3.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -43,6 +43,9 @@ Note:
 * Gallery settings must be: *Link To: Media File*, *Columns: 3*, *Size: Thumbnail*
 
 == Changelog ==
+
+= 1.3.2 =
+* Fixed focus bugs caused by updated panorama scripting
 
 = 1.3.1 =
 * Reduced dimensions of thumbnail image
