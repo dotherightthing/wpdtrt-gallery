@@ -25,14 +25,20 @@ $gallery-viewer-text-color: rgba(255, 255, 255, 1);
 // Styles
 // -------------------------------------------------------------------
 
+/**
+ * 12.2 - Galleries
+ */
+
 // Thumbnail icons
 
 .gallery {
   position: relative; /* stack on top of sticky nav */
   clear: left;
-  margin-left: 0;
-  margin-right: 0;
-  margin-bottom: 2em;
+  margin: 0 0 2em 0;
+
+  .js &[style] {
+    margin-top: 0 !important; // redundant?
+  }
 
   &::after {
     // maintain gaps between photo gallery and other media embeds
@@ -62,11 +68,13 @@ $gallery-viewer-text-color: rgba(255, 255, 255, 1);
 }
 
 .gallery-item {
-
+  display: inline-block;
   position: relative;
+  width: 100%;
   max-width: 25%;
-  padding: 0; /* prevent caption bleed */
-  margin-bottom: 5px; /* transferred from padding-bottom, prevents caption from bleeding out */
+  text-align: center;
+  vertical-align: top;
+  padding: 0 1.1400652% 2.2801304%;
 
   // Gallery thumb spacing
   // Note that change to one has to be applied to all, as horz padding/border affects the thumb height.
@@ -76,6 +84,12 @@ $gallery-viewer-text-color: rgba(255, 255, 255, 1);
   // this cannot be resolved as the caption follows the thumb link.
   // The alternate fix is to hide the overflow, but this hurts accessiblity.
   padding-left: 1px;
+
+  @for $i from 1 through 9 {
+    .gallery-columns-#{$i} & {
+      max-width: (100 / $i) * 1%; // $i columns
+    }
+  }
 
   a {
     position: relative; /* AP */
@@ -187,6 +201,13 @@ $gallery-viewer-text-color: rgba(255, 255, 255, 1);
     // user can enlarge image or link to media page to read caption
     display: none;
   }
+
+  .gallery-icon img {
+    width: 100%;
+    height: auto;
+    max-width: 100%;
+    margin: 0 auto;
+  }
 }
 
 // Enlargement viewer
@@ -197,7 +218,7 @@ $gallery-viewer-text-color: rgba(255, 255, 255, 1);
     position: relative; /* AP */
     z-index: 1; /* stack on top of sticky nav so that text can be selected */
     display: block;
-    margin-bottom: 2em;
+    margin-bottom: .5em;
   }
 
   &--header,
@@ -571,7 +592,33 @@ $gallery-viewer-text-color: rgba(255, 255, 255, 1);
 // Media Queries
 // -------------------------------------------------------------------
 
-// 14.1 - >= 710px
+// >= 400px
+@media screen and (min-width: 25em) {
+
+  .gallery-item {
+
+    @for $i from 1 through 9 {
+      .gallery-columns-#{$i} & {
+        max-width: 25%; // 4 columns
+      }
+    }
+  }
+}
+
+// >= 550px
+@media screen and (min-width: 34.375em) {
+
+  .gallery-item {
+
+    @for $i from 1 through 9 {
+      .gallery-columns-#{$i} & {
+        max-width: 20%; // 5 columns
+      }
+    }
+  }
+}
+
+// >= 710px
 // At this BP that the WPDTRT DBTH 3 column layout is applied.
 
 @media screen and (min-width: 44.375em) {
@@ -580,13 +627,22 @@ $gallery-viewer-text-color: rgba(255, 255, 255, 1);
     text-align: right;
     max-width: none;
     margin-bottom: 0;
+  }
 
-    > .gallery-item {
-      max-width: 100%;
+  .gallery-item {
+
+    @for $i from 1 through 9 {
+      .gallery-columns-#{$i} & {
+        max-width: 100%; // 1 column
+      }
     }
   }
 
   .gallery-viewer {
+
+    &.stack {
+      margin-bottom: 2em;
+    }
 
     &--expand {
       padding-top: .5em;
@@ -612,12 +668,14 @@ $gallery-viewer-text-color: rgba(255, 255, 255, 1);
 
 @media screen and (min-width: 56.875em) {
 
-  // display thumbnails
-  .gallery {
-    > .gallery-item {
-      display: block;
-      float: left;
-      max-width: 49.5%; // 1% leftover allows for gaps
+  .gallery-item {
+    display: block;
+    float: left;
+
+    @for $i from 1 through 9 {
+      .gallery-columns-#{$i} & {
+        max-width: 50%; // 2 columns
+      }
     }
   }
 }

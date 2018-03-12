@@ -12,7 +12,8 @@
  */
 
 /**
- * Change size of gallery thumbnail images and set attachment defaults
+ * Change size of gallery thumbnail images and set attachment defaults.
+ *  This affects the front-end, overriding the selections in wp-admin.
  * @uses https://mekshq.com/change-image-thumbnail-size-in-wordpress-gallery/
  * @see https://gist.github.com/mjsdiaz/7204576
  */
@@ -20,7 +21,7 @@ add_filter( 'shortcode_atts_gallery', 'wpdtrt_gallery_atts', 10, 3 );
  
 function wpdtrt_gallery_atts( $output, $pairs, $atts ) {
 
-  $output['columns'] = '2';
+  $output['columns'] = '3';
   $output['link'] = 'file';
   $output['size'] = 'wpdtrt-gallery-thumbnail';
 
