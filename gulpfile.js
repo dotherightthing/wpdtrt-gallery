@@ -102,17 +102,17 @@ gulp.task('watch', function () {
   gulp.watch( jsFiles, ['js'] );
 });
 
-gulp.task( 'travis', [
-    'phplint',
-    'css',
-    'js'
-  ]
-);
-
 gulp.task( 'default', [
     'phplint',
     'css',
     'js',
     'watch'
+  ]
+);
+
+gulp.task( 'dist', [
+    'phplint',
+    'css',
+    'js'
   ]
 );
