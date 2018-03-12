@@ -433,7 +433,8 @@ var wpdtrt_gallery_ui = {
 					mX2 = 0, // Modified mouse position
 					posX = 0,
 					mmAA = galW - (mPadd * 2), // The mousemove available area
-					mmAAr = (galW / mmAA); // get available mousemove difference ratio
+					mmAAr = (galW / mmAA), // get available mousemove difference ratio
+					tabindex = null;
 
 				$gal
 					.on('mousemove.galleryScroll', function(e) {
@@ -445,6 +446,15 @@ var wpdtrt_gallery_ui = {
 							posX += (mX2 - posX) / damp; // zeno's paradox equation "catching delay"	
 							$gal.scrollLeft(posX * wDiff);
 						}, 10);
+
+						tabindex = $viewer.attr('data-tabindex');
+
+						if ( tabindex ) {
+							$viewer
+								.attr('tabindex', tabindex)
+								.removeAttr('data-tabindex');
+						}
+
 					})
 					.on('mouseleave.galleryScroll', function() {
 						clearInterval(galleryScrollTimer);
@@ -452,6 +462,15 @@ var wpdtrt_gallery_ui = {
 					.on('mousedown.galleryScroll', function() {
 						// Use the scroll bar without fighting the cursor-based panning
 						clearInterval(galleryScrollTimer);
+
+						// Prevent viewer container from stealing the focus
+						tabindex = $viewer.attr('tabindex');
+
+						if ( tabindex ) {
+							$viewer
+								.attr('data-tabindex', tabindex)
+								.removeAttr('tabindex');
+						}
 					})
 					.on('mouseup.galleryScroll', function() {
 						// Reactivate the cursor-based panning
