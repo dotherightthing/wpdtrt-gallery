@@ -7,3 +7,7 @@ install:
   - bower install
 script:
   - gulp travis
+notifications:
+  email: false
+  slack:
+    on_success: always
