@@ -5,7 +5,7 @@ Donate link: http://dotherightthing.co.nz
 Tags: gallery
 Requires at least: 4.8.1
 Tested up to: 4.9.4
-Stable tag: 1.4.0
+Stable tag: 1.4.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -37,12 +37,15 @@ $heading = 'Heading to wrap';
 echo do_shortcode('[wpdtrt-gallery-h2]<h2>' . $heading . '</h2>[/wpdtrt-gallery-h2]');
 ```
 
-Note:
+= Caveats =
 
-* A WordPress gallery must immediately follow the `<h2>` heading.
-* Gallery settings must be: *Link To: Media File*, *Columns: 3*, *Size: Thumbnail*
+* A WordPress gallery must immediately follow the `<h2>` heading
 
 == Changelog ==
+
+= 1.4.1 =
+* Hide thumbnail when it is the only one in a gallery
+* Update media query syntax
 
 = 1.4.0 =
 * Merge in styles from wpdtrt-dbth
