@@ -91,6 +91,13 @@ $gallery-viewer-text-color: rgba(255, 255, 255, 1);
     }
   }
 
+  // if there is only one thumbnail, don't display it
+  &:first-child:last-child {
+    .js & {
+      display: none;
+    }
+  }
+
   a {
     position: relative; /* AP */
     display: block; /* better transition over state */
@@ -636,6 +643,13 @@ $gallery-viewer-text-color: rgba(255, 255, 255, 1);
         max-width: 100%; // 1 column
       }
     }
+
+    // if there is only one thumbnail, do display it
+    &:first-child:last-child {
+      .js & {
+        display: inline-block;
+      }
+    }
   }
 
   .gallery-viewer {
@@ -671,6 +685,14 @@ $gallery-viewer-text-color: rgba(255, 255, 255, 1);
   .gallery-item {
     display: block;
     float: left;
+
+    // if there is only one thumbnail, do display it
+    &,
+    &:first-child:last-child {
+      .js & {
+        display: block;
+      }
+    }
 
     @for $i from 1 through 9 {
       .gallery-columns-#{$i} & {

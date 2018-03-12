@@ -91,6 +91,10 @@
   max-width: 11.11111%;
 }
 
+.js .gallery-item:first-child:last-child {
+  display: none;
+}
+
 .gallery-item a {
   position: relative;
   /* AP */
@@ -522,6 +526,9 @@
   .gallery-columns-9 .gallery-item {
     max-width: 100%;
   }
+  .js .gallery-item:first-child:last-child {
+    display: inline-block;
+  }
   .gallery-viewer.stack {
     margin-bottom: 2em;
   }
@@ -544,6 +551,9 @@
   .gallery-item {
     display: block;
     float: left;
+  }
+  .js .gallery-item, .js .gallery-item:first-child:last-child {
+    display: block;
   }
   .gallery-columns-1 .gallery-item {
     max-width: 50%;
