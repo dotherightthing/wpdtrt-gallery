@@ -21,13 +21,13 @@ var pxtorem = require('postcss-pxtorem');
 var sass = require('gulp-sass');
 
 var cssDir = './css/';
-var jsDir = './js/';
-var phpDir = [
+var jsFiles = './js/*.js';
+var phpFiles = [
   './**/*.php',
   '!vendor/**/*',
   '!node_modules/**/*'
 ];
-var scssDir = './scss/*.scss';
+var scssFiles = './scss/*.scss';
 
 // tasks
 
@@ -65,7 +65,7 @@ gulp.task('scss', function () {
   ];
 
   return gulp
-    .src(scssDir)
+    .src(scssFiles)
     .pipe(sass({outputStyle: 'expanded'}))
     .pipe(postcss(processors))
     .pipe(gulp.dest(cssDir));
@@ -73,7 +73,7 @@ gulp.task('scss', function () {
 
 gulp.task('js', function() {
   return gulp
-    .src(jsDir + '*.js')
+    .src(jsFiles)
 
     // validate JS
     .pipe(jshint())
@@ -83,7 +83,7 @@ gulp.task('js', function() {
 
 gulp.task('phplint', function () {
   return gulp
-    .src(phpDir)
+    .src(phpFiles)
 
     // validate PHP
     // The linter ships with PHP
@@ -98,7 +98,8 @@ gulp.task('phplint', function () {
 });
 
 gulp.task('watch', function () {
-  gulp.watch( scssDir, ['scss'] );
+  gulp.watch( scssFiles, ['scss'] );
+  gulp.watch( jsFiles, ['js'] );
 });
 
 gulp.task( 'default', [
