@@ -23,3 +23,4 @@ deploy:
   on:
     repo: dotherightthing/wpdtrt-gallery
     branch: master
+    tags: true
