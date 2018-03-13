@@ -1,7 +1,6 @@
-docs
-generators
+css
+dist
 logs
 node_modules
-tests
-composer.phar
 .DS_Store
+release.zip

@@ -14,13 +14,17 @@
 // dependencies
 var gulp = require('gulp');
 var autoprefixer = require('autoprefixer');
+var del = require('del');
 var jshint = require('gulp-jshint');
 var phplint = require('gulp-phplint');
 var postcss = require('gulp-postcss');
 var pxtorem = require('postcss-pxtorem');
+var runSequence = require('run-sequence');
 var sass = require('gulp-sass');
+var zip = require('gulp-zip');
 
-var cssDir = './css/';
+var cssDir = 'css';
+var distDir = 'dist';
 var jsFiles = './js/*.js';
 var phpFiles = [
   './**/*.php',
@@ -71,6 +75,15 @@ gulp.task('css', function () {
     .pipe(gulp.dest(cssDir));
 });
 
+// works best when run at the start rather than the end of the dist task
+gulp.task('delDist', function () {
+  return del([
+    cssDir,
+    distDir,
+    'release.zip'
+  ]);
+});
+
 gulp.task('js', function() {
   return gulp
     .src(jsFiles)
@@ -102,17 +115,42 @@ gulp.task('watch', function () {
   gulp.watch( jsFiles, ['js'] );
 });
 
-gulp.task( 'default', [
-    'phplint',
-    'css',
-    'js',
-    'watch'
-  ]
-);
+gulp.task('zipDist', function() {
+  gulp.src([
+    './app/**/*',
+    './config/**/*',
+    './css/**/*',
+    './js/**/*',
+    './languages/**/*',
+    './templates/**/*',
+    './index.php',
+    './readme.txt',
+    './uninstall.php',
+    './wpdtrt-gallery.php'
+  ], { base: '.' })
+  .pipe(gulp.dest(distDir))
+  .pipe(zip('release.zip'))
+  .pipe(gulp.dest('./'))
+});
 
-gulp.task( 'dist', [
+gulp.task( 'build', [
     'phplint',
     'css',
     'js'
   ]
 );
+
+gulp.task('default', function(callback) {
+  runSequence(
+    'build',
+    'watch'
+  );
+});
+
+gulp.task('dist', function(callback) {
+  runSequence(
+    'delDist',
+    'build',
+    'zipDist'
+  );
+});
