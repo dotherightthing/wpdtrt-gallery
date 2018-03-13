@@ -19,7 +19,10 @@ $gallery-viewer-border-color: rgba(0, 0, 0, 1);
 $gallery-viewer-border-color-focus: rgba(0, 0, 0, .85);
 $gallery-viewer-border-color-alt: rgba(255, 255, 255, 1);
 $gallery-viewer-button-color-alt: rgba(102, 102, 102, 1);
+$gallery-viewer-bg-color-page: rgba(255, 255, 255, 1);
 $gallery-viewer-text-color: rgba(255, 255, 255, 1);
+$gallery-viewer-bg-color-embed: rgba(0, 0, 0, .05);
+$gallery-viewer-icon-embed: rgba(0, 0, 0, .4);
 
 // -------------------------------------------------------------------
 // Styles
@@ -94,32 +97,36 @@ $gallery-viewer-text-color: rgba(255, 255, 255, 1);
     }
   }
 
+  &--icon {
+    // type icon
+    position: absolute;
+    top: 0;
+    vertical-align: top;
+    line-height: 100%;
+    color: #fff;
+    text-shadow:
+     -1px -1px 0 #000,
+      1px -1px 0 #000,
+      -1px 1px 0 #000,
+       1px 1px 0 #000;
+    width: 100%;
+    height: 100%;
+    border: 4px solid transparent;
+
+    content: "+";
+    right: 0;
+    font-size: 1.5em;
+    text-align: right;
+    padding-right: .3em;
+  }
+
   a {
-    position: relative; /* AP */
-    display: block; /* better transition over state */
+    position: relative; // AP
+    display: block; // better transition over state
     box-shadow: 0 0 0 0 currentColor;
 
     &::before {
-      // type icon
-      position: absolute;
-      top: 0;
-      vertical-align: top;
-      line-height: 100%;
-      color: #fff;
-      text-shadow:
-       -1px -1px 0 #000,
-        1px -1px 0 #000,
-        -1px 1px 0 #000,
-         1px 1px 0 #000;
-      width: 100%;
-      height: 100%;
-      border: 4px solid transparent;
-
-      content: "+";
-      right: 0;
-      font-size: 1.5em;
-      text-align: right;
-      padding-right: .3em;
+      @extend .gallery-item--icon;
     }
 
     &:hover,
@@ -170,8 +177,8 @@ $gallery-viewer-text-color: rgba(255, 255, 255, 1);
     }
 
     &[data-panorama],
-    &[data-soundcloud_pageid],
-    &[data-vimeo_pageid] {
+    &[data-soundcloud-pageid],
+    &[data-vimeo-pageid] {
       &::before {
         @extend .gallery--icon;
         padding-top: .3em;
@@ -185,15 +192,15 @@ $gallery-viewer-text-color: rgba(255, 255, 255, 1);
       }
     }
 
-    &[data-soundcloud_pageid],
-    &[data-soundcloud_pageid][data-viewing="true"] {
+    &[data-soundcloud-pageid],
+    &[data-soundcloud-pageid][data-viewing="true"] {
       &::before {
         content: "\e90c";
       }
     }
 
-    &[data-vimeo_pageid],
-    &[data-vimeo_pageid][data-viewing="true"] {
+    &[data-vimeo-pageid],
+    &[data-vimeo-pageid][data-viewing="true"] {
       &::before {
         content: "\e90b";
       }
@@ -256,23 +263,31 @@ $gallery-viewer-text-color: rgba(255, 255, 255, 1);
     text-align: left;
     background: none;
 
-    &::before {
+    &--icon-hint {
       @extend .gallery--icon;
-      //content: "\e90a"; as required
       position: absolute;
+      z-index: 2;
       top: 15.5px;
       right: 24px;
       color: $gallery-viewer-text-color;
       font-size: 1.4em;
-      z-index: 2;
       text-shadow:
        -1px -1px 0 $gallery-viewer-border-color,
         1px -1px 0 $gallery-viewer-border-color,
         -1px 1px 0 $gallery-viewer-border-color,
          1px 1px 0 $gallery-viewer-border-color;
+    }
 
-      // only shown for data-panorama
-      display: none;
+    &--icon-embed {
+      @extend .gallery--icon;
+      position: absolute;
+      z-index: 0;
+      top: 50%;
+      left: 50%;
+      color: $gallery-viewer-icon-embed;
+      font-size: 48px;
+      margin-top: -(48px/2);
+      margin-left: -(48px/2);
     }
   }
 
@@ -297,7 +312,7 @@ $gallery-viewer-text-color: rgba(255, 255, 255, 1);
 
   iframe {
     position: relative;
-    z-index: 1; /* make buttons clickable */
+    z-index: 1; // make buttons clickable
     margin-bottom: 0;
   }
 
@@ -574,8 +589,8 @@ $gallery-viewer-text-color: rgba(255, 255, 255, 1);
 
     .stack--liner {
       &::before {
+        @extend .stack--liner--icon-hint;
         content: "\e90a";
-        display: block;
       }
     }
 
@@ -587,6 +602,61 @@ $gallery-viewer-text-color: rgba(255, 255, 255, 1);
       visibility: visible;
       width: auto;
       max-width: none;
+    }
+  }
+
+  // -------------------------------------------------------------------
+  // Display media icon behind iframe embeds to mitigate delayed load
+  // -------------------------------------------------------------------
+
+  &[data-soundcloud-pageid] {
+
+    .stack--liner {
+      background-color: $gallery-viewer-bg-color-embed;
+      &::before {
+        @extend .stack--liner--icon-embed;
+        content: "\e90c";
+      }
+
+      .gallery-viewer--footer {
+        background-color: $gallery-viewer-bg-color-page;
+      }
+    }
+  }
+
+  &[data-vimeo-pageid] {
+
+    .stack--liner {
+      background-color: $gallery-viewer-bg-color-embed;
+
+      // embedresponsively.com
+      position: relative;
+      padding-bottom: 56.25%;
+      height: 0;
+      overflow: hidden;
+      max-width: 100%;
+
+      iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;    
+      }
+
+      &::before {
+        @extend .stack--liner--icon-embed;
+        content: "\e90b";
+      }
+
+      img {
+        max-height: 368px;
+        visibility: hidden;
+      }
+
+      .gallery-viewer--footer {
+        background-color: $gallery-viewer-bg-color-page;
+      }
     }
   }
 }

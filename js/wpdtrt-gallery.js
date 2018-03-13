@@ -247,7 +247,7 @@ var wpdtrt_gallery_ui = {
 		}
 
 		// update iframe size
-		if ( vimeo_pageid || ( soundcloud_pageid && soundcloud_trackid ) || rwgps_pageid ) {
+		if ( rwgps_pageid ) {
 			$viewer_iframe.attr('height', $viewer_img.height() );
 		}
 
@@ -295,14 +295,27 @@ var wpdtrt_gallery_ui = {
 	  var $viewer_iframe =      $viewer.find('iframe');
 	  var $viewer_img =         $viewer.find('img');
 
+	  var $gallery_item = 		$gallery_item_link.parent().parent();
+
 	  var vimeo_pageid =        $gallery_item_link.data('vimeo-pageid');
 	  var soundcloud_pageid =   $gallery_item_link.data('soundcloud-pageid');
 	  var soundcloud_trackid =  $gallery_item_link.data('soundcloud-trackid');
 	  var rwgps_pageid =        $gallery_item_link.data('rwgps-pageid');
+	  var is_default = 			$gallery_item_link.data('initial');
 
 	  var $expand_button = 		$viewer.find('.gallery-viewer--expand');
 
 	  var embedHeightTimer;
+
+	  // Disabled as working but inconsistent
+	  // TODO update this to only apply on page load - i.e. if triggered (#31)
+	  var autoplay = 			false; // true;
+
+	  // if first thumbnail in the gallery or
+	  // not first thumbnail but elected to display first
+	  //if ( $gallery_item.is(':first-child') || is_default ) {
+	  //	autoplay = false;
+	  //}
 
 	  // set the src of the video iframe and unhide it
 	  if ( vimeo_pageid ) {
@@ -316,14 +329,9 @@ var wpdtrt_gallery_ui = {
 
 	    // adapted from https://appleple.github.io/modal-video/
 	    $viewer_iframe
-	      .attr('src', '//player.vimeo.com/video/' + vimeo_pageid + '?api=false&autopause=true&autoplay=false&byline=false&loop=false&portrait=false&title=false&xhtml=false')
-	      .attr('height', $viewer_img.height() )
+	      .attr('src', '//player.vimeo.com/video/' + vimeo_pageid + '?api=false&autopause=' + !autoplay + '&autoplay=' + autoplay + '&byline=false&loop=false&portrait=false&title=false&xhtml=false')
+	      .attr('height', '368px')
 	      .attr('aria-hidden', 'false');
-
-	    embedHeightTimer = setTimeout( function() {
-	      $viewer_iframe
-	        .attr('height', $viewer_img.height() );
-	    }, 500);
 
 	    $viewer_img
 	      .attr('aria-hidden', 'true');
@@ -339,14 +347,9 @@ var wpdtrt_gallery_ui = {
 	      .attr('data-soundcloud-trackid', soundcloud_trackid); // 291457131
 
 	    $viewer_iframe
-	      .attr('src', '//w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/' + soundcloud_trackid + '?auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&visual=true')
-	      .attr('height', $viewer_img.height() )
+	      .attr('src', '//w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/' + soundcloud_trackid + '?auto_play=' + autoplay + '&hide_related=true&show_comments=false&show_user=false&show_reposts=false&visual=true')
+	      .attr('height', '368px')
 	      .attr('aria-hidden', 'false');
-
-	    embedHeightTimer = setTimeout( function() {
-	      $viewer_iframe
-	        .attr('height', $viewer_img.height() );
-	    }, 500);
 
 	    $viewer_img
 	      .attr('aria-hidden', 'true');
