@@ -125,6 +125,7 @@ gulp.task('copyDist', function() {
     './js/**/*',
     './languages/**/*',
     './templates/**/*',
+    './vendor/**/*',
     './index.php',
     './readme.txt',
     './uninstall.php',
