@@ -111,7 +111,7 @@ gulp.task('phplint', function () {
 });
 
 gulp.task('watch', function () {
-  gulp.watch( scssFiles, ['scss'] );
+  gulp.watch( scssFiles, ['css'] );
   gulp.watch( jsFiles, ['js'] );
 });
 
