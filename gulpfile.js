@@ -6,7 +6,7 @@
  *
  * @package     WPDTRT_Gallery
  * @since       1.2.0
- * @version     1.0.0
+ * @version     1.1.0
  */
 
 /* global require */
@@ -115,8 +115,10 @@ gulp.task('watch', function () {
   gulp.watch( jsFiles, ['js'] );
 });
 
-gulp.task('zipDist', function() {
-  gulp.src([
+gulp.task('copyDist', function() {
+  // Return the event stream to gulp.task to inform the task of when the stream ends
+  // https://stackoverflow.com/a/32188928/6850747
+  return gulp.src([
     './app/**/*',
     './config/**/*',
     './css/**/*',
@@ -128,7 +130,15 @@ gulp.task('zipDist', function() {
     './uninstall.php',
     './wpdtrt-gallery.php'
   ], { base: '.' })
-  .pipe(gulp.dest(distDir))
+  .pipe(gulp.dest(distDir + '/wpdtrt-gallery'))
+});
+
+gulp.task('zipDist', function() {
+  // Return the event stream to gulp.task to inform the task of when the stream ends
+  // https://stackoverflow.com/a/32188928/6850747
+  return gulp.src([
+    './' + distDir + '/**/*'
+  ], { base: '.' })
   .pipe(zip('release.zip'))
   .pipe(gulp.dest('./'))
 });
@@ -151,6 +161,7 @@ gulp.task('dist', function(callback) {
   runSequence(
     'delDist',
     'build',
+    'copyDist',
     'zipDist'
   );
 });
