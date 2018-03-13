@@ -44,17 +44,17 @@ var wpdtrt_gallery_ui = {
 	 * Convert query params into data attributes
 	 * for easy configuration of the gallery viewer
 	 * @param {object} $ - jQuery
-	 * @param {object} $gallery_item - jQuery gallery item
+	 * @param {object} $gallery_item_link - jQuery gallery thumbnail link
 	 * @param {string} viewer_id
 	 * @requires includes/attachment.php
 	 * @since 3.0.0
 	 */
-	gallery_viewer_data: function($, $gallery_item, viewer_id) {
+	gallery_viewer_data: function($, $gallery_item_link, viewer_id) {
 
 	  /**
 	   * Gallery settings are passed in via PHP manipulation of the thumbnail URL
 	   */
-	  var href = $gallery_item.attr('href');
+	  var href = $gallery_item_link.attr('href');
 	  var uri = new URI( href );
 	  var uri_domain = uri.domain();
 	  var uri_query = uri.search(true);
@@ -64,7 +64,7 @@ var wpdtrt_gallery_ui = {
 	   * the data- attribute will be set to undefined
 	   * which results in it being suppressed
 	   */
-	  $gallery_item
+	  $gallery_item_link
 	    .attr( 'aria-controls',           viewer_id )
 	    .attr( 'data-position-y',         uri_query.position_y)
 	    .attr( 'data-initial',            uri_query.default )
@@ -82,7 +82,7 @@ var wpdtrt_gallery_ui = {
 	   * exclude Google maps
 	   */
 	  if ( uri_domain.match(/dontbelievethehype/) ) {
-	    $gallery_item.attr('href', uri.search('') );
+	    $gallery_item_link.attr('href', uri.search('') );
 	  }
 
 	},
@@ -265,15 +265,15 @@ var wpdtrt_gallery_ui = {
 	 * Update the gallery caption to match the selected image
 	 * @param {object} $ - jQuery
 	 * @param {object} $viewer - jQuery gallery viewer
-	 * @param {object} $gallery_item - jQuery gallery thumbnail
+	 * @param {object} $gallery_item_link - jQuery gallery thumbnail link
 	 * @return {string} gallery_item_caption
 	 * @requires includes/attachment.php
 	 * @since 3.0.0
 	 */
-	gallery_viewer_caption_update: function($, $viewer, $gallery_item) {
+	gallery_viewer_caption_update: function($, $viewer, $gallery_item_link) {
 
 	  var $viewer_caption =       $viewer.find('.gallery-viewer--caption');
-	  var gallery_item_caption =  $.trim( $gallery_item.parent().next('figcaption').text() );
+	  var gallery_item_caption =  $.trim( $gallery_item_link.parent().next('figcaption').text() );
 
 	  // set the text of the large image caption
 	  $viewer_caption
@@ -286,21 +286,21 @@ var wpdtrt_gallery_ui = {
 	 * Update the gallery iframe to display a video, audio file, or interactive map
 	 * @param {object} $ - jQuery
 	 * @param {object} $viewer - jQuery gallery viewer
-	 * @param {object} $gallery_item - jQuery gallery thumbnail
+	 * @param {object} $gallery_item_link - jQuery gallery thumbnail link
 	 * @requires includes/attachment.php
 	 * @since 3.0.0
 	 */
-	gallery_viewer_iframe_update: function($, $viewer, $gallery_item) {
+	gallery_viewer_iframe_update: function($, $viewer, $gallery_item_link) {
 
 	  var $viewer_iframe =      $viewer.find('iframe');
 	  var $viewer_img =         $viewer.find('img');
 
-	  var vimeo_pageid =        $gallery_item.data('vimeo-pageid');
-	  var soundcloud_pageid =   $gallery_item.data('soundcloud-pageid');
-	  var soundcloud_trackid =  $gallery_item.data('soundcloud-trackid');
-	  var rwgps_pageid =        $gallery_item.data('rwgps-pageid');
+	  var vimeo_pageid =        $gallery_item_link.data('vimeo-pageid');
+	  var soundcloud_pageid =   $gallery_item_link.data('soundcloud-pageid');
+	  var soundcloud_trackid =  $gallery_item_link.data('soundcloud-trackid');
+	  var rwgps_pageid =        $gallery_item_link.data('rwgps-pageid');
 
-	  var $expand_button = $viewer.find('.gallery-viewer--expand');
+	  var $expand_button = 		$viewer.find('.gallery-viewer--expand');
 
 	  var embedHeightTimer;
 
@@ -398,14 +398,14 @@ var wpdtrt_gallery_ui = {
 	 * Update the gallery panorama
 	 * @param {object} $ - jQuery
 	 * @param {object} $viewer - jQuery gallery viewer
-	 * @param {object} $gallery_item - jQuery gallery thumbnail
+	 * @param {object} $gallery_item_link - jQuery gallery thumbnail link
 	 * @uses https://stackoverflow.com/a/17308232/6850747
 	 * @since 3.0.0
 	 * @todo Add startPosition parameter in media.php (panorama_position_x)
 	 */
-	gallery_viewer_panorama_update: function($, $viewer, $gallery_item) {
+	gallery_viewer_panorama_update: function($, $viewer, $gallery_item_link) {
 
-		var panorama =        $gallery_item.data('panorama');
+		var panorama =        $gallery_item_link.data('panorama');
 		var $expand_button =  $viewer.find('.gallery-viewer--expand');
 		var $scroll_liner =   $viewer.find('.img-wrapper');
 		var $gal = 			  $scroll_liner;
@@ -499,46 +499,46 @@ var wpdtrt_gallery_ui = {
 	 * Update the gallery image
 	 * @param {object} $ - jQuery
 	 * @param {object} $viewer - jQuery gallery viewer
-	 * @param {object} $gallery_item - jQuery gallery thumbnail
+	 * @param {object} $gallery_item_link - jQuery gallery thumbnail link
 	 * @requires includes/attachment.php
 	 * @since 3.0.0
 	 */
-	gallery_viewer_image_update: function($, $viewer, $gallery_item) {
+	gallery_viewer_image_update: function($, $viewer, $gallery_item_link) {
 
 	  var $expand_button = 			$viewer.find('.gallery-viewer--expand');
-	  var $gallery_item_image =     $gallery_item.find('img');
-	  var gallery_item_alt =        $gallery_item_image.attr('alt');
-	  var gallery_item_img_full =   $gallery_item.attr('href');
+	  var $gallery_item_image =     $gallery_item_link.find('img');
+	  var gallery_item_image_alt = 	$gallery_item_image.attr('alt');
+	  var gallery_item_image_full = $gallery_item_link.attr('href');
 
 	  // the generated enlargement
 	  var viewer_id =               $viewer.attr('id');
 	  var $viewer_wrapper =         $viewer.find('.stack--wrapper');
 
 	  // the other gallery items
-	  var $gallery_items = 			$('[aria-controls="' + viewer_id + '"]');
+	  var $gallery_item_links = 	$('[aria-controls="' + viewer_id + '"]');
 
 	  // unview existing thumbnail and reinstate into tab order
-	  $gallery_items
+	  $gallery_item_links
 	    .removeAttr('data-viewing')
 	    .removeAttr('tabindex');
 
 	  // view the selected thumbnail and remove from tab order
-	  $gallery_item
+	  $gallery_item_link
 	    .attr('data-viewing', true)
 	    .attr('tabindex', '-1');
 
 	  // set the source of the large image at the appropriate crop
 	  $viewer_wrapper
 	    .css({
-	      'background-image': 'url(' + gallery_item_img_full + ')',
-	      'background-position': '50% ' + $gallery_item.data('position-y') + '%'
+	      'background-image': 'url(' + gallery_item_image_full + ')',
+	      'background-position': '50% ' + $gallery_item_link.data('position-y') + '%'
 	    });
 
 	  // set the source of the large image which is uncropped
 	  // after gallery_viewer_panorama_update
 	  $viewer.find('img')
-	    .attr('src', gallery_item_img_full )
-	    .attr('alt', gallery_item_alt);
+	    .attr('src', gallery_item_image_full )
+	    .attr('alt', gallery_item_image_alt);
 
 		// setup viewer
 		$expand_button.trigger('click');
@@ -569,7 +569,7 @@ var wpdtrt_gallery_ui = {
 	    var $stack_link_viewer =      $section.find('.stack_link_viewer');
 	    var $heading =                $stack_link_viewer.find('.gallery-viewer--heading');
 	    var $stack_wrapper =          $stack_link_viewer.find('.stack--wrapper');
-	    var $section_gallery_items =  $section_gallery.find('a');
+	    var $section_gallery_item_links =  $section_gallery.find('a');
 
 	    if ( $stack_link_viewer.attr('data-attachment') ) {
 	      return;
@@ -613,47 +613,47 @@ var wpdtrt_gallery_ui = {
 	      wpdtrt_gallery_ui.gallery_viewer_toggle_expanded($, $expand_button, triggered);
 	    });
 
-	    $section_gallery_items.each( function(i, item) {
+	    $section_gallery_item_links.each( function(i, item) {
 	      wpdtrt_gallery_ui.gallery_viewer_data( $, $(item), viewer_id );
 	    });
 
-	    $section_gallery_items.click( function(e) {
+	    $section_gallery_item_links.click( function(e) {
 
 	      // don't load the WordPress media item page
 	      e.preventDefault();
 
-	      var $gallery_item = $(this);
-	      var viewer_id = $gallery_item.attr('aria-controls');
+	      var $gallery_item_link = $(this);
+	      var viewer_id = $gallery_item_link.attr('aria-controls');
 	      var $viewer = $( '#' + viewer_id );
 
 	      // only update the viewer if a different thumbnail was selected
-	      if ( $gallery_item.data('viewing') ) {
+	      if ( $gallery_item_link.data('viewing') ) {
 	        return;
 	      }
 
 	      wpdtrt_gallery_ui.gallery_viewer_reset($, $viewer);
 
-	      wpdtrt_gallery_ui.gallery_viewer_image_update($, $viewer, $gallery_item);
+	      wpdtrt_gallery_ui.gallery_viewer_image_update($, $viewer, $gallery_item_link);
 
-	      wpdtrt_gallery_ui.gallery_viewer_panorama_update($, $viewer, $gallery_item);
+	      wpdtrt_gallery_ui.gallery_viewer_panorama_update($, $viewer, $gallery_item_link);
 
-	      wpdtrt_gallery_ui.gallery_viewer_iframe_update($, $viewer, $gallery_item);
+	      wpdtrt_gallery_ui.gallery_viewer_iframe_update($, $viewer, $gallery_item_link);
 
-	      wpdtrt_gallery_ui.gallery_viewer_caption_update($, $viewer, $gallery_item);
+	      wpdtrt_gallery_ui.gallery_viewer_caption_update($, $viewer, $gallery_item_link);
 
 	    });
 
-	    var $gallery_item_initial = $section_gallery_items.filter('[data-initial]');
+	    var $gallery_item_link_initial = $section_gallery_item_links.filter('[data-initial]');
 
-	    if ( $gallery_item_initial.length ) {
+	    if ( $gallery_item_link_initial.length ) {
 	      // this is the item assigned the 'initial' class in the media library 'Gallery Link Additional CSS Classes' field
 	      // if there is more than one, select the first
-	      $gallery_item_initial.eq(0)
+	      $gallery_item_link_initial.eq(0)
 	        .click();
 	    }
 	    else {
 	      // automatically select the first gallery item to load its large image
-	      $section_gallery_items.eq(0)
+	      $section_gallery_item_links.eq(0)
 	        .click();
 	    }
 
