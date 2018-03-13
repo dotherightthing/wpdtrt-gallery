@@ -24,7 +24,7 @@ var sass = require('gulp-sass');
 var zip = require('gulp-zip');
 
 var cssDir = 'css';
-var distDir = 'dist';
+var distDir = 'wpdtrt-gallery';
 var jsFiles = './js/*.js';
 var phpFiles = [
   './**/*.php',
@@ -130,7 +130,7 @@ gulp.task('copyDist', function() {
     './uninstall.php',
     './wpdtrt-gallery.php'
   ], { base: '.' })
-  .pipe(gulp.dest(distDir + '/wpdtrt-gallery'))
+  .pipe(gulp.dest(distDir))
 });
 
 gulp.task('zipDist', function() {
