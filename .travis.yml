@@ -9,8 +9,8 @@ language: php
 # PHP versions to test against
 # https://github.com/meitar/wordpress-plugin-skeleton/blob/master/.travis.yml
 php:
-  - 5.5 # Sitehost
   - 5.6.30 # MAMP
+#  - 5.5 # Sitehost - fails phpunit version requirement
 
 # Public Environment Variables
 # https://docs.travis-ci.com/user/environment-variables
@@ -24,18 +24,24 @@ env:
 # https://docs.travis-ci.com/user/customizing-the-build/#Build-Matrix
 # https://github.com/meitar/wordpress-plugin-skeleton/blob/master/.travis.yml
 matrix:
+  # reduce the delay in the build status being reported
+  # https://johnblackbourn.com/reducing-travis-ci-build-times-for-wordpress-projects/
+  fast_finish: true
   include:
-    - php: 5.3
+    - php: 5.5
       env: WP_VERSION=latest WP_MULTISITE=1
 
 # Cache directories between builds, to store dependencies
 # which take longer to compile or download.
 # https://docs.travis-ci.com/user/caching#Caching-directories-(Bundler%2C-dependencies)
 # https://github.com/wp-cli/sample-plugin/blob/master/.travis.yml
+# https://johnblackbourn.com/reducing-travis-ci-build-times-for-wordpress-projects/
 cache:
   directories:
-    - vendor
+#   - node_modules
+#   - vendor
     - $HOME/.composer/cache
+    - $HOME/.npm 
 
 # Install a Second Programming Language (Node, to run Gulp tasks)
 # We need to specify a newer version than the Travis default
@@ -44,6 +50,9 @@ cache:
 # https://stackoverflow.com/a/44250453/6850747
 before_install:
   - nvm install 6.11.2
+  # Disable XDebug which is only required for Code Coverage reports
+  # https://johnblackbourn.com/reducing-travis-ci-build-times-for-wordpress-projects/
+  - phpenv config-rm xdebug.ini
 
 # Install dependencies
 # https://docs.travis-ci.com/user/customizing-the-build/#Customizing-the-Installation-Step
