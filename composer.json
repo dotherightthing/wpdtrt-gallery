@@ -1,0 +1,26 @@
+{
+	"name": "dotherightthingnz/wpdtrt-gallery",
+	"description": "WordPress plugin which supports images, panoramas, maps, SoundCloud and Vimeo.",
+	"type": "library",
+    "minimum-stability": "dev",
+    "authors": [
+        {
+            "name": "Dan Smith",
+            "email": "dev@dotherightthing.co.nz"
+        }
+    ],
+    "repositories": [
+        {
+            "type": "vcs",
+            "url":  "git@github.com:dotherightthing/wpdtrt-debug.git"
+        }
+    ],
+    "require-dev": {
+        "phpunit/phpunit": "^5.7",
+        "dotherightthing/wpdtrt-debug": "dev-master"
+    },
+    "require": {
+        "php": ">=5.6.30",
+        "dotherightthing/wpdtrt-plugin": "dev-master"
+    }
+}
