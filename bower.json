@@ -1,6 +1,6 @@
 {
   "name": "wpdtrt-gallery",
-  "version": "1.5.0",
+  "version": "1.6.0",
   "description": "Gallery viewer which supports images, panoramas, maps, SoundCloud and Vimeo",
   "main": "readme.txt",
   "authors": [

@@ -5,7 +5,7 @@ Donate link: http://dotherightthing.co.nz
 Tags: gallery
 Requires at least: 4.8.1
 Tested up to: 4.9.4
-Stable tag: 1.5.0
+Stable tag: 1.6.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -42,6 +42,9 @@ echo do_shortcode('[wpdtrt-gallery-h2]<h2>' . $heading . '</h2>[/wpdtrt-gallery-
 * A WordPress gallery must immediately follow the `<h2>` heading
 
 == Changelog ==
+
+= 1.6.0 =
+* Run PHPUnit tests from Travis
 
 = 1.5.0 =
 * Display correct icons on SoundCloud & Vimeo thumbnails
