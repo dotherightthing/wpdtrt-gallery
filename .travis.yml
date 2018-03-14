@@ -58,9 +58,12 @@ before_install:
 # https://docs.travis-ci.com/user/customizing-the-build/#Customizing-the-Installation-Step
 install:
   - npm install
-  - npm install -g bower
+  - npm install bower -g
+  - npm install gulp-cli -g
   - bower install
-  - composer install
+  # https://www.sitepoint.com/php-continuous-integration-travis-ci/
+  # https://getcomposer.org/doc/03-cli.md
+  - composer install --no-interaction
 
 # https://github.com/wp-cli/sample-plugin/blob/master/.travis.yml
 before_script:
