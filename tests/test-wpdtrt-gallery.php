@@ -103,7 +103,7 @@ class GalleryTest extends WP_UnitTestCase {
         //$content = get_the_content();
         $content = '[wpdtrt-gallery-h2]<h2>Heading</h2>[/wpdtrt-gallery-h2]';
 
-		$this->assertXmlStringEqualsXmlString(
+		$this->assertEquals(
 			trim( do_shortcode( $content ) ),
 			'<div class="stack stack_link_viewer gallery-viewer h2-viewer" id="[]-viewer" data-has-image="false" data-expanded="false">
 				<div class="gallery-viewer--header">
