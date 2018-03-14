@@ -99,8 +99,10 @@ class GalleryTest extends WP_UnitTestCase {
 			get_post_permalink( $this->post_id_1 )
 		);
 
+        $content = get_the_content();
+
 		$this->assertXmlStringEqualsXmlString(
-			trim( do_shortcode( get_the_content() ) ),
+			trim( do_shortcode( $content ) ),
 			'<div class="stack stack_link_viewer gallery-viewer h2-viewer" id="[]-viewer" data-has-image="false" data-expanded="false">
 				<div class="gallery-viewer--header">
 			    	<h2>Heading</h2>
