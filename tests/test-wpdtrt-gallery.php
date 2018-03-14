@@ -92,6 +92,7 @@ class GalleryTest extends WP_UnitTestCase {
 	/**
 	 * Test shortcodes
 	 * 	trim() removes line break added by WordPress
+     * @todo https://github.com/dotherightthing/wpdtrt-gallery/issues/2
 	 */
 	public function test_shortcodes() {
 
@@ -99,7 +100,8 @@ class GalleryTest extends WP_UnitTestCase {
 			get_post_permalink( $this->post_id_1 )
 		);
 
-        $content = get_the_content();
+        //$content = get_the_content();
+        $content = '[wpdtrt-gallery-h2]<h2>Heading</h2>[/wpdtrt-gallery-h2]';
 
 		$this->assertXmlStringEqualsXmlString(
 			trim( do_shortcode( $content ) ),
