@@ -95,9 +95,6 @@ class GalleryTest extends WP_UnitTestCase {
            'post_status' => 'publish'
         ]);
 
-        //global $debug;
-        //$debug->log('Created post ' . $post_title . ' with id of ' . $post_id);
-
         return $post_id;
     }
 
