@@ -26,6 +26,20 @@
 class GalleryTest extends WP_UnitTestCase {
 
     /**
+     * Compare two HTML fragments.
+     * @uses https://stackoverflow.com/a/26727310/6850747
+     */
+    protected function assertEqualHtml($expected, $actual, $error_message) {
+        $from = ['/\>[^\S ]+/s', '/[^\S ]+\</s', '/(\s)+/s', '/> </s'];
+        $to   = ['>',            '<',            '\\1',      '><'];
+        $this->assertEquals(
+            preg_replace($from, $to, $expected),
+            preg_replace($from, $to, $actual),
+            $error_message
+        );
+    }
+
+    /**
      * SetUp
      * Automatically called by PHPUnit before each test method is run
      */
@@ -103,7 +117,7 @@ class GalleryTest extends WP_UnitTestCase {
         //$content = get_the_content();
         $content = '[wpdtrt-gallery-h2]<h2>Heading</h2>[/wpdtrt-gallery-h2]';
 
-		$this->assertEquals(
+		$this->assertEqualHtml(
 			trim( do_shortcode( $content ) ),
 			'<div class="stack stack_link_viewer gallery-viewer h2-viewer" id="[]-viewer" data-has-image="false" data-expanded="false">
 				<div class="gallery-viewer--header">
