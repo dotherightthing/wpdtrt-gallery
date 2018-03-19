@@ -31,7 +31,7 @@
  * Plugin:
  * require_once dirname( __FILE__ ) . '/path/to/class-tgm-plugin-activation.php';
  */
-require_once(WPDTRT_GALLERY_PATH . 'vendor/tgm-plugin-activation/class-tgm-plugin-activation.php');
+require_once(WPDTRT_GALLERY_PATH . 'vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php');
 
 add_action( 'tgmpa_register', 'wpdtrt_gallery_register_required_plugins' );
 
