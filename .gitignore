@@ -1,8 +1,7 @@
+.DS_Store
 css
-dist
+docs
 logs
 node_modules
-.DS_Store
 release.zip
-vendor/*
-!vendor/tgm-plugin-activation
+vendor

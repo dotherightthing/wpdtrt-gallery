@@ -12,30 +12,64 @@
 /* global require */
 
 // dependencies
+
 var gulp = require('gulp');
 var autoprefixer = require('autoprefixer');
+var bower = require('gulp-bower');
+var composer = require('gulp-composer');
 var del = require('del');
 var jshint = require('gulp-jshint');
+var log = require('fancy-log');
 var phplint = require('gulp-phplint');
 var postcss = require('gulp-postcss');
+var print = require('gulp-print').default;
 var pxtorem = require('postcss-pxtorem');
 var runSequence = require('run-sequence');
 var sass = require('gulp-sass');
+var shell = require('gulp-shell');
 var zip = require('gulp-zip');
+
+// paths
 
 var cssDir = 'css';
 var distDir = 'wpdtrt-gallery';
+var dummyFile = 'README.md';
 var jsFiles = './js/*.js';
 var phpFiles = [
   './**/*.php',
+  '!node_modules/**/*',
   '!vendor/**/*',
-  '!node_modules/**/*'
+  '!wpdtrt-gallery/**/*' // release folder
 ];
 var scssFiles = './scss/*.scss';
 
 // tasks
 
+gulp.task('bower', function () {
+
+  log(' ');
+  log('========== 1. bower ==========');
+  log(' ');
+
+  // return stream or promise for run-sequence
+  return bower();
+});
+
+gulp.task('composer', function () {
+
+  log(' ');
+  log('========== 2. composer ==========');
+  log(' ');
+
+  // return stream or promise for run-sequence
+  return composer();
+});
+
 gulp.task('css', function () {
+
+  log(' ');
+  log('========== 3. css ==========');
+  log(' ');
 
   var processors = [
       autoprefixer({
@@ -68,60 +102,184 @@ gulp.task('css', function () {
       })
   ];
 
-  return gulp
-    .src(scssFiles)
+  // return stream or promise for run-sequence
+  return gulp.src(scssFiles)
     .pipe(sass({outputStyle: 'expanded'}))
     .pipe(postcss(processors))
     .pipe(gulp.dest(cssDir));
 });
 
-// works best when run at the start rather than the end of the dist task
-gulp.task('delDist', function () {
-  return del([
-    cssDir,
-    distDir,
-    'release.zip'
-  ]);
+gulp.task('finish', function () {
+
+  log(' ');
+  log('========== All Tasks Complete ==========');
+  log(' ');
 });
 
 gulp.task('js', function() {
-  return gulp
-    .src(jsFiles)
 
-    // validate JS
+  log(' ');
+  log('========== 4. js =========='); // validate JS
+  log(' ');
+
+  // return stream or promise for run-sequence
+  return gulp.src(jsFiles)
     .pipe(jshint())
     .pipe(jshint.reporter('default', { verbose: true }))
     .pipe(jshint.reporter('fail'));
 });
 
+gulp.task('list_files', function() {
+
+  log(' ');
+  log('========== 8. list_files ==========');
+  log(' ');
+
+  // return stream or promise for run-sequence
+  return gulp.src('./*')
+    .pipe(print());
+});
+
+gulp.task('phpdoc_delete', function () {
+
+  log(' ');
+  log('========== 6a. phpdoc_delete ==========');
+  log(' ');
+
+  // return stream or promise for run-sequence
+  return del([
+    'docs/phpdoc'
+  ]);
+});
+
+gulp.task('phpdoc_pre', function() {
+
+  log(' ');
+  log('========== 6b. phpdoc_pre ==========');
+  log(' ');
+
+  // return stream or promise for run-sequence
+  // note: src files are not used,
+  // this structure is only used
+  // to include the preceding log()
+  return gulp.src(dummyFile, {read: false})
+    .pipe(shell([
+      // remove plugin which generates Fatal Error (#12)
+      'composer remove tgmpa/tgm-plugin-activation'
+    ])
+  );
+});
+
+gulp.task('phpdoc_doc', function() {
+
+  log(' ');
+  log('========== 6c. phpdoc_doc ==========');
+  log(' ');
+
+  // return stream or promise for run-sequence
+  // note: src files are not used,
+  // this structure is only used
+  // to include the preceding log()
+  return gulp.src(dummyFile, {read: false})
+    .pipe(shell([
+      'vendor/bin/phpdoc -d . -t ./docs/phpdoc'
+    ])
+  );
+});
+
+gulp.task('phpdoc_post', function() {
+
+  log(' ');
+  log('========== 6d. phpdoc_post ==========');
+  log(' ');
+
+  // return stream or promise for run-sequence
+  // note: src files are not used,
+  // this structure is only used
+  // to include the preceding log()
+  return gulp.src(dummyFile, {read: false})
+    .pipe(shell([
+      // reinstall plugin which generates Fatal Error (#12)
+      'composer require tgmpa/tgm-plugin-activation'
+    ])
+  );
+});
+
+gulp.task('phpdoc', function(callback) {
+
+  log(' ');
+  log('========== 6. phpdoc ==========');
+  log(' ');
+
+  // return?
+  runSequence(
+    'phpdoc_delete',
+    'phpdoc_pre',
+    'phpdoc_doc',
+    'phpdoc_post',
+    callback
+  );
+});
+
 gulp.task('phplint', function () {
-  return gulp
-    .src(phpFiles)
+
+  log(' ');
+  log('========== 5. phplint ==========');
+  log(' ');
+
+  // return stream or promise for run-sequence
+  return gulp.src(phpFiles)
 
     // validate PHP
     // The linter ships with PHP
     .pipe(phplint())
-    .pipe(phplint.reporter(function(file){
+    .pipe(phplint.reporter(function(file) {
       var report = file.phplintReport || {};
 
       if (report.error) {
-        console.log(report.message+' on line '+report.line+' of '+report.filename);
+        log.error(report.message+' on line '+report.line+' of '+report.filename);
       }
     }));
 });
 
-gulp.task('watch', function () {
-  gulp.watch( scssFiles, ['css'] );
-  gulp.watch( jsFiles, ['js'] );
+gulp.task('release_delete_pre', function () {
+
+  log(' ');
+  log('========== 7a. release_delete_pre ==========');
+  log(' ');
+
+  // return stream or promise for run-sequence
+  return del([
+    'release.zip'
+  ]);
 });
 
-gulp.task('copyDist', function() {
-  // Return the event stream to gulp.task to inform the task of when the stream ends
+gulp.task('release_delete_post', function () {
+
+  log(' ');
+  log('========== 7d. release_delete_post ==========');
+  log(' ');
+
+  // return stream or promise for run-sequence
+  return del([
+    cssDir,
+    distDir // wpdtrt-plugin
+  ]);
+});
+
+gulp.task('release_copy', function() {
+
+  log(' ');
+  log('========== 7b. release_copy ==========');
+  log(' ');
+
+  // return stream or promise for run-sequence
   // https://stackoverflow.com/a/32188928/6850747
   return gulp.src([
     './app/**/*',
     './config/**/*',
     './css/**/*',
+    './docs/**/*',
     './js/**/*',
     './languages/**/*',
     './templates/**/*',
@@ -134,8 +292,13 @@ gulp.task('copyDist', function() {
   .pipe(gulp.dest(distDir))
 });
 
-gulp.task('zipDist', function() {
-  // Return the event stream to gulp.task to inform the task of when the stream ends
+gulp.task('release_zip', function() {
+
+  log(' ');
+  log('========== 7c. release_zip ==========');
+  log(' ');
+
+  // return stream or promise for run-sequence
   // https://stackoverflow.com/a/32188928/6850747
   return gulp.src([
     './' + distDir + '/**/*'
@@ -144,25 +307,67 @@ gulp.task('zipDist', function() {
   .pipe(gulp.dest('./'))
 });
 
-gulp.task( 'build', [
-    'phplint',
+gulp.task('release', function(callback) {
+
+  log(' ');
+  log('========== 7. release ==========');
+  log(' ');
+
+  runSequence(
+    'release_delete_pre',
+    'release_copy',
+    'release_zip',
+    'release_delete_post',
+    callback
+  )
+});
+
+gulp.task('start', function () {
+
+  log(' ');
+  log('========== Tasks Started ==========');
+  log(' ');
+});
+
+gulp.task('watch', function () {
+
+  log(' ');
+  log('========== watch ==========');
+  log(' ');
+
+  gulp.watch( scssFiles, ['css'] );
+  gulp.watch( jsFiles, ['js'] );
+  gulp.watch( phpFiles, ['phplint'] );
+});
+
+gulp.task('default', [
+    'composer',
+    'bower',
     'css',
-    'js'
+    'js',
+    'phplint',
+    'watch'
   ]
 );
 
-gulp.task('default', function(callback) {
+gulp.task ('maintenance', function(callback) {
   runSequence(
-    'build',
-    'watch'
+    'start',
+    'bower', // 1
+    'composer', // 2
+    'css', // 3
+    'js', // 4
+    'phplint', // 5
+    'phpdoc', // 6
+    'release', // 7
+    'list_files', // 8
+    'finish'
   );
+
+  callback();
 });
 
-gulp.task('dist', function(callback) {
-  runSequence(
-    'delDist',
-    'build',
-    'copyDist',
-    'zipDist'
-  );
-});
+gulp.task ('dist', [
+    'maintenance'
+  ]
+);
