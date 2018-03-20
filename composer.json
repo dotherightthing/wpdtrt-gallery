@@ -1,5 +1,5 @@
 {
-	"name": "dotherightthingnz/wpdtrt-gallery",
+	"name": "dotherightthing/wpdtrt-gallery",
 	"description": "WordPress plugin which supports images, panoramas, maps, SoundCloud and Vimeo.",
 	"type": "library",
     "minimum-stability": "stable",
