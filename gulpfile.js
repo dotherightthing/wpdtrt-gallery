@@ -16,6 +16,9 @@
 var gulp = require('gulp');
 var autoprefixer = require('autoprefixer');
 var del = require('del');
+var filter = require('gulp-filter');
+// `fs` is used instead of require to prevent caching in watch (require caches)
+var fs = require('fs');
 var jshint = require('gulp-jshint');
 var log = require('fancy-log');
 var phplint = require('gulp-phplint');
@@ -24,6 +27,7 @@ var print = require('gulp-print').default;
 var pxtorem = require('postcss-pxtorem');
 var runSequence = require('run-sequence');
 var sass = require('gulp-sass');
+var semver = require('semver');
 var shell = require('gulp-shell');
 var zip = require('gulp-zip');
 
@@ -41,6 +45,12 @@ var phpFiles = [
 ];
 var scssFiles = './scss/*.scss';
 
+// config
+
+var getPackageJson = function () {
+  return JSON.parse(fs.readFileSync('./package.json', 'utf8'));
+};
+
 // tasks
 
 gulp.task('bower', function () {
@@ -55,6 +65,53 @@ gulp.task('bower', function () {
       'bower install'
     ])
   );
+});
+
+// bump versions on package/bower/manifest
+gulp.task('bump', function () {
+
+  // reget package
+  var pkg = getPackageJson();
+
+  // increment version
+  var newVer = semver.inc(pkg.version, 'patch');
+ 
+  // uses gulp-filter
+  var jsonFilter = tasks.filter(['*.json']);
+  var phpFilter = tasks.filter(['*.php']);
+  var txtFilter = tasks.filter(['*.txt']);
+  var php_constant = "WPDTRT_GALLERY_VERSION";
+ 
+  return gulp.src([
+      './bower.json',
+      './package.json',
+      './package-lock.json',
+      './readme.txt',
+      './wpdtrt-gallery.php'
+    ])
+
+    // bower.json, package.json, package-lock.json
+    .pipe(jsonFilter)
+    .pipe(tasks.bump({
+      version: newVer
+    }))
+    .pipe(gulp.dest('./'))
+    .pipe(jsonFilter.restore())
+
+    // wpdtrt-gallery.php
+    .pipe(phpFilter)
+    .pipe(bump({
+      regex: new RegExp( "([<|\'|\"]?" + php_constant + "[>|\'|\"]?[ ]*[:=,]?[ ]*[\'|\"]?[a-z]?)(\\d+\\.\\d+\\.\\d+)(-[0-9A-Za-z\.-]+)?([\'|\"|<]?)", "i" ),
+    }))
+    .pipe(gulp.dest('./'))
+    .pipe(phpFilter.restore())
+
+    // readme.txt
+    .pipe(txtFilter)
+    .pipe(bump({
+      regex: new RegExp( "(?:Stable\s+tag:\s)+([0-9].[0-9].[0-9])", "i" ),
+    }))
+    .pipe(gulp.dest('./'));
 });
 
 gulp.task('composer', function () {
