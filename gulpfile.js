@@ -15,8 +15,6 @@
 
 var gulp = require('gulp');
 var autoprefixer = require('autoprefixer');
-var bower = require('gulp-bower');
-var composer = require('gulp-composer');
 var del = require('del');
 var jshint = require('gulp-jshint');
 var log = require('fancy-log');
@@ -52,7 +50,11 @@ gulp.task('bower', function () {
   log(' ');
 
   // return stream or promise for run-sequence
-  return bower();
+  return gulp.src(dummyFile, {read: false})
+    .pipe(shell([
+      'bower install'
+    ])
+  );
 });
 
 gulp.task('composer', function () {
@@ -62,7 +64,11 @@ gulp.task('composer', function () {
   log(' ');
 
   // return stream or promise for run-sequence
-  return composer();
+  return gulp.src(dummyFile, {read: false})
+    .pipe(shell([
+      'composer install --prefer-dist --no-interaction'
+    ])
+  );
 });
 
 gulp.task('css', function () {
@@ -200,7 +206,7 @@ gulp.task('phpdoc_post', function() {
   return gulp.src(dummyFile, {read: false})
     .pipe(shell([
       // reinstall plugin which generates Fatal Error (#12)
-      'composer require tgmpa/tgm-plugin-activation'
+      'composer require tgmpa/tgm-plugin-activation:2.6.*'
     ])
   );
 });
@@ -252,6 +258,23 @@ gulp.task('release_delete_pre', function () {
   return del([
     'release.zip'
   ]);
+});
+
+gulp.task('release_prune_packages', function() {
+
+  log(' ');
+  log('========== 7a ii. release_prune_packages ==========');
+  log(' ');
+
+  /**
+   * Remove dev packages once we've used them
+   * @see https://github.com/dotherightthing/wpdtrt-plugin/issues/47
+   */
+  return gulp.src(dummyFile, {read: false})
+    .pipe(shell([
+      'composer install --prefer-dist --no-interaction --no-dev'
+    ])
+  );
 });
 
 gulp.task('release_delete_post', function () {
@@ -315,6 +338,7 @@ gulp.task('release', function(callback) {
 
   runSequence(
     'release_delete_pre',
+    'release_prune_packages',
     'release_copy',
     'release_zip',
     'release_delete_post',
