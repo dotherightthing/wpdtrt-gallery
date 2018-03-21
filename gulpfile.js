@@ -6,7 +6,7 @@
  *
  * @package     WPDTRT_Gallery
  * @since       1.2.0
- * @version     1.1.1
+ * @version     1.1.2
  */
 
 /* global require */
@@ -15,6 +15,7 @@
 
 var gulp = require('gulp');
 var autoprefixer = require('autoprefixer');
+var bump = require('gulp-bump');
 var del = require('del');
 var filter = require('gulp-filter');
 // `fs` is used instead of require to prevent caching in watch (require caches)
@@ -70,6 +71,10 @@ gulp.task('bower', function () {
 // bump versions on package/bower/manifest
 gulp.task('bump', function () {
 
+  log(' ');
+  log('========== bump version ==========');
+  log(' ');
+
   // reget package
   var pkg = getPackageJson();
 
@@ -77,11 +82,14 @@ gulp.task('bump', function () {
   var newVer = semver.inc(pkg.version, 'patch');
  
   // uses gulp-filter
-  var jsonFilter = tasks.filter(['*.json']);
-  var phpFilter = tasks.filter(['*.php']);
-  var txtFilter = tasks.filter(['*.txt']);
+  var jsonFilter = filter('*.json', {restore: true});
+  var phpFilter = filter('*.php', {restore: true});
+  var txtFilter = filter('*.txt', {restore: true});
   var php_constant = "WPDTRT_GALLERY_VERSION";
  
+  log("Please manually bump readme.txt - Stable tag: " + newVer);
+  log("Please manually bump wpdtrt-gallery.php - define( 'WPDTRT_GALLERY_VERSION', '" + newVer + "' )");
+
   return gulp.src([
       './bower.json',
       './package.json',
@@ -91,27 +99,42 @@ gulp.task('bump', function () {
     ])
 
     // bower.json, package.json, package-lock.json
+    // "Error: Invalid semver: version key "version" is not found in file" if file is empty.
     .pipe(jsonFilter)
-    .pipe(tasks.bump({
-      version: newVer
-    }))
+    .pipe(bump({ version: newVer }))
     .pipe(gulp.dest('./'))
-    .pipe(jsonFilter.restore())
+    .pipe(jsonFilter.restore)
+
+    // wpdtrt-gallery.php (header)
+    .pipe(phpFilter)
+    .pipe(bump())
+    .pipe(gulp.dest('./'));
+    //.pipe(phpFilter.restore)
 
     // wpdtrt-gallery.php
+    // define( 'WPDTRT_GALLERY_VERSION', '1.6.6' );
+    // TODO Not working
+    /*
     .pipe(phpFilter)
     .pipe(bump({
-      regex: new RegExp( "([<|\'|\"]?" + php_constant + "[>|\'|\"]?[ ]*[:=,]?[ ]*[\'|\"]?[a-z]?)(\\d+\\.\\d+\\.\\d+)(-[0-9A-Za-z\.-]+)?([\'|\"|<]?)", "i" ),
+      regex: new RegExp( "([<|\'|\"]?"+php_constant+"[>|\'|\"]?[ ]*[:=,]?[ ]*[\'|\"]?[a-z]?)(\\d+\\.\\d+\\.\\d+)(-[0-9A-Za-z\.-]+)?([\'|\"|<]?)", "i" ),
     }))
     .pipe(gulp.dest('./'))
-    .pipe(phpFilter.restore())
+    .pipe(phpFilter.restore)
+    */
 
     // readme.txt
+    // Stable tag: 1.6.6
+    // TODO Not working
+    /*
     .pipe(txtFilter)
     .pipe(bump({
-      regex: new RegExp( "(?:Stable\s+tag:\s)+([0-9].[0-9].[0-9])", "i" ),
+      // find a version string with the format key: value
+      // to match the pair that we would usually pass in
+      regex: new RegExp( "(Stable\s+tag:\s)+([0-9].[0-9].[0-9]+)" )
     }))
     .pipe(gulp.dest('./'));
+    */
 });
 
 gulp.task('composer', function () {
@@ -369,7 +392,7 @@ gulp.task('release_copy', function() {
     './uninstall.php',
     './wpdtrt-gallery.php'
   ], { base: '.' })
-  .pipe(gulp.dest(distDir))
+  .pipe(gulp.dest(distDir));
 });
 
 gulp.task('release_zip', function() {
@@ -384,7 +407,7 @@ gulp.task('release_zip', function() {
     './' + distDir + '/**/*'
   ], { base: '.' })
   .pipe(zip('release.zip'))
-  .pipe(gulp.dest('./'))
+  .pipe(gulp.dest('./'));
 });
 
 gulp.task('release', function(callback) {
@@ -400,7 +423,7 @@ gulp.task('release', function(callback) {
     'release_zip',
     'release_delete_post',
     callback
-  )
+  );
 });
 
 gulp.task('start', function () {
