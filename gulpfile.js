@@ -322,10 +322,10 @@ gulp.task('release_delete_pre', function () {
   ]);
 });
 
-gulp.task('release_prune_packages', function() {
+gulp.task('remove_dev_dependencies', function() {
 
   log(' ');
-  log('========== 7a ii. release_prune_packages ==========');
+  log('========== remove_dev_dependencies ==========');
   log(' ');
 
   /**
@@ -400,7 +400,6 @@ gulp.task('release', function(callback) {
 
   runSequence(
     'release_delete_pre',
-    'release_prune_packages',
     'release_copy',
     'release_zip',
     'release_delete_post',
@@ -445,6 +444,7 @@ gulp.task ('maintenance', function(callback) {
     'js', // 4
     'phplint', // 5
     'phpdoc', // 6
+    'remove_dev_dependencies',
     'release', // 7
     'list_files', // 8
     'finish'
