@@ -2,6 +2,9 @@
  * Gulp Task Runner
  * Compile front-end resources
  *
+* @example usage:
+ *    gulp dist
+ *
  * Based on the gulpfile from WPDTRT_Plugin, which this plugin predates.
  *
  * @package     WPDTRT_Gallery
@@ -10,7 +13,7 @@
  */
 
 /* jshint node: true */
-/* global require */
+/* global require, process */
 
 // dependencies
 
@@ -29,6 +32,9 @@ var shell = require('gulp-shell');
 var zip = require('gulp-zip');
 
 // paths
+
+// pop() - remove the last element from the path array and return it
+var pluginName = process.cwd().split('/').pop();
 
 var cssDir = 'css';
 var distDir = 'wpdtrt-gallery';
@@ -302,7 +308,7 @@ gulp.task('release_delete_post', function () {
   // return stream or promise for run-sequence
   return del([
     cssDir,
-    distDir // wpdtrt-plugin
+    distDir
   ]);
 });
 
@@ -312,9 +318,8 @@ gulp.task('release_copy', function() {
   log('========== 7b. release_copy ==========');
   log(' ');
 
-  // return stream or promise for run-sequence
-  // https://stackoverflow.com/a/32188928/6850747
-  return gulp.src([
+  // @see http://www.globtester.com/
+  var releaseFiles = [
     './app/**/*',
     './config/**/*',
     './css/**/*',
@@ -326,9 +331,15 @@ gulp.task('release_copy', function() {
     './index.php',
     './readme.txt',
     './uninstall.php',
-    './wpdtrt-gallery.php'
-  ], { base: '.' })
-  .pipe(gulp.dest(distDir));
+    './' + pluginName + '.php',
+    '!**/node_modules/**/*'
+  ];
+
+  // return stream or promise for run-sequence
+  // https://stackoverflow.com/a/32188928/6850747
+  return gulp.src(releaseFiles, { base: '.' })
+    .pipe(print())
+    .pipe(gulp.dest(distDir));
 });
 
 gulp.task('release_zip', function() {
@@ -364,7 +375,7 @@ gulp.task('release', function(callback) {
 gulp.task('start', function () {
 
   log(' ');
-  log('========== Tasks Started ==========');
+  log('========== Start Gulp Tasks for ' + pluginName + ' ==========');
   log(' ');
 });
 
