@@ -36,5 +36,10 @@
     ],
     "config": {
         "vendor-dir": "vendor"
-    }
+    },
+    "extra": [
+        {
+            "require-after-phpdoc": "tgmpa/tgm-plugin-activation:2.6.*"
+        }
+    ]
 }
