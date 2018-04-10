@@ -41,8 +41,8 @@ add_filter( 'attachment_fields_to_edit', 'wpdtrt_gallery_attachment_field_vimeo_
  */
 
 function wpdtrt_gallery_attachment_field_vimeo_pageid_save( $post, $attachment ) {
-  if ( isset( $attachment['dtrt-vimeo-pageid'] ) ) {
-    update_post_meta( $post['ID'], 'wpdtrt_gallery_attachment_vimeo_pageid', $attachment['dtrt-vimeo-pageid'] );
+  if ( isset( $attachment['wpdtrt-gallery-vimeo-pageid'] ) ) {
+    update_post_meta( $post['ID'], 'wpdtrt_gallery_attachment_vimeo_pageid', $attachment['wpdtrt-gallery-vimeo-pageid'] );
   }
 
   return $post;

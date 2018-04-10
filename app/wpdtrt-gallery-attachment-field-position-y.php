@@ -41,8 +41,8 @@ add_filter( 'attachment_fields_to_edit', 'wpdtrt_gallery_attachment_field_positi
  */
 
 function wpdtrt_gallery_attachment_field_position_y_save( $post, $attachment ) {
-  if ( isset( $attachment['dtrt-position-y'] ) ) {
-    update_post_meta( $post['ID'], 'wpdtrt_gallery_attachment_position_y', $attachment['dtrt-position-y'] );
+  if ( isset( $attachment['wpdtrt-gallery-position-y'] ) ) {
+    update_post_meta( $post['ID'], 'wpdtrt_gallery_attachment_position_y', $attachment['wpdtrt-gallery-position-y'] );
   }
 
   return $post;

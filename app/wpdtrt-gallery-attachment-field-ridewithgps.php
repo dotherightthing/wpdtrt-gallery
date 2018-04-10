@@ -41,8 +41,8 @@ add_filter( 'attachment_fields_to_edit', 'wpdtrt_gallery_attachment_field_rwgps_
  */
 
 function wpdtrt_gallery_attachment_field_rwgps_pageid_save( $post, $attachment ) {
-  if ( isset( $attachment['dtrt-rwgps-pageid'] ) ) {
-    update_post_meta( $post['ID'], 'wpdtrt_gallery_attachment_rwgps_pageid', $attachment['dtrt-rwgps-pageid'] );
+  if ( isset( $attachment['wpdtrt-gallery-rwgps-pageid'] ) ) {
+    update_post_meta( $post['ID'], 'wpdtrt_gallery_attachment_rwgps_pageid', $attachment['wpdtrt-gallery-rwgps-pageid'] );
   }
 
   return $post;
