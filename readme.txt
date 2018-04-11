@@ -6,7 +6,7 @@ Tags: gallery
 Requires at least: 4.8.1
 Tested up to: 4.9.4
 Requires PHP: 5.6.30
-Stable tag: 1.6.9
+Stable tag: 1.6.10
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -43,6 +43,9 @@ echo do_shortcode('[wpdtrt-gallery-h2]<h2>' . $heading . '</h2>[/wpdtrt-gallery-
 * A WordPress gallery must immediately follow the `<h2>` heading
 
 == Changelog ==
+
+= 1.6.10 =
+* Add tests for 1.6.9
 
 = 1.6.9 =
 * Fix custom post meta not being saved with new posts

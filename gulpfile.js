@@ -8,7 +8,7 @@
  * Based on the gulpfile from WPDTRT_Plugin, which this plugin predates.
  *
  * @package     WPDTRT_Gallery
- * @version     1.6.9
+ * @version     1.6.10
  */
 
 /* jshint node: true */
