@@ -276,14 +276,84 @@ class GalleryTest extends WP_UnitTestCase {
      * Test that the custom field keys and values have been added to the HTML as queryparams.
      * @see https://codex.wordpress.org/Function_Reference/wp_get_attachment_link
      * @see https://github.com/dotherightthing/wpdtrt-gallery/issues/35
-     * @todo Add tests for optional key/value pairs
      */
-    public function test_attachment_link_queryparams() {
+    public function test_thumbnail_queryparams() {
+
+        // location - only used for Media Library searches
+
+        // panorama
+
+        update_post_meta( $this->attachment_id_1, 'wpdtrt_gallery_attachment_panorama', '1' );
+
+        $this->assertContains(
+            'panorama=1',
+            wp_get_attachment_link( $this->attachment_id_1 ),
+            'Thumbnail link HTML missing query param for panorama'
+        );
+
+        // position_y (default)
 
         $this->assertContains(
             'position_y=50',
-            wp_get_attachment_link( $this->attachment_id_1, $this->thumbnail_size ),
-            'Thumbnail link HTML missing query param for position_y'
+            wp_get_attachment_link( $this->attachment_id_1 ),
+            'Thumbnail link HTML missing query param for position_y (default)'
+        );
+
+        // position_y (custom)
+
+        update_post_meta( $this->attachment_id_1, 'wpdtrt_gallery_attachment_position_y', '0' );
+
+        $this->assertContains(
+            'position_y=0',
+            wp_get_attachment_link( $this->attachment_id_1 ),
+            'Thumbnail link HTML missing query param for position_y (top)'
+        );
+
+        // position_y (custom)
+
+        update_post_meta( $this->attachment_id_1, 'wpdtrt_gallery_attachment_position_y', '100' );
+
+        $this->assertContains(
+            'position_y=100',
+            wp_get_attachment_link( $this->attachment_id_1 ),
+            'Thumbnail link HTML missing query param for position_y (bottom)'
+        );
+
+        // ride with gps map embed
+
+        update_post_meta( $this->attachment_id_1, 'wpdtrt_gallery_attachment_rwgps_pageid', '123456789' );
+
+        $this->assertContains(
+            'rwgps_pageid=123456789',
+            wp_get_attachment_link( $this->attachment_id_1 ),
+            'Thumbnail link HTML missing query param for rwgps_pageid'
+        );
+
+        // soundcloud player embed - both keys must have values
+
+        update_post_meta( $this->attachment_id_1, 'wpdtrt_gallery_attachment_soundcloud_pageid', 'test-page' );
+        update_post_meta( $this->attachment_id_1, 'wpdtrt_gallery_attachment_soundcloud_trackid', '123456789' );
+
+        $this->assertContains(
+            'soundcloud_pageid=test-page',
+            wp_get_attachment_link( $this->attachment_id_1 ),
+            'Thumbnail link HTML missing query param for soundcloud_pageid'
+        );
+
+        $this->assertContains(
+            'soundcloud_trackid=123456789',
+            wp_get_attachment_link( $this->attachment_id_1 ),
+            'Thumbnail link HTML missing query param for soundcloud_trackid'
+        );  
+
+        // vimeo
+
+        update_post_meta( $this->attachment_id_1, 'wpdtrt_gallery_attachment_vimeo_pageid', '123456789' );
+
+        $this->assertContains(
+            'vimeo_pageid=123456789',
+            wp_get_attachment_link( $this->attachment_id_1 ),
+            'Thumbnail link HTML missing query param for vimeo_pageid'
         );
     }
 
