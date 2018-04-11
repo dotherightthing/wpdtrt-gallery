@@ -197,87 +197,12 @@ class GalleryTest extends WP_UnitTestCase {
 
     // ########## TEST ########## //
 
-	/**
-	 * Test shortcode with a heading only
-	 * 	trim() removes line break added by WordPress
-     * @todo https://github.com/dotherightthing/wpdtrt-gallery/issues/2
-	 */
-	public function test_shortcode_with_heading() {
-
-		$this->go_to(
-			get_post_permalink( $this->post_id_1 )
-		);
-
-        // $content = get_the_content(); // Trying to get property of non-object
-        $content = get_post_field('post_content', $this->post_id_1);
-
-		$this->assertEqualHtml(
-			'<div class="stack stack_link_viewer gallery-viewer h2-viewer" id="[]-viewer" data-has-image="false" data-expanded="false">
-				<div class="gallery-viewer--header">
-			    	<h2>Heading</h2>
-			   	</div>
-			  	<div class="stack--wrapper" style="">
-			    	<figure class="stack--liner">
-			      		<div class="img-wrapper">
-			        		<img src="" alt="">
-			      		</div>
-			      		<iframe width="100%" height="100%" src="" frameborder="0" allowfullscreen="true" scrolling="no" aria-hidden="true"></iframe>
-			      		<figcaption class="gallery-viewer--footer">
-			        		<div class="gallery-viewer--caption"></div>
-			      		</figcaption>
-			    	</figure>
-			  	</div>
-			</div>',
-            trim( do_shortcode( $content ) ),
-			'wpdtrt_gallery_shortcode does not return the correct HTML'
-		);
-	}
-
     /**
-     * Test that the gallery thumbnail image exists and is the correct size
-     *  The test image path is appended to http://example.org/wp-content/uploads/.
-     * @see http://develop.svn.wordpress.org/trunk/tests/phpunit/includes/factory/class-wp-unittest-factory-for-attachment.php
-     */
-    public function test_attachment_thumbnail() {
-
-        $this->assertGreaterThan(
-            0,
-            $this->attachment_id_1,
-            'Attachment image not created'
-        );
-
-        $this->assertEquals(
-            'http://example.org/wp-content/uploads/images/test1-150x150.jpg',
-            wp_get_attachment_image_src( $this->attachment_id_1, $this->thumbnail_size )[0],
-            'Thumbnail image not created'
-        );
-
-        $this->assertEquals(
-            150,
-            wp_get_attachment_image_src( $this->attachment_id_1, $this->thumbnail_size )[1],
-            'Thumbnail image file has incorrect width'
-        );
-
-        $this->assertEquals(
-            150,
-            wp_get_attachment_image_src( $this->attachment_id_1, $this->thumbnail_size )[2],
-            'Thumbnail image file has incorrect height'
-        );
-
-        $this->assertContains(
-            'width="150" height="150"',
-            wp_get_attachment_image( $this->attachment_id_1, $this->thumbnail_size ),
-            'Thumbnail image src has incorrect dimensions'
-        );
-
-    }
-
-    /**
-     * Test that the custom field keys and values have been added to the HTML as queryparams.
+     * Test that the custom field keys and values are output as HTML queryparams.
      * @see https://codex.wordpress.org/Function_Reference/wp_get_attachment_link
      * @see https://github.com/dotherightthing/wpdtrt-gallery/issues/35
      */
-    public function test_thumbnail_queryparams() {
+    public function test_attachment_fields() {
 
         // location - only used for Media Library searches
 
@@ -358,8 +283,82 @@ class GalleryTest extends WP_UnitTestCase {
     }
 
     /**
+     * Test that the gallery thumbnail image exists and is the correct size
+     *  The test image path is appended to http://example.org/wp-content/uploads/.
+     * @see http://develop.svn.wordpress.org/trunk/tests/phpunit/includes/factory/class-wp-unittest-factory-for-attachment.php
+     */
+    public function test_image_sizes() {
+
+        $this->assertGreaterThan(
+            0,
+            $this->attachment_id_1,
+            'Attachment image not created'
+        );
+
+        $this->assertEquals(
+            'http://example.org/wp-content/uploads/images/test1-150x150.jpg',
+            wp_get_attachment_image_src( $this->attachment_id_1, $this->thumbnail_size )[0],
+            'Thumbnail image not created'
+        );
+
+        $this->assertEquals(
+            150,
+            wp_get_attachment_image_src( $this->attachment_id_1, $this->thumbnail_size )[1],
+            'Thumbnail image file has incorrect width'
+        );
+
+        $this->assertEquals(
+            150,
+            wp_get_attachment_image_src( $this->attachment_id_1, $this->thumbnail_size )[2],
+            'Thumbnail image file has incorrect height'
+        );
+
+        $this->assertContains(
+            'width="150" height="150"',
+            wp_get_attachment_image( $this->attachment_id_1, $this->thumbnail_size ),
+            'Thumbnail image src has incorrect dimensions'
+        );
+    }
+
+    /**
+     * Test shortcode with a heading only
+     *  trim() removes line break added by WordPress
+     * @todo https://github.com/dotherightthing/wpdtrt-gallery/issues/2
+     */
+    public function test_shortcode_with_heading() {
+
+        $this->go_to(
+            get_post_permalink( $this->post_id_1 )
+        );
+
+        // $content = get_the_content(); // Trying to get property of non-object
+        $content = get_post_field('post_content', $this->post_id_1);
+
+        $this->assertEqualHtml(
+            '<div class="stack stack_link_viewer gallery-viewer h2-viewer" id="[]-viewer" data-has-image="false" data-expanded="false">
+                <div class="gallery-viewer--header">
+                    <h2>Heading</h2>
+                </div>
+                <div class="stack--wrapper" style="">
+                    <figure class="stack--liner">
+                        <div class="img-wrapper">
+                            <img src="" alt="">
+                        </div>
+                        <iframe width="100%" height="100%" src="" frameborder="0" allowfullscreen="true" scrolling="no" aria-hidden="true"></iframe>
+                        <figcaption class="gallery-viewer--footer">
+                            <div class="gallery-viewer--caption"></div>
+                        </figcaption>
+                    </figure>
+                </div>
+            </div>',
+            trim( do_shortcode( $content ) ),
+            'wpdtrt_gallery_shortcode does not return the correct HTML'
+        );
+    }
+
+    /**
      * Test shortcode with a heading and gallery containing a single image
-     * @todo Nested gallery shortcode is not being processed: [gallery link="file" ids="7"]
+     * @todo Disabled as test output differs from actual output
      */
     public function __test_shortcode_with_heading_and_gallery() {
 
