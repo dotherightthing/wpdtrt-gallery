@@ -64,6 +64,9 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPPlugin\Plugin {
 
     	parent::wp_setup();
 
+        // for filter_save_image_geodata
+        include_once( ABSPATH . 'wp-admin/includes/image.php' ); 
+
 		// add actions and filters here
         add_filter( 'shortcode_atts_gallery', [$this, 'filter_gallery_attributes'], 10, 3 );
         add_filter( 'wp_read_image_metadata', [$this, 'filter_save_image_geodata'], '', 3 );
@@ -158,7 +161,7 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPPlugin\Plugin {
      * @uses https://mekshq.com/change-image-thumbnail-size-in-wordpress-gallery/
      * @see https://gist.github.com/mjsdiaz/7204576
      */
-    function filter_gallery_attributes( $output, $pairs, $atts ) {
+    public function filter_gallery_attributes( $output, $pairs, $atts ) {
 
         $output['columns'] = '3';
         $output['link'] = 'file';
@@ -178,9 +181,7 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPPlugin\Plugin {
      *  include_once( ABSPATH . 'wp-admin/includes/image.php' ); // access wp_read_image_metadata
      *  add_filter('wp_read_image_metadata', 'filter_save_image_geodata','',3);
      */
-    function filter_save_image_geodata( $meta, $file, $sourceImageType ) {
-
-        include_once( ABSPATH . 'wp-admin/includes/image.php' );
+    public function filter_save_image_geodata( $meta, $file, $sourceImageType ) {
 
         $exif = @exif_read_data( $file );
 
@@ -225,7 +226,7 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPPlugin\Plugin {
      * @param $permalink
      * @return string
      */
-    function filter_thumbnail_queryparams($html, $id, $size, $permalink) {
+    public function filter_thumbnail_queryparams($html, $id, $size, $permalink) {
 
         if ( false !== $permalink ) {
             return $html;
