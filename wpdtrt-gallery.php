@@ -107,7 +107,6 @@ if( ! defined( 'WPDTRT_GALLERY_URL' ) ) {
 
   // sub classes
   require_once(WPDTRT_GALLERY_PATH . 'src/class-wpdtrt-gallery-plugin.php');
-  require_once(WPDTRT_GALLERY_PATH . 'src/class-wpdtrt-gallery-widgets.php');
 
   // legacy helpers
   require_once(WPDTRT_GALLERY_PATH . 'src/legacy/attachment-field-heading.php');
