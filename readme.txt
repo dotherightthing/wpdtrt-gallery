@@ -5,7 +5,7 @@ Tags: gallery, video, audio, map
 Requires at least: 4.9.5
 Tested up to: 4.9.5
 Requires PHP: 5.6.30
-Stable tag: 1.6.10
+Stable tag: 1.7.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -41,6 +41,9 @@ echo do_shortcode('[wpdtrt_gallery_shortcode_heading]<h2>' . $heading . '</h2>[/
 * A WordPress gallery must immediately follow the `<h2>` heading
 
 == Changelog ==
+
+= 1.7.0 =
+* Adapt plugin to use the new wpdtrt-plugin system
 
 = 1.6.10 =
 * Add tests for 1.6.9

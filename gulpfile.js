@@ -8,7 +8,7 @@
  *    gulp dist --gulpfile ./vendor/dotherightthing/wpdtrt-plugin/gulpfile.js --cwd ./
  *
  * @package     WPDTRT_Gallery
- * @version 	1.6.10
+ * @version 	1.7.0
  * @since       0.7.0
  */
  
