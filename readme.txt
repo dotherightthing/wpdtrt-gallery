@@ -1,29 +1,27 @@
-
 === DTRT Gallery ===
 Contributors: dotherightthingnz
 Donate link: http://dotherightthing.co.nz
-Tags: gallery
-Requires at least: 4.8.1
-Tested up to: 4.9.4
+Tags: gallery, video, audio, map
+Requires at least: 4.9.5
+Tested up to: 4.9.5
 Requires PHP: 5.6.30
 Stable tag: 1.6.10
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Gallery viewer which supports images, panoramas, maps, SoundCloud and Vimeo
+Gallery viewer which supports images, panoramas, maps, SoundCloud and Vimeo.
 
 == Description ==
 
-Gallery viewer which supports images, panoramas, maps, SoundCloud and Vimeo
+Gallery viewer which supports images, panoramas, maps, SoundCloud and Vimeo.
 
 == Installation ==
 
 1. Upload the plugin files to the `/wp-content/plugins/wpdtrt-gallery` directory, or install the plugin through the WordPress plugins screen directly.
 2. Activate the plugin through the 'Plugins' screen in WordPress
+3. Use the Settings->DTRT Gallery screen to configure the plugin
 
 == Frequently Asked Questions ==
-
-= How do I use the plugin? =
 
 The plugin shortcode is automatically injected into the content and wraps all `<h2>` headings.
 
@@ -31,11 +29,11 @@ To manually use the shortcode:
 
 ```
 <!-- in WYSIWYG -->
-[wpdtrt-gallery-h2]<h2>Heading to wrap</h2>[/wpdtrt-gallery-h2]
+[wpdtrt_gallery_shortcode_heading]<h2>Heading to wrap</h2>[/wpdtrt_gallery_shortcode_heading]
 
 // in PHP
 $heading = 'Heading to wrap';
-echo do_shortcode('[wpdtrt-gallery-h2]<h2>' . $heading . '</h2>[/wpdtrt-gallery-h2]');
+echo do_shortcode('[wpdtrt_gallery_shortcode_heading]<h2>' . $heading . '</h2>[/wpdtrt_gallery_shortcode_heading]');
 ```
 
 = Caveats =

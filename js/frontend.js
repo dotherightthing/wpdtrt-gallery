@@ -1,14 +1,10 @@
 /**
  * Scripts for the public front-end
  *
- * This file contains JavaScript.
- *    PHP variables are provided in wpdtrt_gallery_config.
+ * PHP variables are provided in wpdtrt_gallery_config.
  *
- * @link        https://github.com/dotherightthing/wpdtrt-gallery
- * @since       0.1.0
- *
- * @package     WPDTRT_Gallery
- * @subpackage  WPDTRT_Gallery/js
+ * @version 	0.0.1
+ * @since       0.7.0
  */
 
 /* globals jQuery, Waypoint, URI */
@@ -665,9 +661,16 @@ var wpdtrt_gallery_ui = {
 	}
 };
 
+jQuery(document).ready(function($){
+
+	var config = wpdtrt_gallery_config;
+
+});
+
 (function($) {
   $(window).on('load', function() {
     // defer load of .initial enlargements, to reduce initial load time for PageSpeed
     wpdtrt_gallery_ui.gallery_viewer_lazyinit($);
   });
 })(jQuery);
+

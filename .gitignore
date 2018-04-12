@@ -1,6 +1,8 @@
 .DS_Store
+composer.phar
 css
 docs
+generators
 logs
 node_modules
 release.zip

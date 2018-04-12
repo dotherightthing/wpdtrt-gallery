@@ -3,14 +3,17 @@
  * Unit tests, using PHPUnit, wp-cli, WP_UnitTestCase
  *
  * The plugin is 'active' within a WP test environment
- * 	so the plugin class has already been instantiated
- * 	with the options set in wpdtrt-gallery.php
+ *  so the plugin class has already been instantiated
+ *  with the options set in wpdtrt-gallery.php
  *
  * Only function names prepended with test_ are run.
  * $debug logs are output with the test output in Terminal
  * A failed assertion may obscure other failed assertions in the same test.
  *
- * @package GalleryTest
+ * @package WPDTRT_Gallery
+ * @version 0.0.1
+ * @since   0.7.0
+ *
  * @see http://kb.dotherightthing.dan/php/wordpress/php-unit-testing-revisited/ - Links
  * @see https://phpunit.readthedocs.io/en/7.1/configuration.html
  * @see http://richardsweeney.com/testing-integrations/
@@ -31,6 +34,11 @@ class GalleryTest extends WP_UnitTestCase {
 
     /**
      * Compare two HTML fragments.
+     *
+     * @param string $expected Expected value
+     * @param string $actual Actual value
+     * @param string $error_message Message to show when strings don't match
+     *
      * @uses https://stackoverflow.com/a/26727310/6850747
      */
     protected function assertEqualHtml($expected, $actual, $error_message) {
@@ -56,17 +64,17 @@ class GalleryTest extends WP_UnitTestCase {
      * Automatically called by PHPUnit before each test method is run
      */
     public function setUp() {
-  		// Make the factory objects available.
+        // Make the factory objects available.
         parent::setUp();
 
         // Generate WordPress data fixtures
 
         // Post (for testing naked shortcode)
-	    $this->post_id_1 = $this->create_post( array(
-	    	'post_title' => 'Empty gallery test',
-	    	'post_date' => '2018-03-14 19:00:00',
-	    	'post_content' => '[wpdtrt-gallery-h2]<h2>Heading</h2>[/wpdtrt-gallery-h2]'
-	    ) );
+        $this->post_id_1 = $this->create_post( array(
+            'post_title' => 'Empty gallery test',
+            'post_date' => '2018-03-14 19:00:00',
+            'post_content' => '[wpdtrt_gallery_shortcode_heading]<h2>Heading</h2>[/wpdtrt_gallery_shortcode_heading]'
+        ) );
 
         // Attachment (for testing custom sizes and meta)
         $this->attachment_id_1 = $this->create_attachment( array(
@@ -82,7 +90,7 @@ class GalleryTest extends WP_UnitTestCase {
         $this->post_id_2 = $this->create_post( array(
             'post_title' => 'Single image gallery test',
             'post_date' => '2018-04-11 10:20:00',
-            'post_content' => '[wpdtrt-gallery-h2]<h2>Heading</h2>[gallery link="file" ids="' . $this->attachment_id_1 . '"][/wpdtrt-gallery-h2]'
+            'post_content' => '[wpdtrt_gallery_shortcode_heading]<h2>Heading</h2>[gallery link="file" ids="' . $this->attachment_id_1 . '"][/wpdtrt_gallery_shortcode_heading]'
         ) );
     }
 
@@ -94,10 +102,10 @@ class GalleryTest extends WP_UnitTestCase {
      */
     public function tearDown() {
 
-    	parent::tearDown();
+        parent::tearDown();
 
         wp_delete_post( $this->post_id_1, true );
-    	wp_delete_post( $this->attachment_id_1, true );
+        wp_delete_post( $this->attachment_id_1, true );
         wp_delete_post( $this->post_id_2, true );
 
         $this->delete_sized_images();
@@ -117,13 +125,13 @@ class GalleryTest extends WP_UnitTestCase {
      */
     public function create_post( $options ) {
 
-    	$post_title = null;
-    	$post_date = null;
+        $post_title = null;
+        $post_date = null;
         $post_content = null;
 
-    	extract( $options, EXTR_IF_EXISTS );
+        extract( $options, EXTR_IF_EXISTS );
 
- 		$post_id = $this->factory->post->create([
+        $post_id = $this->factory->post->create([
            'post_title' => $post_title,
            'post_date' => $post_date,
            'post_content' => $post_content,

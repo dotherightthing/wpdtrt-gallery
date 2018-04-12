@@ -20,25 +20,20 @@
  *
  * @link https://developer.wordpress.org/plugins/the-basics/best-practices/#file-organization
  * @link https://developer.wordpress.org/plugins/the-basics/uninstall-methods/#method-2-uninstall-php
- * @since      0.1.0
  *
- * @package    WPDTRT_Gallery
+ * @package     WPDTRT_Gallery
+ * @version     0.0.1
+ * @since       0.7.0
  */
 
 // if uninstall.php is not called by WordPress, die
 if ( ! defined('WP_UNINSTALL_PLUGIN') ) {
-  die;
+	die;
 }
 
-$option_name = "wpdtrt-gallery";
-
-delete_option($option_name);
+delete_option('wpdtrt_gallery');
 
 // for site options in Multisite
-delete_site_option($option_name);
-
-// drop a custom database table
-//global $wpdb;
-//$wpdb->query("DROP TABLE IF EXISTS {$wpdb->prefix}mytable");
+delete_site_option('wpdtrt_gallery');
 
 ?>

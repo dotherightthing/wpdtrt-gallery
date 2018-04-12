@@ -1,10 +1,13 @@
 {
   "name": "wpdtrt-gallery",
   "version": "1.6.10",
-  "description": "Gallery viewer which supports images, panoramas, maps, SoundCloud and Vimeo",
-  "main": "readme.txt",
+  "description": "Gallery viewer which supports images, panoramas, maps, SoundCloud and Vimeo.",
+  "main": "wpdtrt-gallery.php",
   "authors": [
-    "Dan Smith <dev@dotherightthing.co.nz>"
+    {
+      "name": "Dan Smith",
+      "email": "dev@dotherightthing.co.nz"
+    }
   ],
   "dependencies": {
     "waypoints": "^4.0.0",
@@ -14,7 +17,8 @@
   "homepage": "https://github.com/dotherightthing/wpdtrt-gallery",
   "ignore": [
     "**/.*",
-    "bower_components"
+    "node_modules",
+    "vendor"
   ],
   "private": true
 }

@@ -1,14 +1,14 @@
-//
-// Styles for the public front-end
-//
-// @link        https://github.com/dotherightthing/wpdtrt-gallery
-// @since       0.1.0
-//
-// @package     WPDTRT_Gallery
-// @subpackage  WPDTRT_Gallery/scss
-//
+/**
+ * Styles for the public front-end
+ *
+ * @package     WPDTRT_Gallery
+ * @version 	0.0.1
+ * @since       0.7.0
+ */
 
- @import "variables";
+@import "vendor/dotherightthing/wpdtrt-plugin/scss/_variables.scss";
+@import "vendor/dotherightthing/wpdtrt-plugin/scss/_extends.scss";
+@import "variables";
 
 // -------------------------------------------------------------------
 // Variables
