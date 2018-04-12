@@ -16,6 +16,7 @@ $before_title = null; // register_sidebar
 $title = null;
 $after_title = null; // register_sidebar
 $after_widget = null; // register_sidebar
+$content = null; // content between shortcode tags
 
 // shortcode options
 // $foo = null;
