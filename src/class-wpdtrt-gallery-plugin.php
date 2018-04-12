@@ -65,10 +65,10 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPPlugin\Plugin {
     	parent::wp_setup();
 
 		// add actions and filters here
-        add_filter( 'shortcode_atts_gallery', 'filter_gallery_attributes', 10, 3 );
-        add_filter( 'wp_read_image_metadata', 'filter_save_image_geodata', '', 3 );
-        add_filter( 'wp_get_attachment_link', 'filter_thumbnail_queryparams', 1, 4 );
-        add_filter( 'the_content', 'filter_shortcode_heading', 10 );
+        add_filter( 'shortcode_atts_gallery', [$this, 'filter_gallery_attributes'], 10, 3 );
+        add_filter( 'wp_read_image_metadata', [$this, 'filter_save_image_geodata'], '', 3 );
+        add_filter( 'wp_get_attachment_link', [$this, 'filter_thumbnail_queryparams'], 1, 4 );
+        add_filter( 'the_content', [$this, 'filter_shortcode_heading'], 10 );
 
         $this->helper_add_image_sizes();
     }
