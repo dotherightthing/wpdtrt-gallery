@@ -17,8 +17,7 @@
         "issues": "https://github.com/dotherightthing/wpdtrt-gallery/issues"
     },
     "require": {
-        "dotherightthing/wpdtrt-plugin": "^1.0.0",
-		"tgmpa/tgm-plugin-activation": "2.6.*"
+        "dotherightthing/wpdtrt-plugin": "^1.0.0"
     },
     "minimum-stability": "stable",
     "repositories": [
@@ -33,11 +32,5 @@
     ],
     "config": {
         "vendor-dir": "vendor"
-    },
-	"require-dev": {
-		"phpdocumentor/phpdocumentor": "2.*",
-		"phpunit/phpunit": "^5.7",
-		"psy/psysh": "~0.6",
-		"wp-cli/wp-cli": "~0.22"
-	}
+    }
 }
