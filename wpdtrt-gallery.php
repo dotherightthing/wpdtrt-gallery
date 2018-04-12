@@ -149,14 +149,7 @@ if( ! defined( 'WPDTRT_GALLERY_URL' ) ) {
      * @see https://github.com/dotherightthing/wpdtrt-plugin/blob/master/views/form-element-select.php
      * @see https://github.com/dotherightthing/wpdtrt-plugin/blob/master/views/form-element-text.php
      */
-    $plugin_options = array(
-      'pluginoption1' => array(
-        'type' => 'text',
-        'label' => __('Field label', 'wpdtrt-gallery'),
-        'size' => 10,
-        'tip' => __('Helper text', 'wpdtrt-gallery')
-      )
-    );
+    $plugin_options = array();
 
     /**
      * All options available to Widgets and Shortcodes
@@ -167,14 +160,7 @@ if( ! defined( 'WPDTRT_GALLERY_URL' ) ) {
      * @see https://github.com/dotherightthing/wpdtrt-plugin/blob/master/views/form-element-select.php
      * @see https://github.com/dotherightthing/wpdtrt-plugin/blob/master/views/form-element-text.php
      */
-    $instance_options = array(
-      'instanceoption1' => array(
-        'type' => 'text',
-        'label' => __('Field label', 'wpdtrt-gallery'),
-        'size' => 10,
-        'tip' => __('Helper text', 'wpdtrt-gallery')
-      )
-    );
+    $instance_options = array();
 
     $wpdtrt_gallery_plugin = new WPDTRT_Gallery_Plugin(
       array(
@@ -215,44 +201,6 @@ if( ! defined( 'WPDTRT_GALLERY_URL' ) ) {
   add_action( 'init', 'wpdtrt_gallery_init', 0 );
 
   /**
-   * Register a WordPress widget, passing in an instance of our custom widget class
-   * The plugin does not require registration, but widgets and shortcodes do.
-   * Note: widget_init fires before init, unless init has a priority of 0
-   *
-   * @uses        ../../../../wp-includes/widgets.php
-   * @see         https://codex.wordpress.org/Function_Reference/register_widget#Example
-   * @see         https://wp-mix.com/wordpress-widget_init-not-working/
-   * @see         https://codex.wordpress.org/Plugin_API/Action_Reference
-   * @uses        https://github.com/dotherightthing/wpdtrt/tree/master/library/sidebars.php
-   *
-   * @version     0.0.1
-   * @since       0.7.0
-   * @todo        Add form field parameters to the options array
-   * @todo        Investigate the 'classname' option
-   */
-  function wpdtrt_gallery_widget_1_init() {
-
-    global $wpdtrt_gallery_plugin;
-
-    $wpdtrt_gallery_widget_1 = new WPDTRT_Gallery_Widget_1(
-      array(
-        'name' => 'wpdtrt_gallery_widget_1',
-        'title' => __(' Gallery Widget', 'wpdtrt-gallery'),
-        'description' => __('Gallery viewer which supports images, panoramas, maps, SoundCloud and Vimeo..', 'wpdtrt-gallery'),
-        'plugin' => $wpdtrt_gallery_plugin,
-        'template' => '',
-        'selected_instance_options' => array(
-          'instanceoption1'
-        )
-      )
-    );
-
-    register_widget( $wpdtrt_gallery_widget_1 );
-  }
-
-  add_action( 'widgets_init', 'wpdtrt_gallery_widget_1_init' );
-
-  /**
    * Register Shortcode
    *
    * @todo Add centigrade as a shortcode option (#1)
@@ -267,9 +215,7 @@ if( ! defined( 'WPDTRT_GALLERY_URL' ) ) {
         'name' => 'wpdtrt_gallery_shortcode_heading',
         'plugin' => $wpdtrt_gallery_plugin,
         'template' => 'heading',
-        'selected_instance_options' => array(
-          'instanceoption1'
-        )
+        'selected_instance_options' => array()
       )
     );
   }
