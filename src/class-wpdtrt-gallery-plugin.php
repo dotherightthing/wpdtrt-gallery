@@ -81,7 +81,7 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPPlugin\Plugin {
      *
      * @see wpdtrt-plugin/src/Plugin.php
      */
-    protected function render_js_frontend() {
+    public function render_js_frontend() {
         $attach_to_footer = true;
 
         wp_register_script( 'uri',
