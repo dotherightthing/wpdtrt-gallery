@@ -9,6 +9,10 @@
 
 @import "vendor/dotherightthing/wpdtrt-plugin/node_modules/include-media/dist/_include-media";
 
+// -------------------------------------------------------------------
+// Breakpoints
+// -------------------------------------------------------------------
+
 // $breakpoints for include-media
 // 710+ wpdtrt-dbth 3 column layout
 // 910+ wpdtrt-dbth MENU button switches to an inline menu
@@ -20,3 +24,17 @@ $breakpoints: (
     tablet: 710px,
     desktop: 910px
 );
+
+// -------------------------------------------------------------------
+// Colors
+// -------------------------------------------------------------------
+
+$gallery-viewer-bg-color: rgba(0, 0, 0, .85);
+$gallery-viewer-border-color: rgba(0, 0, 0, 1);
+$gallery-viewer-border-color-focus: rgba(0, 0, 0, .85);
+$gallery-viewer-border-color-alt: rgba(255, 255, 255, 1);
+$gallery-viewer-button-color-alt: rgba(102, 102, 102, 1);
+$gallery-viewer-bg-color-page: rgba(255, 255, 255, 1);
+$gallery-viewer-text-color: rgba(255, 255, 255, 1);
+$gallery-viewer-bg-color-embed: rgba(0, 0, 0, .05);
+$gallery-viewer-icon-embed: rgba(0, 0, 0, .4);
