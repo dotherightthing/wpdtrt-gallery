@@ -593,7 +593,7 @@ var wpdtrt_gallery_ui = {
 
 	    $stack_link_viewer
 	      .attr('id', viewer_id)
-	      .attr('data-has-image', true);
+	      .attr('data-has-gallery', true);
 
 	    $stack_link_viewer.find('.gallery-viewer--header')
 	      .append('<button id="' + section_id + '-viewer-expand" class="gallery-viewer--expand" aria-expanded="false" aria-controls="' + viewer_id + '"><span class="says">Show full image</span></button>');

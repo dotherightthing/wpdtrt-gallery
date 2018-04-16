@@ -426,7 +426,7 @@ $gallery-viewer-icon-embed: rgba(0, 0, 0, .4);
   // viewer is expanded, button will collapse viewer
   // -------------------------------------------------------------------
 
-  &[data-has-image="true"][data-expanded="true"] {
+  &[data-has-gallery="true"][data-expanded="true"] {
 
     .gallery-viewer--expand {
       background-color: $gallery-viewer-border-color;
@@ -525,7 +525,7 @@ $gallery-viewer-icon-embed: rgba(0, 0, 0, .4);
   // sections without galleries
   // -------------------------------------------------------------------
 
-  &[data-has-image="false"] {
+  &[data-has-gallery="false"] {
 
     .gallery-viewer--header {
        > h2 {
@@ -548,7 +548,7 @@ $gallery-viewer-icon-embed: rgba(0, 0, 0, .4);
   // sections with galleries
   // -------------------------------------------------------------------
 
-  &[data-has-image="true"] {
+  &[data-has-gallery="true"] {
 
     .gallery-viewer--header {
       // both text elements must be AP
