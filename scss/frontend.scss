@@ -54,7 +54,7 @@ $gallery-viewer-icon-embed: rgba(0, 0, 0, .4);
 // Thumbnail icons
 
 .gallery {
-  position: relative; /* stack on top of sticky nav */
+  position: relative; // stack on top of sticky nav
   clear: left;
   margin: 0 0 2em 0;
 
@@ -248,8 +248,8 @@ $gallery-viewer-icon-embed: rgba(0, 0, 0, .4);
 .gallery-viewer {
 
   &.stack {
-    position: relative; /* AP */
-    z-index: 1; /* stack on top of sticky nav so that text can be selected */
+    position: relative; // AP
+    z-index: 1; // stack on top of sticky nav so that text can be selected
     display: block;
     margin-bottom: .5em;
   }
