@@ -25,6 +25,29 @@ $gallery-viewer-bg-color-embed: rgba(0, 0, 0, .05);
 $gallery-viewer-icon-embed: rgba(0, 0, 0, .4);
 
 // -------------------------------------------------------------------
+// Helpers
+// -------------------------------------------------------------------
+
+// embedresponsively.com
+// scales iframe height proportionally
+
+%h-embedresponsively {
+  position: relative;
+  padding-bottom: 56.25%;
+  height: 0;
+  overflow: hidden;
+  max-width: 100%;
+
+  iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;    
+  }
+}
+
+// -------------------------------------------------------------------
 // Styles
 // -------------------------------------------------------------------
 
@@ -613,6 +636,9 @@ $gallery-viewer-icon-embed: rgba(0, 0, 0, .4);
 
     .stack--liner {
       background-color: $gallery-viewer-bg-color-embed;
+
+      @extend %h-embedresponsively;
+
       &::before {
         @extend .stack--liner--icon-embed;
         content: "\e90c";
@@ -629,20 +655,7 @@ $gallery-viewer-icon-embed: rgba(0, 0, 0, .4);
     .stack--liner {
       background-color: $gallery-viewer-bg-color-embed;
 
-      // embedresponsively.com
-      position: relative;
-      padding-bottom: 56.25%;
-      height: 0;
-      overflow: hidden;
-      max-width: 100%;
-
-      iframe {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;    
-      }
+      @extend %h-embedresponsively;
 
       &::before {
         @extend .stack--liner--icon-embed;
