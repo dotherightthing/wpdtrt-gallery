@@ -69,11 +69,10 @@ class GalleryTest extends WP_UnitTestCase {
 
         // Generate WordPress data fixtures
 
-        // Post (for testing naked shortcode)
+        // Post (for testing manually entered, naked shortcode)
         $this->post_id_1 = $this->create_post( array(
             'post_title' => 'Empty gallery test',
-            'post_date' => '2018-03-14 19:00:00',
-            'post_content' => '[wpdtrt_gallery_shortcode_heading]<h2>Heading</h2>[/wpdtrt_gallery_shortcode_heading]'
+            'post_content' => '[wpdtrt_gallery_shortcode_heading]<h2>Post 1 heading</h2>[/wpdtrt_gallery_shortcode_heading]'
         ) );
 
         // Attachment (for testing custom sizes and meta)
@@ -89,8 +88,13 @@ class GalleryTest extends WP_UnitTestCase {
         // this is a chicken-and-egg scenario
         $this->post_id_2 = $this->create_post( array(
             'post_title' => 'Single image gallery test',
-            'post_date' => '2018-04-11 10:20:00',
-            'post_content' => '[wpdtrt_gallery_shortcode_heading]<h2>Heading</h2>[gallery link="file" ids="' . $this->attachment_id_1 . '"][/wpdtrt_gallery_shortcode_heading]'
+            'post_content' => '[wpdtrt_gallery_shortcode_heading]<h2>Post 2 heading</h2>[gallery link="file" ids="' . $this->attachment_id_1 . '"][/wpdtrt_gallery_shortcode_heading]'
+        ) );
+
+        // Post (for injected naked shortcode)
+        $this->post_id_3 = $this->create_post( array(
+            'post_title' => 'Empty gallery test',
+            'post_content' => '<h2>Post 3 heading</h2>'
         ) );
     }
 
@@ -345,7 +349,7 @@ class GalleryTest extends WP_UnitTestCase {
         $this->assertEqualHtml(
             '<div class="wpdtrt-gallery stack stack_link_viewer gallery-viewer h2-viewer" id="[]-viewer" data-has-image="false" data-expanded="false">
                 <div class="gallery-viewer--header">
-                    <h2>Heading</h2>
+                    <h2>Post 1 heading</h2>
                 </div>
                 <div class="stack--wrapper" style="">
                     <figure class="stack--liner">
@@ -366,39 +370,74 @@ class GalleryTest extends WP_UnitTestCase {
 
     /**
      * Test shortcode with a heading and gallery containing a single image
-     * @todo Disabled as test output differs from actual output
+     *  Note that test theme does not appear to output HTML5 markup for gallery.
      */
-    public function __test_shortcode_with_heading_and_gallery() {
+    public function test_shortcode_with_heading_and_gallery() {
 
         $this->go_to(
             get_post_permalink( $this->post_id_2 )
         );
 
         // $content = get_the_content(); // Trying to get property of non-object
-        $content = get_post_field('post_content', $this->post_id_2);
+        //$content = get_post_field('post_content', $this->post_id_2);
 
         // https://stackoverflow.com/a/22270259/6850747
-        //$content = apply_filters('the_content', get_post_field('post_content', $this->post_id_2) );
+        $content = apply_filters('the_content', get_post_field('post_content', $this->post_id_2) );
 
-        $this->assertEqualHtml(
-            '<div class="stack stack_link_viewer gallery-viewer h2-viewer" id="[]-viewer" data-has-image="false" data-expanded="false">
-                <div class="gallery-viewer--header">
-                    <h2>Heading</h2>[gallery link="file" ids="7"]
-                </div>
-                <div class="stack--wrapper" style="">
-                    <figure class="stack--liner">
-                        <div class="img-wrapper">
-                            <img src="" alt="">
-                        </div>
-                        <iframe width="100%" height="100%" src="" frameborder="0" allowfullscreen="true" scrolling="no" aria-hidden="true"></iframe>
-                        <figcaption class="gallery-viewer--footer">
-                            <div class="gallery-viewer--caption"></div>
-                        </figcaption>
-                    </figure>
-                </div>
-            </div>',
+        $this->assertContains(
+            '<h2>Post 2 heading</h2>',
             trim( do_shortcode( trim( do_shortcode( $content ) ) ) ),
-            'wpdtrt_gallery_shortcode does not return the correct HTML'
+            'wpdtrt_gallery_shortcode does not output heading text'
+        );
+    }
+
+    /**
+     * Test shortcode with a heading and gallery containing a single image
+     *  Note that test theme does not appear to output HTML5 markup for gallery.
+     */
+    public function test_injected_shortcode_with_heading() {
+
+        $this->go_to(
+            get_post_permalink( $this->post_id_3 )
+        );
+
+        // $content = get_the_content(); // Trying to get property of non-object
+        //$content = get_post_field('post_content', $this->post_id_2);
+
+        // https://stackoverflow.com/a/22270259/6850747
+        $content = apply_filters('the_content', get_post_field('post_content', $this->post_id_3) );
+
+        $this->assertContains(
+            '<h2>Post 3 heading</h2>',
+            trim( do_shortcode( trim( do_shortcode( $content ) ) ) ),
+            'wpdtrt_gallery_shortcode not injected'
+        );
+    }
+
+    /**
+     * Test theme support as this affects gallery markup
+     *  dtrt parent theme sets add_theme_support( 'html5', array( 'gallery', 'caption' ) ); (3.9+)
+     *  This uses "<figure> and <figcaption> elements, instead of the generic definition list markup."
+     *  "galleries will not include inline styles anymore when in HTML5 mode. This caters to the trend of disabling default gallery styles through the use_default_gallery_style filter, a filter that even the last two default themes used. With that, theme developers can always start with a clean slate when creating their own set of gallery styles."
+     *
+     * @see https://make.wordpress.org/core/2014/04/15/html5-galleries-captions-in-wordpress-3-9/
+     * @see https://wordpress.stackexchange.com/questions/23839/using-add-theme-support-inside-a-plugin
+     */
+    public function __test_theme_support() {
+
+        $this->assertTrue(
+            get_theme_support('html5'),
+            'Current theme does not support HTML5 markup'
+        );
+
+        $this->assertTrue(
+            in_array('gallery', get_theme_support('html5')[0], TRUE ),
+            'Current theme does not support HTML5 gallery markup'
+        );
+
+        $this->assertTrue(
+            in_array('caption', get_theme_support('html5')[0], TRUE ),
+            'Current theme does not support HTML5 (fig)caption markup'
         );
     }
 }
