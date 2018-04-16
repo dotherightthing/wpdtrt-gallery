@@ -16,7 +16,6 @@ $before_title = null; // register_sidebar
 $title = null;
 $after_title = null; // register_sidebar
 $after_widget = null; // register_sidebar
-$content = null; // content between shortcode tags
 
 // shortcode options
 // $foo = null;
@@ -31,6 +30,14 @@ $options = get_query_var( 'options' );
 // @link http://kb.network.dan/php/wordpress/extract/
 extract( $options, EXTR_IF_EXISTS );
 
+// content between shortcode tags
+if ( isset( $context ) ) {
+	$content = $context->content;
+}
+else {
+	$content = '';
+}
+
 // load the data
 // $plugin->get_api_data();
 // $foo = $plugin->get_api_data_bar();
@@ -43,7 +50,6 @@ echo $before_title . $title . $after_title;
 <div class="wpdtrt-gallery stack stack_link_viewer gallery-viewer h2-viewer" id="[]-viewer" data-has-image="false" data-expanded="false">
 	<div class="gallery-viewer--header">
 	<?php
-		// <h2>Heading text</h2>
 		echo $content;
 	?>
 	</div>
