@@ -17,17 +17,16 @@
         "issues": "https://github.com/dotherightthing/wpdtrt-gallery/issues"
     },
     "require": {
-        "dotherightthing/wpdtrt-plugin": "^1.0.0"
+        "dotherightthing/wpdtrt-plugin": "1.2.20"
     },
     "minimum-stability": "stable",
     "repositories": [
         {
-            "type": "vcs",
-            "url":  "git@github.com:dotherightthing/wpdtrt-debug.git"
+            "type": "composer",
+            "url": "https://repo.packagist.com/dotherightthing/"
         },
         {
-            "type": "vcs",
-            "url":  "git@github.com:dotherightthing/wpdtrt-plugin.git"
+            "packagist.org": false
         }
     ],
     "config": {
