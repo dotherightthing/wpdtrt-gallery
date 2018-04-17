@@ -5,7 +5,7 @@ Tags: gallery, video, audio, map
 Requires at least: 4.9.5
 Tested up to: 4.9.5
 Requires PHP: 5.6.30
-Stable tag: 1.7.1
+Stable tag: 1.7.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -42,8 +42,18 @@ echo do_shortcode('[wpdtrt_gallery_shortcode_heading]<h2>' . $heading . '</h2>[/
 
 == Changelog ==
 
+= 1.7.2 =
+* Scale media embeds using embedresponsively
+* Migrate icons from wpdtrt-dbth theme
+* Fix media embed icon position
+* Rename data attributes
+* Document dependencies
+* Use Environmental Variables in build
+
 = 1.7.1 =
 * Use Private Packagist
+* Test shortcode
+* Fix build badge
 
 = 1.7.0 =
 * Adapt plugin to use the new wpdtrt-plugin system
