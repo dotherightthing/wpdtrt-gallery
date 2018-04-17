@@ -273,6 +273,7 @@
       left: 50%;
       color: $gallery-viewer-icon-embed;
       font-size: 48px;
+      line-height: 0;
       margin-top: -(48px/2);
       margin-left: -(48px/2);
     }
@@ -601,11 +602,13 @@
     .stack--liner {
       background-color: $gallery-viewer-bg-color-embed;
 
-      @extend %h-embedresponsively;
-
       &::before {
         @extend .stack--liner--icon-embed;
         content: "\e90c";
+      }
+
+      .gallery-viewer--embed {
+        @extend %h-embedresponsively;
       }
 
       .gallery-viewer--footer {
@@ -619,8 +622,6 @@
     .stack--liner {
       background-color: $gallery-viewer-bg-color-embed;
 
-      @extend %h-embedresponsively;
-
       &::before {
         @extend .stack--liner--icon-embed;
         content: "\e90b";
@@ -629,6 +630,10 @@
       img {
         max-height: 368px;
         visibility: hidden;
+      }
+
+      .gallery-viewer--embed {
+        @extend %h-embedresponsively;
       }
 
       .gallery-viewer--footer {
