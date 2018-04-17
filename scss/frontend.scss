@@ -11,6 +11,11 @@
 @import "variables";
 @import "extends";
 
+// plugins
+// omitting the extension makes the classes available for extend
+// https://stackoverflow.com/questions/7111610/import-regular-css-file-in-scss-file/30279590#30279590
+@import "../icons/icomoon/style.css";
+
 // -------------------------------------------------------------------
 // Styles
 // -------------------------------------------------------------------
