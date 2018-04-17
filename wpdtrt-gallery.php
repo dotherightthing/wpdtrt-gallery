@@ -181,17 +181,17 @@ if( ! defined( 'WPDTRT_GALLERY_URL' ) ) {
         'plugin_options' => $plugin_options,
         'instance_options' => $instance_options,
         'version' => WPDTRT_GALLERY_VERSION,
-        /*
         'plugin_dependencies' => array(
+          // Dependency: Gallery viewer is initialised as sections are scrolled into view
           array(
-            'name'          => 'Plugin Name',
-            'slug'          => 'plugin-name',
-            'source'        => 'https://github.com/user/library/archive/master.zip',
+            'name'          => 'DTRT Content Sections',
+            'slug'          => 'wpdtrt-contentsections',
+            'source'        => 'https://github.com/dotherightthing/wpdtrt-contentsections/releases/download/0.0.1/release.zip',
+            'version'       => '0.0.1',
+            'external_url'  => 'https://github.com/dotherightthing/wpdtrt-contentsections',
             'required'      => true,
-            'is_callable'   => 'function_name'
-          )
+          ),
         ),
-        */
         'demo_shortcode_params' => null
       )
     );
