@@ -49,6 +49,7 @@ echo do_shortcode('[wpdtrt_gallery_shortcode_heading]<h2>' . $heading . '</h2>[/
 * Rename data attributes
 * Document dependencies
 * Use Environmental Variables in build
+* Update wpdtrt-plugin
 
 = 1.7.1 =
 * Use Private Packagist
