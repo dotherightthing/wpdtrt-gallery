@@ -14,7 +14,4 @@ Please read the [WordPress readme.txt](readme.txt).
 
 ## Dependencies
 
-This plugin is currently tightly coupled with my `wpdtrt-dbth` theme and depends on the following:
-
-1. `https://wordpress.org/plugins/better-anchor-links/` (`wpdtrt-dbth` TGMA dependency)
-2. [wpdtrt/library/content-sections.php](https://github.com/dotherightthing/wpdtrt/blob/master/library/content-sections.php)
+1. The gallery viewer is initialised as [DTRT Content Sections](https://github.com/dotherightthing/wpdtrt-contentsections) are scrolled into view.
