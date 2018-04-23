@@ -1,10 +1,10 @@
-/**
- * Styles for the public front-end
- *
- * @package     WPDTRT_Gallery
- * @version 	0.0.1
- * @since       0.7.0
- */
+//
+// Styles for the public front-end
+//
+// @package     WPDTRT_Gallery
+// @version   0.0.1
+// @since       0.7.0
+//
 
 @import "vendor/dotherightthing/wpdtrt-plugin/scss/_variables.scss";
 @import "vendor/dotherightthing/wpdtrt-plugin/scss/_extends.scss";
@@ -49,10 +49,7 @@
     font-variant: normal;
     text-transform: none;
     line-height: 1;
-
-    // Better Font Rendering ===========
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+    @extend %wpdtrt-plugin--text-sharpen;
 
     font-size: 1.1em;
   }
@@ -95,12 +92,12 @@
     top: 0;
     vertical-align: top;
     line-height: 100%;
-    color: #fff;
+    color: $wpdtrt-gallery-thumbnail-icon-color;
     text-shadow:
-     -1px -1px 0 #000,
-      1px -1px 0 #000,
-      -1px 1px 0 #000,
-       1px 1px 0 #000;
+     -1px -1px 0 $wpdtrt-gallery-thumbnail-icon-shadow-color,
+      1px -1px 0 $wpdtrt-gallery-thumbnail-icon-shadow-color,
+      -1px 1px 0 $wpdtrt-gallery-thumbnail-icon-shadow-color,
+       1px 1px 0 $wpdtrt-gallery-thumbnail-icon-shadow-color;
     width: 100%;
     height: 100%;
     border: 4px solid transparent;
@@ -126,12 +123,12 @@
     &[data-viewing="true"] {
       &::before {
         // unselected icon overstate
-        color: #000;
+        color: $wpdtrt-gallery-thumbnail-icon-shadow-color;
         text-shadow:
-         -1px -1px 0 #fff,
-          1px -1px 0 #fff,
-          -1px 1px 0 #fff,
-           1px 1px 0 #fff;
+         -1px -1px 0 $wpdtrt-gallery-thumbnail-icon-color,
+          1px -1px 0 $wpdtrt-gallery-thumbnail-icon-color,
+          -1px 1px 0 $wpdtrt-gallery-thumbnail-icon-color,
+           1px 1px 0 $wpdtrt-gallery-thumbnail-icon-color;
         // selected icon overstate // ?
         border-color: transparent;
       }
@@ -148,7 +145,7 @@
           left: 0;
           width: 100%;
           height: 100%;
-          border: 4px solid rgba(0,0,0,.85);
+          border: 4px solid $wpdtrt-gallery-viewer-border-color-focus;
         }
       }
     }
@@ -158,12 +155,12 @@
       .gallery > & {
         cursor: not-allowed;
         opacity: 1;
-        border-color: #fff;
+        border-color: $wpdtrt-gallery-thumbnail-border-color--active;
       }
 
       &::before {
         content: "-";
-        background-color: rgba(255,255,255,.5);
+        background-color: $wpdtrt-gallery-thumbnail-icon-color--active;
         transition: none;
       }
     }
@@ -236,8 +233,8 @@
   &--header > h2,
   &--caption {
     display: inline-block;
-    background-color: $gallery-viewer-bg-color;
-    color: $gallery-viewer-text-color;
+    background-color: $wpdtrt-gallery-viewer-bg-color;
+    color: $wpdtrt-gallery-viewer-text-color;
   }
 
   .stack--wrapper {
@@ -261,13 +258,13 @@
       z-index: 2;
       top: 15.5px;
       right: 24px;
-      color: $gallery-viewer-text-color;
+      color: $wpdtrt-gallery-viewer-text-color;
       font-size: 1.4em;
       text-shadow:
-       -1px -1px 0 $gallery-viewer-border-color,
-        1px -1px 0 $gallery-viewer-border-color,
-        -1px 1px 0 $gallery-viewer-border-color,
-         1px 1px 0 $gallery-viewer-border-color;
+       -1px -1px 0 $wpdtrt-gallery-viewer-border-color,
+        1px -1px 0 $wpdtrt-gallery-viewer-border-color,
+        -1px 1px 0 $wpdtrt-gallery-viewer-border-color,
+         1px 1px 0 $wpdtrt-gallery-viewer-border-color;
     }
 
     &--icon-embed {
@@ -276,7 +273,7 @@
       z-index: 0;
       top: 50%;
       left: 50%;
-      color: $gallery-viewer-icon-embed;
+      color: $wpdtrt-gallery-viewer-icon-embed;
       font-size: 48px;
       line-height: 0;
       margin-top: -(48px/2);
@@ -320,12 +317,12 @@
     border: 4px solid transparent;
     border-radius: 0;
 
-    color: $gallery-viewer-text-color;
+    color: $wpdtrt-gallery-viewer-text-color;
     text-shadow:
-     -1px -1px 0 $gallery-viewer-border-color,
-      1px -1px 0 $gallery-viewer-border-color,
-      -1px 1px 0 $gallery-viewer-border-color,
-       1px 1px 0 $gallery-viewer-border-color;
+     -1px -1px 0 $wpdtrt-gallery-viewer-border-color,
+      1px -1px 0 $wpdtrt-gallery-viewer-border-color,
+      -1px 1px 0 $wpdtrt-gallery-viewer-border-color,
+       1px 1px 0 $wpdtrt-gallery-viewer-border-color;
 
     position: relative;
     right: 0; // 1px; // seems to be a browser rounding error as it's ok at random breakpoints
@@ -342,13 +339,13 @@
     &:hover,
     &:focus {
       outline: none;
-      background-color: $gallery-viewer-border-color;
-      color: $gallery-viewer-border-color;
+      background-color: $wpdtrt-gallery-viewer-border-color;
+      color: $wpdtrt-gallery-viewer-border-color;
       text-shadow:
-       -1px -1px 0 $gallery-viewer-border-color-alt,
-        1px -1px 0 $gallery-viewer-border-color-alt,
-        -1px 1px 0 $gallery-viewer-border-color-alt,
-         1px 1px 0 $gallery-viewer-border-color-alt;
+       -1px -1px 0 $wpdtrt-gallery-viewer-border-color-alt,
+        1px -1px 0 $wpdtrt-gallery-viewer-border-color-alt,
+        -1px 1px 0 $wpdtrt-gallery-viewer-border-color-alt,
+         1px 1px 0 $wpdtrt-gallery-viewer-border-color-alt;
     }
   }
 
@@ -376,7 +373,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    border: 4px solid $gallery-viewer-border-color-focus;
+    border: 4px solid $wpdtrt-gallery-viewer-border-color-focus;
   }
 
   // -------------------------------------------------------------------
@@ -399,7 +396,7 @@
   &[data-has-gallery="true"][data-expanded="true"] {
 
     .gallery-viewer--expand {
-      background-color: $gallery-viewer-border-color;
+      background-color: $wpdtrt-gallery-viewer-border-color;
 
       // pin to bottom of header / top of image
       position: absolute;
@@ -409,8 +406,8 @@
 
       &:hover,
       &:focus {
-        background-color: $gallery-viewer-button-color-alt;
-        color: $gallery-viewer-button-color-alt;
+        background-color: $wpdtrt-gallery-viewer-button-color-alt;
+        color: $wpdtrt-gallery-viewer-button-color-alt;
       }
 
       &::after {
@@ -437,8 +434,8 @@
 
     .gallery-viewer--header > h2,
     .gallery-viewer--caption {
-      background-color: $gallery-viewer-border-color;
-      border: 4px solid $gallery-viewer-border-color;
+      background-color: $wpdtrt-gallery-viewer-border-color;
+      border: 4px solid $wpdtrt-gallery-viewer-border-color;
     }
 
     .gallery-viewer--footer {
@@ -456,7 +453,7 @@
 
       .gallery-viewer--footer {
         // masks .stack-liner which includes the caption area
-        background-color: $gallery-viewer-border-color-alt;
+        background-color: $wpdtrt-gallery-viewer-border-color-alt;
         z-index: 1;
 
         &:before {
@@ -468,7 +465,7 @@
           top: 0;
           left: 0;
           width: 100%;
-          border-top: 4px solid $gallery-viewer-border-color;
+          border-top: 4px solid $wpdtrt-gallery-viewer-border-color;
         }
       }
     }
@@ -501,7 +498,7 @@
        > h2 {
         // the gallery viewer is the template
         // but not all sections have galleries
-        background-color: $gallery-viewer-border-color;
+        background-color: $wpdtrt-gallery-viewer-border-color;
       }
     }
 
@@ -605,7 +602,7 @@
   &[data-soundcloud-pageid] {
 
     .stack--liner {
-      background-color: $gallery-viewer-bg-color-embed;
+      background-color: $wpdtrt-gallery-viewer-bg-color-embed;
 
       &::before {
         @extend .stack--liner--icon-embed;
@@ -617,7 +614,7 @@
       }
 
       .gallery-viewer--footer {
-        background-color: $gallery-viewer-bg-color-page;
+        background-color: $wpdtrt-gallery-viewer-bg-color-page;
       }
     }
   }
@@ -625,7 +622,7 @@
   &[data-vimeo-pageid] {
 
     .stack--liner {
-      background-color: $gallery-viewer-bg-color-embed;
+      background-color: $wpdtrt-gallery-viewer-bg-color-embed;
 
       &::before {
         @extend .stack--liner--icon-embed;
@@ -638,11 +635,11 @@
       }
 
       .gallery-viewer--embed {
-        @extend %h-embedresponsively;
+        @extend %wpdtrt-plugin--embedresponsively;
       }
 
       .gallery-viewer--footer {
-        background-color: $gallery-viewer-bg-color-page;
+        background-color: $wpdtrt-gallery-viewer-bg-color-page;
       }
     }
   }

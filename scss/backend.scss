@@ -1,13 +1,16 @@
-/**
- * Styles for the WP Admin plugin options page
- *
- * @package     WPDTRT_Gallery
- * @version 	0.0.1
- * @since       0.7.0
- */
+//
+// Styles for the WP Admin plugin options page
+//
+// @package     WPDTRT_Gallery
+// @version 	0.0.1
+// @since       0.7.0
+//
 
 @import "vendor/dotherightthing/wpdtrt-plugin/scss/_variables.scss";
 @import "vendor/dotherightthing/wpdtrt-plugin/scss/_extends.scss";
+@import "vendor/dotherightthing/wpdtrt-plugin/scss/_backend.scss";
+@import "variables";
+@import "extends";
 
 // hide unused core fields, to show custom fields sooner
 .attachment-details {
