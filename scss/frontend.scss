@@ -610,7 +610,7 @@
       }
 
       .gallery-viewer--embed {
-        @extend %h-embedresponsively;
+        @extend %wpdtrt-plugin--embedresponsively;
       }
 
       .gallery-viewer--footer {
