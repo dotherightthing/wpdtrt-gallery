@@ -183,6 +183,8 @@ if( ! defined( 'WPDTRT_GALLERY_URL' ) ) {
           'demo_shortcode_title' => __('Demo shortcode', 'wpdtrt-gallery'),
           'demo_data_description' => __('This demo was generated from the following data', 'wpdtrt-gallery'),
           'demo_date_last_updated' => __('Data last updated', 'wpdtrt-gallery'),
+          'demo_data_length' => __('results', 'wpdtrt-gallery'),
+          'demo_data_displayed_length' => __('results displayed', 'wpdtrt-gallery'),
         ),
         'plugin_options' => $plugin_options,
         'instance_options' => $instance_options,
