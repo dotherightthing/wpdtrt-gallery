@@ -1,4 +1,5 @@
 {
+  "private": true,
   "name": "wpdtrt-gallery",
   "version": "1.7.2",
   "description": "Gallery viewer which supports images, panoramas, maps, SoundCloud and Vimeo.",
@@ -11,6 +12,9 @@
   "devDependencies": {
     "gulp": "^3.9.1"
   },
+  "workspaces": [
+    "vendor/dotherightthing/wpdtrt-plugin/"
+  ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -26,6 +30,7 @@
   "homepage": "https://github.com/dotherightthing/wpdtrt-gallery",
   "srcDir": "/Volumes/DanBackup/Websites/wpdtrt-gallery",
   "dependencies": {
-    "bower": "^1.8.2"
+    "urijs": "^1.19.1",
+    "waypoints": "^4.0.1"
   }
 }

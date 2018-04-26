@@ -1,7 +1,7 @@
 {
-	"name": "dotherightthing/wpdtrt-gallery",
-	"description": "Gallery viewer which supports images, panoramas, maps, SoundCloud and Vimeo.",
-	"type": "library",
+    "name": "dotherightthing/wpdtrt-gallery",
+    "description": "Gallery viewer which supports images, panoramas, maps, SoundCloud and Vimeo.",
+    "type": "library",
     "keywords": ["gallery", "video", "audio", "map"],
     "license": "ISC",
     "authors": [

@@ -88,7 +88,7 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPPlugin\Plugin {
         $attach_to_footer = true;
 
         wp_register_script( 'uri',
-            $this->get_url() . 'vendor/urijs/src/URI.min.js',
+            $this->get_url() . 'node_modules/urijs/src/URI.min.js',
             array(),
             '1.18.12',
             $attach_to_footer
@@ -96,7 +96,7 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPPlugin\Plugin {
 
         // inview lazy loading
         wp_register_script( 'jquery_waypoints',
-            $this->get_url() . 'vendor/waypoints/lib/jquery.waypoints.min.js',
+            $this->get_url() . 'node_modules/waypoints/lib/jquery.waypoints.min.js',
             array(
                 // load these registered dependencies first:
                 'jquery',
@@ -107,7 +107,7 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPPlugin\Plugin {
 
         // inview lazy loading
         wp_register_script( 'waypoints_inview',
-            $this->get_url() . 'vendor/waypoints/lib/shortcuts/inview.min.js',
+            $this->get_url() . 'node_modules/waypoints/lib/shortcuts/inview.min.js',
             array(
                 // load these registered dependencies first:
                 'jquery_waypoints'

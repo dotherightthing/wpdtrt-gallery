@@ -63,18 +63,16 @@ before_install:
 # Note: Remember to run composer update on local dev to get latest updates to dependencies
 install:
   - composer install --prefer-dist --no-interaction # loads parent plugin class, which in turn runs an install via gulpfile.js
-  - npm --prefix ./vendor/dotherightthing/wpdtrt-plugin/ install ./vendor/dotherightthing/wpdtrt-plugin/
-  - npm install # child plugin
-  - npm install -g bower
-# - bower install - run via gulpfile.js
-  - npm install -g gulp-cli
+  - npm install -g yarn
+  - yarn install --non-interactive # child plugin
+  - yarn global add gulp-cli
   # https://www.sitepoint.com/php-continuous-integration-travis-ci/
   # https://getcomposer.org/doc/03-cli.md
 
 # https://github.com/wp-cli/sample-plugin/blob/master/.travis.yml
 before_script:
   - export PATH="$HOME/.composer/vendor/bin:$PATH"
-  - bash bin/install-wp-tests.sh wordpress_test root '' localhost $WP_VERSION
+  - bash bin/install-wp-tests.sh wpdtrt_galleryTest root '' localhost $WP_VERSION
 
 # Run the build script
 script:
