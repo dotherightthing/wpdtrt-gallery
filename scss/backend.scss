@@ -12,36 +12,17 @@
 @import "variables";
 @import "extends";
 
-// hide unused core fields, to show custom fields sooner
-.attachment-details {
-    > [data-setting="url"],
-    > [data-setting="title"],
-    > [data-setting="description"] {
-	   display: none;
-    }
-}
-
-// hide redundant warning, to show custom fields sooner
-.media-types-required-info {
-	display: none;
-}
-
-// create a visual separator before the custom fields
-.compat-item table.compat-attachment-fields {
-    padding-top: 5px;
-    border-top: 1px solid #ddd;
-    margin-top: 15px;
-}
-
-// reduce size of help text, to compress custom fields
-.compat-attachment-fields p.help {
-	font-size: 11px;
-	font-style: normal;
-	margin-top: 3px;
-}
+// -------------------------------------------------------------------
+// Attachment page
+// -------------------------------------------------------------------
 
 // align text with label
+// classname is generated from $form_fields[FIELD_NAME]
 .compat-field-wpdtrt-gallery-source-image .field {
 	font-size: 13px;
 	padding-top: .45em;
+}
+
+.compat-field-wpdtrt-gallery-vimeo-pageid {
+	@extend %wpdtrt-plugin--last-attachment-field-divider;
 }
