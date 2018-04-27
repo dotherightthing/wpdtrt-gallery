@@ -72,6 +72,8 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPPlugin\Plugin {
         add_filter( 'wp_read_image_metadata', [$this, 'filter_save_image_geodata'], '', 3 );
         add_filter( 'wp_get_attachment_link', [$this, 'filter_thumbnail_queryparams'], 1, 4 );
         add_filter( 'the_content', [$this, 'filter_shortcode_heading'], 10 );
+        add_filter( 'jpeg_quality', [$this, 'filter_image_quality'] );
+        add_filter( 'wp_editor_set_quality', [$this, 'filter_image_quality'] );
 
         $this->helper_add_image_sizes();
     }
@@ -143,6 +145,19 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPPlugin\Plugin {
 
         // Replace rather than extend, in order to specify dependencies:
         // parent::render_js_frontend();
+    }
+
+    /**
+     * Filters the image quality for thumbnails to be at the highest ratio possible.
+     *  Supports the new 'wp_editor_set_quality' filter added in WP 3.5.
+     *
+     * @param int $quality  The default quality (90)
+     * @return int $quality Amended quality (100)
+     *
+     * @see https://thomasgriffin.io/how-to-change-the-quality-of-wordpress-thumbnails/
+     */
+    function filter_image_quality( $quality ) {
+        return 100;
     }
 
     //// END WORDPRESS INTEGRATION \\\\
