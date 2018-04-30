@@ -5,7 +5,7 @@ Tags: gallery, video, audio, map
 Requires at least: 4.9.5
 Tested up to: 4.9.5
 Requires PHP: 5.6.30
-Stable tag: 1.7.2
+Stable tag: 1.7.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -41,6 +41,17 @@ echo do_shortcode('[wpdtrt_gallery_shortcode_heading]<h2>' . $heading . '</h2>[/
 * A WordPress gallery must immediately follow the `<h2>` heading
 
 == Changelog ==
+
+= 1.7.3 =
+* Migrate image quality settings from wpdtrt
+* Migrate common wpdtrt-gallery styles into wpdtrt-plugin
+* Migrate Bower & NPM to Yarn
+* Update Node from 6.11.2 to 8.11.1
+* Add messages required by shortcode demo
+* Add SCSS partials for project-specific extends and variables
+* Change tag badge to release badge
+* Fix default .pot file
+* Update wpdtrt-plugin
 
 = 1.7.2 =
 * Scale media embeds using embedresponsively
