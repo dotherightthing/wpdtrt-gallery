@@ -167,6 +167,7 @@ if( ! defined( 'WPDTRT_GALLERY_URL' ) ) {
         'prefix' => 'wpdtrt_gallery',
         'slug' => 'wpdtrt-gallery',
         'menu_title' => __('Gallery', 'wpdtrt-gallery'),
+        'settings_title' => __('Settings', 'wpdtrt-gallery'),
         'developer_prefix' => '',
         'path' => WPDTRT_GALLERY_PATH,
         'messages' => array(
