@@ -23,6 +23,7 @@ require_once $_tests_dir . '/includes/functions.php';
  */
 function _manually_load_plugin() {
 	require dirname( dirname( __FILE__ ) ) . '/wpdtrt-gallery.php';
+	require dirname( dirname( __FILE__ ) ) . '/vendor/dotherightthing/wpdtrt-contentsections/wpdtrt-contentsections.php';
 }
 tests_add_filter( 'muplugins_loaded', '_manually_load_plugin' );
 
