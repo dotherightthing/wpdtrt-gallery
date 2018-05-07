@@ -111,7 +111,7 @@ if( ! defined( 'WPDTRT_GALLERY_URL' ) ) {
 
   // base class
   // redundant, but includes the composer-generated autoload file if not already included
-  require_once(WPDTRT_GALLERY_PATH . 'vendor/dotherightthing/wpdtrt-plugin/index.php');
+  require_once($projectRootPath . 'vendor/dotherightthing/wpdtrt-plugin/index.php');
 
   // classes without composer.json files are loaded via Bower
   //require_once(WPDTRT_GALLERY_PATH . 'vendor/name/file.php');
