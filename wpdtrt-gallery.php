@@ -12,7 +12,18 @@
  * Domain Path:  /languages
  */
 
-require_once plugin_dir_path( __FILE__ ) . "vendor/autoload.php";
+/**
+ * Autoload namespaced package classes
+ * @see https://github.com/dotherightthing/wpdtrt-plugin/wiki/Options:-Adding-WordPress-plugin-dependencies
+ */
+if ( defined( 'WPDTRT_GALLERY_TEST_DEPENDENCY' ) ) {
+  $projectRootPath = realpath(__DIR__ . '/../../..') . '/';
+}
+else {
+  $projectRootPath = '';
+}
+
+require_once $projectRootPath . "vendor/autoload.php";
 
 /**
  * Constants
