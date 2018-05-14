@@ -49,19 +49,6 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPPlugin\r_1_4_15\Plugin {
      */
     protected function wp_setup() {
 
-        parent::set_plugin_dependency(
-            array(
-                'name'      => 'DTRT EXIF',
-                'slug'      => 'wpdtrt-exif',
-                'required'  => true
-            ),
-            array(
-                'name'      => 'Regenerate Thumbnails',
-                'slug'      => 'regenerate-thumbnails',
-                'required'  => false
-            )
-        );
-
     	parent::wp_setup();
 
         // for filter_save_image_geodata

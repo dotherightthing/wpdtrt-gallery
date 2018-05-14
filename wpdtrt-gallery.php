@@ -206,11 +206,24 @@ if( ! defined( 'WPDTRT_GALLERY_URL' ) ) {
           array(
             'name'          => 'DTRT Content Sections',
             'slug'          => 'wpdtrt-contentsections',
-            'source'        => 'https://github.com/dotherightthing/wpdtrt-contentsections/releases/download/0.0.1/release.zip',
-            'version'       => '0.0.1',
+            'source'        => 'https://github.com/dotherightthing/wpdtrt-contentsections/releases/download/0.1.1/release.zip',
+            'version'       => '0.1.1',
             'external_url'  => 'https://github.com/dotherightthing/wpdtrt-contentsections',
             'required'      => true,
           ),
+          array(
+            'name'            => 'DTRT EXIF',
+            'slug'            => 'wpdtrt-exif',
+            'source'          => 'https://github.com/dotherightthing/wpdtrt-exif/releases/download/0.1.5/release.zip',
+            'version'         => '0.1.5',
+            'external_url'    => 'https://github.com/dotherightthing/wpdtrt-exif',
+            'required'        => true
+          ),
+          array(
+              'name'          => 'Regenerate Thumbnails',
+              'slug'          => 'regenerate-thumbnails',
+              'required'      => false
+          )
         ),
         'demo_shortcode_params' => null
       )
