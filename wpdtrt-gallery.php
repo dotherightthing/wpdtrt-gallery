@@ -101,7 +101,7 @@ require_once $project_root_path . 'vendor/autoload.php';
 // comment out the ones you don't need, edit the ones you do.
 require_once WPDTRT_GALLERY_PATH . 'src/class-wpdtrt-gallery-plugin.php';
 //require_once WPDTRT_GALLERY_PATH . 'src/class-wpdtrt-gallery-rewrite.php';
-//require_once WPDTRT_GALLERY_PATH . 'src/class-wpdtrt-gallery-shortcode.php';
+require_once WPDTRT_GALLERY_PATH . 'src/class-wpdtrt-gallery-shortcode.php';
 //require_once WPDTRT_GALLERY_PATH . 'src/class-wpdtrt-gallery-taxonomy.php';
 //require_once WPDTRT_GALLERY_PATH . 'src/class-wpdtrt-gallery-widget.php';
 
