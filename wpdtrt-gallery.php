@@ -137,7 +137,7 @@ register_activation_hook( dirname( __FILE__ ), 'wpdtrt_gallery_helper_activate' 
 add_action( 'init', 'wpdtrt_gallery_plugin_init', 0 );
 add_action( 'init', 'wpdtrt_gallery_shortcode_init', 100 );
 //add_action( 'init', 'wpdtrt_gallery_taxonomy_init', 100 );
-add_action( 'widgets_init', 'wpdtrt_gallery_widget_init', 10 );
+//add_action( 'widgets_init', 'wpdtrt_gallery_widget_init', 10 );
 
 add_filter( 'attachment_fields_to_edit', 'wpdtrt_gallery_attachment_field_default', 10, 2 );
 add_filter( 'attachment_fields_to_edit', 'wpdtrt_gallery_attachment_field_heading', 10, 2 );
@@ -382,17 +382,7 @@ function wpdtrt_gallery_widget_init() {
 	global $wpdtrt_gallery_plugin;
 
 	$wpdtrt_gallery_widget = new WPDTRT_Gallery_Widget(
-		array(
-			'name'                      => 'wpdtrt_gallery_widget',
-			'title'                     => __( 'Gallery Widget', 'wpdtrt-gallery' ),
-			'description'               => __( 'Widget description.', 'wpdtrt-gallery' ),
-			'plugin'                    => $wpdtrt_gallery_plugin,
-			'template'                  => 'gallery',
-			'selected_instance_options' => array(
-				'number',
-				'enlargement',
-			),
-		)
+		array()
 	);
 
 	register_widget( $wpdtrt_gallery_widget );
