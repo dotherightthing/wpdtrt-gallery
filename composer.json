@@ -17,7 +17,7 @@
         "issues": "https://github.com/dotherightthing/wpdtrt-gallery/issues"
     },
     "require": {
-        "dotherightthing/wpdtrt-plugin": "^1.0.0"
+        "dotherightthing/wpdtrt-plugin-boilerplate": "^1.0.0"
     },
     "minimum-stability": "stable",
     "repositories": [

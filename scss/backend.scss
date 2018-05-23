@@ -6,9 +6,9 @@
 // @since       0.7.0
 //
 
-@import "vendor/dotherightthing/wpdtrt-plugin/scss/_variables.scss";
-@import "vendor/dotherightthing/wpdtrt-plugin/scss/_extends.scss";
-@import "vendor/dotherightthing/wpdtrt-plugin/scss/_backend.scss";
+@import "vendor/dotherightthing/wpdtrt-plugin-boilerplate/scss/_variables.scss";
+@import "vendor/dotherightthing/wpdtrt-plugin-boilerplate/scss/_extends.scss";
+@import "vendor/dotherightthing/wpdtrt-plugin-boilerplate/scss/_backend.scss";
 @import "variables";
 @import "extends";
 
@@ -24,5 +24,5 @@
 }
 
 .compat-field-wpdtrt-gallery-vimeo-pageid {
-	@extend %wpdtrt-plugin--last-attachment-field-divider;
+	@extend %wpdtrt-plugin-boilerplate--last-attachment-field-divider;
 }

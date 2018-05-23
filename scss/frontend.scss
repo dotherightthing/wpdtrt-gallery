@@ -6,8 +6,8 @@
 // @since       0.7.0
 //
 
-@import "vendor/dotherightthing/wpdtrt-plugin/scss/_variables.scss";
-@import "vendor/dotherightthing/wpdtrt-plugin/scss/_extends.scss";
+@import "vendor/dotherightthing/wpdtrt-plugin-boilerplate/scss/_variables.scss";
+@import "vendor/dotherightthing/wpdtrt-plugin-boilerplate/scss/_extends.scss";
 @import "variables";
 @import "extends";
 
@@ -49,7 +49,7 @@
     font-variant: normal;
     text-transform: none;
     line-height: 1;
-    @extend %wpdtrt-plugin--text-sharpen;
+    @extend %wpdtrt-plugin-boilerplate--text-sharpen;
 
     font-size: 1.1em;
   }
@@ -610,7 +610,7 @@
       }
 
       .gallery-viewer--embed {
-        @extend %wpdtrt-plugin--embedresponsively;
+        @extend %wpdtrt-plugin-boilerplate--embedresponsively;
       }
 
       .gallery-viewer--footer {
@@ -635,7 +635,7 @@
       }
 
       .gallery-viewer--embed {
-        @extend %wpdtrt-plugin--embedresponsively;
+        @extend %wpdtrt-plugin-boilerplate--embedresponsively;
       }
 
       .gallery-viewer--footer {

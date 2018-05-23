@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "wpdtrt-gallery",
-  "version": "1.7.12",
+  "version": "1.7.13",
   "description": "Gallery viewer which supports images, panoramas, maps, SoundCloud and Vimeo.",
   "main": "wpdtrt-gallery.php",
   "person": {
@@ -13,7 +13,7 @@
     "gulp": "^3.9.1"
   },
   "workspaces": [
-    "vendor/dotherightthing/wpdtrt-plugin/"
+    "vendor/dotherightthing/wpdtrt-plugin-boilerplate/"
   ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

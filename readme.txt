@@ -5,7 +5,7 @@ Tags: gallery, video, audio, map
 Requires at least: 4.9.5
 Tested up to: 4.9.5
 Requires PHP: 5.6.30
-Stable tag: 1.7.12
+Stable tag: 1.7.13
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -42,11 +42,13 @@ echo do_shortcode('[wpdtrt_gallery_shortcode_heading]<h2>' . $heading . '</h2>[/
 
 == Changelog ==
 
+= 1.7.13 =
+
 = 1.7.12 =
 * Update wpdtrt-contentsections dependency
 
 = 1.7.11 =
-* Update wpdtrt-plugin to 1.4.15
+* Update wpdtrt-plugin-boilerplate to 1.4.15
 
 = 1.7.10 =
 * Clean composer files
@@ -58,7 +60,7 @@ echo do_shortcode('[wpdtrt_gallery_shortcode_heading]<h2>' . $heading . '</h2>[/
 * Update wpdtrt-contentsections
 
 = 1.7.7 =
-* Update wpdtrt-plugin to 1.4.14
+* Update wpdtrt-plugin-boilerplate to 1.4.14
 
 = 1.7.6 =
 * Update wpdtrt-contentsections dependency
@@ -66,22 +68,22 @@ echo do_shortcode('[wpdtrt_gallery_shortcode_heading]<h2>' . $heading . '</h2>[/
 * Pass flag to fix path to autoloader when loading test dependency
 
 = 1.7.5 =
-* Include release number in wpdtrt-plugin namespaces
-* Update wpdtrt-plugin to 1.4.6
+* Include release number in wpdtrt-plugin-boilerplate namespaces
+* Update wpdtrt-plugin-boilerplate to 1.4.6
 
 = 1.7.4 =
-* Update wpdtrt-plugin to 1.3.6
+* Update wpdtrt-plugin-boilerplate to 1.3.6
 
 = 1.7.3 =
 * Migrate image quality settings from wpdtrt
-* Migrate common wpdtrt-gallery styles into wpdtrt-plugin
+* Migrate common wpdtrt-gallery styles into wpdtrt-plugin-boilerplate
 * Migrate Bower & NPM to Yarn
 * Update Node from 6.11.2 to 8.11.1
 * Add messages required by shortcode demo
 * Add SCSS partials for project-specific extends and variables
 * Change tag badge to release badge
 * Fix default .pot file
-* Update wpdtrt-plugin to 1.3.1
+* Update wpdtrt-plugin-boilerplate to 1.3.1
 
 = 1.7.2 =
 * Scale media embeds using embedresponsively
@@ -90,7 +92,7 @@ echo do_shortcode('[wpdtrt_gallery_shortcode_heading]<h2>' . $heading . '</h2>[/
 * Rename data attributes
 * Document dependencies
 * Use Environmental Variables in build
-* Update wpdtrt-plugin
+* Update wpdtrt-plugin-boilerplate
 
 = 1.7.1 =
 * Use Private Packagist
@@ -98,7 +100,7 @@ echo do_shortcode('[wpdtrt_gallery_shortcode_heading]<h2>' . $heading . '</h2>[/
 * Fix build badge
 
 = 1.7.0 =
-* Adapt plugin to use the new wpdtrt-plugin system
+* Adapt plugin to use the new wpdtrt-plugin-boilerplate system
 
 = 1.6.10 =
 * Add tests for 1.6.9
@@ -107,7 +109,7 @@ echo do_shortcode('[wpdtrt_gallery_shortcode_heading]<h2>' . $heading . '</h2>[/
 * Fix custom post meta not being saved with new posts
 
 = 1.6.8 =
-* Match build/config to wpdtrt-plugin (which this is an older standalone version of)
+* Match build/config to wpdtrt-plugin-boilerplate (which this is an older standalone version of)
 
 = 1.6.0 =
 * Run PHPUnit tests from Travis
