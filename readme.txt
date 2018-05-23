@@ -43,6 +43,8 @@ echo do_shortcode('[wpdtrt_gallery_shortcode_heading]<h2>' . $heading . '</h2>[/
 == Changelog ==
 
 = 1.7.13 =
+Update wpdtrt-plugin to wpdtrt-plugin-boilerplate
+Update wpdtrt-plugin-boilerplate to 1.4.22
 
 = 1.7.12 =
 * Update wpdtrt-contentsections dependency
