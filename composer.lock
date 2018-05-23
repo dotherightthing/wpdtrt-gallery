@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "5abd220172e5ef345169ce700aa0229c",
+    "content-hash": "aa8948809e1c8f6f8a8187233acde345",
     "packages": [
         {
             "name": "dotherightthing/wpdtrt-debug",
@@ -177,16 +177,16 @@
     "packages-dev": [
         {
             "name": "dotherightthing/wpdtrt-contentsections",
-            "version": "0.1.1",
+            "version": "0.1.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dotherightthing/wpdtrt-contentsections.git",
-                "reference": "c9b008096ff430c5ea16839faf1e34477494eeca"
+                "reference": "fb21a17ed8bcc6ac32ba0aa1a6c77fda5c52b88c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dotherightthing/wpdtrt-contentsections/zipball/c9b008096ff430c5ea16839faf1e34477494eeca",
-                "reference": "c9b008096ff430c5ea16839faf1e34477494eeca",
+                "url": "https://api.github.com/repos/dotherightthing/wpdtrt-contentsections/zipball/fb21a17ed8bcc6ac32ba0aa1a6c77fda5c52b88c",
+                "reference": "fb21a17ed8bcc6ac32ba0aa1a6c77fda5c52b88c",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -196,7 +196,7 @@
                 ]
             },
             "require": {
-                "dotherightthing/wpdtrt-plugin": "^1.0.0"
+                "dotherightthing/wpdtrt-plugin-boilerplate": "^1.0.0"
             },
             "require-dev": {
                 "ludek/better-anchor-links": "1.7.5"
@@ -225,9 +225,9 @@
             "support": {
                 "email": "support@dotherightthing.co.nz",
                 "issues": "https://github.com/dotherightthing/wpdtrt-contentsections/issues",
-                "source": "https://github.com/dotherightthing/wpdtrt-contentsections/tree/0.1.1"
+                "source": "https://github.com/dotherightthing/wpdtrt-contentsections/tree/0.1.3"
             },
-            "time": "2018-05-11T01:26:06+00:00"
+            "time": "2018-05-22T23:10:41+00:00"
         },
         {
             "name": "ludek/better-anchor-links",
