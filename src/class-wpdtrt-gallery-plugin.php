@@ -44,7 +44,7 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 
 		parent::wp_setup();
 
-        // add actions and filters here
+		// add actions and filters here
 
 		// for filter_save_image_geodata
 		include_once( ABSPATH . 'wp-admin/includes/image.php' );
@@ -103,7 +103,7 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 			$this->get_url() . 'node_modules/waypoints/lib/shortcuts/inview.min.js',
 			array(
 				// load these registered dependencies first:
-				'jquery_waypoints'
+				'jquery_waypoints',
 			),
 			'4.0.0',
 			$attach_to_footer
@@ -130,7 +130,7 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 				// since 2.8 ajaxurl is always defined in the admin header and points to admin-ajax.php
 				// but we need to explicitly expose it to frontend pages
 				'ajaxurl' => admin_url( 'admin-ajax.php' ), // wpdtrt_foobar_config.ajaxurl
-				'options' => $this->get_options() // wpdtrt_foobar_config.options
+				'options' => $this->get_options(),
 			)
 		);
 
@@ -181,29 +181,29 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 	 *  include_once( ABSPATH . 'wp-admin/includes/image.php' ); // access wp_read_image_metadata
 	 *  add_filter('wp_read_image_metadata', 'filter_save_image_geodata','',3);
 	 */
-	public function filter_save_image_geodata( $meta, $file, $sourceImageType ) {
+	public function filter_save_image_geodata( $meta, $file, $source_image_type ) {
 
 		$exif = @exif_read_data( $file );
 
-		if (!empty( $exif['GPSLatitude'] )) {
-			$meta['latitude'] = $exif['GPSLatitude'] ;
+		if ( ! empty( $exif['GPSLatitude'] ) ) {
+			$meta['latitude'] = $exif['GPSLatitude'];
 		} else {
 			$meta['latitude'] = false;
 		}
 
-		if (!empty( $exif['GPSLatitudeRef'] )) {
+		if ( ! empty( $exif['GPSLatitudeRef'] ) ) {
 			$meta['latitude_ref'] = trim( $exif['GPSLatitudeRef'] );
 		} else {
 			$meta['latitude_ref'] = false;
 		}
 
-		if (!empty( $exif['GPSLongitude'] )) {
-			$meta['longitude'] = $exif['GPSLongitude'] ;
+		if ( ! empty( $exif['GPSLongitude'] ) ) {
+			$meta['longitude'] = $exif['GPSLongitude'];
 		} else {
 			$meta['longitude'] = false;
 		}
 
-		if (!empty( $exif['GPSLongitudeRef'] )) {
+		if ( ! empty( $exif['GPSLongitudeRef'] ) ) {
 			$meta['longitude_ref'] = trim( $exif['GPSLongitudeRef'] );
 		} else {
 			$meta['longitude_ref'] = false;
@@ -222,14 +222,10 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 	 * @example [wpdtrt_gallery]H2 heading text[/wpdtrt_gallery]
 	 * @example do_shortcode( '[wpdtrt_gallery]H2 heading text[/wpdtrt_gallery]' );
 	 */
-	public function filter_shortcode_heading($content) {
-		//if ( ! function_exists( 'wpdtrt_content_sections' ) ) {
-			//  return;
-		//}
+	public function filter_shortcode_heading( $content ) {
 
-		$content = preg_replace("/(<h2>.+<\/h2>)/", "[wpdtrt_gallery_shortcode_heading]$1[/wpdtrt_gallery_shortcode_heading]", $content);
-
-		$content = preg_replace("/<div id='gallery'>/", "<h3>Gallery</h3>$1", $content);
+		$content = preg_replace( '/(<h2>.+<\/h2>)/', '[wpdtrt_gallery_shortcode_heading]$1[/wpdtrt_gallery_shortcode_heading]', $content );
+		$content = preg_replace( "/<div id='gallery'>/", '<h3>Gallery</h3>$1', $content );
 
 		return $content;
 	}
@@ -243,6 +239,7 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 	 * @param $size
 	 * @param $permalink
 	 * @return string
+	 * @todo Change urlencode to rawurlencode
 	 */
 	public function filter_thumbnail_queryparams( $html, $id, $size, $permalink ) {
 
@@ -262,7 +259,7 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 
 		// SoundCloud
 
-		$soundcloud_pageid = get_post_meta( $id, 'wpdtrt_gallery_attachment_soundcloud_pageid', true ); // used for SEO
+		$soundcloud_pageid  = get_post_meta( $id, 'wpdtrt_gallery_attachment_soundcloud_pageid', true ); // used for SEO
 		$soundcloud_trackid = get_post_meta( $id, 'wpdtrt_gallery_attachment_soundcloud_trackid', true ); // used for embed, see also http://stackoverflow.com/a/28182284
 
 		if ( $soundcloud_pageid && $soundcloud_trackid ) {
@@ -280,10 +277,10 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 
 		// Position Y
 
-		$position_y = get_post_meta( $id, 'wpdtrt_gallery_attachment_position_y', true );
-		$position_y_default = "50";
+		$position_y         = get_post_meta( $id, 'wpdtrt_gallery_attachment_position_y', true );
+		$position_y_default = '50';
 
-		if ( $position_y !== '' ) {
+		if ( '' !== $position_y ) {
 			$link_options['position_y'] = $position_y;
 		} else {
 			$link_options['position_y'] = $position_y_default;
@@ -293,7 +290,7 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 
 		$default = get_post_meta( $id, 'wpdtrt_gallery_attachment_default', true );
 
-		if ( $default == '1' ) {
+		if ( '1' === $default ) {
 			$link_options['default'] = $default;
 		}
 
@@ -301,7 +298,7 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 
 		$panorama = get_post_meta( $id, 'wpdtrt_gallery_attachment_panorama', true ); // used for JS dragging
 
-		if ( $panorama == '1' ) {
+		if ( '1' === $panorama ) {
 			$link_options['panorama'] = $panorama;
 		}
 
@@ -339,7 +336,7 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 		// Encode options
 		// http://stackoverflow.com/a/39370906
 
-		$query = http_build_query($link_options, '', '&amp;');
+		$query = http_build_query( $link_options, '', '&amp;' );
 		$link .= '?' . $query;
 
 		// Update gallery link

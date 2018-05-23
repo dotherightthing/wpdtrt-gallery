@@ -33,14 +33,9 @@ extract( $options, EXTR_IF_EXISTS );
 // content between shortcode tags
 if ( isset( $context ) ) {
 	$content = $context->content;
-}
-else {
+} else {
 	$content = '';
 }
-
-// load the data
-// $plugin->get_api_data();
-// $foo = $plugin->get_api_data_bar();
 
 // WordPress widget options (not output with shortcode)
 echo $before_widget;
@@ -69,6 +64,6 @@ echo $before_title . $title . $after_title;
 </div>
 
 <?php
-  // output widget customisations (not output with shortcode)
-  echo $after_widget;
+// output widget customisations (not output with shortcode)
+echo $after_widget;
 ?>

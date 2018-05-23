@@ -98,12 +98,9 @@ if ( defined( 'WPDTRT_GALLERY_TEST_DEPENDENCY' ) ) {
 require_once $project_root_path . 'vendor/autoload.php';
 
 // sub classes, not loaded via PSR-4.
-// comment out the ones you don't need, edit the ones you do.
+// remove the includes you don't need, edit the files you do need.
 require_once WPDTRT_GALLERY_PATH . 'src/class-wpdtrt-gallery-plugin.php';
-//require_once WPDTRT_GALLERY_PATH . 'src/class-wpdtrt-gallery-rewrite.php';
 require_once WPDTRT_GALLERY_PATH . 'src/class-wpdtrt-gallery-shortcode.php';
-//require_once WPDTRT_GALLERY_PATH . 'src/class-wpdtrt-gallery-taxonomy.php';
-//require_once WPDTRT_GALLERY_PATH . 'src/class-wpdtrt-gallery-widget.php';
 
 // legacy helpers
 require_once WPDTRT_GALLERY_PATH . 'src/legacy/attachment-field-heading.php';
@@ -136,8 +133,6 @@ register_activation_hook( dirname( __FILE__ ), 'wpdtrt_gallery_helper_activate' 
 
 add_action( 'init', 'wpdtrt_gallery_plugin_init', 0 );
 add_action( 'init', 'wpdtrt_gallery_shortcode_init', 100 );
-//add_action( 'init', 'wpdtrt_gallery_taxonomy_init', 100 );
-//add_action( 'widgets_init', 'wpdtrt_gallery_widget_init', 10 );
 
 add_filter( 'attachment_fields_to_edit', 'wpdtrt_gallery_attachment_field_default', 10, 2 );
 add_filter( 'attachment_fields_to_edit', 'wpdtrt_gallery_attachment_field_heading', 10, 2 );
