@@ -64,8 +64,6 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 	 * ====== Getters and Setters ======
 	 */
 
-
-
 	/**
 	 * ===== Renderers =====
 	 */

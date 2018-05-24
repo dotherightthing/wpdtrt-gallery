@@ -35,6 +35,7 @@
                     "DoTheRightThing\\WPDebug\\": "src"
                 }
             },
+            "notification-url": "https://repo.packagist.com/dotherightthing/downloads/",
             "license": [
                 "ISC"
             ],
@@ -153,7 +154,7 @@
                     "class-gamajo-template-loader.php"
                 ]
             },
-            "notification-url": "https://packagist.org/downloads/",
+            "notification-url": "https://repo.packagist.com/dotherightthing/downloads/",
             "license": [
                 "GPL-2.0+"
             ],
