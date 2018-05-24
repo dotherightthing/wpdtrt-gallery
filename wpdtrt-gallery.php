@@ -75,9 +75,9 @@ if ( ! defined( 'WPDTRT_GALLERY_URL' ) ) {
  */
 
 /**
- * Determine the correct path, from wpdtrt-plugin-boilerplate-boilerplate to the PSR-4 autoloader
+ * Determine the correct path, from wpdtrt-plugin-boilerplate to the PSR-4 autoloader
  *
- * @see https://github.com/dotherightthing/wpdtrt-plugin-boilerplate-boilerplate/issues/51
+ * @see https://github.com/dotherightthing/wpdtrt-plugin-boilerplate/issues/51
  */
 if ( ! defined( 'WPDTRT_PLUGIN_CHILD' ) ) {
 	define( 'WPDTRT_PLUGIN_CHILD', true );
@@ -86,8 +86,8 @@ if ( ! defined( 'WPDTRT_PLUGIN_CHILD' ) ) {
 /**
  * Determine the correct path, from wpdtrt-foobar to the PSR-4 autoloader
  *
- * @see https://github.com/dotherightthing/wpdtrt-plugin-boilerplate-boilerplate/issues/104
- * @see https://github.com/dotherightthing/wpdtrt-plugin-boilerplate-boilerplate/wiki/Options:-Adding-WordPress-plugin-dependencies
+ * @see https://github.com/dotherightthing/wpdtrt-plugin-boilerplate/issues/104
+ * @see https://github.com/dotherightthing/wpdtrt-plugin-boilerplate/wiki/Options:-Adding-WordPress-plugin-dependencies
  */
 if ( defined( 'WPDTRT_GALLERY_TEST_DEPENDENCY' ) ) {
 	$project_root_path = realpath( __DIR__ . '/../../..' ) . '/';
@@ -164,7 +164,7 @@ register_deactivation_hook( dirname( __FILE__ ), 'wpdtrt_gallery_helper_deactiva
  * Register functions to be run when the plugin is activated.
  *
  * @see https://codex.wordpress.org/Function_Reference/register_activation_hook
- * @todo https://github.com/dotherightthing/wpdtrt-plugin-boilerplate-boilerplate/issues/128
+ * @todo https://github.com/dotherightthing/wpdtrt-plugin-boilerplate/issues/128
  * @see See also Plugin::helper_flush_rewrite_rules()
  */
 function wpdtrt_gallery_helper_activate() {
@@ -176,7 +176,7 @@ function wpdtrt_gallery_helper_activate() {
  * (WordPress 2.0+)
  *
  * @see https://codex.wordpress.org/Function_Reference/register_deactivation_hook
- * @todo https://github.com/dotherightthing/wpdtrt-plugin-boilerplate-boilerplate/issues/128
+ * @todo https://github.com/dotherightthing/wpdtrt-plugin-boilerplate/issues/128
  * @see See also Plugin::helper_flush_rewrite_rules()
  */
 function wpdtrt_gallery_helper_deactivate() {
@@ -203,21 +203,21 @@ function wpdtrt_gallery_plugin_init() {
 	/**
 	 * Global options
 	 *
-	 * @see https://github.com/dotherightthing/wpdtrt-plugin-boilerplate-boilerplate/wiki/Options:-Adding-global-options Options: Adding global options
+	 * @see https://github.com/dotherightthing/wpdtrt-plugin-boilerplate/wiki/Options:-Adding-global-options Options: Adding global options
 	 */
 	$plugin_options = array();
 
 	/**
 	 * Shortcode or Widget options
 	 *
-	 * @see https://github.com/dotherightthing/wpdtrt-plugin-boilerplate-boilerplate/wiki/Options:-Adding-shortcode-or-widget-options Options: Adding shortcode or widget options
+	 * @see https://github.com/dotherightthing/wpdtrt-plugin-boilerplate/wiki/Options:-Adding-shortcode-or-widget-options Options: Adding shortcode or widget options
 	 */
 	$instance_options = array();
 
 	/**
 	 * Plugin dependencies
 	 *
-	 * @see https://github.com/dotherightthing/wpdtrt-plugin-boilerplate-boilerplate/wiki/Options:-Adding-WordPress-plugin-dependencies Options: Adding WordPress plugin dependencies
+	 * @see https://github.com/dotherightthing/wpdtrt-plugin-boilerplate/wiki/Options:-Adding-WordPress-plugin-dependencies Options: Adding WordPress plugin dependencies
 	 */
 	$plugin_dependencies = array(
 		// Dependency: Gallery viewer is initialised as sections are scrolled into view
@@ -268,7 +268,7 @@ function wpdtrt_gallery_plugin_init() {
 	/**
 	 * Demo shortcode
 	 *
-	 * @see https://github.com/dotherightthing/wpdtrt-plugin-boilerplate-boilerplate/wiki/Settings-page:-Adding-a-demo-shortcode Settings page: Adding a demo shortcode
+	 * @see https://github.com/dotherightthing/wpdtrt-plugin-boilerplate/wiki/Settings-page:-Adding-a-demo-shortcode Settings page: Adding a demo shortcode
 	 */
 	$demo_shortcode_params = array();
 
