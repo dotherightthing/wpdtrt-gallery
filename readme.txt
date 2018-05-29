@@ -43,14 +43,14 @@ echo do_shortcode('[wpdtrt_gallery_shortcode_heading]<h2>' . $heading . '</h2>[/
 == Changelog ==
 
 = 1.7.13 =
-Update wpdtrt-plugin to wpdtrt-plugin-boilerplate
-Update wpdtrt-plugin-boilerplate to 1.4.22
+* Update wpdtrt-plugin to wpdtrt-plugin-boilerplate
+* Update wpdtrt-plugin-boilerplate to 1.4.22
 
 = 1.7.12 =
 * Update wpdtrt-contentsections dependency
 
 = 1.7.11 =
-* Update wpdtrt-plugin-boilerplate to 1.4.15
+* Update wpdtrt-plugin to 1.4.15
 
 = 1.7.10 =
 * Clean composer files
@@ -62,7 +62,7 @@ Update wpdtrt-plugin-boilerplate to 1.4.22
 * Update wpdtrt-contentsections
 
 = 1.7.7 =
-* Update wpdtrt-plugin-boilerplate to 1.4.14
+* Update wpdtrt-plugin to 1.4.14
 
 = 1.7.6 =
 * Update wpdtrt-contentsections dependency
@@ -70,22 +70,22 @@ Update wpdtrt-plugin-boilerplate to 1.4.22
 * Pass flag to fix path to autoloader when loading test dependency
 
 = 1.7.5 =
-* Include release number in wpdtrt-plugin-boilerplate namespaces
-* Update wpdtrt-plugin-boilerplate to 1.4.6
+* Include release number in wpdtrt-plugin namespaces
+* Update wpdtrt-plugin to 1.4.6
 
 = 1.7.4 =
-* Update wpdtrt-plugin-boilerplate to 1.3.6
+* Update wpdtrt-plugin to 1.3.6
 
 = 1.7.3 =
 * Migrate image quality settings from wpdtrt
-* Migrate common wpdtrt-gallery styles into wpdtrt-plugin-boilerplate
+* Migrate common wpdtrt-gallery styles into wpdtrt-plugin
 * Migrate Bower & NPM to Yarn
 * Update Node from 6.11.2 to 8.11.1
 * Add messages required by shortcode demo
 * Add SCSS partials for project-specific extends and variables
 * Change tag badge to release badge
 * Fix default .pot file
-* Update wpdtrt-plugin-boilerplate to 1.3.1
+* Update wpdtrt-plugin to 1.3.1
 
 = 1.7.2 =
 * Scale media embeds using embedresponsively
@@ -94,7 +94,7 @@ Update wpdtrt-plugin-boilerplate to 1.4.22
 * Rename data attributes
 * Document dependencies
 * Use Environmental Variables in build
-* Update wpdtrt-plugin-boilerplate
+* Update wpdtrt-plugin
 
 = 1.7.1 =
 * Use Private Packagist
@@ -102,7 +102,7 @@ Update wpdtrt-plugin-boilerplate to 1.4.22
 * Fix build badge
 
 = 1.7.0 =
-* Adapt plugin to use the new wpdtrt-plugin-boilerplate system
+* Adapt plugin to use the new wpdtrt-plugin system
 
 = 1.6.10 =
 * Add tests for 1.6.9
@@ -111,7 +111,8 @@ Update wpdtrt-plugin-boilerplate to 1.4.22
 * Fix custom post meta not being saved with new posts
 
 = 1.6.8 =
-* Match build/config to wpdtrt-plugin-boilerplate (which this is an older standalone version of)
+* match build/config to [wpdtrt-plugin](https://github.com/dotherightthing/wpdtrt-plugin) (which this is an older standalone version of)
+* add unique API key for generating releases via Travis
 
 = 1.6.0 =
 * Run PHPUnit tests from Travis
