@@ -44,7 +44,15 @@ echo do_shortcode('[wpdtrt_gallery_shortcode_heading]<h2>' . $heading . '</h2>[/
 
 = 1.7.13 =
 * Update wpdtrt-plugin to wpdtrt-plugin-boilerplate
-* Update wpdtrt-plugin-boilerplate to 1.4.22
+* Update wpdtrt-plugin-boilerplate to 1.4.24
+* Fix TGMPA dependency fields for wpdtrt-exif, specify dependencies in config
+* Update lock file
+* Remove redundant functionality
+* Enable required functionality
+* Fixes for PHPCS
+* Fix plugin references in changelog
+* Update dependencies
+* Prefer stable versions but allow dev versions
 
 = 1.7.12 =
 * Update wpdtrt-contentsections dependency

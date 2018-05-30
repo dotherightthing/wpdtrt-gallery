@@ -12,7 +12,7 @@
  *
  * @since   1.0.0
  */
-class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_1_4_22\Plugin {
+class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_1_4_24\Plugin {
 
 	/**
 	 * Supplement plugin initialisation.
