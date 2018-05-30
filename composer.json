@@ -34,7 +34,7 @@
         "vendor-dir": "vendor"
     },
     "require-dev": {
-        "dotherightthing/wpdtrt-contentsections": "^0.1.0",
+        "dotherightthing/wpdtrt-contentsections": "^0.1.4",
         "ludek/better-anchor-links": "1.7.5"
     }
 }

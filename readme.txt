@@ -53,6 +53,7 @@ echo do_shortcode('[wpdtrt_gallery_shortcode_heading]<h2>' . $heading . '</h2>[/
 * Fix plugin references in changelog
 * Update dependencies
 * Prefer stable versions but allow dev versions
+* Update wpdtrt-contentsections to 0.1.4
 
 = 1.7.12 =
 * Update wpdtrt-contentsections dependency
