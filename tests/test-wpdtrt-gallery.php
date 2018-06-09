@@ -91,10 +91,8 @@ class GalleryTest extends WP_UnitTestCase {
 			$response = $result->errors;
 		} else {
 			// the test results.
-			$response = $result; // $result['resultSet'];
+			$response = $result['resultSet'];
 		}
-
-		var_dump($response);
 
 		return $response;
 	}
@@ -464,7 +462,7 @@ class GalleryTest extends WP_UnitTestCase {
 
 		$this->assertEquals(
 			array(),
-			$this->tenon( '<a href="#anchor"></a>' )
+			$this->tenon( '<h2>Quick links</h2><p><a href="#anchor">Jump!</a></p>' )
 			//$this->tenon( $permalink )
 		);
 	}
