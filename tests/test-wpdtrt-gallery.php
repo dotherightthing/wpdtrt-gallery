@@ -53,13 +53,15 @@ class GalleryTest extends WP_UnitTestCase {
 	 * Lint page state in Tenon.io
 	 *
 	 * @param string $url_or_src Page URL or post-JS DOM source
-	 * @return array Tenon resultSet
+	 * @return array $result Tenon resultSet, or WP error
 	 * @todo Waiting on Tenon Tunnel to expose WPUnit environment to Tenon API
 	 * @see https://blog.tenon.io/tenon-io-end-of-year-startup-experience-at-9-months-in-product-updates-and-more/ Roadmap at 12/2015
 	 * @see https://github.com/joedolson/access-monitor/blob/master/src/access-monitor.php
 	 * @see https://tenon.io/documentation/understanding-request-parameters.php Optional parameters/$args
 	 */
 	protected function tenon( $url_or_src ) {
+
+		$endpoint = 'https://tenon.io/api/';
 
 		$args = array(
 			'method'  => 'POST',
@@ -82,29 +84,29 @@ class GalleryTest extends WP_UnitTestCase {
 			$args['body']['src'] = $url_or_src;
 			// TODO
 			// this is a quick hack to get something working
-			// in reality I will want to support full pages too
+			// in reality we will want to support full pages too
 			$args['body']['fragment'] = 1; // else 'no title' etc error
 		}
 
-		// Retrieves a URL using the HTTP POST method,
-		// returning results in an array.
-		// Results include HTTP headers and content.
-		$result = wp_remote_post( 'https://tenon.io/api/', $args );
+		$response = wp_remote_post(
+			$endpoint,
+			$args
+		);
 
 		//$body = wp_remote_retrieve_body( $response );
-
-		if ( is_wp_error( $result ) ) {
-			$response = $result->errors;
+		if ( is_wp_error( $response ) ) {
+			$result = $response->errors;
 		} else {
-			// the test results.
-			echo "=== response ===";
-			var_dump($result);
-			echo "=== response['body'] ===";
-			var_dump($result['body']);
-			$response = $result['body']['resultSet'];
+			/**
+			 * Return the body, not the header
+			 * true = convert to associative array
+			 */
+			$api_response = json_decode( $response['body'], true );
+
+			$result = $api_response['resultSet'];
 		}
 
-		return $response;
+		return $result;
 	}
 
 	/**
