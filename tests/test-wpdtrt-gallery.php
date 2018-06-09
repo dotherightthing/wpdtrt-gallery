@@ -80,17 +80,27 @@ class GalleryTest extends WP_UnitTestCase {
 			$args['body']['url'] = $url_or_src;
 		} else {
 			$args['body']['src'] = $url_or_src;
-			// TODO is a quick hack to get something working
+			// TODO
+			// this is a quick hack to get something working
 			// in reality I will want to support full pages too
 			$args['body']['fragment'] = 1; // else 'no title' etc error
 		}
 
+		// Retrieves a URL using the HTTP POST method,
+		// returning results in an array.
+		// Results include HTTP headers and content.
 		$result = wp_remote_post( 'https://tenon.io/api/', $args );
+
+		//$body = wp_remote_retrieve_body( $response );
 
 		if ( is_wp_error( $result ) ) {
 			$response = $result->errors;
 		} else {
 			// the test results.
+			echo "=== response ===";
+			var_dump($result);
+			echo "=== response['body'] ===";
+			var_dump($result['body']);
 			$response = $result['body']['resultSet'];
 		}
 
