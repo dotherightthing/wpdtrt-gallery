@@ -65,7 +65,7 @@ class GalleryTest extends WP_UnitTestCase {
 			'method'  => 'POST',
 			'body' => array(
 				// Required parameter #1 is passed in by Travis CI
-				'key' => 'ea03dbc81e5a5c3872c7bd479aa78f00', // getenv('TENON_AUTH')
+				'key' => getenv('TENON_AUTH'),
 				// Optional parameters:
 				'level' => 'AA',
 				'priority' => 0,
@@ -92,17 +92,6 @@ class GalleryTest extends WP_UnitTestCase {
 		}
 
 		var_dump($response);
-
-		// MAMP Pro + wp_remote_post =
-		// cURL error 56: SSLRead() return error -9806
-		//
-		// https://www.codesd.com/item/osx-10-10-curl-post-to-https-url-gives-sslread-error.html
-		// php -i | grep "SSL Version"
-		// SSL Version => SecureTransport
-		// need to change to OpenSSL
-		//
-		// MAMP Pro -> Check for Updates = nothing about OpenSSL
-		// MAMP Pro -> Tools > Extras = nothing about OpenSSL
 
 		return $response;
 	}
