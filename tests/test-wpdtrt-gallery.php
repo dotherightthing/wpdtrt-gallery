@@ -80,6 +80,9 @@ class GalleryTest extends WP_UnitTestCase {
 			$args['body']['url'] = $url_or_src;
 		} else {
 			$args['body']['src'] = $url_or_src;
+			// TODO is a quick hack to get something working
+			// in reality I will want to support full pages too
+			$args['body']['fragment'] = 1; // else 'no title' etc error
 		}
 
 		$result = wp_remote_post( 'https://tenon.io/api/', $args );
