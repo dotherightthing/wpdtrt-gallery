@@ -71,7 +71,13 @@ install:
 
 # https://github.com/wp-cli/sample-plugin/blob/master/.travis.yml
 before_script:
+  # Export environmental variables
+  # https://stackoverflow.com/questions/8491437/pass-variable-to-phpunit
+  # http://php.net/manual/en/function.getenv.php
+  # https://askubuntu.com/a/277969 - List all environmental variables
   - export PATH="$HOME/.composer/vendor/bin:$PATH"
+  - export TENON_AUTH="$TENON_AUTH"
+  # Install WPUnit test harness
   - bash bin/install-wp-tests.sh wpdtrt_galleryTest root '' localhost $WP_VERSION
 
 # Run the build script
