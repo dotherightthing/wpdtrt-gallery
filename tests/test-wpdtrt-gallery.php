@@ -88,7 +88,7 @@ class GalleryTest extends WP_UnitTestCase {
 			$response = $result->errors;
 		} else {
 			// the test results.
-			$response = $result['resultSet'];
+			$response = $result; // $result['resultSet'];
 		}
 
 		var_dump($response);
