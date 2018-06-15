@@ -176,6 +176,9 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 	 * Added false values to prevent this function running over and over
 	 * if the image was taken with a non-geotagging camera
 	 *
+	 * @param array $meta Image meta data.
+	 * @param string $file Path to image file.
+	 * @param int $source_image_type Type of image.
 	 * @requires wp-admin/includes/image.php
 	 * @uses http://kristarella.blog/2009/04/add-image-exif-metadata-to-wordpress/
 	 * @example
@@ -217,6 +220,7 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 	 * Automatically inject plugin shortcodes into the content
 	 *  Note: do_shortcode() is registered as a default filter on 'the_content' with a priority of 11.
 	 *
+	 * @param string $content Content
 	 * @return $content
 	 * @see https://codex.wordpress.org/Shortcode_API#Function_reference
 	 * Manual alternatives:
