@@ -19,10 +19,10 @@
 // align text with label
 // classname is generated from $form_fields[FIELD_NAME]
 .compat-field-wpdtrt-gallery-source-image .field {
-	font-size: 13px;
-	padding-top: .45em;
+    font-size: 13px;
+    padding-top: .45em;
 }
 
 .compat-field-wpdtrt-gallery-vimeo-pageid {
-	@extend %wpdtrt-plugin-boilerplate--last-attachment-field-divider;
+    @extend %wpdtrt-plugin-boilerplate--last-attachment-field-divider;
 }

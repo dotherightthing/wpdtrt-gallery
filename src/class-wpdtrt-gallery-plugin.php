@@ -144,16 +144,19 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 	 * Change size of gallery thumbnail images and set attachment defaults.
 	 *  This affects the front-end, overriding the selections in wp-admin.
 	 *
+	 * @param array $result The shortcode_atts() merging of $defaults and $atts
+	 * @param array $defaults The default attributes defined for the shortcode
+	 * @param array $atts The attributes supplied by the user within the shortcode
 	 * @uses https://mekshq.com/change-image-thumbnail-size-in-wordpress-gallery/
 	 * @see https://gist.github.com/mjsdiaz/7204576
 	 */
-	public function filter_gallery_attributes( $output, $pairs, $atts ) {
+	public function filter_gallery_attributes( $result, $defaults, $atts ) {
 
-		$output['columns'] = '3';
-		$output['link']    = 'file';
-		$output['size']    = 'wpdtrt-gallery-thumbnail';
+		$result['columns'] = '3';
+		$result['link']    = 'file';
+		$result['size']    = 'wpdtrt-gallery-thumbnail';
 
-		return $output;
+		return $result;
 	}
 
 	/**
