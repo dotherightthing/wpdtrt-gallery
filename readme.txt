@@ -44,7 +44,8 @@ echo do_shortcode('[wpdtrt_gallery_shortcode_heading]<h2>' . $heading . '</h2>[/
 
 = 1.7.15 =
 * Update wpdtrt-plugin-boilerplate to 1.4.25
-* Sync with generator-wpdtrt-plugin-boilerplate 0.7.20 
+* Sync with generator-wpdtrt-plugin-boilerplate 0.7.20
+* Added Tenon.io Proof of Concept
 
 = 1.7.14 =
 * Update wpdtrt-contentsections to 0.1.4 in TGMPA config
