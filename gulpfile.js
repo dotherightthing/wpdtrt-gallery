@@ -4,11 +4,8 @@
  *
  * @example usage from child plugin:
  *    gulp --gulpfile ./vendor/dotherightthing/wpdtrt-plugin-boilerplate/gulpfile.js --cwd ./
- *    gulp dev --gulpfile ./vendor/dotherightthing/wpdtrt-plugin-boilerplate/gulpfile.js --cwd ./
- *    gulp dist --gulpfile ./vendor/dotherightthing/wpdtrt-plugin-boilerplate/gulpfile.js --cwd ./
  *
- * @package     WPDTRT_Gallery
- * @version 	1.7.14
+ * @version 	1.7.15
  * @since       0.7.0
  */
  

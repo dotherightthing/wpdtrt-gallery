@@ -61,16 +61,16 @@
         },
         {
             "name": "dotherightthing/wpdtrt-plugin-boilerplate",
-            "version": "1.4.24",
+            "version": "1.4.25",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dotherightthing/wpdtrt-plugin-boilerplate.git",
-                "reference": "801088f8767c4bd1776c2a1c941a392f80db247a"
+                "reference": "18ef6f447e4648413c04706702c5a2ec03a74f62"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dotherightthing/wpdtrt-plugin-boilerplate/zipball/801088f8767c4bd1776c2a1c941a392f80db247a",
-                "reference": "801088f8767c4bd1776c2a1c941a392f80db247a",
+                "url": "https://api.github.com/repos/dotherightthing/wpdtrt-plugin-boilerplate/zipball/18ef6f447e4648413c04706702c5a2ec03a74f62",
+                "reference": "18ef6f447e4648413c04706702c5a2ec03a74f62",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -94,7 +94,7 @@
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "DoTheRightThing\\WPDTRT_Plugin_Boilerplate\\r_1_4_24\\": "src"
+                    "DoTheRightThing\\WPDTRT_Plugin_Boilerplate\\r_1_4_25\\": "src"
                 }
             },
             "notification-url": "https://repo.packagist.com/dotherightthing/downloads/",
@@ -117,9 +117,9 @@
             "support": {
                 "email": "support@dotherightthing.co.nz",
                 "issues": "https://github.com/dotherightthing/wpdtrt-tourdates/issues",
-                "source": "https://github.com/dotherightthing/wpdtrt-plugin-boilerplate/tree/1.4.24"
+                "source": "https://github.com/dotherightthing/wpdtrt-plugin-boilerplate/tree/1.4.25"
             },
-            "time": "2018-05-30T09:18:35+00:00"
+            "time": "2018-06-11T07:32:25+00:00"
         },
         {
             "name": "gamajo/template-loader",
