@@ -471,7 +471,7 @@ class GalleryTest extends WP_UnitTestCase {
 	 *
 	 * @todo This is working, but see TODOs in tenon() function
 	 */
-	public function test_shortcode_a11y() {
+	public function __test_shortcode_a11y() {
 
 		$permalink = get_post_permalink( $this->post_id_3 );
 
@@ -482,6 +482,15 @@ class GalleryTest extends WP_UnitTestCase {
 			$this->tenon( '<h2>Quick links</h2><p><a href="#anchor">Jump!</a></p>' )
 			//$this->tenon( $permalink )
 		);
+	}
+
+	/**
+	 * Test wp-admin
+	 */
+	public function test_wp_admin() {
+		$this->go_to( '/wp-admin/plugins.php' );
+
+		$this->go_to( '/wp-admin/plugins.php?page=tgmpa-install-plugins&plugin_status=install' );
 	}
 
 	/**

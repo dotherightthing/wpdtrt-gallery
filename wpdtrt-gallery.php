@@ -3,7 +3,7 @@
  * Plugin Name:  DTRT Gallery
  * Plugin URI:   https://github.com/dotherightthing/wpdtrt-gallery
  * Description:  Gallery viewer which supports images, panoramas, maps, SoundCloud and Vimeo.
- * Version:      1.7.16
+ * Version:      1.7.17
  * Author:       Dan Smith
  * Author URI:   https://profiles.wordpress.org/dotherightthingnz
  * License:      GPLv2 or later
@@ -43,7 +43,7 @@ if ( ! defined( 'WPDTRT_GALLERY_VERSION' ) ) {
 	 * @see $plugin_data = get_plugin_data( __FILE__ ); $plugin_version = $plugin_data['Version'];
 	 * @see https://wordpress.stackexchange.com/questions/18268/i-want-to-get-a-plugin-version-number-dynamically
 	 */
-	define( 'WPDTRT_GALLERY_VERSION', '1.7.16' );
+	define( 'WPDTRT_GALLERY_VERSION', '1.7.17' );
 }
 
 if ( ! defined( 'WPDTRT_GALLERY_PATH' ) ) {
@@ -224,16 +224,16 @@ function wpdtrt_gallery_plugin_init() {
 		array(
 			'name'         => 'DTRT Content Sections',
 			'slug'         => 'wpdtrt-contentsections',
-			'source'       => 'https://github.com/dotherightthing/wpdtrt-contentsections/releases/download/0.1.5/release.zip',
-			'version'      => '0.1.5',
+			'source'       => 'https://github.com/dotherightthing/wpdtrt-contentsections/releases/download/0.1.7/release.zip',
+			'version'      => '0.1.7',
 			'external_url' => 'https://github.com/dotherightthing/wpdtrt-contentsections',
 			'required'     => true,
 		),
 		array(
 			'name'         => 'DTRT EXIF',
 			'slug'         => 'wpdtrt-exif',
-			'source'       => 'https://github.com/dotherightthing/wpdtrt-exif/releases/download/0.1.9/release.zip',
-			'version'      => '0.1.9',
+			'source'       => 'https://github.com/dotherightthing/wpdtrt-exif/releases/download/0.1.10/release.zip',
+			'version'      => '0.1.10',
 			'external_url' => 'https://github.com/dotherightthing/wpdtrt-exif',
 			'required'     => true,
 		),

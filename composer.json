@@ -17,24 +17,41 @@
         "issues": "https://github.com/dotherightthing/wpdtrt-gallery/issues"
     },
     "require": {
-        "dotherightthing/wpdtrt-plugin-boilerplate": "^1.4.24"
+        "dotherightthing/wpdtrt-plugin-boilerplate": "^1.4.38"
+    },
+    "require-dev": {
+        "phpdocumentor/phpdocumentor": "2.9.0",
+        "phpunit/phpunit": "^5.7",
+        "psy/psysh" : "~0.6",
+        "wp-cli/wp-cli" : "~0.22",
+        "dotherightthing/wpdtrt-contentsections": "^0.1.4",
+        "wpackagist-plugin/better-anchor-links": "1.7.5"
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
     "repositories": [
         {
-            "type": "composer",
-            "url": "https://repo.packagist.com/dotherightthing/"
+            "type": "vcs",
+            "url": "https://github.com/dotherightthing/wpdtrt-plugin-boilerplate"
         },
         {
-            "packagist.org": false
+            "type": "vcs",
+            "url": "https://github.com/dotherightthing/wpdtrt-debug"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/dotherightthing/wpdtrt-contentsections"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/dotherightthing/tgm-plugin-activation"
+        },
+        {
+            "type": "composer",
+            "url": "https://wpackagist.org"
         }
     ],
     "config": {
         "vendor-dir": "vendor"
-    },
-    "require-dev": {
-        "dotherightthing/wpdtrt-contentsections": "^0.1.4",
-        "ludek/better-anchor-links": "1.7.5"
     }
 }

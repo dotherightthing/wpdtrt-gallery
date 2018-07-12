@@ -1,6 +1,7 @@
 # Configuration file for Travis CI builds,
 # which are automatically run when code is pushed to Github.
 # To skip a build, add [ci skip] to the commit message.
+# This file has been linted using: http://lint.travis-ci.org/
 
 # Use PHP, to use Composer, WordPress and PHPUnit
 language: php
@@ -56,6 +57,8 @@ before_install:
   # Fix PHPDoc error:
   # "Unable to find the `dot` command of the GraphViz package. Is GraphViz correctly installed and present in your path?"
   - sudo apt-get install graphviz
+  # See dotherightthing/generator-wpdtrt-plugin-boilerplate#88
+  - composer config -g github-oauth.github.com $GH_TOKEN
 
 # Install dependencies
 # https://docs.travis-ci.com/user/customizing-the-build/#Customizing-the-Installation-Step
@@ -63,14 +66,11 @@ before_install:
 # https://www.sitepoint.com/php-continuous-integration-travis-ci/
 # https://getcomposer.org/doc/03-cli.md
 install:
-  - composer install --prefer-dist --no-interaction # loads parent plugin class, which in turn runs an install via gulpfile.js
+  - composer install --prefer-dist --no-interaction --no-suggest # loads parent plugin class, which in turn runs an install via gulpfile.js
   # Adding Yarn to Travis CI - https://gist.github.com/acburdine/61f4f91bacf6554fccdaa394fd14ebbd
   - npm install -g yarn
   - yarn install --non-interactive # child plugin
   - yarn global add gulp-cli
-  # Install Ruby Gems specified in the Gemfile
-  - gem install bundler
-  - bundle install
 
 # Exporting a variable causes it to be inherited
 # by subsequently started processes in the shell session
@@ -85,13 +85,15 @@ before_script:
 
 # Run the build script
 script:
-  - gulp --gulpfile ./vendor/dotherightthing/wpdtrt-plugin-boilerplate/gulpfile.js --cwd ./
+  - yarn run build
 
 # Notifications of build results
 # https://docs.travis-ci.com/user/notifications/
+# https://github.com/travis-ci/travis-ci/issues/6387 - $SLACK_AUTH not supported
 notifications:
   email: false
-  slack: $SLACK_AUTH
+  slack:
+    secure: "ZNBGnCpiLYlm42Ibw3PetLhs6bVL1NZnL/nAOwtZ2Mw56gLs7TS8fJgX6xVoqcnL5QfszrCs4fv2+KsAW1dvePoxIBEA6SCH8rbSOtiK2LvvF2gU1sZUUEdfxWAUyNWAQu+N8aZyOf4Ewyuaqbnbmed8zU/AXSWUJ97WD446fFg/GU+ctRV/DR8H5avWW44wL7d6otUHU/n5qlnIkpj8qkE7uchJzE06wGBvTMOjMuoGfRo1Ko1j5akBwK2iuQ+DdCc5QFL4dIbK2tV+wbSIwzXEDxH7yK9zmQobM3HniL1OAesgDDhrX/bvfnFMvOMBbOKBzMKMz+g45CjH4C7xpqu1uI3NFytERD+M8Ke+tKJhsdxrUCc/nsWPiYjH8CXqn9WbAYpLJewqHTbMLkM37OS9zvWCPDW8s4Bzb6UvK7jkHvqULIIFp84DDXXn55eOCf/PYdE1sNDPmZg5JymCK+sGiAXFdbq6zjeRAziBzw+aEISeABjgDZuFwe+3JSqMzWKrtokdsLCYAGgOPfbuDPgmSPB3MpkTXB662qH0fG9UtYd4OU7N/Q88S7a+Xf0fuVL0oFfemnhhpziSTM0u6gpCJHDuOlwLykylN/hbkiVNm2z4xC2dWPfRoa640W42sFw8X/tEJfFxgmnGqkipyI+2Dv+AE8y9z+brxFNwfQU="
 
 # Deploy code to Github as a 'release'
 # This is run after a tagged commit triggers a successful build
@@ -104,7 +106,7 @@ notifications:
 deploy:
   provider: releases
   api_key:
-    secure: $GITHUB_AUTH
+    secure: $GH_TOKEN
   file: 'release.zip'
   # prevent Travis CI from resetting the working directory
   # which deletes all changes made during the build 

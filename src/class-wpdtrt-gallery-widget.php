@@ -14,7 +14,7 @@
  * @since   1.0.0
  * @version 1.0.0
  */
-class WPDTRT_Gallery_Widget extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_1_4_25\Widget {
+class WPDTRT_Gallery_Widget extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_1_4_38\Widget {
 
 	/**
 	 * Supplement widget initialisation.

@@ -1,13 +1,27 @@
 {
   "private": true,
   "name": "wpdtrt-gallery",
-  "version": "1.7.16",
+  "version": "1.7.17",
   "description": "Gallery viewer which supports images, panoramas, maps, SoundCloud and Vimeo.",
   "main": "wpdtrt-gallery.php",
   "person": {
     "name": "Dan Smith",
     "email": "dev@dotherightthing.co.nz",
     "url": "https://profiles.wordpress.org/dotherightthingnz"
+  },
+  "contributors": [
+    {
+      "name": "Dan Smith",
+      "email": "dev@dotherightthing.co.nz",
+      "url": "https://profiles.wordpress.org/dotherightthingnz"
+    }
+  ],
+  "bugs": {
+    "url" : "https://github.com/dotherightthing/wpdtrt-gallery/issues"
+  },
+  "dependencies": {
+    "urijs": "^1.19.1",
+    "waypoints": "^4.0.1"
   },
   "devDependencies": {
     "gulp": "^3.9.1"
@@ -16,11 +30,16 @@
     "vendor/dotherightthing/wpdtrt-plugin-boilerplate/"
   ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "gulp --gulpfile ./vendor/dotherightthing/wpdtrt-plugin-boilerplate/gulpfile.js --cwd ./",
+    "install_deps": "gulp install_dependencies --gulpfile ./vendor/dotherightthing/wpdtrt-plugin-boilerplate/gulpfile.js --cwd ./ && gulp wpunit_install --gulpfile ./vendor/dotherightthing/wpdtrt-plugin-boilerplate/gulpfile.js --cwd ./",
+    "package": "gulp docs --gulpfile ./vendor/dotherightthing/wpdtrt-plugin-boilerplate/gulpfile.js --cwd ./ && gulp release --gulpfile ./vendor/dotherightthing/wpdtrt-plugin-boilerplate/gulpfile.js --cwd ./",
+    "test": "gulp lint --gulpfile ./vendor/dotherightthing/wpdtrt-plugin-boilerplate/gulpfile.js --cwd ./ && gulp wpunit_run --gulpfile ./vendor/dotherightthing/wpdtrt-plugin-boilerplate/gulpfile.js --cwd ./",
+    "version": "gulp version --gulpfile ./vendor/dotherightthing/wpdtrt-plugin-boilerplate/gulpfile.js --cwd ./",
+    "watch": "gulp compile --gulpfile ./vendor/dotherightthing/wpdtrt-plugin-boilerplate/gulpfile.js --cwd ./ && gulp watch --gulpfile ./vendor/dotherightthing/wpdtrt-plugin-boilerplate/gulpfile.js --cwd ./"
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:dotherightthing/wpdtrt-gallery.git"
+    "url": "https://github.com/dotherightthing/wpdtrt-gallery"
   },
   "browserslist": [
     "last 2 versions",
@@ -28,9 +47,5 @@
   ],
   "license": "ISC",
   "homepage": "https://github.com/dotherightthing/wpdtrt-gallery",
-  "srcDir": "/Volumes/DanBackup/Websites/wpdtrt-gallery",
-  "dependencies": {
-    "urijs": "^1.19.1",
-    "waypoints": "^4.0.1"
-  }
+  "srcDir": "/Volumes/DanBackup/Websites/wpdtrt-gallery"
 }
