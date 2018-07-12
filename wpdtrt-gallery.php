@@ -232,8 +232,8 @@ function wpdtrt_gallery_plugin_init() {
 		array(
 			'name'         => 'DTRT EXIF',
 			'slug'         => 'wpdtrt-exif',
-			'source'       => 'https://github.com/dotherightthing/wpdtrt-exif/releases/download/0.1.10/release.zip',
-			'version'      => '0.1.10',
+			'source'       => 'https://github.com/dotherightthing/wpdtrt-exif/releases/download/0.1.11/release.zip',
+			'version'      => '0.1.11',
 			'external_url' => 'https://github.com/dotherightthing/wpdtrt-exif',
 			'required'     => true,
 		),
