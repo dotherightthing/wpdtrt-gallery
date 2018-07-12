@@ -548,14 +548,14 @@
     &[data-has-gallery='false'] {
         .gallery-viewer--header {
             > h2 {
-                // the gallery viewer is the template
+                // the gallery viewer is in the template
                 // but not all sections have galleries
                 background-color: $wpdtrt-gallery-viewer-border-color;
             }
         }
 
         .stack--wrapper {
-            // the gallery viewer is the template,
+            // the gallery viewer is in the template,
             // but not all sections have galleries
             .no-js & {
                 display: none;
