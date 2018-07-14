@@ -97,6 +97,13 @@ if ( defined( 'WPDTRT_GALLERY_TEST_DEPENDENCY' ) ) {
 
 require_once $project_root_path . 'vendor/autoload.php';
 
+if ( is_admin() ) {
+	// This replaces the TGMPA autoloader
+	// @see dotherightthing/generator-wpdtrt-plugin-boilerplate#77
+	// @see dotherightthing/wpdtrt-plugin-boilerplate#136
+	require_once( $project_root_path . 'vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php');
+}
+
 // sub classes, not loaded via PSR-4.
 // remove the includes you don't need, edit the files you do need.
 require_once WPDTRT_GALLERY_PATH . 'src/class-wpdtrt-gallery-plugin.php';
