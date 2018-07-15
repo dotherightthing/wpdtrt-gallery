@@ -24,10 +24,7 @@ require_once $_tests_dir . '/includes/functions.php';
 function _manually_load_plugin() {
 	require dirname( dirname( __FILE__ ) ) . '/wpdtrt-gallery.php';
 
-	if ( ! defined( 'WPDTRT_CONTENTSECTIONS_TEST_DEPENDENCY' ) ) {
-		define( 'WPDTRT_CONTENTSECTIONS_TEST_DEPENDENCY', true );
-	}
-	require dirname( dirname( __FILE__ ) ) . '/vendor/dotherightthing/wpdtrt-contentsections/wpdtrt-contentsections.php';
+	WPDTRT_Gallery_Plugin::set_wp_composer_dependencies( '../composer.json', 'wpunit' );
 }
 tests_add_filter( 'muplugins_loaded', '_manually_load_plugin' );
 

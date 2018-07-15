@@ -222,36 +222,6 @@ function wpdtrt_gallery_plugin_init() {
 	$instance_options = array();
 
 	/**
-	 * Plugin dependencies
-	 *
-	 * @see https://github.com/dotherightthing/wpdtrt-plugin-boilerplate/wiki/Options:-Adding-WordPress-plugin-dependencies Options: Adding WordPress plugin dependencies
-	 */
-	$plugin_dependencies = array(
-		// Dependency: Gallery viewer is initialised as sections are scrolled into view
-		array(
-			'name'         => 'DTRT Content Sections',
-			'slug'         => 'wpdtrt-contentsections',
-			'source'       => 'https://github.com/dotherightthing/wpdtrt-contentsections/releases/download/0.1.7/release.zip',
-			'version'      => '0.1.7',
-			'external_url' => 'https://github.com/dotherightthing/wpdtrt-contentsections',
-			'required'     => true,
-		),
-		array(
-			'name'         => 'DTRT EXIF',
-			'slug'         => 'wpdtrt-exif',
-			'source'       => 'https://github.com/dotherightthing/wpdtrt-exif/releases/download/0.1.11/release.zip',
-			'version'      => '0.1.11',
-			'external_url' => 'https://github.com/dotherightthing/wpdtrt-exif',
-			'required'     => true,
-		),
-		array(
-			'name'     => 'Regenerate Thumbnails',
-			'slug'     => 'regenerate-thumbnails',
-			'required' => false,
-		),
-	);
-
-	/**
 	 *  UI Messages
 	 */
 	$ui_messages = array(
@@ -295,7 +265,6 @@ function wpdtrt_gallery_plugin_init() {
 			'messages'              => $ui_messages,
 			'plugin_options'        => $plugin_options,
 			'instance_options'      => $instance_options,
-			'plugin_dependencies'   => $plugin_dependencies,
 			'demo_shortcode_params' => $demo_shortcode_params,
 		)
 	);

@@ -24,8 +24,26 @@
         "phpunit/phpunit": "^5.7",
         "psy/psysh" : "~0.6",
         "wp-cli/wp-cli" : "~0.22",
-        "dotherightthing/wpdtrt-contentsections": "^0.1.4",
-        "wpackagist-plugin/better-anchor-links": "1.7.5"
+        "dotherightthing/wpdtrt-contentsections": "^0.1.7",
+        "dotherightthing/wpdtrt-exif": "^0.1.11"
+    },
+    "extras": {
+        "require-wp": [
+            {
+                "name": "DTRT Content Sections",
+                "host": "github",
+                "repository": "dotherightthing/wpdtrt-contentsections",
+                "file": "wpdtrt-contentsections.php",
+                "description": "The gallery viewer is initialised as these are scrolled into view"
+            },
+            {
+                "name": "DTRT EXIF",
+                "host": "github",
+                "repository": "dotherightthing/wpdtrt-exif",
+                "file": "wpdtrt-exif.php",
+                "description": "Appends GPS coordinates to the thumbnail link"
+            }
+        ]
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
@@ -40,15 +58,15 @@
         },
         {
             "type": "vcs",
+            "url": "https://github.com/dotherightthing/tgm-plugin-activation"
+        },
+        {
+            "type": "vcs",
             "url": "https://github.com/dotherightthing/wpdtrt-contentsections"
         },
         {
             "type": "vcs",
-            "url": "https://github.com/dotherightthing/tgm-plugin-activation"
-        },
-        {
-            "type": "composer",
-            "url": "https://wpackagist.org"
+            "url": "https://github.com/dotherightthing/wpdtrt-exif"
         }
     ],
     "config": {
