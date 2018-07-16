@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "da27ab4a90ed306fb68c62e7dd50d1c1",
+    "content-hash": "deffa52cddb39cbc46693b9a7ec927e6",
     "packages": [
         {
             "name": "dotherightthing/wpdtrt-debug",
@@ -54,16 +54,16 @@
         },
         {
             "name": "dotherightthing/wpdtrt-plugin-boilerplate",
-            "version": "1.4.38",
+            "version": "1.4.39",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dotherightthing/wpdtrt-plugin-boilerplate.git",
-                "reference": "e638f0d7b358707a4a3b55a6d83e785c357f84eb"
+                "reference": "872e5f5ae01c15a2385d0cb3e1cfc6dcd96c128f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dotherightthing/wpdtrt-plugin-boilerplate/zipball/e638f0d7b358707a4a3b55a6d83e785c357f84eb",
-                "reference": "e638f0d7b358707a4a3b55a6d83e785c357f84eb",
+                "url": "https://api.github.com/repos/dotherightthing/wpdtrt-plugin-boilerplate/zipball/872e5f5ae01c15a2385d0cb3e1cfc6dcd96c128f",
+                "reference": "872e5f5ae01c15a2385d0cb3e1cfc6dcd96c128f",
                 "shasum": ""
             },
             "require": {
@@ -81,7 +81,7 @@
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "DoTheRightThing\\WPDTRT_Plugin_Boilerplate\\r_1_4_38\\": "src"
+                    "DoTheRightThing\\WPDTRT_Plugin_Boilerplate\\r_1_4_39\\": "src"
                 }
             },
             "license": [
@@ -103,9 +103,9 @@
             "support": {
                 "email": "support@dotherightthing.co.nz",
                 "issues": "https://github.com/dotherightthing/wpdtrt-tourdates/issues",
-                "source": "https://github.com/dotherightthing/wpdtrt-plugin-boilerplate/tree/1.4.38"
+                "source": "https://github.com/dotherightthing/wpdtrt-plugin-boilerplate/tree/1.4.39"
             },
-            "time": "2018-07-11T11:12:15+00:00"
+            "time": "2018-07-15T13:11:03+00:00"
         },
         {
             "name": "gamajo/template-loader",
@@ -455,126 +455,6 @@
                 "package"
             ],
             "time": "2017-03-08T10:06:43+00:00"
-        },
-        {
-            "name": "composer/installers",
-            "version": "v1.5.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/composer/installers.git",
-                "reference": "049797d727261bf27f2690430d935067710049c2"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/composer/installers/zipball/049797d727261bf27f2690430d935067710049c2",
-                "reference": "049797d727261bf27f2690430d935067710049c2",
-                "shasum": ""
-            },
-            "require": {
-                "composer-plugin-api": "^1.0"
-            },
-            "replace": {
-                "roundcube/plugin-installer": "*",
-                "shama/baton": "*"
-            },
-            "require-dev": {
-                "composer/composer": "1.0.*@dev",
-                "phpunit/phpunit": "^4.8.36"
-            },
-            "type": "composer-plugin",
-            "extra": {
-                "class": "Composer\\Installers\\Plugin",
-                "branch-alias": {
-                    "dev-master": "1.0-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Composer\\Installers\\": "src/Composer/Installers"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Kyle Robinson Young",
-                    "email": "kyle@dontkry.com",
-                    "homepage": "https://github.com/shama"
-                }
-            ],
-            "description": "A multi-framework Composer library installer",
-            "homepage": "https://composer.github.io/installers/",
-            "keywords": [
-                "Craft",
-                "Dolibarr",
-                "Eliasis",
-                "Hurad",
-                "ImageCMS",
-                "Kanboard",
-                "Lan Management System",
-                "MODX Evo",
-                "Mautic",
-                "Maya",
-                "OXID",
-                "Plentymarkets",
-                "Porto",
-                "RadPHP",
-                "SMF",
-                "Thelia",
-                "WolfCMS",
-                "agl",
-                "aimeos",
-                "annotatecms",
-                "attogram",
-                "bitrix",
-                "cakephp",
-                "chef",
-                "cockpit",
-                "codeigniter",
-                "concrete5",
-                "croogo",
-                "dokuwiki",
-                "drupal",
-                "eZ Platform",
-                "elgg",
-                "expressionengine",
-                "fuelphp",
-                "grav",
-                "installer",
-                "itop",
-                "joomla",
-                "kohana",
-                "laravel",
-                "lavalite",
-                "lithium",
-                "magento",
-                "majima",
-                "mako",
-                "mediawiki",
-                "modulework",
-                "modx",
-                "moodle",
-                "osclass",
-                "phpbb",
-                "piwik",
-                "ppi",
-                "puppet",
-                "pxcms",
-                "reindex",
-                "roundcube",
-                "shopware",
-                "silverstripe",
-                "sydes",
-                "symfony",
-                "typo3",
-                "wordpress",
-                "yawik",
-                "zend",
-                "zikula"
-            ],
-            "time": "2017-12-29T09:13:20+00:00"
         },
         {
             "name": "composer/semver",
@@ -941,20 +821,20 @@
         },
         {
             "name": "dotherightthing/wpdtrt-contentsections",
-            "version": "0.1.7",
+            "version": "0.1.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dotherightthing/wpdtrt-contentsections.git",
-                "reference": "e294bb4a751312997c14cad76f8a6704ec5f6128"
+                "reference": "cadc17aaa9759a47e3b7c8e19d795774637a3dc3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dotherightthing/wpdtrt-contentsections/zipball/e294bb4a751312997c14cad76f8a6704ec5f6128",
-                "reference": "e294bb4a751312997c14cad76f8a6704ec5f6128",
+                "url": "https://api.github.com/repos/dotherightthing/wpdtrt-contentsections/zipball/cadc17aaa9759a47e3b7c8e19d795774637a3dc3",
+                "reference": "cadc17aaa9759a47e3b7c8e19d795774637a3dc3",
                 "shasum": ""
             },
             "require": {
-                "dotherightthing/wpdtrt-plugin-boilerplate": "^1.4.38"
+                "dotherightthing/wpdtrt-plugin-boilerplate": "^1.4.39"
             },
             "require-dev": {
                 "phpdocumentor/phpdocumentor": "2.9.0",
@@ -986,9 +866,58 @@
             "support": {
                 "email": "support@dotherightthing.co.nz",
                 "issues": "https://github.com/dotherightthing/wpdtrt-contentsections/issues",
-                "source": "https://github.com/dotherightthing/wpdtrt-contentsections/tree/0.1.7"
+                "source": "https://github.com/dotherightthing/wpdtrt-contentsections/tree/0.1.8"
             },
-            "time": "2018-07-11T11:32:09+00:00"
+            "time": "2018-07-15T13:49:29+00:00"
+        },
+        {
+            "name": "dotherightthing/wpdtrt-exif",
+            "version": "0.1.12",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/dotherightthing/wpdtrt-exif.git",
+                "reference": "382450e188b9fcaae641dd324d6b753f2fa7a4ca"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/dotherightthing/wpdtrt-exif/zipball/382450e188b9fcaae641dd324d6b753f2fa7a4ca",
+                "reference": "382450e188b9fcaae641dd324d6b753f2fa7a4ca",
+                "shasum": ""
+            },
+            "require": {
+                "dotherightthing/wpdtrt-plugin-boilerplate": "^1.4.39",
+                "prairiewest/phpconvertdmstodecimal": "dev-master"
+            },
+            "require-dev": {
+                "phpdocumentor/phpdocumentor": "2.9.0",
+                "phpunit/phpunit": "^5.7",
+                "psy/psysh": "~0.6",
+                "wp-cli/wp-cli": "~0.22"
+            },
+            "type": "library",
+            "license": [
+                "ISC"
+            ],
+            "authors": [
+                {
+                    "name": "Dan Smith",
+                    "email": "dev@dotherightthing.co.nz",
+                    "homepage": "https://github.com/dotherightthing/wpdtrt-exif",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Adds EXIF (time and geotag) fields to the attachment media modal, for use by other plugins.",
+            "keywords": [
+                "attachment",
+                "exif",
+                "geotag"
+            ],
+            "support": {
+                "email": "support@dotherightthing.co.nz",
+                "issues": "https://github.com/dotherightthing/wpdtrt-exif/issues",
+                "source": "https://github.com/dotherightthing/wpdtrt-exif/tree/0.1.12"
+            },
+            "time": "2018-07-15T13:57:39+00:00"
         },
         {
             "name": "erusev/parsedown",
@@ -2698,6 +2627,38 @@
                 "dependency injection"
             ],
             "time": "2013-11-22T08:30:29+00:00"
+        },
+        {
+            "name": "prairiewest/PHPconvertDMSToDecimal",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/prairiewest/PHPconvertDMSToDecimal.git",
+                "reference": "b2b5ccd2fb3fb3092fe32e8a3f1bf5058cad1e25"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/prairiewest/PHPconvertDMSToDecimal/zipball/b2b5ccd2fb3fb3092fe32e8a3f1bf5058cad1e25",
+                "reference": "b2b5ccd2fb3fb3092fe32e8a3f1bf5058cad1e25",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "convert.php"
+                ]
+            },
+            "authors": [
+                {
+                    "name": "Todd Trann"
+                }
+            ],
+            "description": " Convert degrees / minutes / seconds to decimal degrees in PHP ",
+            "support": {
+                "source": "https://github.com/prairiewest/PHPconvertDMSToDecimal/tree/master",
+                "issues": "https://github.com/prairiewest/PHPconvertDMSToDecimal/issues"
+            },
+            "time": "2017-07-18T05:12:23+00:00"
         },
         {
             "name": "psr/cache",
@@ -4577,20 +4538,21 @@
         },
         {
             "name": "twig/twig",
-            "version": "v1.35.3",
+            "version": "v1.35.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/Twig.git",
-                "reference": "b48680b6eb7d16b5025b9bfc4108d86f6b8af86f"
+                "reference": "7e081e98378a1e78c29cc9eba4aefa5d78a05d2a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig/zipball/b48680b6eb7d16b5025b9bfc4108d86f6b8af86f",
-                "reference": "b48680b6eb7d16b5025b9bfc4108d86f6b8af86f",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/7e081e98378a1e78c29cc9eba4aefa5d78a05d2a",
+                "reference": "7e081e98378a1e78c29cc9eba4aefa5d78a05d2a",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.3"
+                "php": ">=5.3.3",
+                "symfony/polyfill-ctype": "^1.8"
             },
             "require-dev": {
                 "psr/container": "^1.0",
@@ -4629,16 +4591,16 @@
                 },
                 {
                     "name": "Twig Team",
-                    "homepage": "http://twig.sensiolabs.org/contributors",
+                    "homepage": "https://twig.symfony.com/contributors",
                     "role": "Contributors"
                 }
             ],
             "description": "Twig, the flexible, fast, and secure template language for PHP",
-            "homepage": "http://twig.sensiolabs.org",
+            "homepage": "https://twig.symfony.com",
             "keywords": [
                 "templating"
             ],
-            "time": "2018-03-20T04:25:58+00:00"
+            "time": "2018-07-13T07:12:17+00:00"
         },
         {
             "name": "wp-cli/php-cli-tools",
@@ -4756,26 +4718,6 @@
                 "wordpress"
             ],
             "time": "2016-10-25T15:14:00+00:00"
-        },
-        {
-            "name": "wpackagist-plugin/better-anchor-links",
-            "version": "1.7.5",
-            "source": {
-                "type": "svn",
-                "url": "https://plugins.svn.wordpress.org/better-anchor-links/",
-                "reference": "tags/1.7.5"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/better-anchor-links.1.7.5.zip",
-                "reference": null,
-                "shasum": null
-            },
-            "require": {
-                "composer/installers": "~1.0"
-            },
-            "type": "wordpress-plugin",
-            "homepage": "https://wordpress.org/plugins/better-anchor-links/"
         },
         {
             "name": "zendframework/zend-cache",

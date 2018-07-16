@@ -17,15 +17,15 @@
         "issues": "https://github.com/dotherightthing/wpdtrt-gallery/issues"
     },
     "require": {
-        "dotherightthing/wpdtrt-plugin-boilerplate": "^1.4.38"
+        "dotherightthing/wpdtrt-plugin-boilerplate": "^1.4.39"
     },
     "require-dev": {
         "phpdocumentor/phpdocumentor": "2.9.0",
         "phpunit/phpunit": "^5.7",
         "psy/psysh" : "~0.6",
         "wp-cli/wp-cli" : "~0.22",
-        "dotherightthing/wpdtrt-contentsections": "^0.1.7",
-        "dotherightthing/wpdtrt-exif": "^0.1.11"
+        "dotherightthing/wpdtrt-contentsections": "^0.1.8",
+        "dotherightthing/wpdtrt-exif": "^0.1.12"
     },
     "extras": {
         "require-wp": [
@@ -67,6 +67,10 @@
         {
             "type": "vcs",
             "url": "https://github.com/dotherightthing/wpdtrt-exif"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/prairiewest/PHPconvertDMSToDecimal"
         }
     ],
     "config": {
