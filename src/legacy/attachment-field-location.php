@@ -13,8 +13,8 @@
 /**
  * Add Location field to media uploader, for gallery searches
  *
- * @param $form_fields array, fields to include in attachment form
- * @param $post object, attachment record in database
+ * @param array  $form_fields Fields to include in attachment form.
+ * @param object $post Attachment record in database.
  * @return $form_fields, modified form fields
  */
 function wpdtrt_gallery_attachment_field_location( $form_fields, $post ) {
@@ -32,8 +32,8 @@ function wpdtrt_gallery_attachment_field_location( $form_fields, $post ) {
 /**
  * Save value of Location field in media uploader, for gallery-viewer
  *
- * @param $post array, the post data for database
- * @param $attachment array, attachment fields from $_POST form
+ * @param array $post The post data for database.
+ * @param array $attachment Attachment fields from $_POST form.
  * @return $post array, modified post data
  */
 function wpdtrt_gallery_attachment_field_location_save( $post, $attachment ) {

@@ -26,14 +26,12 @@
  * @since       0.7.0
  */
 
-// if uninstall.php is not called by WordPress, die
-if ( ! defined('WP_UNINSTALL_PLUGIN') ) {
+// if uninstall.php is not called by WordPress, die.
+if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 	die;
 }
 
-delete_option('wpdtrt_gallery');
+delete_option( 'wpdtrt_gallery' );
 
-// for site options in Multisite
-delete_site_option('wpdtrt_gallery');
-
-?>
+// for site options in Multisite.
+delete_site_option( 'wpdtrt_gallery' );

@@ -13,8 +13,8 @@
 /**
  * Add read-only Heading 'field' to media uploader, for gallery-viewer
  *
- * @param $form_fields array, fields to include in attachment form
- * @param $post object, attachment record in database
+ * @param array  $form_fields Fields to include in attachment form.
+ * @param object $post Attachment record in database.
  * @return $form_fields, modified form fields
  */
 function wpdtrt_gallery_attachment_field_heading( $form_fields, $post ) {

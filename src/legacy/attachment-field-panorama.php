@@ -13,25 +13,24 @@
 /**
  * Add "Panorama" option to media uploader
  *
- * @param $form_fields array, fields to include in attachment form
- * @param $post object, attachment record in database
+ * @param array  $form_fields Fields to include in attachment form.
+ * @param object $post Attachment record in database.
  * @return $form_fields, modified form fields
  * @see https://code.tutsplus.com/articles/creating-custom-fields-for-attachments-in-wordpress--net-13076
  */
 function wpdtrt_gallery_attachment_field_panorama( $form_fields, $post ) {
 
-	// Get currently select value
+	// Get currently select value.
 	$selection = get_post_meta( $post->ID, 'wpdtrt_gallery_attachment_panorama', true );
 
-	// If no selection, default to 'No'
-	if ( !isset( $selection ) ) {
+	// If no selection, default to 'No'.
+	if ( ! isset( $selection ) ) {
 		$selection = '0';
 	}
 
-	if ( $selection == '1' ) {
+	if ( '1' === $selection ) {
 		$checked = ' checked="checked"';
-	}
-	else {
+	} else {
 		$checked = '';
 	}
 
@@ -41,33 +40,33 @@ function wpdtrt_gallery_attachment_field_panorama( $form_fields, $post ) {
 	$html  .= '</div>';
 	$out[] = $html;
 
-	// Construct the form field
+	// Construct the form field.
 	$form_fields['wpdtrt-gallery-panorama'] = array(
 		'label' => 'Panorama',
 		'input' => 'html',
-		'html'  => join("\n", $out),
+		'html'  => join( "\n", $out ),
 	);
 
-	// Return all form fields
+	// Return all form fields.
 	return $form_fields;
 }
 
 /**
  * Save value of "panorama" selection in media uploader
  *
- * @param $post array, the post data for database
- * @param $attachment array, attachment fields from $_POST form
- * @return $post array, modified post data
+ * @param array $post The post data for database.
+ * @param array $attachment Attachment fields from $_POST form.
+ * @return array $post Modified post data
  * @see https://stackoverflow.com/questions/4554758/how-to-read-if-a-checkbox-is-checked-in-php
  * @todo calculate this automatically, or make it a theme option to do so
  */
 function wpdtrt_gallery_attachment_field_panorama_save( $post, $attachment ) {
 
 	if ( isset( $attachment['wpdtrt-gallery-panorama'] ) ) {
-		// if checked
+		// if checked.
 		update_post_meta( $post['ID'], 'wpdtrt_gallery_attachment_panorama', $attachment['wpdtrt-gallery-panorama'] );
 	} else {
-		// if not checked
+		// if not checked.
 		update_post_meta( $post['ID'], 'wpdtrt_gallery_attachment_panorama', '0' );
 	}
 

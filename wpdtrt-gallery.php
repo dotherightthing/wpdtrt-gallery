@@ -1,5 +1,13 @@
 <?php
 /**
+ * DTRT Gallery
+ *
+ * @package     WPDTRT_Gallery
+ * @author      Dan Smith
+ * @copyright   2018 Do The Right Thing
+ * @license     GPL-2.0+
+ *
+ * @wordpress-plugin
  * Plugin Name:  DTRT Gallery
  * Plugin URI:   https://github.com/dotherightthing/wpdtrt-gallery
  * Description:  Gallery viewer which supports images, panoramas, maps, SoundCloud and Vimeo.
@@ -100,8 +108,8 @@ require_once $project_root_path . 'vendor/autoload.php';
 if ( is_admin() ) {
 	// This replaces the TGMPA autoloader
 	// @see dotherightthing/generator-wpdtrt-plugin-boilerplate#77
-	// @see dotherightthing/wpdtrt-plugin-boilerplate#136
-	require_once( $project_root_path . 'vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php');
+	// @see dotherightthing/wpdtrt-plugin-boilerplate#136.
+	require_once( $project_root_path . 'vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php' );
 }
 
 // sub classes, not loaded via PSR-4.
@@ -109,7 +117,7 @@ if ( is_admin() ) {
 require_once WPDTRT_GALLERY_PATH . 'src/class-wpdtrt-gallery-plugin.php';
 require_once WPDTRT_GALLERY_PATH . 'src/class-wpdtrt-gallery-shortcode.php';
 
-// legacy helpers
+// legacy helpers.
 require_once WPDTRT_GALLERY_PATH . 'src/legacy/attachment-field-heading.php';
 require_once WPDTRT_GALLERY_PATH . 'src/legacy/attachment-field-source.php';
 require_once WPDTRT_GALLERY_PATH . 'src/legacy/attachment-field-default.php';
@@ -122,7 +130,7 @@ require_once WPDTRT_GALLERY_PATH . 'src/legacy/attachment-field-vimeo.php';
 
 // log & trace helpers.
 global $debug;
-$debug = new DoTheRightThing\WPDebug\Debug;
+$debug = new DoTheRightThing\WPDebug\Debug();
 
 /**
  * ===== WordPress Integration =====
@@ -204,7 +212,7 @@ function wpdtrt_gallery_helper_deactivate() {
  */
 function wpdtrt_gallery_plugin_init() {
 	// pass object reference between classes via global
-	// because the object does not exist until the WordPress init action has fired
+	// because the object does not exist until the WordPress init action has fired.
 	global $wpdtrt_gallery_plugin;
 
 	/**

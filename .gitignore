@@ -4,6 +4,7 @@ composer.phar
 css
 docs
 generators
+js/*-es5.js
 logs
 node_modules
 release.zip
