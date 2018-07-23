@@ -163,7 +163,7 @@ const wpdtrt_gallery_ui = {
 		const viewer_is_expanded =    $viewer.attr("data-expanded");
 
 		// post-toggle states to reinstate
-		const user_expanded_saved = $viewer.attr("data-expanded-user");
+		let user_expanded_saved = $viewer.attr("data-expanded-user");
 
 		// this is problematic
 		// because when the thumbnail is clicked
