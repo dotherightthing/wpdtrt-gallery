@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "fe5843a25524f31c3f69ef90baddcb31",
+    "content-hash": "d6a495576db67711b0d76037c201973f",
     "packages": [
         {
             "name": "dotherightthing/wpdtrt-debug",
@@ -891,20 +891,20 @@
         },
         {
             "name": "dotherightthing/wpdtrt-contentsections",
-            "version": "0.2.0",
+            "version": "0.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dotherightthing/wpdtrt-contentsections.git",
-                "reference": "332084801cd029aef8783cf56ba647b467bc9345"
+                "reference": "b322d335c9f6e27e53646d6a95813f2c584927be"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dotherightthing/wpdtrt-contentsections/zipball/332084801cd029aef8783cf56ba647b467bc9345",
-                "reference": "332084801cd029aef8783cf56ba647b467bc9345",
+                "url": "https://api.github.com/repos/dotherightthing/wpdtrt-contentsections/zipball/b322d335c9f6e27e53646d6a95813f2c584927be",
+                "reference": "b322d335c9f6e27e53646d6a95813f2c584927be",
                 "shasum": ""
             },
             "require": {
-                "dotherightthing/wpdtrt-plugin-boilerplate": "^1.4.39"
+                "dotherightthing/wpdtrt-plugin-boilerplate": "^1.5.0"
             },
             "require-dev": {
                 "dealerdirect/phpcodesniffer-composer-installer": "^0.4.4",
@@ -938,26 +938,26 @@
             "support": {
                 "email": "support@dotherightthing.co.nz",
                 "issues": "https://github.com/dotherightthing/wpdtrt-contentsections/issues",
-                "source": "https://github.com/dotherightthing/wpdtrt-contentsections/tree/0.2.0"
+                "source": "https://github.com/dotherightthing/wpdtrt-contentsections/tree/0.2.1"
             },
-            "time": "2018-07-22T20:50:38+00:00"
+            "time": "2018-07-23T13:19:10+00:00"
         },
         {
             "name": "dotherightthing/wpdtrt-exif",
-            "version": "0.2.0",
+            "version": "0.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dotherightthing/wpdtrt-exif.git",
-                "reference": "0220d28db0f829cfb5954c9f2a2e812648045019"
+                "reference": "2ed805007f3981a61f10894df2393ae332d21491"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dotherightthing/wpdtrt-exif/zipball/0220d28db0f829cfb5954c9f2a2e812648045019",
-                "reference": "0220d28db0f829cfb5954c9f2a2e812648045019",
+                "url": "https://api.github.com/repos/dotherightthing/wpdtrt-exif/zipball/2ed805007f3981a61f10894df2393ae332d21491",
+                "reference": "2ed805007f3981a61f10894df2393ae332d21491",
                 "shasum": ""
             },
             "require": {
-                "dotherightthing/wpdtrt-plugin-boilerplate": "^1.4.39",
+                "dotherightthing/wpdtrt-plugin-boilerplate": "^1.5.0",
                 "prairiewest/phpconvertdmstodecimal": "dev-master"
             },
             "require-dev": {
@@ -989,9 +989,9 @@
             "support": {
                 "email": "support@dotherightthing.co.nz",
                 "issues": "https://github.com/dotherightthing/wpdtrt-exif/issues",
-                "source": "https://github.com/dotherightthing/wpdtrt-exif/tree/0.2.0"
+                "source": "https://github.com/dotherightthing/wpdtrt-exif/tree/0.2.1"
             },
-            "time": "2018-07-22T20:58:29+00:00"
+            "time": "2018-07-23T13:20:37+00:00"
         },
         {
             "name": "erusev/parsedown",
@@ -4544,16 +4544,16 @@
         },
         {
             "name": "symfony/var-dumper",
-            "version": "v3.4.12",
+            "version": "v3.4.13",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/var-dumper.git",
-                "reference": "e173954a28a44a32c690815fbe4d0f2eac43accb"
+                "reference": "c501f46bb1eaf4c8d65ba070ab65a1986da1cd7f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/var-dumper/zipball/e173954a28a44a32c690815fbe4d0f2eac43accb",
-                "reference": "e173954a28a44a32c690815fbe4d0f2eac43accb",
+                "url": "https://api.github.com/repos/symfony/var-dumper/zipball/c501f46bb1eaf4c8d65ba070ab65a1986da1cd7f",
+                "reference": "c501f46bb1eaf4c8d65ba070ab65a1986da1cd7f",
                 "shasum": ""
             },
             "require": {
@@ -4609,7 +4609,7 @@
                 "debug",
                 "dump"
             ],
-            "time": "2018-06-15T07:47:49+00:00"
+            "time": "2018-07-09T08:21:26+00:00"
         },
         {
             "name": "symfony/yaml",

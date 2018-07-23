@@ -26,8 +26,8 @@
         "wp-cli/wp-cli" : "~0.22",
         "wp-coding-standards/wpcs": "^0.14.1",
         "DealerDirect/phpcodesniffer-composer-installer": "^0.4.4",
-        "dotherightthing/wpdtrt-contentsections": "^0.2.0",
-        "dotherightthing/wpdtrt-exif": "^0.2.0"
+        "dotherightthing/wpdtrt-contentsections": "^0.2.1",
+        "dotherightthing/wpdtrt-exif": "^0.2.1"
     },
     "extras": {
         "require-wp": [
