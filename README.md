@@ -6,7 +6,7 @@ Gallery viewer which supports images, panoramas, maps, SoundCloud and Vimeo.
 
 ## Setup and Maintenance
 
-Please read [DTRT WordPress Plugin Boilerplate: Workflows](https://github.com/dotherightthing/wpdtrt-plugin-boilerplate-boilerplate/wiki/Workflows).
+Please read [DTRT WordPress Plugin Boilerplate: Workflows](https://github.com/dotherightthing/wpdtrt-plugin-boilerplate/wiki/Workflows).
 
 ## WordPress Installation and Usage
 
