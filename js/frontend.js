@@ -123,7 +123,7 @@ const wpdtrt_gallery_ui = {
 	string_to_boolean: function(str) {
     "use strict";
 
-		const bool = false;
+		let bool = false;
 
 		if ( str === "true" ) {
 			bool = true;
@@ -304,9 +304,7 @@ const wpdtrt_gallery_ui = {
 
 	  const $viewer_iframe = $viewer.find("iframe");
 	  const $viewer_img = $viewer.find("img");
-
 	  const $gallery_item = $gallery_item_link.parent().parent();
-
 	  const vimeo_pageid = $gallery_item_link.data("vimeo-pageid");
 	  const soundcloud_pageid = $gallery_item_link.data("soundcloud-pageid");
 	  const soundcloud_trackid =  $gallery_item_link.data("soundcloud-trackid");
@@ -419,11 +417,11 @@ const wpdtrt_gallery_ui = {
 	gallery_viewer_panorama_update: function($, $viewer, $gallery_item_link) {
     "use strict";
 
-		const panorama =        $gallery_item_link.data("panorama");
-		const $expand_button =  $viewer.find(".gallery-viewer--expand");
-		const $scroll_liner =   $viewer.find(".img-wrapper");
-		const $gal = 			  $scroll_liner;
-    let galleryScrollTimer = undefined;
+		const panorama =         $gallery_item_link.data("panorama");
+		const $expand_button =   $viewer.find(".gallery-viewer--expand");
+		const $scroll_liner =    $viewer.find(".img-wrapper");
+		const $gal = 			 $scroll_liner;
+    	let galleryScrollTimer = undefined;
 		let galleryScrollSetup = undefined;
 
 		$gal.off(".galleryScroll");
@@ -520,9 +518,9 @@ const wpdtrt_gallery_ui = {
 	gallery_viewer_image_update: function($, $viewer, $gallery_item_link) {
     "use strict";
 
-	  const $expand_button = 			$viewer.find(".gallery-viewer--expand");
+	  const $expand_button = 		  $viewer.find(".gallery-viewer--expand");
 	  const $gallery_item_image =     $gallery_item_link.find("img");
-	  const gallery_item_image_alt = 	$gallery_item_image.attr("alt");
+	  const gallery_item_image_alt =  $gallery_item_image.attr("alt");
 	  const gallery_item_image_full = $gallery_item_link.attr("href");
 
 	  // the generated enlargement
@@ -530,7 +528,7 @@ const wpdtrt_gallery_ui = {
 	  const $viewer_wrapper =         $viewer.find(".stack--wrapper");
 
 	  // the other gallery items
-	  const $gallery_item_links = 	$(`[aria-controls="${viewer_id}"]`);
+	  const $gallery_item_links = 	 $(`[aria-controls="${viewer_id}"]`);
 
 	  // unview existing thumbnail and reinstate into tab order
 	  $gallery_item_links
@@ -552,7 +550,7 @@ const wpdtrt_gallery_ui = {
 	  // set the source of the large image which is uncropped
 	  // after gallery_viewer_panorama_update
 	  $viewer.find("img")
-	    .attr("src", gallery_item_image_full )
+	    .attr("src", gallery_item_image_full)
 	    .attr("alt", gallery_item_image_alt);
 
 		// setup viewer
@@ -682,7 +680,6 @@ jQuery(document).ready( ($) => {
   "use strict";
 
 	const config = wpdtrt_gallery_config;
-
 });
 
 (function($) {
@@ -693,4 +690,3 @@ jQuery(document).ready( ($) => {
     wpdtrt_gallery_ui.gallery_viewer_lazyinit($);
   });
 })(jQuery);
-
