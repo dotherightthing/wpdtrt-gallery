@@ -440,17 +440,17 @@ const wpdtrt_gallery_ui = {
 			// timeout ensures that the related CSS has taken effect
 			galleryScrollSetup = setTimeout( () => {
 
-				const galW = $gal.outerWidth(true), // setTimeout reqd for this value
-					galSW = $gal[0].scrollWidth,
-					wDiff = (galSW / galW) - 1, // widths difference ratioÅ
-					mPadd = 75, // Mousemove padding
-					damp = 20, // Mousemove response softness
-					mX = 0, // Real mouse position
-					mX2 = 0, // Modified mouse position
-					posX = 0,
-					mmAA = galW - (mPadd * 2), // The mousemove available area
-					mmAAr = (galW / mmAA), // get available mousemove difference ratio
-					tabindex = null;
+				const galW = $gal.outerWidth(true); // setTimeout reqd for this value
+				const galSW = $gal[0].scrollWidth;
+				const wDiff = (galSW / galW) - 1; // widths difference ratioÅ
+				const mPadd = 75; // Mousemove padding
+				const damp = 20; // Mousemove response softness
+				let mX = 0; // Real mouse position
+				let mX2 = 0; // Modified mouse position
+				let posX = 0;
+				const mmAA = galW - (mPadd * 2); // The mousemove available area
+				const mmAAr = (galW / mmAA); // get available mousemove difference ratio
+				let tabindex = null;
 
 				$gal
 					.on("mousemove.galleryScroll", function(e) {
