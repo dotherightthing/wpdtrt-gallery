@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3c731cce2e6c892c34d735cedab305c6",
+    "content-hash": "fe5843a25524f31c3f69ef90baddcb31",
     "packages": [
         {
             "name": "dotherightthing/wpdtrt-debug",
@@ -54,16 +54,16 @@
         },
         {
             "name": "dotherightthing/wpdtrt-plugin-boilerplate",
-            "version": "1.4.39",
+            "version": "1.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dotherightthing/wpdtrt-plugin-boilerplate.git",
-                "reference": "872e5f5ae01c15a2385d0cb3e1cfc6dcd96c128f"
+                "reference": "b8db12dc55de69dd758d4eb7d79a3c6c913a8ccf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dotherightthing/wpdtrt-plugin-boilerplate/zipball/872e5f5ae01c15a2385d0cb3e1cfc6dcd96c128f",
-                "reference": "872e5f5ae01c15a2385d0cb3e1cfc6dcd96c128f",
+                "url": "https://api.github.com/repos/dotherightthing/wpdtrt-plugin-boilerplate/zipball/b8db12dc55de69dd758d4eb7d79a3c6c913a8ccf",
+                "reference": "b8db12dc55de69dd758d4eb7d79a3c6c913a8ccf",
                 "shasum": ""
             },
             "require": {
@@ -73,15 +73,17 @@
                 "tgmpa/tgm-plugin-activation": "dev-autoloader"
             },
             "require-dev": {
+                "dealerdirect/phpcodesniffer-composer-installer": "^0.4.4",
                 "phpdocumentor/phpdocumentor": "2.9.0",
                 "phpunit/phpunit": "^5.7",
                 "psy/psysh": "~0.6",
-                "wp-cli/wp-cli": "~0.22"
+                "wp-cli/wp-cli": "~0.22",
+                "wp-coding-standards/wpcs": "^0.14.1"
             },
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "DoTheRightThing\\WPDTRT_Plugin_Boilerplate\\r_1_4_39\\": "src"
+                    "DoTheRightThing\\WPDTRT_Plugin_Boilerplate\\r_1_5_0\\": "src"
                 }
             },
             "license": [
@@ -103,9 +105,9 @@
             "support": {
                 "email": "support@dotherightthing.co.nz",
                 "issues": "https://github.com/dotherightthing/wpdtrt-tourdates/issues",
-                "source": "https://github.com/dotherightthing/wpdtrt-plugin-boilerplate/tree/1.4.39"
+                "source": "https://github.com/dotherightthing/wpdtrt-plugin-boilerplate/tree/1.5.0"
             },
-            "time": "2018-07-15T13:11:03+00:00"
+            "time": "2018-07-22T10:52:06+00:00"
         },
         {
             "name": "gamajo/template-loader",
@@ -889,26 +891,28 @@
         },
         {
             "name": "dotherightthing/wpdtrt-contentsections",
-            "version": "0.1.8",
+            "version": "0.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dotherightthing/wpdtrt-contentsections.git",
-                "reference": "cadc17aaa9759a47e3b7c8e19d795774637a3dc3"
+                "reference": "332084801cd029aef8783cf56ba647b467bc9345"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dotherightthing/wpdtrt-contentsections/zipball/cadc17aaa9759a47e3b7c8e19d795774637a3dc3",
-                "reference": "cadc17aaa9759a47e3b7c8e19d795774637a3dc3",
+                "url": "https://api.github.com/repos/dotherightthing/wpdtrt-contentsections/zipball/332084801cd029aef8783cf56ba647b467bc9345",
+                "reference": "332084801cd029aef8783cf56ba647b467bc9345",
                 "shasum": ""
             },
             "require": {
                 "dotherightthing/wpdtrt-plugin-boilerplate": "^1.4.39"
             },
             "require-dev": {
+                "dealerdirect/phpcodesniffer-composer-installer": "^0.4.4",
                 "phpdocumentor/phpdocumentor": "2.9.0",
                 "phpunit/phpunit": "^5.7",
                 "psy/psysh": "~0.6",
                 "wp-cli/wp-cli": "~0.22",
+                "wp-coding-standards/wpcs": "^0.14.1",
                 "wpackagist-plugin/better-anchor-links": "1.7.5"
             },
             "type": "library",
@@ -934,22 +938,22 @@
             "support": {
                 "email": "support@dotherightthing.co.nz",
                 "issues": "https://github.com/dotherightthing/wpdtrt-contentsections/issues",
-                "source": "https://github.com/dotherightthing/wpdtrt-contentsections/tree/0.1.8"
+                "source": "https://github.com/dotherightthing/wpdtrt-contentsections/tree/0.2.0"
             },
-            "time": "2018-07-15T13:49:29+00:00"
+            "time": "2018-07-22T20:50:38+00:00"
         },
         {
             "name": "dotherightthing/wpdtrt-exif",
-            "version": "0.1.12",
+            "version": "0.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dotherightthing/wpdtrt-exif.git",
-                "reference": "382450e188b9fcaae641dd324d6b753f2fa7a4ca"
+                "reference": "0220d28db0f829cfb5954c9f2a2e812648045019"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dotherightthing/wpdtrt-exif/zipball/382450e188b9fcaae641dd324d6b753f2fa7a4ca",
-                "reference": "382450e188b9fcaae641dd324d6b753f2fa7a4ca",
+                "url": "https://api.github.com/repos/dotherightthing/wpdtrt-exif/zipball/0220d28db0f829cfb5954c9f2a2e812648045019",
+                "reference": "0220d28db0f829cfb5954c9f2a2e812648045019",
                 "shasum": ""
             },
             "require": {
@@ -957,10 +961,12 @@
                 "prairiewest/phpconvertdmstodecimal": "dev-master"
             },
             "require-dev": {
+                "dealerdirect/phpcodesniffer-composer-installer": "^0.4.4",
                 "phpdocumentor/phpdocumentor": "2.9.0",
                 "phpunit/phpunit": "^5.7",
                 "psy/psysh": "~0.6",
-                "wp-cli/wp-cli": "~0.22"
+                "wp-cli/wp-cli": "~0.22",
+                "wp-coding-standards/wpcs": "^0.14.1"
             },
             "type": "library",
             "license": [
@@ -983,9 +989,9 @@
             "support": {
                 "email": "support@dotherightthing.co.nz",
                 "issues": "https://github.com/dotherightthing/wpdtrt-exif/issues",
-                "source": "https://github.com/dotherightthing/wpdtrt-exif/tree/0.1.12"
+                "source": "https://github.com/dotherightthing/wpdtrt-exif/tree/0.2.0"
             },
-            "time": "2018-07-15T13:57:39+00:00"
+            "time": "2018-07-22T20:58:29+00:00"
         },
         {
             "name": "erusev/parsedown",
@@ -3791,7 +3797,7 @@
         },
         {
             "name": "symfony/config",
-            "version": "v2.8.42",
+            "version": "v2.8.43",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/config.git",
@@ -3848,16 +3854,16 @@
         },
         {
             "name": "symfony/console",
-            "version": "v2.8.42",
+            "version": "v2.8.43",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/console.git",
-                "reference": "e8e59b74ad1274714dad2748349b55e3e6e630c7"
+                "reference": "42a0adc7dd656ca2e360285eb6d822df9ce0b160"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/console/zipball/e8e59b74ad1274714dad2748349b55e3e6e630c7",
-                "reference": "e8e59b74ad1274714dad2748349b55e3e6e630c7",
+                "url": "https://api.github.com/repos/symfony/console/zipball/42a0adc7dd656ca2e360285eb6d822df9ce0b160",
+                "reference": "42a0adc7dd656ca2e360285eb6d822df9ce0b160",
                 "shasum": ""
             },
             "require": {
@@ -3905,11 +3911,11 @@
             ],
             "description": "Symfony Console Component",
             "homepage": "https://symfony.com",
-            "time": "2018-05-15T21:17:45+00:00"
+            "time": "2018-07-09T12:58:09+00:00"
         },
         {
             "name": "symfony/debug",
-            "version": "v2.8.42",
+            "version": "v2.8.43",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/debug.git",
@@ -3966,16 +3972,16 @@
         },
         {
             "name": "symfony/dependency-injection",
-            "version": "v2.8.42",
+            "version": "v2.8.43",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/dependency-injection.git",
-                "reference": "0f42a0827d99a867ffd279ae083e7daf1fe42cb7"
+                "reference": "1143ebbfdcc2e6440b01adfb4d36bbd8ac997266"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/dependency-injection/zipball/0f42a0827d99a867ffd279ae083e7daf1fe42cb7",
-                "reference": "0f42a0827d99a867ffd279ae083e7daf1fe42cb7",
+                "url": "https://api.github.com/repos/symfony/dependency-injection/zipball/1143ebbfdcc2e6440b01adfb4d36bbd8ac997266",
+                "reference": "1143ebbfdcc2e6440b01adfb4d36bbd8ac997266",
                 "shasum": ""
             },
             "require": {
@@ -4025,11 +4031,11 @@
             ],
             "description": "Symfony DependencyInjection Component",
             "homepage": "https://symfony.com",
-            "time": "2018-05-25T13:50:34+00:00"
+            "time": "2018-07-11T10:26:22+00:00"
         },
         {
             "name": "symfony/event-dispatcher",
-            "version": "v2.8.42",
+            "version": "v2.8.43",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/event-dispatcher.git",
@@ -4089,16 +4095,16 @@
         },
         {
             "name": "symfony/filesystem",
-            "version": "v2.8.42",
+            "version": "v2.8.43",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/filesystem.git",
-                "reference": "0f685c099aca7ba86bcc31850186dbfe84a4a8a1"
+                "reference": "5cfc856c5b665ef5de0df796e98c54bef0fe595b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/filesystem/zipball/0f685c099aca7ba86bcc31850186dbfe84a4a8a1",
-                "reference": "0f685c099aca7ba86bcc31850186dbfe84a4a8a1",
+                "url": "https://api.github.com/repos/symfony/filesystem/zipball/5cfc856c5b665ef5de0df796e98c54bef0fe595b",
+                "reference": "5cfc856c5b665ef5de0df796e98c54bef0fe595b",
                 "shasum": ""
             },
             "require": {
@@ -4135,11 +4141,11 @@
             ],
             "description": "Symfony Filesystem Component",
             "homepage": "https://symfony.com",
-            "time": "2018-06-21T09:24:14+00:00"
+            "time": "2018-07-09T13:24:25+00:00"
         },
         {
             "name": "symfony/finder",
-            "version": "v2.8.42",
+            "version": "v2.8.43",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/finder.git",
@@ -4302,7 +4308,7 @@
         },
         {
             "name": "symfony/process",
-            "version": "v2.8.42",
+            "version": "v2.8.43",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/process.git",
@@ -4351,7 +4357,7 @@
         },
         {
             "name": "symfony/stopwatch",
-            "version": "v2.8.42",
+            "version": "v2.8.43",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/stopwatch.git",
@@ -4400,16 +4406,16 @@
         },
         {
             "name": "symfony/translation",
-            "version": "v2.8.42",
+            "version": "v2.8.43",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/translation.git",
-                "reference": "c6a27966a92fa361bf2c3a938abc6dee91f7ad67"
+                "reference": "968379d57b9b9ba96796ef257825bf4621ac6fd8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/translation/zipball/c6a27966a92fa361bf2c3a938abc6dee91f7ad67",
-                "reference": "c6a27966a92fa361bf2c3a938abc6dee91f7ad67",
+                "url": "https://api.github.com/repos/symfony/translation/zipball/968379d57b9b9ba96796ef257825bf4621ac6fd8",
+                "reference": "968379d57b9b9ba96796ef257825bf4621ac6fd8",
                 "shasum": ""
             },
             "require": {
@@ -4460,20 +4466,20 @@
             ],
             "description": "Symfony Translation Component",
             "homepage": "https://symfony.com",
-            "time": "2018-05-21T09:59:10+00:00"
+            "time": "2018-07-19T12:06:28+00:00"
         },
         {
             "name": "symfony/validator",
-            "version": "v2.8.42",
+            "version": "v2.8.43",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/validator.git",
-                "reference": "3fa2355675f1ebc074589b83478480745342c970"
+                "reference": "157f216aedf30ab9be253608a66e9cbad4bb3129"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/validator/zipball/3fa2355675f1ebc074589b83478480745342c970",
-                "reference": "3fa2355675f1ebc074589b83478480745342c970",
+                "url": "https://api.github.com/repos/symfony/validator/zipball/157f216aedf30ab9be253608a66e9cbad4bb3129",
+                "reference": "157f216aedf30ab9be253608a66e9cbad4bb3129",
                 "shasum": ""
             },
             "require": {
@@ -4534,7 +4540,7 @@
             ],
             "description": "Symfony Validator Component",
             "homepage": "https://symfony.com",
-            "time": "2018-06-19T08:02:14+00:00"
+            "time": "2018-07-23T08:22:17+00:00"
         },
         {
             "name": "symfony/var-dumper",
@@ -4607,7 +4613,7 @@
         },
         {
             "name": "symfony/yaml",
-            "version": "v2.8.42",
+            "version": "v2.8.43",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/yaml.git",
