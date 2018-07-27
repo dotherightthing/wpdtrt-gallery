@@ -355,7 +355,7 @@ const wpdtrt_gallery_ui = {
 	      .attr("data-soundcloud-trackid", soundcloud_trackid); // 291457131
 
 	    $viewer_iframe
-	      .attr("src", `/w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/${soundcloud_trackid}?auto_play=${autoplay}&hide_related=true&show_comments=false&show_user=false&show_reposts=false&visual=true`)
+	      .attr("src", `//w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/${soundcloud_trackid}?auto_play=${autoplay}&hide_related=true&show_comments=false&show_user=false&show_reposts=false&visual=true`)
 	      .attr("height", "368px")
 	      .attr("aria-hidden", "false");
 
