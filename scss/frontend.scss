@@ -174,8 +174,8 @@
             }
         }
 
-        &[data-panorama],
         &[data-panorama] {
+            &,
             &[data-viewing='true'] {
                 &::before {
                     content: '\e90a';
@@ -183,8 +183,8 @@
             }
         }
 
-        &[data-soundcloud-pageid],
         &[data-soundcloud-pageid] {
+            &,
             &[data-viewing='true'] {
                 &::before {
                     content: '\e90c';
@@ -192,8 +192,8 @@
             }
         }
 
-        &[data-vimeo-pageid],
         &[data-vimeo-pageid] {
+            &,
             &[data-viewing='true'] {
                 &::before {
                     content: '\e90b';
