@@ -680,6 +680,7 @@ jQuery(document).ready( ($) => {
   "use strict";
 
 	const config = wpdtrt_gallery_config;
+	console.log("wpdtrt_gallery_ui.init");
 });
 
 (function($) {
