@@ -453,8 +453,8 @@ const wpdtrt_gallery_ui = {
 				let tabindex = null;
 
 				$gal
-					.on("mousemove.galleryScroll", function(e) {
-						mX = e.pageX - $(this).offset().left;
+					.on("mousemove.galleryScroll", function(event) {
+						mX = event.pageX - $(this).offset().left;
 						mX2 = Math.min(Math.max(0, mX - mPadd), mmAA) * mmAAr;
 					})
 					.on("mouseenter.galleryScroll", () => {
@@ -617,12 +617,12 @@ const wpdtrt_gallery_ui = {
 
     //$expand_button.attr("tabindex", 0);
 
-    $expand_button.click( (e) => {
+    $expand_button.click( (event) => {
 
-      const triggered = e.originalEvent ? false : true;
+      const triggered = event.originalEvent ? false : true;
 
       // prevent the click bubbling up to the viewer, creating an infinite loop
-      e.stopPropagation();
+      event.stopPropagation();
 
       wpdtrt_gallery_ui.gallery_viewer_toggle_expanded($, $expand_button, triggered);
     });
@@ -631,12 +631,12 @@ const wpdtrt_gallery_ui = {
       wpdtrt_gallery_ui.gallery_viewer_data( $, $(item), viewer_id );
     });
 
-    $section_gallery_item_links.click( (e) => {
+    $section_gallery_item_links.click( (event) => {
 
       // don't load the WordPress media item page
-      e.preventDefault();
+      event.preventDefault();
 
-      const $gallery_item_link = $(this);
+      const $gallery_item_link = $(event.target);
       viewer_id = $gallery_item_link.attr("aria-controls");
       const $viewer = $(`#${viewer_id}`);
 
