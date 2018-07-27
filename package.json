@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "wpdtrt-gallery",
-  "version": "1.8.2",
+  "version": "1.8.3",
   "description": "Gallery viewer which supports images, panoramas, maps, SoundCloud and Vimeo.",
   "main": "wpdtrt-gallery.php",
   "person": {
