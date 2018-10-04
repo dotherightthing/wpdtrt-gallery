@@ -8,7 +8,7 @@
  */
 
 /* eslint-env browser */
-/* globals jQuery, Waypoint, URI, wpdtrt_gallery_config */
+/* globals jQuery, Waypoint, wpdtrt_gallery_config */
 /* eslint-disable no-unused-vars */
 /* eslint-disable max-len */
 
@@ -44,51 +44,19 @@ const wpdtrt_gallery_ui = {
 	},
 
 	/**
-	 * Convert query params into data attributes
-	 * for easy configuration of the gallery viewer
+	 * Add accessibility attributes to the gallery viewer
+	 *
 	 * @param {object} $ - jQuery
 	 * @param {object} $gallery_item_link - jQuery gallery thumbnail link
 	 * @param {string} viewer_id
 	 * @requires includes/attachment.php
 	 * @since 3.0.0
 	 */
-	gallery_viewer_data: ($, $gallery_item_link, viewer_id) => {
+	gallery_viewer_a11y: ($, $gallery_item_link, viewer_id) => {
     "use strict";
 
-	  /**
-	   * Gallery settings are passed in via PHP manipulation of the thumbnail URL
-	   */
-	  const href = $gallery_item_link.attr("href");
-	  const uri = new URI( href );
-	  const uri_domain = uri.domain();
-	  const uri_query = uri.search(true);
-
-	  /**
-	   * When a query variable is not present
-	   * the data- attribute will be set to undefined
-	   * which results in it being suppressed
-	   */
 	  $gallery_item_link
-	    .attr( "aria-controls",           viewer_id )
-	    .attr( "data-position-y",         uri_query.position_y)
-	    .attr( "data-initial",            uri_query.default )
-	    .attr( "data-vimeo-pageid",       uri_query.vimeo_pageid )
-	    .attr( "data-soundcloud-pageid",  uri_query.soundcloud_pageid )
-	    .attr( "data-soundcloud-trackid", uri_query.soundcloud_trackid )
-	    .attr( "data-rwgps-pageid",       uri_query.rwgps_pageid )
-	    .attr( "data-latitude",           uri_query.latitude )
-	    .attr( "data-longitude",          uri_query.longitude )
-	    .attr( "data-panorama",           uri_query.panorama )
-	    .attr( "data-src-mobile",         uri_query.src_mobile );
-
-	  /**
-	   * Strip URL params as all have now been converted into data attrs
-	   * exclude Google maps
-	   */
-	  if ( uri_domain.match(/dontbelievethehype/) ) {
-	    $gallery_item_link.attr("href", uri.search("") );
-	  }
-
+	    .attr( "aria-controls", viewer_id );
 	},
 
 	/**
@@ -305,11 +273,11 @@ const wpdtrt_gallery_ui = {
 	  const $viewer_iframe = $viewer.find("iframe");
 	  const $viewer_img = $viewer.find("img");
 	  const $gallery_item = $gallery_item_link.parent().parent();
-	  const vimeo_pageid = $gallery_item_link.data("vimeo-pageid");
-	  const soundcloud_pageid = $gallery_item_link.data("soundcloud-pageid");
-	  const soundcloud_trackid =  $gallery_item_link.data("soundcloud-trackid");
-	  const rwgps_pageid = $gallery_item_link.data("rwgps-pageid");
-	  const is_default = $gallery_item_link.data("initial");
+	  const vimeo_pageid = $gallery_item_link.find("img").data("vimeo-pageid");
+	  const soundcloud_pageid = $gallery_item_link.find("img").data("soundcloud-pageid");
+	  const soundcloud_trackid =  $gallery_item_link.find("img").data("soundcloud-trackid");
+	  const rwgps_pageid = $gallery_item_link.find("img").data("rwgps-pageid");
+	  const is_default = $gallery_item_link.find("img").data("initial");
 
 	  const $expand_button = $viewer.find(".gallery-viewer--expand");
 
@@ -417,7 +385,7 @@ const wpdtrt_gallery_ui = {
 	gallery_viewer_panorama_update: function($, $viewer, $gallery_item_link) {
     "use strict";
 
-		const panorama =         $gallery_item_link.data("panorama");
+		const panorama =         $gallery_item_link.find("img").data("panorama");
 		const $expand_button =   $viewer.find(".gallery-viewer--expand");
 		const $scroll_liner =    $viewer.find(".img-wrapper");
 		const $gal = 			 $scroll_liner;
@@ -518,6 +486,20 @@ const wpdtrt_gallery_ui = {
 	gallery_viewer_image_update: function($, $viewer, $gallery_item_link) {
     "use strict";
 
+	  const thumbnail_data = [
+	  	"id",
+	  	"initial",
+	  	"latitude",
+	  	"longitude",
+	  	"panorama",
+	  	"position-y",
+	  	"rwgps-pageid",
+	  	"soundcloud-pageid",
+	  	"soundcloud-trackid",
+	  	"src-mobile",
+	  	"vimeo-pageid"
+	  ];
+
 	  const $expand_button = 		  $viewer.find(".gallery-viewer--expand");
 	  const $gallery_item_image =     $gallery_item_link.find("img");
 	  const gallery_item_image_alt =  $gallery_item_image.attr("alt");
@@ -544,14 +526,22 @@ const wpdtrt_gallery_ui = {
 	  $viewer_wrapper
 	    .css({
 	      "background-image": `url(${gallery_item_image_full})`,
-	      "background-position": `50% ${$gallery_item_link.data("position-y")}%`
+	      "background-position": `50% ${$gallery_item_link.find("img").data("position-y")}%`
 	    });
 
 	  // set the source of the large image which is uncropped
 	  // after gallery_viewer_panorama_update
-	  $viewer.find("img")
+	  const $viewer_img = $viewer.find("img");
+
+	  $viewer_img
 	    .attr("src", gallery_item_image_full)
 	    .attr("alt", gallery_item_image_alt);
+
+	  // copy the data attributes
+	  // note: not just the dataset, as data- attributes are used for DOM filtering
+	  $.each(thumbnail_data, (key, value) => {
+	  	$viewer_img.attr(`data-${value}`, $gallery_item_image.attr(`data-${value}`));
+	  });
 
 		// setup viewer
 		$expand_button.trigger("click");
@@ -583,6 +573,7 @@ const wpdtrt_gallery_ui = {
     const $stack_link_viewer = $section.find(".stack_link_viewer");
     const $heading = $stack_link_viewer.find(".gallery-viewer--heading");
     const $stack_wrapper = $stack_link_viewer.find(".stack--wrapper");
+    const $section_gallery_thumbnails =  $section_gallery.find("img");
     const $section_gallery_item_links =  $section_gallery.find("a");
 
     if ( $stack_link_viewer.attr("data-attachment") ) {
@@ -628,7 +619,7 @@ const wpdtrt_gallery_ui = {
     });
 
     $section_gallery_item_links.each( (i, item) => {
-      wpdtrt_gallery_ui.gallery_viewer_data( $, $(item), viewer_id );
+      wpdtrt_gallery_ui.gallery_viewer_a11y( $, $(item), viewer_id );
     });
 
     $section_gallery_item_links.click( (event) => {
@@ -657,12 +648,12 @@ const wpdtrt_gallery_ui = {
 
     });
 
-    const $gallery_item_link_initial = $section_gallery_item_links.filter("[data-initial]");
+    const $gallery_thumbnail_initial = $section_gallery_thumbnails.filter("[data-initial]");
 
-    if ( $gallery_item_link_initial.length ) {
+    if ( $gallery_thumbnail_initial.length ) {
       // this is the item assigned the "initial" class in the media library "Gallery Link Additional CSS Classes" field
       // if there is more than one, select the first
-      $gallery_item_link_initial.eq(0)
+      $gallery_thumbnail_initial.parents("a").eq(0)
         .click();
     }
     else {

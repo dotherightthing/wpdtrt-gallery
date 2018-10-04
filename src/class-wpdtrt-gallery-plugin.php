@@ -51,6 +51,7 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 		add_filter( 'shortcode_atts_gallery', array( $this, 'filter_gallery_attributes' ), 10, 3 );
 		add_filter( 'wp_read_image_metadata', array( $this, 'filter_save_image_geodata' ), '', 3 );
 		add_filter( 'wp_get_attachment_link', array( $this, 'filter_thumbnail_queryparams' ), 1, 4 );
+		add_filter( 'wp_get_attachment_image_attributes', array( $this, 'filter_thumbnail_attributes' ), 1, 4 ); // 10,2
 		add_filter( 'the_content', array( $this, 'filter_shortcode_heading' ), 10 );
 		add_filter( 'jpeg_quality', array( $this, 'filter_image_quality' ) );
 		add_filter( 'wp_editor_set_quality', array( $this, 'filter_image_quality' ) );
@@ -250,64 +251,6 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 			return $html;
 		}
 
-		$link_options = array();
-
-		// Vimeo.
-		$vimeo_pageid = get_post_meta( $id, 'wpdtrt_gallery_attachment_vimeo_pageid', true ); // used for embed.
-
-		if ( $vimeo_pageid ) {
-			$link_options['vimeo_pageid'] = $vimeo_pageid;
-		}
-
-		// SoundCloud.
-		$soundcloud_pageid  = get_post_meta( $id, 'wpdtrt_gallery_attachment_soundcloud_pageid', true ); // used for SEO.
-		$soundcloud_trackid = get_post_meta( $id, 'wpdtrt_gallery_attachment_soundcloud_trackid', true ); // used for embed, see also http://stackoverflow.com/a/28182284.
-
-		if ( $soundcloud_pageid && $soundcloud_trackid ) {
-			$link_options['soundcloud_pageid']  = urlencode( $soundcloud_pageid );
-			$link_options['soundcloud_trackid'] = $soundcloud_trackid;
-		}
-
-		// Ride With GPS.
-		$rwgps_pageid = get_post_meta( $id, 'wpdtrt_gallery_attachment_rwgps_pageid', true );
-
-		if ( $rwgps_pageid ) {
-			$link_options['rwgps_pageid'] = urlencode( $rwgps_pageid );
-		}
-
-		// Position Y.
-		$position_y         = get_post_meta( $id, 'wpdtrt_gallery_attachment_position_y', true );
-		$position_y_default = '50';
-
-		if ( '' !== $position_y ) {
-			$link_options['position_y'] = $position_y;
-		} else {
-			$link_options['position_y'] = $position_y_default;
-		}
-
-		// Select onload.
-		$default = get_post_meta( $id, 'wpdtrt_gallery_attachment_default', true );
-
-		if ( '1' === $default ) {
-			$link_options['default'] = $default;
-		}
-
-		// Panorama.
-		$panorama = get_post_meta( $id, 'wpdtrt_gallery_attachment_panorama', true ); // used for JS dragging.
-
-		if ( '1' === $panorama ) {
-			$link_options['panorama'] = $panorama;
-		}
-
-		// Geolocation
-		// Could this be replaced by simply looking up the custom field?
-		if ( function_exists( 'wpdtrt_exif_get_attachment_metadata' ) ) {
-			$attachment_metadata       = wpdtrt_exif_get_attachment_metadata( $id );
-			$attachment_metadata_gps   = wpdtrt_exif_get_attachment_metadata_gps( $attachment_metadata, 'number' );
-			$link_options['latitude']  = $attachment_metadata_gps['latitude'];
-			$link_options['longitude'] = $attachment_metadata_gps['longitude'];
-		}
-
 		/**
 		 * Filter the gallery thumbnail links to point to custom image sizes, rather than the 'full' image size.
 		 *
@@ -316,26 +259,101 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 		 */
 
 		// see wpdtrt-gallery-enlargement.php.
-		$image_size_mobile   = 'wpdtrt-gallery-mobile';
 		$image_size_desktop  = 'wpdtrt-gallery-desktop';
 		$image_size_panorama = 'wpdtrt-gallery-panorama';
 
-		$image_size_small = $image_size_mobile;
-		$image_size_large = $panorama ? $image_size_panorama : $image_size_desktop;
+		$panorama = get_post_meta( $id, 'wpdtrt_gallery_attachment_panorama', true ); // used for JS dragging.
+
+		$image_size_large = ( '1' === $panorama ) ? $image_size_panorama : $image_size_desktop;
 
 		// set $link to values from the image_src array.
 		list( $link, , ) = wp_get_attachment_image_src( $id, $image_size_large );
 
-		// store the other enlargement sizes in data attributes.
-		$link_options['src_mobile'] = wp_get_attachment_image_src( $id, $image_size_small )[0];
-
 		// Encode options
 		// http://stackoverflow.com/a/39370906.
 		$query = http_build_query( $link_options, '', '&amp;' );
-		$link .= '?' . $query;
+		$link .= '&' . $query; // imgix uses ?
 
 		// Update gallery link.
 		return preg_replace( "/href='([^']+)'/", "href='$link'", $html );
+	}
+
+	/**
+	 * Add data- attributes to gallery thumbnails for use by the plugin JS.
+	 * Refactored due to clashes with Imgix using previous solution of link URL params.
+	 *
+	 * @param  array   $atts Gallery image tag attributes.
+	 * @param  WP_Post $attachment WP_Post object for the attachment.
+	 * @return array (maybe) filtered gallery image tag attributes.
+	 * @see https://developer.wordpress.org/reference/hooks/wp_get_attachment_image_attributes/
+	 */
+	public function filter_thumbnail_attributes( $atts, $attachment ) {
+
+		$id = $attachment->ID;
+
+		$atts['data-id'] = $id;
+
+		// Vimeo.
+		$vimeo_pageid = get_post_meta( $id, 'wpdtrt_gallery_attachment_vimeo_pageid', true ); // used for embed.
+
+		if ( $vimeo_pageid ) {
+			$atts['data-vimeo-pageid'] = $vimeo_pageid;
+		}
+
+		// SoundCloud.
+		$soundcloud_pageid  = get_post_meta( $id, 'wpdtrt_gallery_attachment_soundcloud_pageid', true ); // used for SEO.
+		$soundcloud_trackid = get_post_meta( $id, 'wpdtrt_gallery_attachment_soundcloud_trackid', true ); // used for embed, see also http://stackoverflow.com/a/28182284.
+
+		if ( $soundcloud_pageid && $soundcloud_trackid ) {
+			$atts['data-soundcloud-pageid']  = rawurlencode( $soundcloud_pageid );
+			$atts['data-soundcloud-trackid'] = $soundcloud_trackid;
+		}
+
+		// Ride With GPS.
+		$rwgps_pageid = get_post_meta( $id, 'wpdtrt_gallery_attachment_rwgps_pageid', true );
+
+		if ( $rwgps_pageid ) {
+			$atts['data-rwgps-pageid'] = rawurlencode( $rwgps_pageid );
+		}
+
+		// Position Y.
+		$position_y         = get_post_meta( $id, 'wpdtrt_gallery_attachment_position_y', true );
+		$position_y_default = '50';
+
+		if ( '' !== $position_y ) {
+			$atts['data-position-y'] = $position_y;
+		} else {
+			$atts['data-position-y'] = $position_y_default;
+		}
+
+		// Select onload.
+		$default = get_post_meta( $id, 'wpdtrt_gallery_attachment_default', true );
+
+		if ( '1' === $default ) {
+			$atts['data-initial'] = $default;
+		}
+
+		// Panorama.
+		$panorama = get_post_meta( $id, 'wpdtrt_gallery_attachment_panorama', true ); // used for JS dragging.
+
+		if ( '1' === $panorama ) {
+			$atts['data-panorama'] = $panorama;
+		}
+
+		// Geolocation
+		// Could this be replaced by simply looking up the custom field?
+		if ( function_exists( 'wpdtrt_exif_get_attachment_metadata' ) ) {
+			$attachment_metadata     = wpdtrt_exif_get_attachment_metadata( $id );
+			$attachment_metadata_gps = wpdtrt_exif_get_attachment_metadata_gps( $attachment_metadata, 'number' );
+			$atts['data-latitude']   = $attachment_metadata_gps['latitude'];
+			$atts['data-longitude']  = $attachment_metadata_gps['longitude'];
+		}
+
+		// store the other enlargement sizes in data attributes.
+		$image_size_mobile       = 'wpdtrt-gallery-mobile';
+		$atts['data-src-mobile'] = wp_get_attachment_image_src( $id, $image_size_mobile )[0];
+
+		return $atts;
 	}
 
 	/**
