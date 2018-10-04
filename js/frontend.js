@@ -16,6 +16,18 @@
  * @namespace wpdtrt_gallery_ui
  */
 const wpdtrt_gallery_ui = {
+  thumbnail_data: [
+  	"id",
+  	"initial",
+  	"latitude",
+  	"longitude",
+  	"panorama",
+  	"rwgps-pageid",
+  	"soundcloud-pageid",
+  	"soundcloud-trackid",
+  	"src-desktop-expanded",
+  	"vimeo-pageid"
+  ],
 
 	/**
 	 * Lazyload a gallery viewer when it is scrolled into view
@@ -196,11 +208,15 @@ const wpdtrt_gallery_ui = {
 		}
 
 		// ------------------------------
-		// update button text
+		// update src image & button text
 		// ------------------------------
 
 		// if the viewer is now expanded
 		if ( $viewer.attr("data-expanded") === "true" ) {
+
+			if (! $viewer_img.data("panorama")) {
+				$viewer_img.attr("src", $viewer_img.data("src-desktop-expanded"));
+			}
 
 			$expand_button.attr("aria-expanded", true);
 
@@ -210,6 +226,10 @@ const wpdtrt_gallery_ui = {
 
 		// if the viewer is now collapsed
 		else if ( $viewer.attr("data-expanded") === "false" ) {
+
+			if (! $viewer_img.data("panorama")) {
+				$viewer_img.attr("src", $viewer_img.data("src-desktop"));
+			}
 
 			$expand_button.attr("aria-expanded", false);
 
@@ -486,21 +506,7 @@ const wpdtrt_gallery_ui = {
 	gallery_viewer_image_update: function($, $viewer, $gallery_item_link) {
     "use strict";
 
-	  const thumbnail_data = [
-	  	"id",
-	  	"initial",
-	  	"latitude",
-	  	"longitude",
-	  	"panorama",
-	  	"position-y",
-	  	"rwgps-pageid",
-	  	"soundcloud-pageid",
-	  	"soundcloud-trackid",
-	  	"src-mobile",
-	  	"vimeo-pageid"
-	  ];
-
-	  const $expand_button = 		  $viewer.find(".gallery-viewer--expand");
+	  const $expand_button = 		      $viewer.find(".gallery-viewer--expand");
 	  const $gallery_item_image =     $gallery_item_link.find("img");
 	  const gallery_item_image_alt =  $gallery_item_image.attr("alt");
 	  const gallery_item_image_full = $gallery_item_link.attr("href");
@@ -522,13 +528,6 @@ const wpdtrt_gallery_ui = {
 	    .attr("data-viewing", true)
 	    .attr("tabindex", "-1");
 
-	  // set the source of the large image at the appropriate crop
-	  $viewer_wrapper
-	    .css({
-	      "background-image": `url(${gallery_item_image_full})`,
-	      "background-position": `50% ${$gallery_item_link.find("img").data("position-y")}%`
-	    });
-
 	  // set the source of the large image which is uncropped
 	  // after gallery_viewer_panorama_update
 	  const $viewer_img = $viewer.find("img");
@@ -537,9 +536,16 @@ const wpdtrt_gallery_ui = {
 	    .attr("src", gallery_item_image_full)
 	    .attr("alt", gallery_item_image_alt);
 
+	  // store the collapsed state so when can revert it after expanding->collapsing the viewer
+		$viewer_img.attr("data-src-desktop", $viewer_img.attr("src"));
+
+		// remove old stored data
+	  $viewer_img.removeData();
+
 	  // copy the data attributes
 	  // note: not just the dataset, as data- attributes are used for DOM filtering
-	  $.each(thumbnail_data, (key, value) => {
+	  $.each(this.thumbnail_data, (key, value) => {
+	  	$viewer_img.removeAttr(`data-${value}`);
 	  	$viewer_img.attr(`data-${value}`, $gallery_item_image.attr(`data-${value}`));
 	  });
 

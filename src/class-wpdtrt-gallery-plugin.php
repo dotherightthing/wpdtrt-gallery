@@ -12,7 +12,7 @@
  *
  * @since   1.0.0
  */
-class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_1_5_3\Plugin {
+class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_1_5_4\Plugin {
 
 	/**
 	 * Supplement plugin initialisation.
@@ -269,11 +269,6 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 		// set $link to values from the image_src array.
 		list( $link, , ) = wp_get_attachment_image_src( $id, $image_size_large );
 
-		// Encode options
-		// http://stackoverflow.com/a/39370906.
-		$query = http_build_query( $link_options, '', '&amp;' );
-		$link .= '&' . $query; // imgix uses ?
-
 		// Update gallery link.
 		return preg_replace( "/href='([^']+)'/", "href='$link'", $html );
 	}
@@ -316,16 +311,6 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 			$atts['data-rwgps-pageid'] = rawurlencode( $rwgps_pageid );
 		}
 
-		// Position Y.
-		$position_y         = get_post_meta( $id, 'wpdtrt_gallery_attachment_position_y', true );
-		$position_y_default = '50';
-
-		if ( '' !== $position_y ) {
-			$atts['data-position-y'] = $position_y;
-		} else {
-			$atts['data-position-y'] = $position_y_default;
-		}
-
 		// Select onload.
 		$default = get_post_meta( $id, 'wpdtrt_gallery_attachment_default', true );
 
@@ -349,10 +334,11 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 			$atts['data-longitude']  = $attachment_metadata_gps['longitude'];
 		}
 
-		// store the other enlargement sizes in data attributes.
-		$image_size_mobile       = 'wpdtrt-gallery-mobile';
-		$atts['data-src-mobile'] = wp_get_attachment_image_src( $id, $image_size_mobile )[0];
-
+		// store the other enlarged sources in data attributes.
+		$image_size_desktop_expanded = 'wpdtrt-gallery-desktop-expanded';
+		$atts['data-src-desktop-expanded'] = wp_get_attachment_image_src( $id, $image_size_desktop_expanded )[0];
+		// $image_size_mobile       = 'wpdtrt-gallery-mobile'; // TODO not implemented, needs enquire.js.
+		// $atts['data-src-mobile'] = wp_get_attachment_image_src( $id, $image_size_mobile )[0].
 		return $atts;
 	}
 
@@ -363,6 +349,7 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 	/**
 	 * Add image sizes, scaling width proportional to max height in UI.
 	 *  Note: Scaling is always relative to the shorter axis.
+	 *  Note: Crop option determines whether image will be assigned a tab in the Interfacelab Media Cloud crop modal
 	 *
 	 * @see https://stackoverflow.com/a/18159895/6850747 (used)
 	 * @see https://wordpress.stackexchange.com/questions/212768/add-image-size-where-largest-possible-proportional-size-is-generated (not used)
@@ -382,39 +369,60 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 			$thumbnail_crop
 		);
 
-		// Portrait/Landscape image.
-		$mobile_width  = 400; // allows for bigger phones.
-		$mobile_height = 9999; // auto.
-		$mobile_crop   = false;
+		/*
+		TODO: not implemented
+		// Portrait/Landscape image - collapsed.
+		$mobile_width            = 400; // allows for bigger phones.
+		$mobile_height_collapsed = 368; // vertically crop to design.
+		$mobile_height_expanded  = 9999; // expand to proportional height.
+		$mobile_crop_collapsed   = true;
+		$mobile_crop_expanded    = false;
 
 		add_image_size(
 			'wpdtrt-gallery-mobile',
 			$mobile_width,
-			$mobile_height,
-			$mobile_crop
+			$mobile_height_collapsed,
+			$mobile_crop_collapsed
 		);
 
-		$desktop_width  = 972;
-		$desktop_height = 9999; // auto.
-		$desktop_crop   = false;
+		add_image_size(
+			'wpdtrt-gallery-mobile-expanded',
+			$mobile_width,
+			$mobile_height_expanded,
+			$mobile_crop_expanded
+		);
+		*/
+
+		$desktop_width            = 865;
+		$desktop_height_collapsed = 368; // vertically crop to design.
+		$desktop_height_expanded  = 9999; // auto.
+		$desktop_crop_collapsed   = true;
+		$desktop_crop_expanded    = false;
 
 		add_image_size(
 			'wpdtrt-gallery-desktop',
 			$desktop_width,
-			$desktop_height,
-			$desktop_crop
+			$desktop_height_collapsed,
+			$desktop_crop_collapsed
+		);
+
+		add_image_size(
+			'wpdtrt-gallery-desktop-expanded',
+			$desktop_width,
+			$desktop_height_expanded,
+			$desktop_crop_expanded
 		);
 
 		// Landscape Panorama image.
-		$panorama_width  = 9999; // auto.
-		$panorama_height = 368; // both desktop and mobile.
-		$panorama_crop   = false;
+		$panorama_width_collapsed  = 9999; // auto.
+		$panorama_height_collapsed = 368; // both desktop and mobile.
+		$panorama_crop_collapsed   = false;
 
 		add_image_size(
 			'wpdtrt-gallery-panorama',
-			$panorama_width,
-			$panorama_height,
-			$panorama_crop
+			$panorama_width_collapsed,
+			$panorama_height_collapsed,
+			$panorama_crop_collapsed
 		);
 	}
 }
