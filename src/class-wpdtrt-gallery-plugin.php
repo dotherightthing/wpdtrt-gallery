@@ -45,7 +45,7 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 		// add actions and filters here
 		//
 		// for filter_save_image_geodata.
-		include_once( ABSPATH . 'wp-admin/includes/image.php' );
+		include_once ABSPATH . 'wp-admin/includes/image.php';
 
 		// add actions and filters here.
 		add_filter( 'shortcode_atts_gallery', array( $this, 'filter_gallery_attributes' ), 10, 3 );
