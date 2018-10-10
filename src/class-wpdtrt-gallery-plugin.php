@@ -140,20 +140,18 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 	 */
 
 	/**
-	 * Change size of gallery thumbnail images and set attachment defaults.
+	 * Set attachment defaults.
 	 *  This affects the front-end, overriding the selections in wp-admin.
 	 *
 	 * @param array $result The shortcode_atts() merging of $defaults and $atts.
 	 * @param array $defaults The default attributes defined for the shortcode.
 	 * @param array $atts The attributes supplied by the user within the shortcode.
-	 * @uses https://mekshq.com/change-image-thumbnail-size-in-wordpress-gallery/
 	 * @see https://gist.github.com/mjsdiaz/7204576
 	 */
 	public function filter_gallery_attributes( $result, $defaults, $atts ) {
 
 		$result['columns'] = '3';
 		$result['link']    = 'file';
-		$result['size']    = 'wpdtrt-gallery-thumbnail';
 
 		return $result;
 	}
@@ -356,43 +354,6 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 	 * @see https://www.smashingmagazine.com/2016/09/responsive-images-in-wordpress-with-art-direction/
 	 */
 	public function helper_add_image_sizes() {
-
-		// Thumbnail image.
-		$thumbnail_width  = 150;
-		$thumbnail_height = 150;
-		$thumbnail_crop   = true;
-
-		add_image_size(
-			'wpdtrt-gallery-thumbnail',
-			$thumbnail_width,
-			$thumbnail_height,
-			$thumbnail_crop
-		);
-
-		/*
-		TODO: not implemented
-		// Portrait/Landscape image - collapsed.
-		$mobile_width            = 400; // allows for bigger phones.
-		$mobile_height_collapsed = 368; // vertically crop to design.
-		$mobile_height_expanded  = 9999; // expand to proportional height.
-		$mobile_crop_collapsed   = true;
-		$mobile_crop_expanded    = false;
-
-		add_image_size(
-			'wpdtrt-gallery-mobile',
-			$mobile_width,
-			$mobile_height_collapsed,
-			$mobile_crop_collapsed
-		);
-
-		add_image_size(
-			'wpdtrt-gallery-mobile-expanded',
-			$mobile_width,
-			$mobile_height_expanded,
-			$mobile_crop_expanded
-		);
-		*/
-
 		$desktop_width            = 865;
 		$desktop_height_collapsed = 368; // vertically crop to design.
 		$desktop_height_expanded  = 9999; // auto.
