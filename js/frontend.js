@@ -29,6 +29,25 @@ const wpdtrt_gallery_ui = {
   	"vimeo-pageid"
   ],
 
+  /**
+   * Copy data- attributes from the thumbnail image,
+   * to the surrounding link,
+   * to support CSS icons.
+	 * @param {object} $ - jQuery
+	 * @param {object} $gallery_item_link - jQuery gallery thumbnail link
+   * @see https://github.com/dotherightthing/wpdtrt-gallery/issues/51
+   */
+  gallery_viewer_copy_thumbnail_data_to_link: ($, $gallery_item_link) => {
+    "use strict";
+
+	  const $gallery_item_image = $gallery_item_link.find("img");
+
+	  // copy the data attributes
+	  $.each(wpdtrt_gallery_ui.thumbnail_data, (key, value) => {
+	  	$gallery_item_link.attr(`data-${value}`, $gallery_item_image.attr(`data-${value}`));
+	  });
+  },
+
 	/**
 	 * Lazyload a gallery viewer when it is scrolled into view
 	 * to defer automatic loading of initial enlargements
@@ -626,6 +645,7 @@ const wpdtrt_gallery_ui = {
 
     $section_gallery_item_links.each( (i, item) => {
       wpdtrt_gallery_ui.gallery_viewer_a11y( $, $(item), viewer_id );
+			wpdtrt_gallery_ui.gallery_viewer_copy_thumbnail_data_to_link( $, $(item) );
     });
 
     $section_gallery_item_links.click( (event) => {
