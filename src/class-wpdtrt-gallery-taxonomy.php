@@ -23,7 +23,7 @@ class WPDTRT_Gallery_Taxonomy extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\
 	 * @since     1.0.0
 	 * @version   1.1.0
 	 */
-	 public function __construct( $options ) {
+	public function __construct( $options ) {
 
 		// edit here.
 		parent::__construct( $options );
