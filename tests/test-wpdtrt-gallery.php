@@ -283,31 +283,6 @@ class GalleryTest extends WP_UnitTestCase {
 			'Thumbnail link HTML missing query param for panorama'
 		);
 
-		// position_y.
-		$this->assertContains(
-			'position_y=50',
-			wp_get_attachment_link( $this->attachment_id_1 ),
-			'Thumbnail link HTML missing query param for position_y (default)'
-		);
-
-		// position_y (custom).
-		update_post_meta( $this->attachment_id_1, 'wpdtrt_gallery_attachment_position_y', '0' );
-
-		$this->assertContains(
-			'position_y=0',
-			wp_get_attachment_link( $this->attachment_id_1 ),
-			'Thumbnail link HTML missing query param for position_y (top)'
-		);
-
-		// position_y (custom).
-		update_post_meta( $this->attachment_id_1, 'wpdtrt_gallery_attachment_position_y', '100' );
-
-		$this->assertContains(
-			'position_y=100',
-			wp_get_attachment_link( $this->attachment_id_1 ),
-			'Thumbnail link HTML missing query param for position_y (bottom)'
-		);
-
 		// ride with gps map embed.
 		update_post_meta( $this->attachment_id_1, 'wpdtrt_gallery_attachment_rwgps_pageid', '123456789' );
 

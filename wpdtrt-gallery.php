@@ -11,7 +11,7 @@
  * Plugin Name:  DTRT Gallery
  * Plugin URI:   https://github.com/dotherightthing/wpdtrt-gallery
  * Description:  Gallery viewer which supports images, panoramas, maps, SoundCloud and Vimeo.
- * Version:      1.8.4
+ * Version:      1.8.5
  * Author:       Dan Smith
  * Author URI:   https://profiles.wordpress.org/dotherightthingnz
  * License:      GPLv2 or later
@@ -51,7 +51,7 @@ if ( ! defined( 'WPDTRT_GALLERY_VERSION' ) ) {
 	 * @see $plugin_data = get_plugin_data( __FILE__ ); $plugin_version = $plugin_data['Version'];
 	 * @see https://wordpress.stackexchange.com/questions/18268/i-want-to-get-a-plugin-version-number-dynamically
 	 */
-	define( 'WPDTRT_GALLERY_VERSION', '1.8.4' );
+	define( 'WPDTRT_GALLERY_VERSION', '1.8.5' );
 }
 
 if ( ! defined( 'WPDTRT_GALLERY_PATH' ) ) {
@@ -123,7 +123,6 @@ require_once WPDTRT_GALLERY_PATH . 'src/legacy/attachment-field-source.php';
 require_once WPDTRT_GALLERY_PATH . 'src/legacy/attachment-field-default.php';
 require_once WPDTRT_GALLERY_PATH . 'src/legacy/attachment-field-panorama.php';
 require_once WPDTRT_GALLERY_PATH . 'src/legacy/attachment-field-location.php';
-require_once WPDTRT_GALLERY_PATH . 'src/legacy/attachment-field-position-y.php';
 require_once WPDTRT_GALLERY_PATH . 'src/legacy/attachment-field-ridewithgps.php';
 require_once WPDTRT_GALLERY_PATH . 'src/legacy/attachment-field-soundcloud.php';
 require_once WPDTRT_GALLERY_PATH . 'src/legacy/attachment-field-vimeo.php';
@@ -153,7 +152,6 @@ add_filter( 'attachment_fields_to_edit', 'wpdtrt_gallery_attachment_field_defaul
 add_filter( 'attachment_fields_to_edit', 'wpdtrt_gallery_attachment_field_heading', 10, 2 );
 add_filter( 'attachment_fields_to_edit', 'wpdtrt_gallery_attachment_field_location', 10, 2 );
 add_filter( 'attachment_fields_to_edit', 'wpdtrt_gallery_attachment_field_panorama', 10, 2 );
-add_filter( 'attachment_fields_to_edit', 'wpdtrt_gallery_attachment_field_position_y', 10, 2 );
 add_filter( 'attachment_fields_to_edit', 'wpdtrt_gallery_attachment_field_rwgps_pageid', 10, 2 );
 add_filter( 'attachment_fields_to_edit', 'wpdtrt_gallery_attachment_field_soundcloud_pageid', 10, 2 );
 add_filter( 'attachment_fields_to_edit', 'wpdtrt_gallery_attachment_field_soundcloud_trackid', 10, 2 );
@@ -163,7 +161,6 @@ add_filter( 'attachment_fields_to_edit', 'wpdtrt_gallery_attachment_field_vimeo_
 add_filter( 'attachment_fields_to_save', 'wpdtrt_gallery_attachment_field_default_save', 10, 2 );
 add_filter( 'attachment_fields_to_save', 'wpdtrt_gallery_attachment_field_location_save', 10, 2 );
 add_filter( 'attachment_fields_to_save', 'wpdtrt_gallery_attachment_field_panorama_save', 10, 2 );
-add_filter( 'attachment_fields_to_save', 'wpdtrt_gallery_attachment_field_position_y_save', 10, 2 );
 add_filter( 'attachment_fields_to_save', 'wpdtrt_gallery_attachment_field_rwgps_pageid_save', 10, 2 );
 add_filter( 'attachment_fields_to_save', 'wpdtrt_gallery_attachment_field_soundcloud_pageid_save', 10, 2 );
 add_filter( 'attachment_fields_to_save', 'wpdtrt_gallery_attachment_field_soundcloud_trackid_save', 10, 2 );
