@@ -14,7 +14,7 @@
  * @since   1.0.0
  * @version 1.0.0
  */
-class WPDTRT_Gallery_Taxonomy extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_1_5_3\Taxonomy {
+class WPDTRT_Gallery_Taxonomy extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_1_5_4\Taxonomy {
 
 	/**
 	 * Supplement taxonomy initialisation.
@@ -23,7 +23,7 @@ class WPDTRT_Gallery_Taxonomy extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\
 	 * @since     1.0.0
 	 * @version   1.1.0
 	 */
-	public function __construct( $options ) {
+	 public function __construct( $options ) {
 
 		// edit here.
 		parent::__construct( $options );
