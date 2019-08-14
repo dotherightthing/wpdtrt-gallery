@@ -85,9 +85,8 @@ describe("Gallery Viewer", function () {
         .should("have.attr", "aria-expanded", "false")
         .contains("Show full image");
 
-      // test the accessibility of the viewer using Tenon.io
-      // TODO: add a wrapper around the Viewer so that the viewer snippet can be submitted independently
-      // See also https://github.com/dotherightthing/wpdtrt-gallery/blob/master/tests/test-wpdtrt-gallery.php - tenon()
+      // validate the accessibility of the component state using Tenon.io
+      // TODO: https://github.com/dotherightthing/wpdtrt-gallery/issues/55
       cy.get("@gallerySection").then((gallerySection) => {
         // testing the contents rather than the length gives a more useful error object
         cy.task("tenonAnalyzeHtml", `${gallerySection.html()}`)
@@ -119,6 +118,15 @@ describe("Gallery Viewer", function () {
         .should("have.attr", "aria-controls", `${componentId}-viewer`)
         .should("have.attr", "aria-expanded", "true")
         .contains("Show cropped image");
+
+      // validate the accessibility of the component state using Tenon.io
+      // TODO: https://github.com/dotherightthing/wpdtrt-gallery/issues/55
+      cy.get("@gallerySection").then((gallerySection) => {
+        // testing the contents rather than the length gives a more useful error object
+        cy.task("tenonAnalyzeHtml", `${gallerySection.html()}`)
+          // an empty resultSet indicates that there are no errors
+          .its("resultSet").should("be.empty");
+      });
      });
 
     it("Collapses", function() {
