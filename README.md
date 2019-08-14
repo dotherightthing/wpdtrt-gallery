@@ -12,18 +12,20 @@ Please read [DTRT WordPress Plugin Boilerplate: Workflows](https://github.com/do
 
 Please read the [WordPress readme.txt](readme.txt).
 
-## Cypress configuration
+## Cypress Configuration and Usage
 
-### Base URL
+### Configuration
+
+#### Base URL
 
 * Edit cypress.json
   ```
   "baseUrl": "https://dontbelievethehype.co.nz",
   ```
 
-Note: Cypress refuses to load WordPress websites served through a local MAMP Pro install, so deployed sites are preferable.
+Note: Live website URLs are preferable (see [#53](https://github.com/dotherightthing/wpdtrt-gallery/issues/53)).
 
-### Tenon
+#### Tenon
 
 * Get a new API key: <https://tenon.io/register.php>
 * Get an existing API key: <https://tenon.io/apikey.php>
@@ -33,6 +35,12 @@ Note: Cypress refuses to load WordPress websites served through a local MAMP Pro
     "TENON_API_KEY": "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
   },
   ```
+
+### Usage
+
+```
+yarn cypress:open
+```
 
 ## Dependencies
 
