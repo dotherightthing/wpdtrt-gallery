@@ -19,18 +19,12 @@ module.exports = (on, config) => {
     /**
      * Lint a URL in Tenon
      *
-     * @description
-     * - Get a new API key: <https://tenon.io/register.php>
-     * - Get an existing API key: <https://tenon.io/apikey.php>
-     * - Edit cypress.json:
-     *   "env": { "TENON_API_KEY": "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" }
-     *
      * @param {string} url Fully qualified URL
      * @return {object} Tenon response object
      *
-     * @see ../integration/recipes/tenon-spec.js
      * @see https://github.com/poorgeek/tenon-selenium-example/blob/master/test/helpers/tenonCommands.js
      * @see https://www.npmjs.com/package/tenon-node
+     * @see https://github.com/dotherightthing/wpdtrt-plugin-boilerplate/wiki/Testing-&-Debugging#d-cypressio-front-end-unit-tests
      */
     tenonAnalyzeUrl(url) {
       const tenonApi = new TenonNode({
@@ -55,18 +49,12 @@ module.exports = (on, config) => {
     /**
      * Lint an HTML fragment in Tenon
      *
-     * @description
-     * - Get a new API key: <https://tenon.io/register.php>
-     * - Get an existing API key: <https://tenon.io/apikey.php>
-     * - Edit cypress.json:
-     *   "env": { "TENON_API_KEY": "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" }
-     *
      * @param {string} selectorHtml HTML fragment
      * @return {object} Tenon response object
      * 
-     * @see ../integration/recipes/tenon-spec.js
      * @see https://github.com/poorgeek/tenon-selenium-example/blob/master/test/helpers/tenonCommands.js
      * @see https://www.npmjs.com/package/tenon-node
+     * @see https://github.com/dotherightthing/wpdtrt-plugin-boilerplate/wiki/Testing-&-Debugging#d-cypressio-front-end-unit-tests
      */
     tenonAnalyzeHtml(selectorHtml) {
       const html = normalizeWhitespace(selectorHtml); // strip whitespace between html tags
