@@ -17,13 +17,22 @@
     }
   ],
   "bugs": {
-    "url" : "https://github.com/dotherightthing/wpdtrt-gallery/issues"
+    "url": "https://github.com/dotherightthing/wpdtrt-gallery/issues"
   },
   "dependencies": {
+    "cypress": "^3.4.1",
+    "normalize-html-whitespace": "^0.2.0",
+    "tenon-node": "^0.4.1",
     "urijs": "^1.19.1",
     "waypoints": "^4.0.1"
   },
   "devDependencies": {
+    "eslint": "^4.19.1",
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-plugin-chai-friendly": "^0.4.1",
+    "eslint-plugin-cypress": "^2.0.1",
+    "eslint-plugin-import": "^2.12.0",
+    "eslint-plugin-json": "^1.2.0",
     "gulp": "^3.9.1"
   },
   "workspaces": [
@@ -31,6 +40,7 @@
   ],
   "scripts": {
     "build": "gulp --gulpfile ./vendor/dotherightthing/wpdtrt-plugin-boilerplate/gulpfile.js --cwd ./",
+    "cypress:open": "cypress open",
     "install_deps": "gulp install_dependencies --gulpfile ./vendor/dotherightthing/wpdtrt-plugin-boilerplate/gulpfile.js --cwd ./ && gulp wpunit_install --gulpfile ./vendor/dotherightthing/wpdtrt-plugin-boilerplate/gulpfile.js --cwd ./",
     "package": "gulp release --gulpfile ./vendor/dotherightthing/wpdtrt-plugin-boilerplate/gulpfile.js --cwd ./",
     "lint": "gulp lint --gulpfile ./vendor/dotherightthing/wpdtrt-plugin-boilerplate/gulpfile.js --cwd ./",

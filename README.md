@@ -12,6 +12,28 @@ Please read [DTRT WordPress Plugin Boilerplate: Workflows](https://github.com/do
 
 Please read the [WordPress readme.txt](readme.txt).
 
+## Cypress configuration
+
+### Base URL
+
+* Edit cypress.json
+  ```
+  "baseUrl": "https://dontbelievethehype.co.nz",
+  ```
+
+Note: Cypress refuses to load WordPress websites served through a local MAMP Pro install, so deployed sites are preferable.
+
+### Tenon
+
+* Get a new API key: <https://tenon.io/register.php>
+* Get an existing API key: <https://tenon.io/apikey.php>
+* Edit cypress.json
+  ```
+  "env": {
+    "TENON_API_KEY": "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+  },
+  ```
+
 ## Dependencies
 
 1. The gallery viewer is initialised as [DTRT Content Sections](https://github.com/dotherightthing/wpdtrt-contentsections) are scrolled into view.

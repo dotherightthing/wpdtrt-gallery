@@ -1,0 +1,11 @@
+{
+  "baseUrl": "https://dontbelievethehype.co.nz",
+  "env": {
+    "TENON_API_KEY": "ea03dbc81e5a5c3872c7bd479aa78f00"
+  },
+  "pageLoadTimeout": 20000,
+  "responseTimeout": 5000,
+  "viewportWidth": 1366,
+  "viewportHeight": 768,
+  "watchForFileChanges": false
+}
