@@ -6,7 +6,8 @@
  * @since     1.8.6
  */
 
-/* globals require, module, Promise */
+/* eslint-env node */
+/* globals Promise */
 
 const normalizeWhitespace = require("normalize-html-whitespace");
 const TenonNode = require("tenon-node");
