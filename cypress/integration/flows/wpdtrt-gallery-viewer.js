@@ -1,8 +1,14 @@
 /**
- * Cypress spec for a custom WordPress gallery viewer
- *
- * @author dev@dotherightthing.co.nz
+ * @file DTRT Gallery Viewer wpdtrt-gallery-viewer.js
+ * @summary
+ *     Cypress spec for UI testing
+ * @version   0.0.1
+ * @since     1.8.6
  */
+
+/* eslint-disable prefer-arrow-callback */
+/* eslint-disable max-len */
+/* global cy */
 
 // Test principles:
 // ARRANGE: SET UP APP STATE > ACT: INTERACT WITH IT > ASSERT: MAKE ASSERTIONS
@@ -12,10 +18,6 @@
 
 // Passing arrow functions (“lambdas”) to Mocha is discouraged
 // https://mochajs.org/#arrow-functions
-
-/* eslint-disable prefer-arrow-callback */
-/* eslint-disable max-len */
-/* global cy */
 
 const galleryId = "signposts";
 

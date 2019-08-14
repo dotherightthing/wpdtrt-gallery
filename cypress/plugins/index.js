@@ -1,7 +1,9 @@
 /**
- * Cypress: custom plugins
- *
- * @author dev@dotherightthing.co.nz
+ * @file Cypress plugins index.js
+ * @summary
+ *     Custom plugins for UI testing
+ * @version   0.0.1
+ * @since     1.8.6
  */
 
 /* globals require, module, Promise */
