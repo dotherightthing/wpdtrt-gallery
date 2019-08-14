@@ -38,8 +38,6 @@ const wpdtrt_gallery_ui = {
    * @see https://github.com/dotherightthing/wpdtrt-gallery/issues/51
    */
   gallery_viewer_copy_thumbnail_data_to_link: ($, $gallery_item_link) => {
-    "use strict";
-
 	  const $gallery_item_image = $gallery_item_link.find("img");
 
 	  // copy the data attributes
@@ -57,8 +55,6 @@ const wpdtrt_gallery_ui = {
 	 * @see https://varvy.com/pagespeed/defer-images.html
 	 */
   gallery_viewer_lazyinit: ($) => {
-    "use strict";
-
 	  const $sections = $("section");
 
 	  $sections.each( (i, item) => {
@@ -84,8 +80,6 @@ const wpdtrt_gallery_ui = {
 	 * @since 3.0.0
 	 */
 	gallery_viewer_a11y: ($, $gallery_item_link, viewer_id) => {
-    "use strict";
-
 	  $gallery_item_link
 	    .attr( "aria-controls", viewer_id );
 	},
@@ -98,8 +92,6 @@ const wpdtrt_gallery_ui = {
 	 * @since 1.3.0
 	 */
 	gallery_viewer_reset: ($, $viewer) => {
-    "use strict";
-
 		const $expand_button = $viewer.find(".gallery-viewer--expand");
 
 		// remove forced expand used by panorama & iframe viewers
@@ -120,8 +112,6 @@ const wpdtrt_gallery_ui = {
 	 * @since 1.3.0
 	 */
 	string_to_boolean: function(str) {
-    "use strict";
-
 		let bool = false;
 
 		if ( str === "true" ) {
@@ -144,8 +134,6 @@ const wpdtrt_gallery_ui = {
 	 * @since 3.0.0
 	 */
 	gallery_viewer_toggle_expanded: function($, $expand_button, triggered) {
-    "use strict";
-
 		const $expand_button_text =   $expand_button.find(".says");
 		const viewer_id =             $expand_button.attr("aria-controls");
 		const $viewer =               $(`#${viewer_id}`);
@@ -286,8 +274,6 @@ const wpdtrt_gallery_ui = {
 	 * @since 3.0.0
 	 */
 	gallery_viewer_caption_update: function($, $viewer, $gallery_item_link) {
-    "use strict";
-
 	  const $viewer_caption =       $viewer.find(".gallery-viewer--caption");
 	  const gallery_item_caption =  $.trim( $gallery_item_link.parent().next("figcaption").text() );
 
@@ -307,8 +293,6 @@ const wpdtrt_gallery_ui = {
 	 * @since 3.0.0
 	 */
 	gallery_viewer_iframe_update: function($, $viewer, $gallery_item_link) {
-    "use strict";
-
 	  const $viewer_iframe = $viewer.find("iframe");
 	  const $viewer_img = $viewer.find("img");
 	  const $gallery_item = $gallery_item_link.parent().parent();
@@ -422,8 +406,6 @@ const wpdtrt_gallery_ui = {
 	 * @todo Add startPosition parameter in media.php (panorama_position_x)
 	 */
 	gallery_viewer_panorama_update: function($, $viewer, $gallery_item_link) {
-    "use strict";
-
 		const panorama =         $gallery_item_link.find("img").data("panorama");
 		const $expand_button =   $viewer.find(".gallery-viewer--expand");
 		const $scroll_liner =    $viewer.find(".img-wrapper");
@@ -523,8 +505,6 @@ const wpdtrt_gallery_ui = {
 	 * @since 3.0.0
 	 */
 	gallery_viewer_image_update: function($, $viewer, $gallery_item_link) {
-    "use strict";
-
 	  const $expand_button = 		      $viewer.find(".gallery-viewer--expand");
 	  const $gallery_item_image =     $gallery_item_link.find("img");
 	  const gallery_item_image_alt =  $gallery_item_image.attr("alt");
@@ -590,8 +570,6 @@ const wpdtrt_gallery_ui = {
 	 * @since 3.0.0
 	 */
 	gallery_viewer_init: function($, $section) {
-    "use strict";
-
     const $section_gallery = $section.find(".gallery");
     const section_id = $section.attr("id");
     let viewer_id = `${section_id}-viewer`;
@@ -694,15 +672,11 @@ const wpdtrt_gallery_ui = {
 };
 
 jQuery(document).ready( ($) => {
-  "use strict";
-
 	const config = wpdtrt_gallery_config;
 	console.log("wpdtrt_gallery_ui.init");
 });
 
 (function($) {
-  "use strict";
-
   $(window).on("load", () => {
     // defer load of .initial enlargements, to reduce initial load time for PageSpeed
     wpdtrt_gallery_ui.gallery_viewer_lazyinit($);
