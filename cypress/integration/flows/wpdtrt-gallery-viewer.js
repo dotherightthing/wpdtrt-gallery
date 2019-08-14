@@ -3,7 +3,7 @@
  * @summary
  *     Cypress spec for UI testing
  * @version   0.0.1
- * @since     1.8.6
+ * @since     0.8.4 DTRT WordPress Plugin Boilerplate Generator
  */
 
 /* eslint-disable prefer-arrow-callback */
@@ -19,7 +19,7 @@
 // Passing arrow functions (“lambdas”) to Mocha is discouraged
 // https://mochajs.org/#arrow-functions
 
-const galleryId = "signposts";
+const componentId = "signposts";
 
 describe("Gallery Viewer", function () {
 
@@ -33,8 +33,8 @@ describe("Gallery Viewer", function () {
     cy.reload();
 
     // @aliases
-    cy.get(`#${galleryId}`).as("gallerySection");
-    cy.get(`#${galleryId} .gallery-viewer`).as("galleryViewer");
+    cy.get(`#${componentId}`).as("gallerySection");
+    cy.get(`#${componentId} .gallery-viewer`).as("galleryViewer");
 
     // default viewer attributes
     cy.get("@galleryViewer")
@@ -55,12 +55,12 @@ describe("Gallery Viewer", function () {
       .should("be.visible");
 
     // @aliases for injected elements
-    cy.get(`#${galleryId} .gallery-viewer--expand`).as("galleryViewerExpand");
+    cy.get(`#${componentId} .gallery-viewer--expand`).as("galleryViewerExpand");
   });
 
   describe("Setup", function () {
     it("Has prerequisites", function () {
-      // check that the function is available
+      // check that the plugin object is available
       cy.window().should("have.property", "wpdtrt_gallery_ui")
 
       // check that it's an object
@@ -74,14 +74,14 @@ describe("Gallery Viewer", function () {
     it("Loads", function() {
       // check that the gallery viewer has been assigned the correct ID
       cy.get("@galleryViewer")
-        .should("have.attr", "id", `${galleryId}-viewer`)
+        .should("have.attr", "id", `${componentId}-viewer`)
         .should("have.attr", "data-has-gallery", "true")
         .should("have.attr", "data-expanded", "false")
         .should("not.have.attr", "data-expanded-user");
 
       // check that the Expand button has the correct attributes and text
       cy.get("@galleryViewerExpand")
-        .should("have.attr", "aria-controls", `${galleryId}-viewer`)
+        .should("have.attr", "aria-controls", `${componentId}-viewer`)
         .should("have.attr", "aria-expanded", "false")
         .contains("Show full image");
 
@@ -101,7 +101,7 @@ describe("Gallery Viewer", function () {
     it("Expands", () => {
       // check that the Expand button has the correct attributes and text
       cy.get("@galleryViewerExpand")
-        .should("have.attr", "aria-controls", `${galleryId}-viewer`)
+        .should("have.attr", "aria-controls", `${componentId}-viewer`)
         .should("have.attr", "aria-expanded", "false")
         .contains("Show full image");
 
@@ -116,7 +116,7 @@ describe("Gallery Viewer", function () {
 
       // check that the Expand button has the correct attributes and text
       cy.get("@galleryViewerExpand")
-        .should("have.attr", "aria-controls", `${galleryId}-viewer`)
+        .should("have.attr", "aria-controls", `${componentId}-viewer`)
         .should("have.attr", "aria-expanded", "true")
         .contains("Show cropped image");
      });
@@ -128,7 +128,7 @@ describe("Gallery Viewer", function () {
 
       // check that the Expand button has the correct attributes and text
       cy.get("@galleryViewerExpand")
-        .should("have.attr", "aria-controls", `${galleryId}-viewer`)
+        .should("have.attr", "aria-controls", `${componentId}-viewer`)
         .should("have.attr", "aria-expanded", "true")
         .contains("Show cropped image");
 
@@ -146,7 +146,7 @@ describe("Gallery Viewer", function () {
 
       // check that the Expand button has the correct attributes and text
       cy.get("@galleryViewerExpand")
-        .should("have.attr", "aria-controls", `${galleryId}-viewer`)
+        .should("have.attr", "aria-controls", `${componentId}-viewer`)
         .should("have.attr", "aria-expanded", "false")
         .contains("Show full image");
      });
