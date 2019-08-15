@@ -22,7 +22,7 @@ function wpdtrt_gallery_attachment_field_heading( $form_fields, $post ) {
 	$form_fields['wpdtrt-gallery-heading'] = array(
 		'label' => '<h2>WPDTRT Gallery</h2>',
 		'input' => 'html',
-		'html' => '<span></span>',
+		'html'  => '<span></span>',
 	);
 
 	return $form_fields;

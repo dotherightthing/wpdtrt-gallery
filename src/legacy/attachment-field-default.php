@@ -35,9 +35,9 @@ function wpdtrt_gallery_attachment_field_default( $form_fields, $post ) {
 	}
 
 	$html  = '';
-	$html  .= '<div class="wpdtrt-gallery-default-option">';
-	$html  .= '<input type="checkbox" name="attachments[' . $post->ID . '][wpdtrt-gallery-default]" id="attachments-' . $post->ID . '-wpdtrt-gallery-default" value="1"' . $checked . ' />';
-	$html  .= '</div>';
+	$html .= '<div class="wpdtrt-gallery-default-option">';
+	$html .= '<input type="checkbox" name="attachments[' . $post->ID . '][wpdtrt-gallery-default]" id="attachments-' . $post->ID . '-wpdtrt-gallery-default" value="1"' . $checked . ' />';
+	$html .= '</div>';
 
 	$out[] = $html;
 

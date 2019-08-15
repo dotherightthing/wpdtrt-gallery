@@ -65,12 +65,12 @@ class GalleryTest extends WP_UnitTestCase {
 
 		$args = array(
 			'method'  => 'POST',
-			'body' => array(
+			'body'    => array(
 				// Required parameter #1 is passed in by Travis CI.
-				'key' => getenv( 'TENON_AUTH' ),
+				'key'       => getenv( 'TENON_AUTH' ),
 				// Optional parameters:.
-				'level' => 'AA',
-				'priority' => 0,
+				'level'     => 'AA',
+				'priority'  => 0,
 				'certainty' => 100,
 			),
 			'headers' => '',

@@ -35,9 +35,9 @@ function wpdtrt_gallery_attachment_field_panorama( $form_fields, $post ) {
 	}
 
 	$html  = '';
-	$html  .= '<div class="wpdtrt-gallery-panorama-option">';
-	$html  .= '<input type="checkbox" name="attachments[' . $post->ID . '][wpdtrt-gallery-panorama]" id="attachments-' . $post->ID . '-wpdtrt-gallery-panorama" value="1"' . $checked . ' />';
-	$html  .= '</div>';
+	$html .= '<div class="wpdtrt-gallery-panorama-option">';
+	$html .= '<input type="checkbox" name="attachments[' . $post->ID . '][wpdtrt-gallery-panorama]" id="attachments-' . $post->ID . '-wpdtrt-gallery-panorama" value="1"' . $checked . ' />';
+	$html .= '</div>';
 	$out[] = $html;
 
 	// Construct the form field.

@@ -109,7 +109,7 @@ if ( is_admin() ) {
 	// This replaces the TGMPA autoloader
 	// @see dotherightthing/generator-wpdtrt-plugin-boilerplate#77
 	// @see dotherightthing/wpdtrt-plugin-boilerplate#136.
-	require_once( $project_root_path . 'vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php' );
+	require_once $project_root_path . 'vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php';
 }
 
 // sub classes, not loaded via PSR-4.
