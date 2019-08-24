@@ -1,25 +1,29 @@
 <?php
 /**
+ * Class: WPDTRT_Gallery_Plugin
+ *
  * Plugin sub class.
  *
- * @package WPDTRT_Gallery
- * @since   0.7.16 DTRT WordPress Plugin Boilerplate Generator
+ * Generator:
+ *   DTRT WordPress Plugin Boilerplate Generator 0.7.16
  */
 
 /**
- * Extend the base class to inherit boilerplate functionality.
- * Adds application-specific methods.
+ * Class: WPDTRT_Gallery_Plugin
  *
- * @since   1.0.0
+ * Extend the base class to inherit boilerplate functionality.
+ *
+ * Adds application-specific methods.
  */
 class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_1_5_4\Plugin {
 
 	/**
+	 * Method: __construct
+	 *
 	 * Supplement plugin initialisation.
 	 *
-	 * @param     array $options Plugin options.
-	 * @since     1.0.0
-	 * @version   1.1.0
+	 * Parameters:
+	 *   (array) $options - Plugin options.
 	 */
 	public function __construct( $options ) {
 
