@@ -43,9 +43,26 @@ echo do_shortcode('[wpdtrt_gallery_shortcode_heading]<h2>' . $heading . '</h2>[/
 
 == Changelog ==
 
+= 1.8.6 =
+* Tell Travis to start MySQL as this no longer happens automatically
+* Fix casing of Composer dependency
+* Add Cypress
+* Configure ESLint
+* Move database credentials into Travis settings
+* Migrate PHPDoc to Natural Docs
+* Fix name of `extra` key in `composer.json`
+* Update wpdtrt-plugin-boilerplate to 1.6.7, sync with generator-wpdtrt-plugin-boilerplate 0.8.12
+
 = 1.8.5 =
-* Fix incorrect icons on non-image thumbnails
 * Update wpdtrt-plugin-boilerplate to 1.5.4
+* Fix incorrect icons on non-image thumbnails
+* Refactor thumbnail URL params to data attributes, to prevent clash with Imgix URL params
+* Crop image in collapsed viewer, replace background position offset with crop (via Media Cloud plugin)
+* Use the default WordPress (square) thumbnail size, to remove redundant thumbnail option from Media Cloud crop modal
+* Ensure that panoramas use the full viewer height
+* Copy data- attributes from the thumbnail image to the surrounding link (fixes #51)
+* Update dependencies
+* Fix linting error
 
 = 1.8.4 =
 * Fix incorrect icons on non-image thumbnails

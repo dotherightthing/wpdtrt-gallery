@@ -11,7 +11,7 @@
  * Plugin Name:  DTRT Gallery
  * Plugin URI:   https://github.com/dotherightthing/wpdtrt-gallery
  * Description:  Gallery viewer which supports images, panoramas, maps, SoundCloud and Vimeo.
- * Version:      1.8.5
+ * Version:      1.8.6
  * Author:       Dan Smith
  * Author URI:   https://profiles.wordpress.org/&#39;dotherightthingnz
  * License:      GPLv2 or later
