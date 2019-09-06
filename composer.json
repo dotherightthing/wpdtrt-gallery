@@ -30,7 +30,7 @@
         "dotherightthing/wpdtrt-contentsections": "^0.2.3",
         "dotherightthing/wpdtrt-exif": "^0.2.2"
     },
-    "extras": {
+    "extra": {
         "require-wp": [
             {
                 "name": "DTRT Content Sections",
