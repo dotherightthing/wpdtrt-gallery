@@ -1,14 +1,6 @@
 {
-  "plugins": [
-    "cypress",
-    "chai-friendly"
-  ],
-  "env": {
-    "cypress/globals": true
-  },
-  "extends": "./vendor/dotherightthing/wpdtrt-plugin-boilerplate/.eslintrc",
-  "rules": {
-    "no-unused-expressions": 0,
-    "chai-friendly/no-unused-expressions": 2
-  }
+  "root": true,
+  "extends": [
+    "./vendor/dotherightthing/wpdtrt-plugin-boilerplate/.eslintrc"
+  ]
 }

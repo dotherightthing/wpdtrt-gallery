@@ -1,45 +1,116 @@
 <?php
 /**
- * Unit tests, using PHPUnit, wp-cli, WP_UnitTestCase
+ * File: tests/test-wpdtrt-gallery.php
  *
- * The plugin is 'active' within a WP test environment
- *  so the plugin class has already been instantiated
- *  with the options set in wpdtrt-gallery.php
+ * Unit tests, using PHPUnit, wp-cli, WP_UnitTestCase.
  *
- * Only function names prepended with test_ are run.
- * $debug logs are output with the test output in Terminal
- * A failed assertion may obscure other failed assertions in the same test.
+ * Note:
+ * - The plugin is 'active' within a WP test environment
+ *   so the plugin class has already been instantiated
+ *   with the options set in wpdtrt-gallery.php
+ * - Only function names prepended with test_ are run.
+ * - $debug logs are output with the test output in Terminal
+ * - A failed assertion may obscure other failed assertions in the same test.
  *
- * @package WPDTRT_Gallery
- * @version 0.0.1
- * @since   0.7.0
- * @see http://kb.dotherightthing.dan/php/wordpress/php-unit-testing-revisited/ - Links
- * @see https://phpunit.readthedocs.io/en/7.1/configuration.html
- * @see http://richardsweeney.com/testing-integrations/
- * @see https://gist.github.com/benlk/d1ac0240ec7c44abd393 - Collection of notes on WP_UnitTestCase
- * @see https://core.trac.wordpress.org/browser/trunk/tests/phpunit/includes/factory.php
- * @see https://core.trac.wordpress.org/browser/trunk/tests/phpunit/includes//factory/
- * @see https://stackoverflow.com/questions/35442512/how-to-use-wp-unittestcase-go-to-to-simulate-current-pageclass-wp-unittest-factory-for-term.php
- * @see https://codesymphony.co/writing-wordpress-plugin-unit-tests/#object-factories
- * @see https://miya0001.github.io/wp-unit-docs/
- * @see https://codesymphony.co/creating-your-own-wordpress-unit-test-factories/
- * @see https://stackoverflow.com/a/27151309 - Stubs vs Mocks
+ * See:
+ * - <https://github.com/dotherightthing/wpdtrt-plugin-boilerplate/wiki/Testing-&-Debugging#testing>
+ *
+ * Since:
+ *   0.8.13 - DTRT WordPress Plugin Boilerplate Generator
  */
 
 /**
- * WP_UnitTestCase unit tests for GalleryTest
+ * Class: WPDTRT_GalleryTest
+ *
+ * WP_UnitTestCase unit tests for wpdtrt_gallery.
  */
-class GalleryTest extends WP_UnitTestCase {
+class WPDTRT_GalleryTest extends WP_UnitTestCase {
 
 	/**
+	 * Group: Lifecycle Events
+	 * _____________________________________
+	 */
+
+	/**
+	 * Method: setUp
+	 *
+	 * SetUp,
+	 * automatically called by PHPUnit before each test method is run.
+	 */
+	public function setUp() {
+		// Make the factory objects available.
+		parent::setUp();
+
+		// Generate WordPress data fixtures
+		//
+		// Post (for testing manually entered, naked shortcode).
+		$this->post_id_1 = $this->create_post( array(
+			'post_title'   => 'Empty gallery test',
+			'post_content' => '[wpdtrt_gallery_shortcode_heading]<h2>Post 1 heading</h2>[/wpdtrt_gallery_shortcode_heading]',
+		));
+
+		// Attachment (for testing custom sizes and meta).
+		$this->attachment_id_1 = $this->create_attachment( array(
+			'filename'       => 'images/test1.jpg',
+			'parent_post_id' => $this->post_id_1,
+		));
+
+		$this->thumbnail_size = 'wpdtrt-gallery-thumbnail';
+
+		// Post (for testing populated shortcode)
+		// NOTE: generated attachment is attached to post_id_1 not post_id_2
+		// this is a chicken-and-egg scenario.
+		$this->post_id_2 = $this->create_post( array(
+			'post_title'   => 'Single image gallery test',
+			'post_content' => '[wpdtrt_gallery_shortcode_heading]<h2>Post 2 heading</h2>[gallery link="file" ids="' . $this->attachment_id_1 . '"][/wpdtrt_gallery_shortcode_heading]',
+		));
+
+		// Post (for injected naked shortcode).
+		$this->post_id_3 = $this->create_post( array(
+			'post_title'   => 'Empty gallery test',
+			'post_content' => '<h2>Post 3 heading</h2>',
+		));
+	}
+
+	/**
+	 * Method: tearDown
+	 *
+	 * TearDown,
+	 * automatically called by PHPUnit after each test method is run.
+	 *
+	 * See:
+	 * - <https://codesymphony.co/writing-wordpress-plugin-unit-tests/#object-factories>
+	 */
+	public function tearDown() {
+
+		parent::tearDown();
+
+		wp_delete_post( $this->post_id_1, true );
+		wp_delete_post( $this->attachment_id_1, true );
+		wp_delete_post( $this->post_id_2, true );
+
+		$this->delete_sized_images();
+	}
+
+	/**
+	 * Group: Helpers
+	 * _____________________________________
+	 */
+
+	/**
+	 * Method: assertEqualHtml
+	 *
 	 * Compare two HTML fragments.
 	 *
-	 * @param string $expected Expected value.
-	 * @param string $actual Actual value.
-	 * @param string $error_message Message to show when strings don't match.
-	 * @uses https://stackoverflow.com/a/26727310/6850747
+	 * Parameters:
+	 *   $expected - Expected value.
+	 *   $actual - Actual value.
+	 *   $error_message - Message to show when strings don't match.
+	 *
+	 * Uses:
+	 *   <https://stackoverflow.com/a/26727310/6850747>
 	 */
-	protected function assertEqualHtml( $expected, $actual, $error_message ) {
+	protected function assertEqualHtml( string $expected, string $actual, string $error_message ) {
 		$from = [ '/\>[^\S ]+/s', '/[^\S ]+\</s', '/(\s)+/s', '/> </s' ];
 		$to   = [ '>', '<', '\\1', '><' ];
 		$this->assertEquals(
@@ -50,16 +121,147 @@ class GalleryTest extends WP_UnitTestCase {
 	}
 
 	/**
-	 * Lint page state in Tenon.io
+	 * Method: create_attachment
 	 *
-	 * @param string $url_or_src Page URL or post-JS DOM source.
-	 * @return array $result Tenon resultSet, or WP error
-	 * @todo Waiting on Tenon Tunnel to expose WPUnit environment to Tenon API
-	 * @see https://blog.tenon.io/tenon-io-end-of-year-startup-experience-at-9-months-in-product-updates-and-more/ Roadmap at 12/2015
-	 * @see https://github.com/joedolson/access-monitor/blob/master/src/access-monitor.php
-	 * @see https://tenon.io/documentation/understanding-request-parameters.php Optional parameters/$args
+	 * Create attachment and attach it to a post.
+	 *
+	 * Parameters:
+	 *   $options - Options
+	 *
+	 * Returns:
+	 *   $attachment_id - Attachment ID
+	 *
+	 * See:
+	 * - <https://developer.wordpress.org/reference/functions/wp_insert_attachment/>
+	 * - <http://develop.svn.wordpress.org/trunk/tests/phpunit/includes/factory/class-wp-unittest-factory-for-attachment.php>
 	 */
-	protected function tenon( $url_or_src ) {
+	public function create_attachment( array $options ) : number {
+
+		$filename       = null;
+		$parent_post_id = null;
+
+		extract( $options, EXTR_IF_EXISTS );
+
+		// Check the type of file. We'll use this as the 'post_mime_type'.
+		$filetype = wp_check_filetype( basename( $filename ), null );
+
+		// Get the path to the upload directory.
+		$wp_upload_dir = wp_upload_dir();
+
+		// Create the attachment from an array of post data.
+		$attachment_id = $this->factory->attachment->create([
+			'guid'           => $wp_upload_dir['url'] . '/' . basename( $filename ),
+			'post_mime_type' => $filetype['type'],
+			'post_parent'    => $parent_post_id, // test factory only.
+			'file'           => $filename, // test factory only.
+		]);
+
+		// generate image sizes
+		// @see https://wordpress.stackexchange.com/a/134252.
+		$attach_data = wp_generate_attachment_metadata( $attachment_id, $filename );
+		wp_update_attachment_metadata( $attachment_id, $attach_data );
+
+		return $attachment_id;
+	}
+
+	/**
+	 * Method: create_attachment_simple
+	 *
+	 * Create attachment, upload media file, generate sizes.
+	 *
+	 * Parameters:
+	 *   $options - Options
+	 *
+	 * See:
+	 * - <http://develop.svn.wordpress.org/trunk/tests/phpunit/includes/factory/class-wp-unittest-factory-for-attachment.php>
+	 * - <Awaiting Review: https://core.trac.wordpress.org/ticket/42990>
+	 *
+	 * TODO
+	 * - Factory method not available - see create_attachment(), below
+	 */
+	public function create_attachment_simple( array $options ) {
+
+		$filename       = null;
+		$parent_post_id = null;
+
+		extract( $options, EXTR_IF_EXISTS );
+
+		$attachment_id = $this->factory->attachment->create_upload_object([
+			'file'   => $filename,
+			'parent' => $parent_post_id,
+		]);
+	}
+
+	/**
+	 * Method: create_post
+	 *
+	 * Create post.
+	 *
+	 * Parameters:
+	 *   $options - Post options
+	 *
+	 * Returns:
+	 *   $post_id - Post ID
+	 *
+	 * See:
+	 * - <https://developer.wordpress.org/reference/functions/wp_insert_post/>
+	 * - <https://wordpress.stackexchange.com/questions/37163/proper-formatting-of-post-date-for-wp-insert-post>
+	 * - <https://codex.wordpress.org/Function_Reference/wp_update_post>
+	 */
+	public function create_post( array $options ) : number {
+
+		$post_title   = null;
+		$post_date    = null;
+		$post_content = null;
+
+		extract( $options, EXTR_IF_EXISTS );
+
+		$post_id = $this->factory->post->create([
+			'post_title'   => $post_title,
+			'post_date'    => $post_date,
+			'post_content' => $post_content,
+			'post_type'    => 'post',
+			'post_status'  => 'publish',
+		]);
+
+		return $post_id;
+	}
+
+	/**
+	 * Method: delete_sized_images
+	 *
+	 * Delete image sizes generated by WP.
+	 *
+	 * See:
+	 * - <https://gistpages.com/posts/php_delete_files_with_unlink>
+	 */
+	public function delete_sized_images() {
+		array_map( 'unlink', glob( 'images/test1-*.jpg' ) );
+	}
+
+	/**
+	 * Method: tenon
+	 *
+	 * Lint page state in Tenon.io (proof of concept).
+	 *
+	 * Parameters:
+	 *   $url_or_src - Page URL or post-JS DOM source
+	 *
+	 * Returns:
+	 *   $result - Tenon resultSet, or WP error
+	 *
+	 * TODO:
+	 * - Waiting on Tenon Tunnel to expose WPUnit environment to Tenon API
+	 *
+	 * See:
+	 * - <Tenon - Roadmap at 12/2015: https://blog.tenon.io/tenon-io-end-of-year-startup-experience-at-9-months-in-product-updates-and-more/>
+	 * - <https://github.com/joedolson/access-monitor/blob/master/src/access-monitor.php>
+	 * - <Tenon - Optional parameters/$args: https://tenon.io/documentation/understanding-request-parameters.php>
+	 *
+	 * Since:
+	 *   1.7.15 - wpdtrt-gallery
+	 */
+	protected function tenon( string $url_or_src ) : array {
 
 		$endpoint = 'https://tenon.io/api/';
 
@@ -110,165 +312,18 @@ class GalleryTest extends WP_UnitTestCase {
 	}
 
 	/**
-	 * Delete image sizes generated by WP
+	 * Group: Tests
+	 * _____________________________________
+	 */
+
+	/**
+	 * Method: test_attachment_fields
 	 *
-	 * @see https://gistpages.com/posts/php_delete_files_with_unlink
-	 */
-	public function delete_sized_images() {
-		array_map( 'unlink', glob( 'images/test1-*.jpg' ) );
-	}
-
-	/**
-	 * SetUp
-	 * Automatically called by PHPUnit before each test method is run
-	 */
-	public function setUp() {
-		// Make the factory objects available.
-		parent::setUp();
-
-		// Generate WordPress data fixtures
-		//
-		// Post (for testing manually entered, naked shortcode).
-		$this->post_id_1 = $this->create_post( array(
-			'post_title'   => 'Empty gallery test',
-			'post_content' => '[wpdtrt_gallery_shortcode_heading]<h2>Post 1 heading</h2>[/wpdtrt_gallery_shortcode_heading]',
-		));
-
-		// Attachment (for testing custom sizes and meta).
-		$this->attachment_id_1 = $this->create_attachment( array(
-			'filename'       => 'images/test1.jpg',
-			'parent_post_id' => $this->post_id_1,
-		));
-
-		$this->thumbnail_size = 'wpdtrt-gallery-thumbnail';
-
-		// Post (for testing populated shortcode)
-		// NOTE: generated attachment is attached to post_id_1 not post_id_2
-		// this is a chicken-and-egg scenario.
-		$this->post_id_2 = $this->create_post( array(
-			'post_title'   => 'Single image gallery test',
-			'post_content' => '[wpdtrt_gallery_shortcode_heading]<h2>Post 2 heading</h2>[gallery link="file" ids="' . $this->attachment_id_1 . '"][/wpdtrt_gallery_shortcode_heading]',
-		));
-
-		// Post (for injected naked shortcode).
-		$this->post_id_3 = $this->create_post( array(
-			'post_title'   => 'Empty gallery test',
-			'post_content' => '<h2>Post 3 heading</h2>',
-		));
-	}
-
-	/**
-	 * TearDown
-	 * Automatically called by PHPUnit after each test method is run
-	 *
-	 * @see https://codesymphony.co/writing-wordpress-plugin-unit-tests/#object-factories
-	 */
-	public function tearDown() {
-
-		parent::tearDown();
-
-		wp_delete_post( $this->post_id_1, true );
-		wp_delete_post( $this->attachment_id_1, true );
-		wp_delete_post( $this->post_id_2, true );
-
-		$this->delete_sized_images();
-	}
-
-	/**
-	 * Create post
-	 *
-	 * @param array $options Post options.
-	 * @return number $post_id
-	 * @see https://developer.wordpress.org/reference/functions/wp_insert_post/
-	 * @see https://wordpress.stackexchange.com/questions/37163/proper-formatting-of-post-date-for-wp-insert-post
-	 * @see https://codex.wordpress.org/Function_Reference/wp_update_post
-	 */
-	public function create_post( $options ) {
-
-		$post_title   = null;
-		$post_date    = null;
-		$post_content = null;
-
-		extract( $options, EXTR_IF_EXISTS );
-
-		$post_id = $this->factory->post->create([
-			'post_title'   => $post_title,
-			'post_date'    => $post_date,
-			'post_content' => $post_content,
-			'post_type'    => 'post',
-			'post_status'  => 'publish',
-		]);
-
-		return $post_id;
-	}
-
-	/**
-	 * Create attachment, upload media file, generate sizes
-	 *
-	 * @param array $options Options.
-	 * @see http://develop.svn.wordpress.org/trunk/tests/phpunit/includes/factory/class-wp-unittest-factory-for-attachment.php
-	 * @see https://core.trac.wordpress.org/ticket/42990 - Awaiting Review
-	 * @todo Factory method not available - see create_attachment(), below
-	 */
-	public function create_attachment_simple( $options ) {
-
-		$filename       = null;
-		$parent_post_id = null;
-
-		extract( $options, EXTR_IF_EXISTS );
-
-		$attachment_id = $this->factory->attachment->create_upload_object([
-			'file'   => $filename,
-			'parent' => $parent_post_id,
-		]);
-	}
-
-	/**
-	 * Create attachment and attach it to a post
-	 *
-	 * @param array $options Options.
-	 * @return number $attachment_id
-	 * @see https://developer.wordpress.org/reference/functions/wp_insert_attachment/
-	 * @see http://develop.svn.wordpress.org/trunk/tests/phpunit/includes/factory/class-wp-unittest-factory-for-attachment.php
-	 */
-	public function create_attachment( $options ) {
-
-		$filename       = null;
-		$parent_post_id = null;
-
-		extract( $options, EXTR_IF_EXISTS );
-
-		// Check the type of file. We'll use this as the 'post_mime_type'.
-		$filetype = wp_check_filetype( basename( $filename ), null );
-
-		// Get the path to the upload directory.
-		$wp_upload_dir = wp_upload_dir();
-
-		// Create the attachment from an array of post data.
-		$attachment_id = $this->factory->attachment->create([
-			'guid'           => $wp_upload_dir['url'] . '/' . basename( $filename ),
-			'post_mime_type' => $filetype['type'],
-			'post_parent'    => $parent_post_id, // test factory only.
-			'file'           => $filename, // test factory only.
-		]);
-
-		// generate image sizes
-		// @see https://wordpress.stackexchange.com/a/134252.
-		$attach_data = wp_generate_attachment_metadata( $attachment_id, $filename );
-		wp_update_attachment_metadata( $attachment_id, $attach_data );
-
-		return $attachment_id;
-	}
-
-	/**
-	 * ===== Tests =====
-	 */
-
-	/**
 	 * Test that the custom field keys and values are output as HTML queryparams.
 	 *
-	 * @see https://codex.wordpress.org/Function_Reference/wp_get_attachment_link
-	 * @see https://github.com/dotherightthing/wpdtrt-gallery/issues/35
+	 * See:
+	 * - <https://codex.wordpress.org/Function_Reference/wp_get_attachment_link>
+	 * - <https://github.com/dotherightthing/wpdtrt-gallery/issues/35>
 	 */
 	public function test_attachment_fields() {
 
@@ -319,10 +374,15 @@ class GalleryTest extends WP_UnitTestCase {
 	}
 
 	/**
-	 * Test that the gallery thumbnail image exists and is the correct size
-	 *  The test image path is appended to http://example.org/wp-content/uploads/.
+	 * Method: test_image_sizes
 	 *
-	 * @see http://develop.svn.wordpress.org/trunk/tests/phpunit/includes/factory/class-wp-unittest-factory-for-attachment.php
+	 * Test that the gallery thumbnail image exists and is the correct size.
+	 *
+	 * Note:
+	 * - The test image path is appended to http://example.org/wp-content/uploads/.
+	 *
+	 * See:
+	 * - <http://develop.svn.wordpress.org/trunk/tests/phpunit/includes/factory/class-wp-unittest-factory-for-attachment.php>
 	 */
 	public function test_image_sizes() {
 
@@ -358,10 +418,39 @@ class GalleryTest extends WP_UnitTestCase {
 	}
 
 	/**
-	 * Test shortcode with a heading only
-	 *  trim() removes line break added by WordPress
+	 * Method: test_injected_shortcode_with_heading
 	 *
-	 * @todo https://github.com/dotherightthing/wpdtrt-gallery/issues/2
+	 * Test shortcode with a heading and gallery containing a single image.
+	 *
+	 * Note:
+	 * - Test theme does not appear to output HTML5 markup for gallery.
+	 */
+	public function test_injected_shortcode_with_heading() {
+
+		$this->go_to(
+			get_post_permalink( $this->post_id_3 )
+		);
+
+		// https://stackoverflow.com/a/22270259/6850747.
+		$content = apply_filters( 'the_content', get_post_field( 'post_content', $this->post_id_3 ) );
+
+		$this->assertContains(
+			'<h2>Post 3 heading</h2>',
+			trim( do_shortcode( trim( do_shortcode( $content ) ) ) ),
+			'wpdtrt_gallery_shortcode not injected'
+		);
+	}
+
+	/**
+	 * Method: test_shortcode_with_heading
+	 *
+	 * Test shortcode with a heading only.
+	 *
+	 * Note:
+	 * - trim() removes line break added by WordPress
+	 *
+	 * TODO:
+	 * - <https://github.com/dotherightthing/wpdtrt-gallery/issues/2>
 	 */
 	public function test_shortcode_with_heading() {
 
@@ -396,8 +485,12 @@ class GalleryTest extends WP_UnitTestCase {
 	}
 
 	/**
-	 * Test shortcode with a heading and gallery containing a single image
-	 *  Note that test theme does not appear to output HTML5 markup for gallery.
+	 * Method: test_shortcode_with_heading_and_gallery
+	 *
+	 * Test shortcode with a heading and gallery containing a single image.
+	 *
+	 * Note:
+	 * - Test theme does not appear to output HTML5 markup for gallery.
 	 */
 	public function test_shortcode_with_heading_and_gallery() {
 
@@ -416,29 +509,23 @@ class GalleryTest extends WP_UnitTestCase {
 	}
 
 	/**
-	 * Test shortcode with a heading and gallery containing a single image
-	 *  Note that test theme does not appear to output HTML5 markup for gallery.
+	 * Method: test_wp_admin
+	 *
+	 * Test wp-admin.
 	 */
-	public function test_injected_shortcode_with_heading() {
+	public function test_wp_admin() {
+		$this->go_to( '/wp-admin/plugins.php' );
 
-		$this->go_to(
-			get_post_permalink( $this->post_id_3 )
-		);
-
-		// https://stackoverflow.com/a/22270259/6850747.
-		$content = apply_filters( 'the_content', get_post_field( 'post_content', $this->post_id_3 ) );
-
-		$this->assertContains(
-			'<h2>Post 3 heading</h2>',
-			trim( do_shortcode( trim( do_shortcode( $content ) ) ) ),
-			'wpdtrt_gallery_shortcode not injected'
-		);
+		$this->go_to( '/wp-admin/plugins.php?page=tgmpa-install-plugins&plugin_status=install' );
 	}
 
 	/**
-	 * Test accessibility using the Tenon API
+	 * Method: __test_shortcode_a11y
 	 *
-	 * @todo This is working, but see TODOs in tenon() function
+	 * Test accessibility using the Tenon API.
+	 *
+	 * TODO:
+	 * - This is working, but see TODOs in tenon() function
 	 */
 	public function __test_shortcode_a11y() {
 
@@ -454,22 +541,18 @@ class GalleryTest extends WP_UnitTestCase {
 	}
 
 	/**
-	 * Test wp-admin
-	 */
-	public function test_wp_admin() {
-		$this->go_to( '/wp-admin/plugins.php' );
-
-		$this->go_to( '/wp-admin/plugins.php?page=tgmpa-install-plugins&plugin_status=install' );
-	}
-
-	/**
-	 * Test theme support as this affects gallery markup
-	 *  dtrt parent theme sets add_theme_support( 'html5', array( 'gallery', 'caption' ) ); (3.9+)
-	 *  This uses "<figure> and <figcaption> elements, instead of the generic definition list markup."
-	 *  "galleries will not include inline styles anymore when in HTML5 mode. This caters to the trend of disabling default gallery styles through the use_default_gallery_style filter, a filter that even the last two default themes used. With that, theme developers can always start with a clean slate when creating their own set of gallery styles."
+	 * Method: __test_theme_support
 	 *
-	 * @see https://make.wordpress.org/core/2014/04/15/html5-galleries-captions-in-wordpress-3-9/
-	 * @see https://wordpress.stackexchange.com/questions/23839/using-add-theme-support-inside-a-plugin
+	 * Test theme support as this affects gallery markup.
+	 *
+	 * Note:
+	 * - dtrt parent theme sets add_theme_support( 'html5', array( 'gallery', 'caption' ) ); (3.9+)
+	 * - This uses "<figure> and <figcaption> elements, instead of the generic definition list markup."
+	 * - "galleries will not include inline styles anymore when in HTML5 mode. This caters to the trend of disabling default gallery styles through the use_default_gallery_style filter, a filter that even the last two default themes used. With that, theme developers can always start with a clean slate when creating their own set of gallery styles."
+	 *
+	 * See:
+	 * - <https://make.wordpress.org/core/2014/04/15/html5-galleries-captions-in-wordpress-3-9/>
+	 * - <https://wordpress.stackexchange.com/questions/23839/using-add-theme-support-inside-a-plugin>
 	 */
 	public function __test_theme_support() {
 

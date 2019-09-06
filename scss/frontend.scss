@@ -1,9 +1,10 @@
 //
-// Styles for the public front-end
+// File: scss/frontend.scss
 //
-// @package WPDTRT_Gallery
-// @version 0.0.1
-// @since 0.7.0
+// Styles for the public front-end.
+//
+// Since:
+//   0.8.13 - DTRT WordPress Plugin Boilerplate Generator
 //
 
 @import 'vendor/dotherightthing/wpdtrt-plugin-boilerplate/scss/variables';
@@ -11,7 +12,10 @@
 @import 'variables';
 @import 'extends';
 
-// plugins
+// -------------------------------------------------------------------
+// Plugins
+// -------------------------------------------------------------------
+
 // omitting the extension makes the classes available for extend
 // https://stackoverflow.com/questions/7111610/import-regular-css-file-in-scss-file/30279590#30279590
 @import '../icons/icomoon/style.css';
@@ -722,3 +726,7 @@
         }
     }
 }
+
+// -------------------------------------------------------------------
+// Media Queries
+// -------------------------------------------------------------------

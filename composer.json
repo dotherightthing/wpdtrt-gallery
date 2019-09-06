@@ -14,13 +14,14 @@
     ],
     "support": {
         "email": "support@dotherightthing.co.nz",
-        "issues": "https://github.com/dotherightthing/wpdtrt-gallery/issues"
+        "issues": "https://github.com/dotherightthing/wpdtrt-gallery/issues",
+        "source": "https://github.com/dotherightthing/wpdtrt-gallery",
+        "wiki": "https://github.com/dotherightthing/wpdtrt-gallery/wiki"
     },
     "require": {
-        "dotherightthing/wpdtrt-plugin-boilerplate": "^1.5.3"
+        "dotherightthing/wpdtrt-plugin-boilerplate": "^1.6.7"
     },
     "require-dev": {
-        "phpdocumentor/phpdocumentor": "2.9.0",
         "phpunit/phpunit": "^5.7",
         "psy/psysh" : "~0.6",
         "wp-cli/wp-cli" : "~0.22",

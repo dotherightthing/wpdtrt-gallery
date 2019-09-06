@@ -1,9 +1,10 @@
 //
-// Styles for the WP Admin plugin options page
+// File: scss/backend.scss
 //
-// @package     WPDTRT_Gallery
-// @version 	0.0.1
-// @since       0.7.0
+// Styles for the WP Admin plugin options page.
+//
+// Since:
+//   0.8.13 - DTRT WordPress Plugin Boilerplate Generator
 //
 
 @import 'vendor/dotherightthing/wpdtrt-plugin-boilerplate/scss/variables';
@@ -13,7 +14,7 @@
 @import 'extends';
 
 // -------------------------------------------------------------------
-// Attachment page
+// Attachment Page
 // -------------------------------------------------------------------
 
 // align text with label

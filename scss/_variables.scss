@@ -1,11 +1,15 @@
 //
-// Variables
+// File: scss/_variables.scss
 //
-// @package     WPDTRT_Gallery
-// @version 	0.0.1
-// @since       0.7.6
+// Variables.
+//
+// Since:
+//   0.8.13 - DTRT WordPress Plugin Boilerplate Generator
 //
 
+// front-end dependencies are specified in
+// ./vendor/dotherightthing/wpdtrt-plugin-boilerplate/package.json
+// but installed to ./node_modules, via Yarn workspaces
 @import 'node_modules/include-media/dist/include-media';
 
 // -------------------------------------------------------------------
@@ -13,8 +17,9 @@
 // -------------------------------------------------------------------
 
 // $breakpoints for include-media
-// 710+ wpdtrt-dbth 3 column layout
-// 910+ wpdtrt-dbth MENU button switches to an inline menu
+// Usage: @include media(">phone", "<=tablet") { ... }
+// Usage: @include media("<=1150px") { ... }
+// See https://include-media.com/
 
 $breakpoints: (
     phone: 320px,
@@ -26,6 +31,7 @@ $breakpoints: (
 
 // -------------------------------------------------------------------
 // Colors
+// http://hex2rgba.devoth.com/
 // -------------------------------------------------------------------
 
 $wpdtrt-gallery-viewer-bg-color: rgba(0, 0, 0, .85);

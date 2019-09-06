@@ -1,8 +1,11 @@
 <?php
 /**
- * PHPUnit bootstrap file
+ * File: tests/bootstrap.php
  *
- * @package WPDTRT_Gallery
+ * PHPUnit bootstrap file.
+ *
+ * Since:
+ *   0.8.13 - DTRT WordPress Plugin Boilerplate Generator
  */
 
 $_tests_dir = getenv( 'WP_TESTS_DIR' );
@@ -27,6 +30,7 @@ function _manually_load_plugin() {
 	$composer_dependencies            = WPDTRT_Gallery_Plugin::get_wp_composer_dependencies( $composer_json );
 	$composer_dependencies_to_require = WPDTRT_Gallery_Plugin::get_wp_composer_dependencies_wpunit( $composer_dependencies );
 }
+
 tests_add_filter( 'muplugins_loaded', '_manually_load_plugin' );
 
 // Start up the WP testing environment.

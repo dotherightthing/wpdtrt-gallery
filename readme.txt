@@ -1,10 +1,11 @@
+
 === DTRT Gallery ===
 Contributors: dotherightthingnz
 Donate link: http://dotherightthing.co.nz
 Tags: gallery, video, audio, map
 Requires at least: 4.9.5
 Tested up to: 4.9.5
-Requires PHP: 5.6.30
+Requires PHP: 7.3.7
 Stable tag: 1.8.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -222,5 +223,5 @@ echo do_shortcode('[wpdtrt_gallery_shortcode_heading]<h2>' . $heading . '</h2>[/
 
 == Upgrade Notice ==
 
-= 0.1 =
+= 0.1.0 =
 * Initial release
