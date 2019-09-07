@@ -458,6 +458,7 @@ const wpdtrt_gallery_ui = {
    *
    * TODO:
    * - Add startPosition parameter in media.php (panoramaPositionX)
+   * - Error - #57
    */
   galleryViewerPanoramaUpdate: function ( $, $viewer, $galleryItemLink ) {
     const panorama = $galleryItemLink.find( 'img' ).data( 'panorama' );
