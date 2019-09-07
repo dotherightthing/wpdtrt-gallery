@@ -602,7 +602,7 @@ const wpdtrt_gallery_ui = {
     // copy the data attributes
     // note: not just the dataset, as data- attributes are used for DOM filtering
     $.each( this.thumbnailData, ( key, value ) => {
-      $viewerImg.removeattr( `data-${value}` );
+      $viewerImg.removeAttr( `data-${value}` );
       $viewerImg.attr( `data-${value}`, $galleryItemImage.attr( `data-${value}` ) );
     } );
 
