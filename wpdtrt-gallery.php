@@ -260,14 +260,7 @@ function wpdtrt_gallery_plugin_init() {
 	 * See:
 	 * - <Options - Adding global options: https://github.com/dotherightthing/wpdtrt-plugin-boilerplate/wiki/Options:-Adding-global-options>
 	 */
-	$plugin_options = array(
-		'pluginoption1' => array(
-			'type'  => 'text',
-			'label' => __( 'Field label', 'wpdtrt-gallery' ),
-			'size'  => 10,
-			'tip'   => __( 'Helper text', 'wpdtrt-gallery' ),
-		),
-	);
+	$plugin_options = array();
 
 	/**
 	 * Array: instance_options
@@ -277,14 +270,7 @@ function wpdtrt_gallery_plugin_init() {
 	 * See:
 	 * - <Options - Adding shortcode or widget options: https://github.com/dotherightthing/wpdtrt-plugin-boilerplate/wiki/Options:-Adding-shortcode-or-widget-options>
 	 */
-	$instance_options = array(
-		'instanceoption1' => array(
-			'type'  => 'text',
-			'label' => __( 'Field label', 'wpdtrt-gallery' ),
-			'size'  => 10,
-			'tip'   => __( 'Helper text', 'wpdtrt-gallery' ),
-		),
-	);
+	$instance_options = array();
 
 	/**
 	 * Array: ui_messages
