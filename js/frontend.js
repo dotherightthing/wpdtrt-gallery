@@ -744,10 +744,15 @@ document.addEventListener( 'touchstart', () => {
   // nada, this is just a hack to make :focus state render on touch
 }, false );
 
-jQuery( window ).load( ( $ ) => {
-  // defer load of .initial enlargements, to reduce initial load time for PageSpeed
-  wpdtrt_gallery_ui.galleryViewerLazyInit( $ );
-} );
+// https://api.jquery.com/jQuery.noConflict/
+/* eslint-disable wrap-iife */
+( function ( $ ) {
+  $( window ).on( 'load', () => {
+    // defer load of .initial enlargements, to reduce initial load time for PageSpeed
+    wpdtrt_gallery_ui.galleryViewerLazyInit( $ );
+  } );
+} )( jQuery );
+/* eslint-enable wrap-iife */
 
 jQuery( document ).ready( () => {
   // const config = wpdtrt_gallery_config;
