@@ -51,9 +51,7 @@ echo $before_title . $title . $after_title;
 	</div>
 	<div class="stack--wrapper" style="">
 		<figure class="stack--liner">
-			<div class="img-wrapper">
-				<img src="" alt="">
-			</div>
+			<div class="img-wrapper"></div>
 			<div class="gallery-viewer--embed">
 				<iframe width="100%" height="100%" src="" frameborder="0" allowfullscreen="true" scrolling="no" aria-hidden="true"></iframe>
 			</div>

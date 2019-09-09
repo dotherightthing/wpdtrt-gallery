@@ -566,6 +566,11 @@ const wpdtrt_gallery_ui = {
   galleryViewerImageUpdate: function ( $, $viewer, $galleryItemLink ) {
     const $expandButton = $viewer.find( '.gallery-viewer--expand' );
     const $galleryItemImage = $galleryItemLink.find( 'img' );
+
+    if ( ! galleryItemImage.length ) {
+      $galleryItemLink.find( '.img-wrapper' ).append( '<img/>' );
+    }
+
     const galleryItemImageAlt = $galleryItemImage.attr( 'alt' );
     const galleryItemImageFull = $galleryItemLink.attr( 'href' );
 
