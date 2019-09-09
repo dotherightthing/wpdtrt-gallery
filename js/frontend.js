@@ -379,7 +379,8 @@ const wpdtrt_gallery_ui = {
       // adapted from https://appleple.github.io/modal-video/
       $viewerIframe
         .attr( 'src', `//player.vimeo.com/video/${vimeoPageId}?api=false&autopause=${!autoplay}&autoplay=${autoplay}&byline=false&loop=false&portrait=false&title=false&xhtml=false` )
-        .attr( 'height', '368px' )
+        .css( 'height', 368 )
+        .attr( 'allowfullscreen', 'true' )
         .attr( 'aria-hidden', 'false' );
 
       $viewerImg
@@ -395,7 +396,7 @@ const wpdtrt_gallery_ui = {
 
       $viewerIframe
         .attr( 'src', `//w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/${soundcloudTrackId}?auto_play=${autoplay}&hide_related=true&show_comments=false&show_user=false&show_reposts=false&visual=true` )
-        .attr( 'height', '368px' )
+        .css( 'height', 368 )
         .attr( 'aria-hidden', 'false' );
 
       $viewerImg
@@ -410,12 +411,12 @@ const wpdtrt_gallery_ui = {
 
       $viewerIframe
         .attr( 'src', `//rwgps-embeds.com/routes/${rwgpsPageId}/embed` )
-        .attr( 'height', '500px' )
+        .css( 'height', 500 )
         .attr( 'aria-hidden', 'false' );
 
       embedHeightTimer = setTimeout( () => {
         $viewerIframe
-          .attr( 'height', '500px' );
+          .css( 'height', 500 );
       }, 500 );
 
       $viewerImg
@@ -430,7 +431,7 @@ const wpdtrt_gallery_ui = {
 
       $viewerIframe
         .removeAttr( 'src' )
-        .attr( 'height', 'auto' )
+        .removeAttr( 'allowfullscreen' )
         .attr( 'aria-hidden', 'true' );
 
       $viewerImg
