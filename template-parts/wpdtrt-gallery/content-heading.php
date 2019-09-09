@@ -53,7 +53,7 @@ echo $before_title . $title . $after_title;
 		<figure class="stack--liner">
 			<div class="img-wrapper"></div>
 			<div class="gallery-viewer--embed">
-				<iframe src="" aria-hidden="true"></iframe>
+				<iframe aria-hidden="true" title="Gallery media viewer."></iframe>
 			</div>
 			<figcaption class="gallery-viewer--footer">
 				<div class="gallery-viewer--caption"></div>

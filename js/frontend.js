@@ -381,6 +381,7 @@ const wpdtrt_gallery_ui = {
         .attr( 'src', `//player.vimeo.com/video/${vimeoPageId}?api=false&autopause=${!autoplay}&autoplay=${autoplay}&byline=false&loop=false&portrait=false&title=false&xhtml=false` )
         .css( 'height', 368 )
         .attr( 'allowfullscreen', 'true' )
+        .attr( 'title', 'Vimeo player' )
         .attr( 'aria-hidden', 'false' );
 
       $viewerImg
@@ -397,6 +398,7 @@ const wpdtrt_gallery_ui = {
       $viewerIframe
         .attr( 'src', `//w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/${soundcloudTrackId}?auto_play=${autoplay}&hide_related=true&show_comments=false&show_user=false&show_reposts=false&visual=true` )
         .css( 'height', 368 )
+        .attr( 'title', 'SoundCloud player' )
         .attr( 'aria-hidden', 'false' );
 
       $viewerImg
@@ -412,6 +414,7 @@ const wpdtrt_gallery_ui = {
       $viewerIframe
         .attr( 'src', `//rwgps-embeds.com/routes/${rwgpsPageId}/embed` )
         .css( 'height', 500 )
+        .attr( 'title', 'Ride With GPS map viewer' )
         .attr( 'aria-hidden', 'false' );
 
       embedHeightTimer = setTimeout( () => {
@@ -432,6 +435,7 @@ const wpdtrt_gallery_ui = {
       $viewerIframe
         .removeAttr( 'src' )
         .removeAttr( 'allowfullscreen' )
+        .attr( 'title', 'Gallery media viewer' )
         .attr( 'aria-hidden', 'true' );
 
       $viewerImg
