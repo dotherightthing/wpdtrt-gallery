@@ -568,7 +568,7 @@ const wpdtrt_gallery_ui = {
     const $expandButton = $viewer.find( '.gallery-viewer--expand' );
     const $galleryItemImage = $galleryItemLink.find( 'img' );
 
-    if ( ! galleryItemImage.length ) {
+    if ( !$galleryItemImage.length ) {
       $galleryItemLink.find( '.img-wrapper' ).append( '<img/>' );
     }
 
