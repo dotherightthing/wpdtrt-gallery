@@ -54,16 +54,16 @@
         },
         {
             "name": "dotherightthing/wpdtrt-plugin-boilerplate",
-            "version": "1.6.7",
+            "version": "1.6.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dotherightthing/wpdtrt-plugin-boilerplate.git",
-                "reference": "9e46fda31099d5aa5d8d169a8a4e33471c18959c"
+                "reference": "70e0ec1155ec7a4d30131eac8908964d4c47fa00"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dotherightthing/wpdtrt-plugin-boilerplate/zipball/9e46fda31099d5aa5d8d169a8a4e33471c18959c",
-                "reference": "9e46fda31099d5aa5d8d169a8a4e33471c18959c",
+                "url": "https://api.github.com/repos/dotherightthing/wpdtrt-plugin-boilerplate/zipball/70e0ec1155ec7a4d30131eac8908964d4c47fa00",
+                "reference": "70e0ec1155ec7a4d30131eac8908964d4c47fa00",
                 "shasum": ""
             },
             "require": {
@@ -82,7 +82,7 @@
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "DoTheRightThing\\WPDTRT_Plugin_Boilerplate\\r_1_6_7\\": "src"
+                    "DoTheRightThing\\WPDTRT_Plugin_Boilerplate\\r_1_6_8\\": "src"
                 }
             },
             "license": [
@@ -104,9 +104,9 @@
             "support": {
                 "email": "support@dotherightthing.co.nz",
                 "issues": "https://github.com/dotherightthing/wpdtrt-plugin-boilerplate/issues",
-                "source": "https://github.com/dotherightthing/wpdtrt-plugin-boilerplate/tree/1.6.7"
+                "source": "https://github.com/dotherightthing/wpdtrt-plugin-boilerplate/tree/1.6.8"
             },
-            "time": "2019-09-05T11:48:52+00:00"
+            "time": "2019-09-09T21:42:44+00:00"
         },
         {
             "name": "gamajo/template-loader",
@@ -149,8 +149,8 @@
             "authors": [
                 {
                     "name": "Gary Jones",
-                    "role": "Developer",
-                    "homepage": "https://gamajo.com"
+                    "homepage": "https://gamajo.com",
+                    "role": "Developer"
                 }
             ],
             "description": "A class for your WordPress plugin, to allow loading template parts with fallback through the child theme > parent theme > plugin",
@@ -1207,18 +1207,18 @@
             "authors": [
                 {
                     "name": "Arne Blankerts",
-                    "role": "Developer",
-                    "email": "arne@blankerts.de"
+                    "email": "arne@blankerts.de",
+                    "role": "Developer"
                 },
                 {
                     "name": "Sebastian Heuer",
-                    "role": "Developer",
-                    "email": "sebastian@phpeople.de"
+                    "email": "sebastian@phpeople.de",
+                    "role": "Developer"
                 },
                 {
                     "name": "Sebastian Bergmann",
-                    "role": "Developer",
-                    "email": "sebastian@phpunit.de"
+                    "email": "sebastian@phpunit.de",
+                    "role": "Developer"
                 }
             ],
             "description": "Component for reading phar.io manifest information from a PHP Archive (PHAR)",
