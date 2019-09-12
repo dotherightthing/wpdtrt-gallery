@@ -49,7 +49,8 @@ const wpdtrt_gallery_ui = {
 
     // copy the data attributes
     $.each( wpdtrt_gallery_ui.thumbnailData, ( key, value ) => {
-      $galleryItemLink.attr( `data-${value}`, $galleryItemImage.attr( `data-${value}` ) );
+      $galleryItemLink
+        .attr( `data-${value}`, $galleryItemImage.attr( `data-${value}` ) );
     } );
   },
 
@@ -217,7 +218,8 @@ const wpdtrt_gallery_ui = {
       // data-expanded-contenttype will only be present if the content type requires it
       // and the button will be hidden so the user won't have to fight it
       // set viewer state to state required by content type
-      $viewer.attr( 'data-expanded', dataExpandedContentType );
+      $viewer
+        .attr( 'data-expanded', dataExpandedContentType );
 
       // this attribute is removed by the Reset function
     } else if ( triggered && userExpandedSaved ) {
@@ -225,7 +227,8 @@ const wpdtrt_gallery_ui = {
       // user state may be present when moving from e.g. an image to an iframe and back
       // NOTE: clicking on a thumbnail also fires the trigger.....
       // set viewer state to last/saved toggle state
-      $viewer.attr( 'data-expanded', userExpandedSaved );
+      $viewer
+        .attr( 'data-expanded', userExpandedSaved );
 
       // don't discard attribute after use
       // so we can reinstate this when switching between types
@@ -233,7 +236,8 @@ const wpdtrt_gallery_ui = {
     } else if ( triggered ) {
       // C - clicking on a thumbnail before the button has been clicked yet
       // no preference saved - so use the default
-      $viewer.attr( 'data-expanded', false );
+      $viewer
+        .attr( 'data-expanded', false );
     } else {
       // D - toggle - clicking on the expand button to manually and explicitly toggle the state
       // sets the value of data-expanded-user if it is missing
@@ -241,13 +245,15 @@ const wpdtrt_gallery_ui = {
       // as that is the state that we are changing TO
       // this will result in B being used from now on
 
-      $viewer.attr( 'data-expanded-user', !this.stringToBoolean( viewerIsExpanded ) );
+      $viewer
+        .attr( 'data-expanded-user', !this.stringToBoolean( viewerIsExpanded ) );
 
       // for clarity
       userExpandedSaved = !this.stringToBoolean( viewerIsExpanded );
 
       // use the saved user value
-      $viewer.attr( 'data-expanded', userExpandedSaved );
+      $viewer
+        .attr( 'data-expanded', userExpandedSaved );
     }
 
     // ------------------------------
@@ -257,10 +263,12 @@ const wpdtrt_gallery_ui = {
     // if the viewer is now expanded
     if ( $viewer.attr( 'data-expanded' ) === 'true' ) {
       if ( !$viewerImg.data( 'panorama' ) ) {
-        $viewerImg.attr( 'src', $viewerImg.data( 'src-desktop-expanded' ) );
+        $viewerImg
+          .attr( 'src', $viewerImg.data( 'src-desktop-expanded' ) );
       }
 
-      $expandButton.attr( 'aria-expanded', true );
+      $expandButton
+        .attr( 'aria-expanded', true );
 
       // update the hidden button text
       $expandButtonText.text( 'Show cropped image' );
@@ -268,10 +276,12 @@ const wpdtrt_gallery_ui = {
       // if the viewer is now collapsed
 
       if ( !$viewerImg.data( 'panorama' ) ) {
-        $viewerImg.attr( 'src', $viewerImg.data( 'src-desktop' ) );
+        $viewerImg
+          .attr( 'src', $viewerImg.data( 'src-desktop' ) );
       }
 
-      $expandButton.attr( 'aria-expanded', false );
+      $expandButton
+        .attr( 'aria-expanded', false );
 
       // update the hidden button text
       $expandButtonText.text( 'Show full image' );
@@ -284,7 +294,8 @@ const wpdtrt_gallery_ui = {
 
     // update iframe size
     if ( rwgpsPageId ) {
-      $viewerIframe.attr( 'height', $viewerImg.height() );
+      $viewerIframe
+        .attr( 'height', $viewerImg.height() );
     }
 
     // focus the viewer
@@ -370,7 +381,9 @@ const wpdtrt_gallery_ui = {
     // set the src of the video iframe and unhide it
     if ( vimeoPageId ) {
       // expand viewer
-      $viewer.attr( 'data-expanded-contenttype', true );
+      $viewer
+        .attr( 'data-expanded-contenttype', true );
+
       $expandButton.trigger( 'click' ).hide();
 
       $viewer
@@ -378,44 +391,56 @@ const wpdtrt_gallery_ui = {
 
       // adapted from https://appleple.github.io/modal-video/
       $viewerIframe
-        .attr( 'src', `//player.vimeo.com/video/${vimeoPageId}?api=false&autopause=${!autoplay}&autoplay=${autoplay}&byline=false&loop=false&portrait=false&title=false&xhtml=false` )
-        .css( 'height', 368 )
-        .attr( 'allowfullscreen', 'true' )
-        .attr( 'title', 'Vimeo player' )
-        .attr( 'aria-hidden', 'false' );
+        .attr( {
+          src: `//player.vimeo.com/video/${vimeoPageId}?api=false&autopause=${!autoplay}&autoplay=${autoplay}&byline=false&loop=false&portrait=false&title=false&xhtml=false`,
+          allowfullscreen: 'true',
+          title: 'Vimeo player',
+          'aria-hidden': 'false'
+        } )
+        .css( 'height', 368 );
 
       $viewerImg
         .attr( 'aria-hidden', 'true' );
     } else if ( soundcloudPageId && soundcloudTrackId ) {
       // expand viewer
-      $viewer.attr( 'data-expanded-contenttype', true );
+      $viewer
+        .attr( 'data-expanded-contenttype', true );
+
       $expandButton.trigger( 'click' ).hide();
 
       $viewer
-        .attr( 'data-soundcloud-pageid', soundcloudPageId ) // https://soundcloud.com/dontbelievethehypenz/saxophonic-snack-manzhouli
-        .attr( 'data-soundcloud-trackid', soundcloudTrackId ); // 291457131
+        .attr( {
+          'data-soundcloud-pageid': soundcloudPageId, // https://soundcloud.com/dontbelievethehypenz/saxophonic-snack-manzhouli
+          'data-soundcloud-trackid': soundcloudTrackId // 291457131
+        } );
 
       $viewerIframe
-        .attr( 'src', `//w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/${soundcloudTrackId}?auto_play=${autoplay}&hide_related=true&show_comments=false&show_user=false&show_reposts=false&visual=true` )
-        .css( 'height', 368 )
-        .attr( 'title', 'SoundCloud player' )
-        .attr( 'aria-hidden', 'false' );
+        .attr( {
+          src: `//w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/${soundcloudTrackId}?auto_play=${autoplay}&hide_related=true&show_comments=false&show_user=false&show_reposts=false&visual=true`,
+          title: 'SoundCloud player',
+          'aria-hidden': 'false'
+        } )
+        .css( 'height', 368 );
 
       $viewerImg
         .attr( 'aria-hidden', 'true' );
     } else if ( rwgpsPageId ) {
       // expand viewer
-      $viewer.attr( 'data-expanded-contenttype', true );
+      $viewer
+        .attr( 'data-expanded-contenttype', true );
+
       $expandButton.trigger( 'click' ).hide();
 
       $viewer
         .attr( 'data-rwgps-pageid', rwgpsPageId ); // https://ridewithgps.com/routes/18494494
 
       $viewerIframe
-        .attr( 'src', `//rwgps-embeds.com/routes/${rwgpsPageId}/embed` )
-        .css( 'height', 500 )
-        .attr( 'title', 'Ride With GPS map viewer' )
-        .attr( 'aria-hidden', 'false' );
+        .attr( {
+          src: `//rwgps-embeds.com/routes/${rwgpsPageId}/embed`,
+          title: 'Ride With GPS map viewer',
+          'aria-hidden': 'false'
+        } )
+        .css( 'height', 500 );
 
       embedHeightTimer = setTimeout( () => {
         $viewerIframe
@@ -431,8 +456,10 @@ const wpdtrt_gallery_ui = {
 
       $viewerIframe
         .removeAttr( 'src allowfullscreen' )
-        .attr( 'title', 'Gallery media viewer' )
-        .attr( 'aria-hidden', 'true' );
+        .attr( {
+          title: 'Gallery media viewer',
+          'aria-hidden': 'true'
+        } );
 
       $viewerImg
         .attr( 'aria-hidden', 'false' );
@@ -475,12 +502,15 @@ const wpdtrt_gallery_ui = {
 
     if ( panorama ) {
       // expand viewer
-      $viewer.attr( 'data-expanded-contenttype', true );
+      $viewer
+        .attr( 'data-expanded-contenttype', true );
+
       $expandButton.trigger( 'click' ).hide();
 
       // this data attribute toggles the overflow-x scrollbar
       // which provides the correct $el[ 0 ].scrollWidth value
-      $viewer.attr( 'data-panorama', panorama );
+      $viewer
+        .attr( 'data-panorama', panorama );
 
       // timeout ensures that the related CSS has taken effect
       galleryScrollSetup = setTimeout( () => {
@@ -583,8 +613,10 @@ const wpdtrt_gallery_ui = {
 
     // view the selected thumbnail and remove from tab order
     $galleryItemLink
-      .attr( 'data-viewing', true )
-      .attr( 'tabindex', '-1' );
+      .attr( {
+        'data-viewing': true,
+        tabindex: '-1'
+      } );
 
     // set the source of the large image which is uncropped
     // after galleryViewerPanoramaUpdate
@@ -595,11 +627,14 @@ const wpdtrt_gallery_ui = {
     const $viewerImg = $viewer.find( 'img' );
 
     $viewerImg
-      .attr( 'src', galleryItemImageFull )
-      .attr( 'alt', galleryItemImageAlt );
+      .attr( {
+        src: galleryItemImageFull,
+        alt: galleryItemImageAlt
+      } );
 
     // store the collapsed state so when can revert it after expanding->collapsing the viewer
-    $viewerImg.attr( 'data-src-desktop', $viewerImg.attr( 'src' ) );
+    $viewerImg
+      .attr( 'data-src-desktop', $viewerImg.attr( 'src' ) );
 
     // remove old stored data
     $viewerImg.removeData();
@@ -607,8 +642,9 @@ const wpdtrt_gallery_ui = {
     // copy the data attributes
     // note: not just the dataset, as data- attributes are used for DOM filtering
     $.each( this.thumbnailData, ( key, value ) => {
-      $viewerImg.removeAttr( `data-${value}` );
-      $viewerImg.attr( `data-${value}`, $galleryItemImage.attr( `data-${value}` ) );
+      $viewerImg
+        .removeAttr( `data-${value}` )
+        .attr( `data-${value}`, $galleryItemImage.attr( `data-${value}` ) );
     } );
 
     // setup viewer
@@ -698,8 +734,10 @@ const wpdtrt_gallery_ui = {
       .after( '<h3 class=\'says\'>Gallery</h3>' );
 
     $stackLinkViewer
-      .attr( 'id', viewerId )
-      .attr( 'data-has-gallery', true );
+      .attr( {
+        id: viewerId,
+        'data-has-gallery': true
+      } );
 
     $stackLinkViewer.find( '.gallery-viewer--header' )
       .append( `<button id='${sectionId}-viewer-expand' class='gallery-viewer--expand' aria-expanded='false' aria-controls='${viewerId}'><span class='says'>Show full image</span></button>` );
