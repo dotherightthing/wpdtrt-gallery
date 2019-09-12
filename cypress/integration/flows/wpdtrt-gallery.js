@@ -23,12 +23,12 @@
 // https://mochajs.org/#arrow-functions
 /* eslint-disable func-names */
 
-const componentId = 'signposts';
+const componentClass = 'wpdtrt-gallery';
 
-describe( 'Test Name', function () {
+describe( 'Load', function () {
   before( function () {
     // load local web page
-    cy.visit( '/path/to/page' );
+    cy.visit( '/tourdiaries/asia/east-asia/china-1/1/newzealand-to-china/' );
   } );
 
   beforeEach( function () {
@@ -36,28 +36,17 @@ describe( 'Test Name', function () {
     cy.reload();
 
     // @aliases
-    cy.get( `#${ componentId }` ).as( 'componentName' );
-    cy.get( `#${ componentId } .child` ).as( 'componentChildName' );
+    cy.get( `.${ componentClass }` ).eq( 0 ).as( 'galleryViewerBelowFold' );
 
     // default viewer attributes
-    cy.get( '@componentChildName' )
-      .should( 'have.attr', 'id', 'foo' )
-      .should( 'have.attr', 'data-bar', 'false' )
-      .should( 'not.have.attr', 'data-baz' );
-
-    // scroll component into view,
-    // as Cypress can't always 'see' elements below the fold
-    cy.get( '@componentName' )
-      .scrollIntoView( {
-        offset: {
-          top: 100,
-          left: 0
-        }
-      } )
-      .should( 'be.visible' );
+    // when element is offscreen
+    cy.get( '@galleryViewerBelowFold' )
+      .should( 'have.attr', 'class', 'wpdtrt-gallery stack stack_link_viewer gallery-viewer h2-viewer' )
+      .should( 'have.attr', 'data-has-gallery', 'false' )
+      .should( 'have.attr', 'data-expanded', 'false' );
 
     // @aliases for injected elements
-    cy.get( `#${ componentId } .child-injected` ).as( 'componentInjected' );
+    // cy.get( `#${ componentId } .child-injected` ).as( 'componentInjected' );
   } );
 
   describe( 'Setup', function () {
@@ -72,27 +61,46 @@ describe( 'Test Name', function () {
     } );
   } );
 
-  describe( 'Load', function () {
-    it( 'Loads', function () {
-      // check that the child component has been assigned the correct ID
-      cy.get( '@componentChildName' )
-        .should( 'have.attr', 'id', `${ componentId }-child` )
-        .should( 'have.attr', 'data-bar', 'true' )
-        .should( 'not.have.attr', 'data-baz' );
+  describe( 'Transform', function () {
+    
+    it( 'Transforms', function () {
+      // scroll component into view,
+      // as Cypress can't always 'see' elements below the fold
+      cy.get( '@galleryViewerBelowFold' )
+        .scrollIntoView( {
+          offset: {
+            top: 100,
+            left: 0
+          }
+        } )
+        .should( 'be.visible' );
 
-      // check that the injected child component has the correct attributes and text
-      cy.get( '@componentInjected' )
-        .should( 'have.attr', 'aria-controls', `${ componentId }-child` )
-        .contains( 'Sweet child of mine' );
+      // check that the default markup has been transformed
+      cy.get( '@galleryViewerBelowFold' )
+        .should( 'have.attr', 'class', 'wpdtrt-gallery stack stack_link_viewer gallery-viewer h2-viewer' )
+        .should( 'have.attr', 'data-has-gallery', 'true' )
+        .should( 'have.attr', 'data-expanded', 'true' )
+        .should( 'have.attr', 'data-expanded-contenttype', 'true' )
+        .should( 'have.attr', 'data-panorama', '1' );
+    } );
+  } );
 
+  // moved into its own test, else
+  // "Because this error occurred during a 'before each' hook
+  // we are skipping the remaining tests in the current suite: 'Load' "
+  describe( 'Accessibility', function () {
+    it( 'Validates', function () {
       // test the accessibility of the component state using Tenon.io
-      // Note: add a wrapper around the component so that the HTML can be submitted independently
       // and in its entirety
-      cy.get( '@componentName' ).then( ( componentName ) => {
+      cy.get( '@galleryViewerBelowFold' ).then( ( galleryViewerBelowFold ) => {
+        // Add a wrapper around the component so that the HTML can be submitted independently
         // testing the contents rather than the length gives a more useful error object
-        cy.task( 'tenonAnalyzeHtml', `${componentName.html()}` )
-          // an empty resultSet indicates that there are no errors
-          .its( 'resultSet' ).should( 'be.empty' );
+        cy.task( 'tenonAnalyzeHtml', `${galleryViewerBelowFold.wrap( '<div/>' ).parent().html()}` )
+          .its( 'issueCounts' ).should( 'eq', {
+            A: 0,
+            AA: 0,
+            AAA: 0
+          } );
       } );
     } );
   } );
