@@ -427,14 +427,10 @@ const wpdtrt_gallery_ui = {
     } else {
       // reset viewer type
       $viewer
-        .removeAttr( 'data-vimeo-pageid' )
-        .removeAttr( 'data-rwgps-pageid' )
-        .removeAttr( 'data-soundcloud-pageid' )
-        .removeAttr( 'data-soundcloud-trackid' );
+        .removeAttr( 'data-vimeo-pageid data-rwgps-pageid data-soundcloud-pageid data-soundcloud-trackid' );
 
       $viewerIframe
-        .removeAttr( 'src' )
-        .removeAttr( 'allowfullscreen' )
+        .removeAttr( 'src allowfullscreen' )
         .attr( 'title', 'Gallery media viewer' )
         .attr( 'aria-hidden', 'true' );
 
@@ -583,8 +579,7 @@ const wpdtrt_gallery_ui = {
 
     // unview existing thumbnail and reinstate into tab order
     $galleryItemLinks
-      .removeAttr( 'data-viewing' )
-      .removeAttr( 'tabindex' );
+      .removeAttr( 'data-viewing tabindex' );
 
     // view the selected thumbnail and remove from tab order
     $galleryItemLink
@@ -688,8 +683,7 @@ const wpdtrt_gallery_ui = {
 
     if ( !$sectionGallery.length ) {
       $stackLinkViewer
-        .removeAttr( 'id' )
-        .removeAttr( 'data-expanded' );
+        .removeAttr( 'id data-expanded' );
 
       $stackWrapper
         .remove();
@@ -712,8 +706,8 @@ const wpdtrt_gallery_ui = {
 
     const $expandButton = $( `#${sectionId}-viewer-expand` );
 
-    this.galleryViewerTrack( $, $expandButton );
-    
+    wpdtrt_gallery_ui.galleryViewerTrack( $, $expandButton );
+
     // $expandButton.attr( 'tabindex', 0);
 
     $expandButton.click( ( event ) => {
@@ -729,6 +723,7 @@ const wpdtrt_gallery_ui = {
     $sectionGalleryItemLinks.each( ( i, item ) => {
       wpdtrt_gallery_ui.galleryViewerA11y( $, $( item ), viewerId );
       wpdtrt_gallery_ui.galleryViewerCopyThumbnailDataToLink( $, $( item ) );
+      wpdtrt_gallery_ui.galleryViewerTrack( $, $( item ) );
     } );
 
     $sectionGalleryItemLinks.click( ( event ) => {
