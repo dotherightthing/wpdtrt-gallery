@@ -96,11 +96,7 @@ describe( 'Load', function () {
         // Add a wrapper around the component so that the HTML can be submitted independently
         // testing the contents rather than the length gives a more useful error object
         cy.task( 'tenonAnalyzeHtml', `${galleryViewerBelowFold.wrap( '<div/>' ).parent().html()}` )
-          .its( 'issueCounts' ).should( 'eq', {
-            A: 0,
-            AA: 0,
-            AAA: 0
-          } );
+          .its( 'results' ).should( 'eq', [] );
       } );
     } );
   } );

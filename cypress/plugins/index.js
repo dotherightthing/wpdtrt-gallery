@@ -68,11 +68,7 @@ module.exports = ( on ) => {
      * Example:
      * --- js
      * cy.task( 'tenonAnalyzeHtml', `${myElement.wrap( '<div/>' ).parent().html()}` )
-     *    .its( 'issueCounts' ).should( 'eq', {
-     *       A: 0,
-     *       AA: 0,
-     *       AAA: 0
-     *     } );
+     *    .its( 'results' ).should( 'eq', [] );
      * ---
      */
     tenonAnalyzeHtml( selectorHtml ) {
@@ -93,11 +89,10 @@ module.exports = ( on ) => {
             reject( new Error( `${tenonResponse.status} Error` ) );
           } else {
             const dtrtResponse = {};
-            dtrtResponse.issueCounts = {
-              A: tenonResponse.resultSummary.issuesByLevel.A.count,
-              AA: tenonResponse.resultSummary.issuesByLevel.AA.count,
-              AAA: tenonResponse.resultSummary.issuesByLevel.AAA.count
-            };
+            // list the issues
+            dtrtResponse.results = tenonResponse.resultSet.map( result => {
+              return `${ result.errorTitle }`;
+            } );
 
             resolve( dtrtResponse );
           }
