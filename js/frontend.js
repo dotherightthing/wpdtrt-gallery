@@ -630,6 +630,34 @@ const wpdtrt_gallery_ui = {
   },
 
   /**
+   * Method: galleryViewerTrack
+   *
+   * Only track clicks when these
+   * were initiated by the user,
+   * not by the setup script.
+   * The trackingClass is used to define
+   * the click target in GTM.
+   *
+   * Parameters:
+   *   (object) $ - jQuery
+   *   (object) $element - jQuery element
+   *
+   * Since:
+   *   1.8.7 - DTRT Gallery - Added
+   */
+  galleryViewerTrack: function ( $, $element ) {
+    const trackingClass = 'gallery-viewer--track';
+
+    $element
+      .on( 'mouseenter focus', function () {
+        $( this ).addClass( trackingClass );
+      } )
+      .on( 'mouseleave blur', function () {
+        $( this ).removeClass( trackingClass );
+      } );
+  },
+
+  /**
    * Method: galleryViewerInit
    *
    * Initialise a gallery viewer.
@@ -684,6 +712,8 @@ const wpdtrt_gallery_ui = {
 
     const $expandButton = $( `#${sectionId}-viewer-expand` );
 
+    this.galleryViewerTrack( $, $expandButton );
+    
     // $expandButton.attr( 'tabindex', 0);
 
     $expandButton.click( ( event ) => {
