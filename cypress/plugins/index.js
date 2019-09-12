@@ -72,9 +72,9 @@ module.exports = ( on ) => {
       } );
 
       return new Promise( ( resolve, reject ) => {
-        tenonApi.analyze( html, ( err, tenonResult ) => {
+        tenonApi.analyze( html, { fragment: '1' }, ( err, tenonResult ) => {
           if ( err ) {
-            reject( err );
+            reject( err ); // this error is really cryptic, so always check that the api key is correct!
           }
 
           if ( tenonResult.status > 400 ) {
