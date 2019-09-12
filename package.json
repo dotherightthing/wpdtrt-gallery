@@ -39,7 +39,7 @@
     "installplugin": "./install.sh",
     "lint": "./node_modules/.bin/gulp lint --gulpfile ./vendor/dotherightthing/wpdtrt-plugin-boilerplate/gulpfile-loader.js --cwd ./",
     "release": "./node_modules/.bin/gulp release --gulpfile ./vendor/dotherightthing/wpdtrt-plugin-boilerplate/gulpfile-loader.js --cwd ./",
-    "test": "./node_modules/.bin/gulp test --gulpfile ./vendor/dotherightthing/wpdtrt-plugin-boilerplate/gulpfile-loader.js --cwd ./ && cypress open",
+    "test": "./node_modules/.bin/gulp test --gulpfile ./vendor/dotherightthing/wpdtrt-plugin-boilerplate/gulpfile-loader.js --cwd ./ && ./node_modules/.bin/cypress open",
     "version": "./node_modules/.bin/gulp version --gulpfile ./vendor/dotherightthing/wpdtrt-plugin-boilerplate/gulpfile-loader.js --cwd ./",
     "watch": "./node_modules/.bin/gulp compile --gulpfile ./vendor/dotherightthing/wpdtrt-plugin-boilerplate/gulpfile-loader.js --cwd ./ && gulp watch --gulpfile ./vendor/dotherightthing/wpdtrt-plugin-boilerplate/gulpfile-loader.js --cwd ./"
   },
