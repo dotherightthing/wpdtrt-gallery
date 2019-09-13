@@ -123,17 +123,21 @@ const wpdtrt_gallery_ui = {
    *   1.3.0 - Added
    */
   galleryViewerReset: ( $, $viewer ) => {
-    const $expandButton = $viewer.find( '.gallery-viewer--expand' );
+    const $expandButton = $viewer.find( '.wpdtrt-gallery-viewer--expand' );
 
     // remove forced expand used by panorama & iframe viewers
-    $viewer.removeAttr( 'data-expanded-contenttype' );
-    $expandButton.show();
+    $viewer
+      .removeAttr( 'data-always-expanded' );
+
+    $expandButton
+      .removeAttr( 'aria-hidden' );
 
     // reset the viewer state:
     // to the forced state reqd by the content type, or
     // to the last state chosen by the user - if that works..., or
     // to the default state of false
-    $viewer.removeAttr( 'data-expanded' );
+    $viewer
+      .removeAttr( 'data-expanded' );
   },
 
   /**
@@ -207,19 +211,19 @@ const wpdtrt_gallery_ui = {
     // except info we want to retain such as the user state
     // which could always be left there
     // and if a type has some other data, that could trump it
-    const dataExpandedContentType = $viewer.attr( 'data-expanded-contenttype' );
+    const isEmbed = $viewer.attr( 'data-always-expanded' );
 
     // ------------------------------
     // update state
     // ------------------------------
 
-    if ( triggered && dataExpandedContentType ) {
+    if ( triggered && isEmbed ) {
       // A - forced content state
-      // data-expanded-contenttype will only be present if the content type requires it
+      // data-always-expanded will only be present if the content type requires it
       // and the button will be hidden so the user won't have to fight it
       // set viewer state to state required by content type
       $viewer
-        .attr( 'data-expanded', dataExpandedContentType );
+        .attr( 'data-expanded', isEmbed );
 
       // this attribute is removed by the Reset function
     } else if ( triggered && userExpandedSaved ) {
@@ -284,11 +288,12 @@ const wpdtrt_gallery_ui = {
         .attr( 'aria-expanded', false );
 
       // update the hidden button text
-      $expandButtonText.text( 'Show full image' );
+      $expandButtonText.text( 'Show uncropped image' );
 
       if ( !triggered ) {
         // scroll to the top of the viewer
-        $viewer.scrollView( 100, 150 );
+        $viewer
+          .scrollView( 100, 150 );
       }
     }
 
@@ -328,7 +333,7 @@ const wpdtrt_gallery_ui = {
    *   3.0.0 - Added
    */
   galleryViewerCaptionUpdate: function ( $, $viewer, $galleryItemLink ) {
-    const $viewerCaption = $viewer.find( '.gallery-viewer--caption' );
+    const $viewerCaption = $viewer.find( '.wpdtrt-gallery-viewer--caption' );
     const galleryItemCaption = $.trim( $galleryItemLink.parent().next( 'figcaption' ).text() );
 
     // set the text of the large image caption
@@ -364,7 +369,7 @@ const wpdtrt_gallery_ui = {
     const rwgpsPageId = $galleryItemLink.find( 'img' ).data( 'rwgps-pageid' );
     // const isDefault = $galleryItemLink.find( 'img' ).data( 'initial' );
 
-    const $expandButton = $viewer.find( '.gallery-viewer--expand' );
+    const $expandButton = $viewer.find( '.wpdtrt-gallery-viewer--expand' );
 
     let embedHeightTimer;
 
@@ -382,9 +387,10 @@ const wpdtrt_gallery_ui = {
     if ( vimeoPageId ) {
       // expand viewer
       $viewer
-        .attr( 'data-expanded-contenttype', true );
+        .attr( 'data-always-expanded', true );
 
-      $expandButton.trigger( 'click' ).hide();
+      $expandButton.trigger( 'click' )
+        .attr( 'aria-hidden', 'true' );
 
       $viewer
         .attr( 'data-vimeo-pageid', vimeoPageId );
@@ -404,9 +410,10 @@ const wpdtrt_gallery_ui = {
     } else if ( soundcloudPageId && soundcloudTrackId ) {
       // expand viewer
       $viewer
-        .attr( 'data-expanded-contenttype', true );
+        .attr( 'data-always-expanded', true );
 
-      $expandButton.trigger( 'click' ).hide();
+      $expandButton.trigger( 'click' )
+        .attr( 'aria-hidden', 'true' );
 
       $viewer
         .attr( {
@@ -427,9 +434,10 @@ const wpdtrt_gallery_ui = {
     } else if ( rwgpsPageId ) {
       // expand viewer
       $viewer
-        .attr( 'data-expanded-contenttype', true );
+        .attr( 'data-always-expanded', true );
 
-      $expandButton.trigger( 'click' ).hide();
+      $expandButton.trigger( 'click' )
+        .attr( 'aria-hidden', 'true' );
 
       $viewer
         .attr( 'data-rwgps-pageid', rwgpsPageId ); // https://ridewithgps.com/routes/18494494
@@ -490,7 +498,7 @@ const wpdtrt_gallery_ui = {
    */
   galleryViewerPanoramaUpdate: function ( $, $viewer, $galleryItemLink ) {
     const panorama = $galleryItemLink.find( 'img' ).data( 'panorama' );
-    const $expandButton = $viewer.find( '.gallery-viewer--expand' );
+    const $expandButton = $viewer.find( '.wpdtrt-gallery-viewer--expand' );
     const $scrollLiner = $viewer.find( '.img-wrapper' );
     const $gal = $scrollLiner;
     let galleryScrollTimer;
@@ -503,9 +511,10 @@ const wpdtrt_gallery_ui = {
     if ( panorama ) {
       // expand viewer
       $viewer
-        .attr( 'data-expanded-contenttype', true );
+        .attr( 'data-always-expanded', true );
 
-      $expandButton.trigger( 'click' ).hide();
+      $expandButton.trigger( 'click' )
+        .attr( 'aria-hidden', 'true' );
 
       // this data attribute toggles the overflow-x scrollbar
       // which provides the correct $el[ 0 ].scrollWidth value
@@ -514,6 +523,10 @@ const wpdtrt_gallery_ui = {
 
       // timeout ensures that the related CSS has taken effect
       galleryScrollSetup = setTimeout( () => {
+        // if ( !$gal.length ) {
+        //  return;
+        // }
+
         const galW = $gal.outerWidth( true ); // setTimeout reqd for this value
         const galSW = $gal[ 0 ].scrollWidth;
         const wDiff = ( galSW / galW ) - 1; // widths difference ratioÅ
@@ -571,10 +584,12 @@ const wpdtrt_gallery_ui = {
       $gal.off( '.galleryScroll' );
       clearInterval( galleryScrollTimer );
       clearTimeout( galleryScrollSetup );
-      $viewer.removeAttr( 'data-panorama' );
+      $viewer
+        .removeAttr( 'data-panorama' );
 
       // reset viewer state
-      $viewer.removeAttr( 'data-expanded-contenttype' );
+      $viewer
+        .removeAttr( 'data-always-expanded' );
     }
   },
 
@@ -595,7 +610,7 @@ const wpdtrt_gallery_ui = {
    *   3.0.0 - Added
    */
   galleryViewerImageUpdate: function ( $, $viewer, $galleryItemLink ) {
-    const $expandButton = $viewer.find( '.gallery-viewer--expand' );
+    const $expandButton = $viewer.find( '.wpdtrt-gallery-viewer--expand' );
     const $galleryItemImage = $galleryItemLink.find( 'img' );
     const galleryItemImageAlt = $galleryItemImage.attr( 'alt' );
     const galleryItemImageFull = $galleryItemLink.attr( 'href' );
@@ -677,7 +692,7 @@ const wpdtrt_gallery_ui = {
    *   1.8.7 - DTRT Gallery - Added
    */
   galleryViewerTrack: function ( $, $element ) {
-    const trackingClass = 'gallery-viewer--track';
+    const trackingClass = 'wpdtrt-gallery-viewer--track';
 
     $element
       .on( 'mouseenter focus', function () {
@@ -708,7 +723,7 @@ const wpdtrt_gallery_ui = {
     const sectionId = $section.attr( 'id' );
     let viewerId = `${sectionId}-viewer`;
     const $stackLinkViewer = $section.find( '.stack_link_viewer' );
-    const $heading = $stackLinkViewer.find( '.gallery-viewer--heading' );
+    const $heading = $stackLinkViewer.find( '.wpdtrt-gallery-viewer--heading' );
     const $stackWrapper = $stackLinkViewer.find( '.stack--wrapper' );
     const $sectionGalleryThumbnails = $sectionGallery.find( 'img' );
     const $sectionGalleryItemLinks = $sectionGallery.find( 'a' );
@@ -736,11 +751,11 @@ const wpdtrt_gallery_ui = {
     $stackLinkViewer
       .attr( {
         id: viewerId,
-        'data-has-gallery': true
+        'data-enabled': true
       } );
 
-    $stackLinkViewer.find( '.gallery-viewer--header' )
-      .append( `<button id='${sectionId}-viewer-expand' class='gallery-viewer--expand' aria-expanded='false' aria-controls='${viewerId}'><span class='says'>Show full image</span></button>` );
+    $stackLinkViewer.find( '.wpdtrt-gallery-viewer--header' )
+      .append( `<button id='${sectionId}-viewer-expand' class='wpdtrt-gallery-viewer--expand' aria-expanded='false' aria-controls='${viewerId}'><span class='says'>Show uncropped image</span></button>` );
 
     const $expandButton = $( `#${sectionId}-viewer-expand` );
 
@@ -752,7 +767,8 @@ const wpdtrt_gallery_ui = {
       const triggered = !event.originalEvent;
 
       // prevent the click bubbling up to the viewer, creating an infinite loop
-      event.stopPropagation();
+      event
+        .stopPropagation();
 
       wpdtrt_gallery_ui
         .galleryViewerToggleExpanded( $, $expandButton, triggered );
@@ -766,7 +782,8 @@ const wpdtrt_gallery_ui = {
 
     $sectionGalleryItemLinks.click( ( event ) => {
       // don't load the WordPress media item page
-      event.preventDefault();
+      event
+        .preventDefault();
 
       const $galleryItemLink = $( event.target );
       viewerId = $galleryItemLink.attr( 'aria-controls' );

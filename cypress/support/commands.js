@@ -1,25 +1,23 @@
-// ***********************************************
-// This example commands.js shows you how to
-// create various custom commands and overwrite
-// existing commands.
-//
-// For more comprehensive examples of custom
-// commands please read more here:
-// https://on.cypress.io/custom-commands
-// ***********************************************
-//
-//
-// -- This is a parent command --
-// Cypress.Commands.add("login", (email, password) => { ... })
-//
-//
-// -- This is a child command --
-// Cypress.Commands.add("drag", { prevSubject: 'element'}, (subject, options) => { ... })
-//
-//
-// -- This is a dual command --
-// Cypress.Commands.add("dismiss", { prevSubject: 'optional'}, (subject, options) => { ... })
-//
-//
-// -- This is will overwrite an existing command --
-// Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
+/**
+ * File: cypress/support/commands.js
+ *
+ * Custom commands for UI testing
+ *
+ * Since:
+ *   0.8.13 - DTRT WordPress Plugin Boilerplate Generator
+ */
+
+import 'cypress-wait-until';
+import './commands/wait-for-resources';
+
+/**
+ * reset the page & UI state
+ */
+Cypress.Commands.add( 'resetUI', () => {
+  // cy.reload(); // causes cypress to hang
+
+  // set to size of macbook air 11" (dev machine)
+  cy.viewport( 1366, 768 );
+
+  cy.scrollTo( 0, 0 );
+} );

@@ -53,5 +53,8 @@
   ],
   "license": "ISC",
   "homepage": "https://github.com/dotherightthing/wpdtrt-gallery",
-  "srcDir": "/Volumes/DanBackup/Websites/wpdtrt-gallery"
+  "srcDir": "/Volumes/DanBackup/Websites/wpdtrt-gallery",
+  "devDependencies": {
+    "cypress-wait-until": "^1.4.1"
+  }
 }
