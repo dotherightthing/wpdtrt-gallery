@@ -43,12 +43,16 @@ services:
 # https://johnblackbourn.com/reducing-travis-ci-build-times-for-wordpress-projects/
 # ~/files - https://blog.wyrihaximus.net/2015/07/composer-cache-on-travis/
 cache:
+  # Caches $HOME/.npm when npm ci is default script command
+  # Caches node_modules in all other cases
+  npm: true
   directories:
-#   - node_modules
-#   - vendor
-#    - $HOME/.composer/cache/files
+    # - node_modules
+    # - vendor
+    # - $HOME/.composer/cache/files
     - $HOME/.npm 
-
+    # cache folder with Cypress binary
+    - ~/.cache
 before_install:
   # Install a Second Programming Language (Node, to run Gulp tasks)
   # We need to specify a newer version than the Travis default
