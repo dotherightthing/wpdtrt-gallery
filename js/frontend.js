@@ -521,6 +521,7 @@ const wpdtrt_gallery_ui = {
       $viewer
         .attr( 'data-panorama', panorama );
 
+      // TODO move into separate file, add a data- attribute
       // timeout ensures that the related CSS has taken effect
       galleryScrollSetup = setTimeout( () => {
         // if ( !$gal.length ) {
@@ -789,7 +790,7 @@ const wpdtrt_gallery_ui = {
       const $viewer = $( `#${viewerId}` );
 
       // only update the viewer if a different thumbnail was selected
-      if ( $galleryItemLink.data( 'viewing' ) ) {
+      if ( $galleryItemLink.attr( 'aria-expanded' ) === 'true' ) {
         return;
       }
 
