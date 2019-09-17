@@ -25,17 +25,17 @@ $after_widget  = null; // register_sidebar.
 $plugin = null;
 
 // Options: display $args + widget $instance settings + access to plugin.
-$options = get_query_var('options');
+$options = get_query_var( 'options' );
 
 // Overwrite variables from array values
 // @link http://kb.network.dan/php/wordpress/extract/.
-extract($options, EXTR_IF_EXISTS);
+extract( $options, EXTR_IF_EXISTS );
 
 // content between shortcode tags.
-if (isset($context) ) {
-    $content = $context->content;
+if ( isset( $context ) ) {
+	$content = $context->content;
 } else {
-    $content = '';
+	$content = '';
 }
 
 // WordPress widget options (not output with shortcode).
@@ -44,22 +44,22 @@ echo $before_title . $title . $after_title;
 ?>
 
 <div class="wpdtrt-gallery-viewer stack stack_link_viewer" data-enabled="false" data-expanded="false">
-    <div class="wpdtrt-gallery-viewer--header">
-    <?php
-    echo $content;
-    ?>
-    </div>
-    <div class="stack--wrapper" style="">
-        <figure class="stack--liner">
-            <div class="img-wrapper"></div>
-            <div class="wpdtrt-gallery-viewer--embed">
-                <iframe aria-hidden="true" title="Gallery media viewer."></iframe>
-            </div>
-            <figcaption class="wpdtrt-gallery-viewer--footer">
-                <div class="wpdtrt-gallery-viewer--caption"></div>
-            </figcaption>
-        </figure>
-    </div>
+	<div class="wpdtrt-gallery-viewer--header">
+	<?php
+		echo $content;
+	?>
+	</div>
+	<div class="stack--wrapper">
+		<figure class="stack--liner">
+			<div class="img-wrapper"></div>
+			<div class="wpdtrt-gallery-viewer--embed">
+				<iframe aria-hidden="true" title="Gallery media viewer."></iframe>
+			</div>
+			<figcaption class="wpdtrt-gallery-viewer--footer">
+				<div class="wpdtrt-gallery-viewer--caption"></div>
+			</figcaption>
+		</figure>
+	</div>
 </div>
 
 <?php
