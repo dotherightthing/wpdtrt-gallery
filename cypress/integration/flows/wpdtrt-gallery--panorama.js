@@ -134,7 +134,14 @@ describe( 'DTRT Gallery - Image Gallery Item', function () {
         .should( 'have.attr', 'data-panorama', '1' );
     } );
 
-    it( '5. Passes Tenon validation', function () {
+    it( '5. Is the first item rather than a user selection', function () {
+      cy.get( '@wpdtrtGalleryFirstItem' ).find( 'img' ).as( 'wpdtrtGalleryFirstImage' );
+
+      cy.get( '@wpdtrtGalleryFirstImage' )
+        .should( 'not.have.attr', 'data-initial' );
+    } );
+
+    it( '6. Passes Tenon validation', function () {
       this.skip();
 
       cy.get( '@wpdtrtGalleryFirstItem' ).then( ( wpdtrtGalleryFirstItem ) => {
