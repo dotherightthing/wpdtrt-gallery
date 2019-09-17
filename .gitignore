@@ -15,3 +15,5 @@ release.zip
 *sublime-*
 vendor
 wp-content
+cypress/screenshots
+cypress/videos
