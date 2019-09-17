@@ -117,7 +117,7 @@ describe( 'DTRT Gallery - Panorama Viewer', function () {
     } );
   } );
 
-  describe( 'C. Enhanced state', function () {
+  describe( 'C. Enhanced/Expanded state', function () {
     it( '1. Above the fold', function () {
       cy.resetUI();
 
@@ -154,29 +154,29 @@ describe( 'DTRT Gallery - Panorama Viewer', function () {
         .should( 'match', /.+/ ); // alt !== ''
     } );
 
-    it( '5. Does contain a hidden embed iframe, hidden accessibly', function () {
+    it( '4. Does contain a hidden embed iframe, hidden accessibly', function () {
       cy.get( '@wpdtrtGalleryViewer' ).find( '.wpdtrt-gallery-viewer--embed > iframe' )
         .should( 'have.attr', 'aria-hidden', 'true' )
         .should( 'not.be.visible' );
     } );
 
-    it( '6. Does contain a hidden expand button, hidden accessibly', function () {
+    it( '5. Does contain a hidden expand button, hidden accessibly', function () {
       cy.get( '@wpdtrtGalleryViewer' ).find( '.wpdtrt-gallery-viewer--expand' )
         .should( 'exist' )
         .should( 'have.attr', 'aria-hidden', 'true' )
         .should( 'not.be.visible' )
         .should( 'have.attr', 'aria-controls', `${ sectionId }-viewer` )
-        .should( 'contain.text', 'Show full image' );
+        .should( 'contain.text', 'Show cropped image' );
     } );
 
-    it( '7. Is expanded', function () {
+    it( '6. Is expanded', function () {
       cy.get( '@wpdtrtGalleryViewer' )
         .should( 'have.attr', 'id', `${ sectionId }-viewer` )
         .should( 'have.attr', 'data-expanded', 'true' )
         .should( 'have.attr', 'data-always-expanded', 'true' );
     } );
 
-    it( '8. Passes Tenon validation', function () {
+    it( '7. Passes Tenon validation', function () {
       this.skip();
 
       cy.get( '@wpdtrtGalleryViewer' ).then( ( galleryViewer ) => {
@@ -185,9 +185,5 @@ describe( 'DTRT Gallery - Panorama Viewer', function () {
           .its( 'results' ).should( 'eq', [] );
       } );
     } );
-  } );
-
-  describe( 'Expanded state', function () {
-
   } );
 } );

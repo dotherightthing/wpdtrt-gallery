@@ -624,13 +624,12 @@ const wpdtrt_gallery_ui = {
 
     // unview existing thumbnail and reinstate into tab order
     $galleryItemLinks
-      .removeAttr( 'data-viewing tabindex' );
+      .attr( 'aria-expanded', false );
 
-    // view the selected thumbnail and remove from tab order
+    // view the selected thumbnail
     $galleryItemLink
       .attr( {
-        'data-viewing': true,
-        tabindex: '-1'
+        'aria-expanded': true
       } );
 
     // set the source of the large image which is uncropped

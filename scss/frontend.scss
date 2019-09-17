@@ -221,7 +221,7 @@
 
         &:hover,
         &:focus,
-        &[data-viewing='true'] {
+        &[aria-expanded='true'] {
             &::before {
                 // unselected icon overstate
                 color: $wpdtrt-gallery-thumbnail-icon-shadow-color;
@@ -250,7 +250,7 @@
             }
         }
 
-        &[data-viewing='true'] {
+        &[aria-expanded='true'] {
 
             .gallery > & {
                 opacity: 1;
@@ -276,7 +276,7 @@
 
         &[data-panorama] {
             &,
-            &[data-viewing='true'] {
+            &[aria-expanded='true'] {
                 &::before {
                     content: '\e90a';
                 }
@@ -285,7 +285,7 @@
 
         &[data-soundcloud-pageid] {
             &,
-            &[data-viewing='true'] {
+            &[aria-expanded='true'] {
                 &::before {
                     content: '\e90c';
                 }
@@ -294,7 +294,7 @@
 
         &[data-vimeo-pageid] {
             &,
-            &[data-viewing='true'] {
+            &[aria-expanded='true'] {
                 &::before {
                     content: '\e90b';
                 }

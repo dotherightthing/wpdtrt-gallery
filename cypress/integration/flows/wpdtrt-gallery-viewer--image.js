@@ -218,5 +218,15 @@ describe( 'DTRT Gallery - Image Viewer', function () {
         .should( 'have.attr', 'aria-hidden', 'true' )
         .should( 'not.be.visible' );
     } );
+
+    it( '4. Passes Tenon validation', function () {
+      this.skip();
+
+      cy.get( '@wpdtrtGalleryViewer' ).then( ( galleryViewer ) => {
+        // Add a wrapper around the component so that the HTML can be submitted independently
+        cy.task( 'tenonAnalyzeHtml', `${galleryViewer.wrap( '<div/>' ).parent().html()}` )
+          .its( 'results' ).should( 'eq', [] );
+      } );
+    } );
   } );
 } );
