@@ -11,9 +11,9 @@
  * Plugin Name:  DTRT Gallery
  * Plugin URI:   https://github.com/dotherightthing/wpdtrt-gallery
  * Description:  Gallery viewer which supports images, panoramas, maps, SoundCloud and Vimeo.
- * Version:      1.8.5
+ * Version:      1.8.6
  * Author:       Dan Smith
- * Author URI:   https://profiles.wordpress.org/dotherightthingnz
+ * Author URI:   https://profiles.wordpress.org/&#39;dotherightthingnz
  * License:      GPLv2 or later
  * License URI:  http://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain:  wpdtrt-gallery
@@ -21,81 +21,94 @@
  */
 
 /**
- * Constants
- * WordPress makes use of the following constants when determining the path to the content and plugin directories.
- * These should not be used directly by plugins or themes, but are listed here for completeness.
- * WP_CONTENT_DIR  // no trailing slash, full paths only
- * WP_CONTENT_URL  // full url
- * WP_PLUGIN_DIR  // full path, no trailing slash
- * WP_PLUGIN_URL  // full url, no trailing slash
+ * Group: Constants
  *
- * WordPress provides several functions for easily determining where a given file or directory lives.
- * Always use these functions in your plugins instead of hard-coding references to the wp-content directory
- * or using the WordPress internal constants.
- * plugins_url()
- * plugin_dir_url()
- * plugin_dir_path()
- * plugin_basename()
+ * Note:
+ * - WordPress makes use of the following constants when determining the path to the content and plugin directories.
+ *   These should not be used directly by plugins or themes, but are listed here for completeness.
+ * - WP_CONTENT_DIR  // no trailing slash, full paths only
+ * - WP_CONTENT_URL  // full url
+ * - WP_PLUGIN_DIR  // full path, no trailing slash
+ * - WP_PLUGIN_URL  // full url, no trailing slash
+ * - WordPress provides several functions for easily determining where a given file or directory lives.
+ *   Always use these functions in your plugins instead of hard-coding references to the wp-content directory
+ *   or using the WordPress internal constants.
+ * - plugins_url()
+ * - plugin_dir_url()
+ * - plugin_dir_path()
+ * - plugin_basename()
  *
- * @see https://codex.wordpress.org/Determining_Plugin_and_Content_Directories#Constants
- * @see https://codex.wordpress.org/Determining_Plugin_and_Content_Directories#Plugins
+ * See:
+ * - <https://codex.wordpress.org/Determining_Plugin_and_Content_Directories#Constants>
+ * - <https://codex.wordpress.org/Determining_Plugin_and_Content_Directories#Plugins>
+ * _____________________________________
  */
 
 if ( ! defined( 'WPDTRT_GALLERY_VERSION' ) ) {
 	/**
+	 * Constant: WPDTRT_GALLERY_VERSION
+	 *
 	 * Plugin version.
 	 *
-	 * WP provides get_plugin_data(), but it only works within WP Admin,
-	 * so we define a constant instead.
+	 * Note:
+	 * - WP provides get_plugin_data(), but it only works within WP Admin,
+	 *   so we define a constant instead.
 	 *
-	 * @see $plugin_data = get_plugin_data( __FILE__ ); $plugin_version = $plugin_data['Version'];
-	 * @see https://wordpress.stackexchange.com/questions/18268/i-want-to-get-a-plugin-version-number-dynamically
+	 * See:
+	 * - <https://wordpress.stackexchange.com/questions/18268/i-want-to-get-a-plugin-version-number-dynamically>
+	 *
+	 * Example:
+	 * ---php
+	 * $plugin_data = get_plugin_data( __FILE__ ); $plugin_version = $plugin_data['Version'];
+	 * ---
 	 */
-	define( 'WPDTRT_GALLERY_VERSION', '1.8.5' );
+	define( 'WPDTRT_GALLERY_VERSION', '1.8.6' );
 }
 
 if ( ! defined( 'WPDTRT_GALLERY_PATH' ) ) {
 	/**
-	 * Plugin directory filesystem path.
+	 * Constant: WPDTRT_GALLERY_PATH
 	 *
-	 * @param string $file
-	 * @return The filesystem directory path (with trailing slash)
-	 * @see https://developer.wordpress.org/reference/functions/plugin_dir_path/
-	 * @see https://developer.wordpress.org/plugins/the-basics/best-practices/#prefix-everything
+	 * Plugin directory filesystem path (with trailing slash).
+	 *
+	 * See:
+	 * - <https://developer.wordpress.org/reference/functions/plugin_dir_path/>
+	 * - <https://developer.wordpress.org/plugins/the-basics/best-practices/#prefix-everything>
 	 */
 	define( 'WPDTRT_GALLERY_PATH', plugin_dir_path( __FILE__ ) );
 }
 
 if ( ! defined( 'WPDTRT_GALLERY_URL' ) ) {
 	/**
-	 * Plugin directory URL path.
+	 * Constant: WPDTRT_GALLERY_URL
 	 *
-	 * @param string $file
-	 * @return The URL (with trailing slash)
-	 * @see https://codex.wordpress.org/Function_Reference/plugin_dir_url
-	 * @see https://developer.wordpress.org/plugins/the-basics/best-practices/#prefix-everything
+	 * Plugin directory URL path (with trailing slash).
+	 *
+	 * See:
+	 * - <https://codex.wordpress.org/Function_Reference/plugin_dir_url>
+	 * - <https://developer.wordpress.org/plugins/the-basics/best-practices/#prefix-everything>
 	 */
 	define( 'WPDTRT_GALLERY_URL', plugin_dir_url( __FILE__ ) );
 }
 
 /**
- * ===== Dependencies =====
- */
-
-/**
- * Determine the correct path, from wpdtrt-plugin-boilerplate to the PSR-4 autoloader
+ * Constant: WPDTRT_PLUGIN_CHILD
  *
- * @see https://github.com/dotherightthing/wpdtrt-plugin-boilerplate/issues/51
+ * Boolean, used to determine the correct path to the PSR-4 autoloader.
+ *
+ * See:
+ * - <https://github.com/dotherightthing/wpdtrt-plugin-boilerplate/issues/51>
  */
 if ( ! defined( 'WPDTRT_PLUGIN_CHILD' ) ) {
 	define( 'WPDTRT_PLUGIN_CHILD', true );
 }
 
 /**
- * Determine the correct path, from wpdtrt-foobar to the PSR-4 autoloader
+ * Determine the correct path to the PSR-4 autoloader.
  *
- * @see https://github.com/dotherightthing/wpdtrt-plugin-boilerplate/issues/104
- * @see https://github.com/dotherightthing/wpdtrt-plugin-boilerplate/wiki/Options:-Adding-WordPress-plugin-dependencies
+ * See:
+ * - <https://github.com/dotherightthing/wpdtrt-plugin-boilerplate/issues/104>
+ * - <https://github.com/dotherightthing/wpdtrt-plugin-boilerplate/wiki/Options:-Adding-WordPress-plugin-dependencies>
  */
 if ( defined( 'WPDTRT_GALLERY_TEST_DEPENDENCY' ) ) {
 	$project_root_path = realpath( __DIR__ . '/../../..' ) . '/';
@@ -105,11 +118,15 @@ if ( defined( 'WPDTRT_GALLERY_TEST_DEPENDENCY' ) ) {
 
 require_once $project_root_path . 'vendor/autoload.php';
 
+/**
+ * Replace the TGMPA autoloader
+ *
+ * See:
+ * - <https://github.com/dotherightthing/generator-wpdtrt-plugin-boilerplate#77>
+ * - <https://github.com/dotherightthing/wpdtrt-plugin-boilerplate#136>
+ */
 if ( is_admin() ) {
-	// This replaces the TGMPA autoloader
-	// @see dotherightthing/generator-wpdtrt-plugin-boilerplate#77
-	// @see dotherightthing/wpdtrt-plugin-boilerplate#136.
-	require_once( $project_root_path . 'vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php' );
+	require_once $project_root_path . 'vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php';
 }
 
 // sub classes, not loaded via PSR-4.
@@ -132,18 +149,21 @@ global $debug;
 $debug = new DoTheRightThing\WPDebug\Debug();
 
 /**
- * ===== WordPress Integration =====
+ * Group: WordPress Integration
  *
  * Comment out the actions you don't need.
  *
  * Notes:
  *  Default priority is 10. A higher priority runs later.
- *  register_activation_hook() is run before any of the provided hooks.
+ *  register_activation_hook() is run before any of the provided hooks
  *
- * @see https://developer.wordpress.org/plugins/hooks/actions/#priority
- * @see https://codex.wordpress.org/Function_Reference/register_activation_hook.
+ * See:
+ * - <https://developer.wordpress.org/plugins/hooks/actions/#priority>
+ * - <https://codex.wordpress.org/Function_Reference/register_activation_hook>
+ * _____________________________________
  */
-register_activation_hook( dirname( __FILE__ ), 'wpdtrt_gallery_helper_activate' );
+
+register_activation_hook( dirname( __FILE__ ), 'wpdtrt_gallery_activate' );
 
 add_action( 'init', 'wpdtrt_gallery_plugin_init', 0 );
 add_action( 'init', 'wpdtrt_gallery_shortcode_init', 100 );
@@ -166,46 +186,66 @@ add_filter( 'attachment_fields_to_save', 'wpdtrt_gallery_attachment_field_soundc
 add_filter( 'attachment_fields_to_save', 'wpdtrt_gallery_attachment_field_soundcloud_trackid_save', 10, 2 );
 add_filter( 'attachment_fields_to_save', 'wpdtrt_gallery_attachment_field_vimeo_pageid_save', 10, 2 );
 
-register_deactivation_hook( dirname( __FILE__ ), 'wpdtrt_gallery_helper_deactivate' );
+register_deactivation_hook( dirname( __FILE__ ), 'wpdtrt_gallery_deactivate' );
 
 /**
- * ===== Plugin config =====
+ * Group: Plugin config
+ * _____________________________________
  */
 
 /**
+ * Function: wpdtrt_gallery_activate
+ *
  * Register functions to be run when the plugin is activated.
  *
- * @see https://codex.wordpress.org/Function_Reference/register_activation_hook
- * @todo https://github.com/dotherightthing/wpdtrt-plugin-boilerplate/issues/128
- * @see See also Plugin::helper_flush_rewrite_rules()
+ * Note:
+ * - See also Plugin::helper_flush_rewrite_rules()
+ *
+ * See:
+ * - <https://codex.wordpress.org/Function_Reference/register_activation_hook>
+ *
+ * TODO:
+ * - <https://github.com/dotherightthing/wpdtrt-plugin-boilerplate/issues/128>
  */
-function wpdtrt_gallery_helper_activate() {
+function wpdtrt_gallery_activate() {
 	flush_rewrite_rules();
 }
 
 /**
- * Register functions to be run when the plugin is deactivated.
- * (WordPress 2.0+)
+ * Function: wpdtrt_gallery_deactivate
  *
- * @see https://codex.wordpress.org/Function_Reference/register_deactivation_hook
- * @todo https://github.com/dotherightthing/wpdtrt-plugin-boilerplate/issues/128
- * @see See also Plugin::helper_flush_rewrite_rules()
+ * Register functions to be run when the plugin is deactivated (WordPress 2.0+).
+ *
+ * Note:
+ * - See also Plugin::helper_flush_rewrite_rules()
+ *
+ * See:
+ * - <https://codex.wordpress.org/Function_Reference/register_deactivation_hook>
+ *
+ * TODO:
+ * - <https://github.com/dotherightthing/wpdtrt-plugin-boilerplate/issues/128>
  */
-function wpdtrt_gallery_helper_deactivate() {
+function wpdtrt_gallery_deactivate() {
 	flush_rewrite_rules();
 }
 
 /**
- * Plugin initialisaton
+ * Function: wpdtrt_gallery_plugin_init
  *
- * We call init before widget_init so that the plugin object properties are available to it.
- * If widget_init is not working when called via init with priority 1, try changing the priority of init to 0.
- * init: Typically used by plugins to initialize. The current user is already authenticated by this time.
- * widgets_init: Used to register sidebars. Fired at 'init' priority 1 (and so before 'init' actions with priority ≥ 1!)
+ * Plugin initialisaton.
  *
- * @see https://wp-mix.com/wordpress-widget_init-not-working/
- * @see https://codex.wordpress.org/Plugin_API/Action_Reference
- * @todo Add a constructor function to WPDTRT_Gallery_Plugin, to explain the options array
+ * Note:
+ * - We call init before widget_init so that the plugin object properties are available to it.
+ * - If widget_init is not working when called via init with priority 1, try changing the priority of init to 0.
+ * - init: Typically used by plugins to initialize. The current user is already authenticated by this time.
+ * - widgets_init: Used to register sidebars. Fired at 'init' priority 1 (and so before 'init' actions with priority ≥ 1!)
+ *
+ * See:
+ * - <https://wp-mix.com/wordpress-widget_init-not-working/>
+ * - <https://codex.wordpress.org/Plugin_API/Action_Reference>
+ *
+ * TODO:
+ * - Add a constructor function to WPDTRT_Gallery_Plugin, to explain the options array
  */
 function wpdtrt_gallery_plugin_init() {
 	// pass object reference between classes via global
@@ -213,21 +253,29 @@ function wpdtrt_gallery_plugin_init() {
 	global $wpdtrt_gallery_plugin;
 
 	/**
-	 * Global options
+	 * Array: plugin_options
 	 *
-	 * @see https://github.com/dotherightthing/wpdtrt-plugin-boilerplate/wiki/Options:-Adding-global-options Options: Adding global options
+	 * Global options.
+	 *
+	 * See:
+	 * - <Options - Adding global options: https://github.com/dotherightthing/wpdtrt-plugin-boilerplate/wiki/Options:-Adding-global-options>
 	 */
 	$plugin_options = array();
 
 	/**
-	 * Shortcode or Widget options
+	 * Array: instance_options
 	 *
-	 * @see https://github.com/dotherightthing/wpdtrt-plugin-boilerplate/wiki/Options:-Adding-shortcode-or-widget-options Options: Adding shortcode or widget options
+	 * Shortcode or Widget options.
+	 *
+	 * See:
+	 * - <Options - Adding shortcode or widget options: https://github.com/dotherightthing/wpdtrt-plugin-boilerplate/wiki/Options:-Adding-shortcode-or-widget-options>
 	 */
 	$instance_options = array();
 
 	/**
-	 *  UI Messages
+	 * Array: ui_messages
+	 *
+	 * UI Messages.
 	 */
 	$ui_messages = array(
 		'demo_data_description'       => __( 'This demo was generated from the following data', 'wpdtrt-gallery' ),
@@ -248,9 +296,12 @@ function wpdtrt_gallery_plugin_init() {
 	);
 
 	/**
-	 * Demo shortcode
+	 * Array: demo_shortcode_params
 	 *
-	 * @see https://github.com/dotherightthing/wpdtrt-plugin-boilerplate/wiki/Settings-page:-Adding-a-demo-shortcode Settings page: Adding a demo shortcode
+	 * Demo shortcode.
+	 *
+	 * See:
+	 * - <Settings page - Adding a demo shortcode: https://github.com/dotherightthing/wpdtrt-plugin-boilerplate/wiki/Settings-page:-Adding-a-demo-shortcode>
 	 */
 	$demo_shortcode_params = array();
 
@@ -276,11 +327,13 @@ function wpdtrt_gallery_plugin_init() {
 }
 
 /**
- * ===== Rewrite config =====
+ * Group: Rewrite config
  */
 
 /**
- * Register Rewrite
+ * Function: wpdtrt_gallery_rewrite_init
+ *
+ * Register Rewrite.
  */
 function wpdtrt_gallery_rewrite_init() {
 
@@ -292,20 +345,23 @@ function wpdtrt_gallery_rewrite_init() {
 }
 
 /**
- * ===== Shortcode config =====
+ * Group: Shortcode config
  */
 
 /**
- * Register Shortcode
+ * Function: wpdtrt_gallery_shortcode_init
  *
- * @todo Add centigrade as a shortcode option (#1)
- * @todo Add units as a shortcode option (#2)
+ * Register Shortcode.
+ *
+ * TODO:
+ * - Add centigrade as a shortcode option (#1)
+ * - Add units as a shortcode option (#2)
  */
 function wpdtrt_gallery_shortcode_init() {
 
 	global $wpdtrt_gallery_plugin;
 
-	$wpdtrt_gallery_shortcode_heading = new WPDTRT_Gallery_Shortcode(
+	$wpdtrt_gallery_shortcode = new WPDTRT_Gallery_Shortcode(
 		array(
 			'name'                      => 'wpdtrt_gallery_shortcode_heading',
 			'plugin'                    => $wpdtrt_gallery_plugin,
@@ -316,13 +372,16 @@ function wpdtrt_gallery_shortcode_init() {
 }
 
 /**
- * ===== Taxonomy config =====
+ * Group: Taxonomy config
  */
 
 /**
- * Register Taxonomy
+ * Function: wpdtrt_gallery_taxonomy_init
  *
- * @return object Taxonomy/
+ * Register Taxonomy.
+ *
+ * Returns:
+ *   object - Taxonomy/
  */
 function wpdtrt_gallery_taxonomy_init() {
 
@@ -337,21 +396,30 @@ function wpdtrt_gallery_taxonomy_init() {
 }
 
 /**
- * ===== Widget config =====
+ * Group: Widget config
  */
 
 /**
- * Register a WordPress widget, passing in an instance of our custom widget class
- * The plugin does not require registration, but widgets and shortcodes do.
- * Note: widget_init fires before init, unless init has a priority of 0
+ * Function: wpdtrt_gallery_widget_init
  *
- * @uses        ../../../../wp-includes/widgets.php
- * @see         https://codex.wordpress.org/Function_Reference/register_widget#Example
- * @see         https://wp-mix.com/wordpress-widget_init-not-working/
- * @see         https://codex.wordpress.org/Plugin_API/Action_Reference
- * @uses        https://github.com/dotherightthing/wpdtrt/tree/master/library/sidebars.php
- * @todo        Add form field parameters to the options array
- * @todo        Investigate the 'classname' option
+ * Register a WordPress widget, passing in an instance of our custom widget class.
+ *
+ * Note:
+ * - The plugin does not require registration, but widgets and shortcodes do.
+ * - widget_init fires before init, unless init has a priority of 0
+ *
+ * Uses:
+ *   ../../../../wp-includes/widgets.php
+ *   https://github.com/dotherightthing/wpdtrt/tree/master/library/sidebars.php
+ *
+ * See:
+ * - <https://codex.wordpress.org/Function_Reference/register_widget#Example>
+ * - <https://wp-mix.com/wordpress-widget_init-not-working/>
+ * - <https://codex.wordpress.org/Plugin_API/Action_Reference>
+ *
+ * TODO:
+ * - Add form field parameters to the options array
+ * - Investigate the 'classname' option
  */
 function wpdtrt_gallery_widget_init() {
 

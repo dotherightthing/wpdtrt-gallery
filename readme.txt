@@ -1,11 +1,12 @@
+
 === DTRT Gallery ===
 Contributors: dotherightthingnz
 Donate link: http://dotherightthing.co.nz
 Tags: gallery, video, audio, map
 Requires at least: 4.9.5
 Tested up to: 4.9.5
-Requires PHP: 5.6.30
-Stable tag: 1.8.5
+Requires PHP: 7.2.20
+Stable tag: 1.8.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -42,9 +43,52 @@ echo do_shortcode('[wpdtrt_gallery_shortcode_heading]<h2>' . $heading . '</h2>[/
 
 == Changelog ==
 
+= 1.8.6 =
+* Travis: Tell Travis to start MySQL as this no longer happens automatically
+* Composer: Fix casing of Composer dependency
+* Linting: Configure ESLint, suppress ESLint error jQuery noConflict iife
+* Travis: Move database credentials into Travis settings
+* Docs: Migrate PHPDoc to Natural Docs
+* Composer: Fix name of `extra` key in `composer.json`
+* Boilerplate: Update wpdtrt-plugin-boilerplate from 1.5.3 to 1.6.12
+* Boilerplate: Sync with generator-wpdtrt-plugin-boilerplate 0.8.12 (migration)
+* Composer: Fix name of `extra` key in `composer.json`
+* Composer/Yarn: Update dependencies
+* Travis: Match PHP version to version used by Sitehost container (`7.2.20`)
+* Boilerplate migration: Remove boilerplate code and file
+* Boilerplate migration: Add missing attachment fields
+* Boilerplate migration: Add missing icon, image, content template files
+* Fix removeAttr typo
+* Fix gallery viewer selector
+* Linting: Remove unsupported CSS property
+* Show pointer cursor over gallery expand button
+* SortSite: Inject gallery viewer image, to fix invalid markup prior to lazy loading (#62)
+* SortSite: Apply width, height and allowfullscreen to iframe using JavaScript (#61)
+* SortSite: Remove iframe border & hide overflow using CSS rather than HTML (#61)
+* SortSite: Add dynamic title to gallery viewer iframe, remove JS populated src (#64)
+* SortSite: Remove JS populated id from viewer (#60)
+* GTM: Only track clicks when these were initiated by the user, not by the setup script.
+* Optimise `attr` and `removeAttr` for jQuery 1.7+
+* Tenon: When validating an HTML fragment, pass the relevant option (does not resolve #56)
+* Cypress: Increase the allowed response time, to allow loading of local WordPress pages via MAMP Pro (https://github.com/dotherightthing/generator-wpdtrt-plugin-boilerplate/issues/92)
+* Tenon: Clean up `tenonAnalyzeHtml` output
+* Cypress: Add Cypress, add UI tests & several Gulp unit tests
+* Accessibility: Hide items accessibly
+* Remove redundant attributes
+* Accessibility: Replace data-viewing with aria-expanded
+* Only update the viewer if a different thumbnail was selected
+* Gulp: Add fallback array if no options sent to output template
+
 = 1.8.5 =
-* Fix incorrect icons on non-image thumbnails
 * Update wpdtrt-plugin-boilerplate to 1.5.4
+* Fix incorrect icons on non-image thumbnails
+* Refactor thumbnail URL params to data attributes, to prevent clash with Imgix URL params
+* Crop image in collapsed viewer, replace background position offset with crop (via Media Cloud plugin)
+* Use the default WordPress (square) thumbnail size, to remove redundant thumbnail option from Media Cloud crop modal
+* Ensure that panoramas use the full viewer height
+* Copy data- attributes from the thumbnail image to the surrounding link (fixes #51)
+* Update dependencies
+* Fix linting error
 
 = 1.8.4 =
 * Fix incorrect icons on non-image thumbnails
@@ -222,5 +266,5 @@ echo do_shortcode('[wpdtrt_gallery_shortcode_heading]<h2>' . $heading . '</h2>[/
 
 == Upgrade Notice ==
 
-= 0.1 =
+= 0.1.0 =
 * Initial release

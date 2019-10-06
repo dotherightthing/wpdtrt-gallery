@@ -1,27 +1,33 @@
 <?php
 /**
+ * File: src/class-wpdtrt-gallery-shortcode.php
+ *
  * Shortcode sub class.
  *
- * @package WPDTRT_Gallery
- * @since   0.7.16 DTRT WordPress Plugin Boilerplate Generator
- * @version 1.0.0
+ * Since:
+ *   0.8.13 - DTRT WordPress Plugin Boilerplate Generator
  */
 
 /**
- * Extend the base class to inherit boilerplate functionality.
- * Adds application-specific methods.
+ * Class: WPDTRT_Gallery_Shortcode
  *
- * @since   1.0.0
- * @version 1.0.0
+ * Extends the base class to inherit boilerplate functionality, adds application-specific methods.
+ *
+ * Since:
+ *   0.8.13 - DTRT WordPress Plugin Boilerplate Generator
  */
-class WPDTRT_Gallery_Shortcode extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_1_5_4\Shortcode {
+class WPDTRT_Gallery_Shortcode extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_1_6_12\Shortcode {
 
 	/**
+	 * Constructor: __construct
+	 *
 	 * Supplement shortcode initialisation.
 	 *
-	 * @param     array $options Shortcode options.
-	 * @since     1.0.0
-	 * @version   1.1.0
+	 * Parameters:
+	 *   $options - Shortcode options
+	 *
+	 * Since:
+	 *   0.8.13 - DTRT WordPress Plugin Boilerplate Generator
 	 */
 	public function __construct( $options ) {
 
@@ -30,34 +36,48 @@ class WPDTRT_Gallery_Shortcode extends DoTheRightThing\WPDTRT_Plugin_Boilerplate
 	}
 
 	/**
-	 * ====== WordPress Integration ======
+	 * Group: WordPress Integration
+	 * _____________________________________
 	 */
 
 	/**
-	 * Supplement shortcode's WordPress setup.
-	 * Note: Default priority is 10. A higher priority runs later.
+	 * Method: wp_setup
 	 *
-	 * @see https://codex.wordpress.org/Plugin_API/Action_Reference Action order
+	 * Supplement shortcode's WordPress setup.
+	 *
+	 * Note:
+	 * - Default priority is 10. A higher priority runs later.
+	 *
+	 * See:
+	 * - <Action order: https://codex.wordpress.org/Plugin_API/Action_Reference>
+	 *
+	 * Since:
+	 *   0.8.13 - DTRT WordPress Plugin Boilerplate Generator
 	 */
 	protected function wp_setup() {
 
-		// edit here.
 		parent::wp_setup();
+
+		// About: add actions and filters here.
 	}
 
 	/**
-	 * ====== Getters and Setters ======
+	 * Group: Getters and Setters
+	 * _____________________________________
 	 */
 
 	/**
-	 * ===== Renderers =====
+	 * Group: Renderers
+	 * _____________________________________
 	 */
 
 	/**
-	 * ===== Filters =====
+	 * Group: Filters
+	 * _____________________________________
 	 */
 
 	/**
-	 * ===== Helpers =====
+	 * Group: Helpers
+	 * _____________________________________
 	 */
 }

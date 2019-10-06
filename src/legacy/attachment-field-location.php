@@ -1,23 +1,30 @@
 <?php
 /**
- * Add Location field to attachment media modal
+ * File: src/legacy/attachment-field-location.php
  *
- * This file contains PHP.
+ * See:
+ * - <http://www.billerickson.net/wordpress-add-custom-fields-media-gallery/>
  *
- * @since       0.3.0
- * @see http://www.billerickson.net/wordpress-add-custom-fields-media-gallery/
- * @package     WPDTRT_Gallery
- * @subpackage  WPDTRT_Gallery/app
+ * Since:
+ *   0.3.0 - Added
  */
 
 /**
- * Add Location field to media uploader, for gallery searches
+ * Function: wpdtrt_gallery_attachment_field_location
  *
- * @param array  $form_fields Fields to include in attachment form.
- * @param object $post Attachment record in database.
- * @return $form_fields, modified form fields
+ * Add Location field to media uploader, for gallery searches.
+ *
+ * Parameters:
+ *   $form_fields - Fields to include in attachment form
+ *   $post - Attachment record in database
+ *
+ * Returns:
+ *   $form_fields - Modified form fields
+ *
+ * See:
+ * - <https://code.tutsplus.com/articles/creating-custom-fields-for-attachments-in-wordpress--net-13076>
  */
-function wpdtrt_gallery_attachment_field_location( $form_fields, $post ) {
+function wpdtrt_gallery_attachment_field_location( array $form_fields, object $post ) : array {
 
 	$form_fields['wpdtrt-gallery-location'] = array(
 		'label' => 'Location',
@@ -30,13 +37,21 @@ function wpdtrt_gallery_attachment_field_location( $form_fields, $post ) {
 }
 
 /**
- * Save value of Location field in media uploader, for gallery-viewer
+ * Function: wpdtrt_gallery_attachment_field_location_save
  *
- * @param array $post The post data for database.
- * @param array $attachment Attachment fields from $_POST form.
- * @return $post array, modified post data
+ * Save value of Location field in media uploader, for gallery-viewer.
+ *
+ * Parameters:
+ *   $post - The post data for database
+ *   $attachment - Attachment fields from $_POST form
+ *
+ * Returns:
+ *   $post - Modified post data
+ *
+ * See:
+ * - <https://stackoverflow.com/questions/4554758/how-to-read-if-a-checkbox-is-checked-in-php>
  */
-function wpdtrt_gallery_attachment_field_location_save( $post, $attachment ) {
+function wpdtrt_gallery_attachment_field_location_save( object $post, array $attachment ) : object {
 	if ( isset( $attachment['wpdtrt-gallery-location'] ) ) {
 		update_post_meta( $post['ID'], 'wpdtrt_gallery_attachment_location', $attachment['wpdtrt-gallery-location'] );
 	}

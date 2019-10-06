@@ -1,27 +1,30 @@
 <?php
 /**
+ * File: src/class-wpdtrt-gallery-rewrite.php
+ *
  * Rewrite sub class.
  *
- * @package WPDTRT_Gallery
- * @since   0.7.16 DTRT WordPress Plugin Boilerplate Generator
- * @version 1.0.0
+ * Since:
+ *   0.8.13 - DTRT WordPress Plugin Boilerplate Generator
  */
 
 /**
- * Extend the base class to inherit boilerplate functionality.
- * Adds application-specific methods.
+ * Class: WPDTRT_Gallery_Rewrite
  *
- * @since   1.0.0
- * @version 1.0.0
+ * Extends the base class to inherit boilerplate functionality, adds application-specific methods.
  */
-class WPDTRT_Gallery_Rewrite extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_1_5_4\Rewrite {
+class WPDTRT_Gallery_Rewrite extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_1_6_12\Rewrite {
 
 	/**
-	 * Supplement plugin initialisation.
+	 * Function: __construct
 	 *
-	 * @param     array $options Rewrite options.
-	 * @since     1.0.0
-	 * @version   1.1.0
+	 * Supplement rewrite initialisation.
+	 *
+	 * Parameters:
+	 *   $options - Rewrite options
+	 *
+	 * Since:
+	 *   0.8.13 - DTRT WordPress Plugin Boilerplate Generator
 	 */
 	public function __construct( $options ) {
 
@@ -30,34 +33,48 @@ class WPDTRT_Gallery_Rewrite extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r
 	}
 
 	/**
-	 * ====== WordPress Integration ======
+	 * Group: WordPress Integration
+	 * _____________________________________
 	 */
 
 	/**
-	 * Supplement rewrite's WordPress setup.
-	 * Note: Default priority is 10. A higher priority runs later.
+	 * Function: wp_setup
 	 *
-	 * @see https://codex.wordpress.org/Plugin_API/Action_Reference Action order
+	 * Supplement rewrite's WordPress setup.
+	 *
+	 * Note:
+	 * - Default priority is 10. A higher priority runs later.
+	 *
+	 * See:
+	 * - <Action order: https://codex.wordpress.org/Plugin_API/Action_Reference>
+	 *
+	 * Since:
+	 *   0.8.13 - DTRT WordPress Plugin Boilerplate Generator
 	 */
 	protected function wp_setup() {
 
-		// edit here.
 		parent::wp_setup();
+
+		// About: add actions and filters here.
 	}
 
 	/**
-	 * ====== Getters and Setters ======
+	 * Group: Getters and Setters
+	 * _____________________________________
 	 */
 
 	/**
-	 * ===== Renderers =====
+	 * Group: Renderers
+	 * _____________________________________
 	 */
 
 	/**
-	 * ===== Filters =====
+	 * Group: Filters
+	 * _____________________________________
 	 */
 
 	/**
-	 * ===== Helpers =====
+	 * Group: Helpers
+	 * _____________________________________
 	 */
 }

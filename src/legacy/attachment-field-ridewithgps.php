@@ -1,23 +1,32 @@
 <?php
 /**
+ * File: src/legacy/attachment-field-ridewithgps.php
+ *
  * Add Ride With GPS field to attachment media modal
  *
- * This file contains PHP.
+ * See:
+ * - <http://www.billerickson.net/wordpress-add-custom-fields-media-gallery/>
  *
- * @since       0.3.0
- * @see http://www.billerickson.net/wordpress-add-custom-fields-media-gallery/
- * @package     WPDTRT_Gallery
- * @subpackage  WPDTRT_Gallery/app
+ * Since:
+ *   0.3.0 - Added
  */
 
 /**
- * Add Ride With GPS field to media uploader, for gallery-viewer
+ * Function: wpdtrt_gallery_attachment_field_rwgps_pageid
  *
- * @param array  $form_fields Fields to include in attachment form.
- * @param object $post Attachment record in database.
- * @return $form_fields Modified form fields
+ * Add Ride With GPS field to media uploader, for gallery-viewer.
+ *
+ * Parameters:
+ *   $form_fields - Fields to include in attachment form
+ *   $post - Attachment record in database
+ *
+ * Returns:
+ *   $form_fields - Modified form fields
+ *
+ * See:
+ * - <https://code.tutsplus.com/articles/creating-custom-fields-for-attachments-in-wordpress--net-13076>
  */
-function wpdtrt_gallery_attachment_field_rwgps_pageid( $form_fields, $post ) {
+function wpdtrt_gallery_attachment_field_rwgps_pageid( array $form_fields, object $post ) : array {
 
 	$form_fields['wpdtrt-gallery-rwgps-pageid'] = array(
 		'label' => '<abbr title="Ride With GPS">RWGPS</abbr> ID',
@@ -30,13 +39,18 @@ function wpdtrt_gallery_attachment_field_rwgps_pageid( $form_fields, $post ) {
 }
 
 /**
+ * Function: wpdtrt_gallery_attachment_field_rwgps_pageid_save
+ *
  * Save value of Ride With GPS field in media uploader, for gallery-viewer
  *
- * @param array $post The post data for database.
- * @param array $attachment Attachment fields from $_POST form.
- * @return array $post Modified post data
+ * Parameters:
+ *   $post - The post data for database
+ *   $attachment - Attachment fields from $_POST form
+ *
+ * Returns:
+ *   $post - Modified post data
  */
-function wpdtrt_gallery_attachment_field_rwgps_pageid_save( $post, $attachment ) {
+function wpdtrt_gallery_attachment_field_rwgps_pageid_save( object $post, array $attachment ) : object {
 
 	if ( isset( $attachment['wpdtrt-gallery-rwgps-pageid'] ) ) {
 		update_post_meta( $post['ID'], 'wpdtrt_gallery_attachment_rwgps_pageid', $attachment['wpdtrt-gallery-rwgps-pageid'] );

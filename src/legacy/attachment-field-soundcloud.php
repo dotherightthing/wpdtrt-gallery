@@ -1,23 +1,32 @@
 <?php
 /**
+ * File: src/legacy/attachment-field-soundcloud.php
+ *
  * Add Soundcloud fields to attachment media modal
  *
- * This file contains PHP.
+ * See:
+ * - <http://www.billerickson.net/wordpress-add-custom-fields-media-gallery/>
  *
- * @since       0.3.0
- * @see http://www.billerickson.net/wordpress-add-custom-fields-media-gallery/
- * @package     WPDTRT_Gallery
- * @subpackage  WPDTRT_Gallery/app
+ * Since:
+ *   0.3.0 - Added
  */
 
 /**
- * Add SoundCloud field to media uploader, for gallery-viewer
+ * Function: wpdtrt_gallery_attachment_field_soundcloud_pageid
  *
- * @param array  $form_fields Fields to include in attachment form.
- * @param object $post Attachment record in database.
- * @return $form_fields Modified form fields
+ * Add SoundCloud field to media uploader, for gallery-viewer.
+ *
+ * Parameters:
+ *   $form_fields - Fields to include in attachment form
+ *   $post - Attachment record in database
+ *
+ * Returns:
+ *   $form_fields - Modified form fields
+ *
+ * See:
+ * - <https://code.tutsplus.com/articles/creating-custom-fields-for-attachments-in-wordpress--net-13076>
  */
-function wpdtrt_gallery_attachment_field_soundcloud_pageid( $form_fields, $post ) {
+function wpdtrt_gallery_attachment_field_soundcloud_pageid( array $form_fields, object $post ) : array {
 
 	$form_fields['wpdtrt-gallery-soundcloud-pageid'] = array(
 		'label' => '<abbr title="SoundCloud">SC</abbr> Page ID',
@@ -32,11 +41,14 @@ function wpdtrt_gallery_attachment_field_soundcloud_pageid( $form_fields, $post 
 /**
  * Save value of SoundCloud field in media uploader, for gallery-viewer
  *
- * @param array $post The post data for database.
- * @param array $attachment Attachment fields from $_POST form.
- * @return array $post Modified post data
+ * Parameters:
+ *   $post - The post data for database
+ *   $attachment - Attachment fields from $_POST form
+ *
+ * Returns:
+ *   $post - Modified post data
  */
-function wpdtrt_gallery_attachment_field_soundcloud_pageid_save( $post, $attachment ) {
+function wpdtrt_gallery_attachment_field_soundcloud_pageid_save( object $post, array $attachment ) : object {
 
 	if ( isset( $attachment['wpdtrt-gallery-soundcloud-pageid'] ) ) {
 		update_post_meta( $post['ID'], 'wpdtrt_gallery_attachment_soundcloud_pageid', $attachment['wpdtrt-gallery-soundcloud-pageid'] );
@@ -48,11 +60,14 @@ function wpdtrt_gallery_attachment_field_soundcloud_pageid_save( $post, $attachm
 /**
  * Add SoundCloud field to media uploader, for gallery-viewer
  *
- * @param array  $form_fields Fields to include in attachment form.
- * @param object $post Attachment record in database.
- * @return $form_fields Modified form fields
+ * Parameters:
+ *   $form_fields - Fields to include in attachment form
+ *   $post - Attachment record in database
+ *
+ * Returns:
+ *   $form_fields - Modified form fields
  */
-function wpdtrt_gallery_attachment_field_soundcloud_trackid( $form_fields, $post ) {
+function wpdtrt_gallery_attachment_field_soundcloud_trackid( array $form_fields, object $post ) : array {
 
 	$form_fields['wpdtrt-gallery-soundcloud-trackid'] = array(
 		'label' => '<abbr title="SoundCloud">SC</abbr> Track ID',
@@ -67,11 +82,14 @@ function wpdtrt_gallery_attachment_field_soundcloud_trackid( $form_fields, $post
 /**
  * Save value of SoundCloud field in media uploader, for gallery-viewer
  *
- * @param array $post The post data for database.
- * @param array $attachment Attachment fields from $_POST form.
- * @return array $post Modified post data
+ * Parameters:
+ *   $post - The post data for database
+ *   $attachment - Attachment fields from $_POST form
+ *
+ * Returns:
+ *   $post - Modified post data
  */
-function wpdtrt_gallery_attachment_field_soundcloud_trackid_save( $post, $attachment ) {
+function wpdtrt_gallery_attachment_field_soundcloud_trackid_save( object $post, array $attachment ) : object {
 
 	if ( isset( $attachment['wpdtrt-gallery-soundcloud-trackid'] ) ) {
 		update_post_meta( $post['ID'], 'wpdtrt_gallery_attachment_soundcloud_trackid', $attachment['wpdtrt-gallery-soundcloud-trackid'] );

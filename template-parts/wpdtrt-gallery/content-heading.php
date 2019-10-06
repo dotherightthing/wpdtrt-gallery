@@ -1,10 +1,11 @@
 <?php
 /**
- * Template to display plugin output in shortcodes and widgets
+ * File: template-parts/wpdtrt-gallery/content-heading.php
  *
- * @package   DTRT Gallery
- * @version   0.0.1
- * @since     0.7.0 DTRT WordPress Plugin Boilerplate Generator
+ * Template to display plugin output in shortcodes and widgets.
+ *
+ * Since:
+ *   0.8.13 - DTRT WordPress Plugin Boilerplate Generator
  */
 
 // Predeclare variables
@@ -24,7 +25,7 @@ $after_widget  = null; // register_sidebar.
 $plugin = null;
 
 // Options: display $args + widget $instance settings + access to plugin.
-$options = get_query_var( 'options' );
+$options = get_query_var( 'options', array() );
 
 // Overwrite variables from array values
 // @link http://kb.network.dan/php/wordpress/extract/.
@@ -42,22 +43,20 @@ echo $before_widget;
 echo $before_title . $title . $after_title;
 ?>
 
-<div class="wpdtrt-gallery stack stack_link_viewer gallery-viewer h2-viewer" id="[]-viewer" data-has-gallery="false" data-expanded="false">
-	<div class="gallery-viewer--header">
+<div class="wpdtrt-gallery-viewer stack stack_link_viewer" data-enabled="false" data-expanded="false">
+	<div class="wpdtrt-gallery-viewer--header">
 	<?php
 		echo $content;
 	?>
 	</div>
-	<div class="stack--wrapper" style="">
+	<div class="stack--wrapper">
 		<figure class="stack--liner">
-			<div class="img-wrapper">
-				<img src="" alt="">
+			<div class="img-wrapper"></div>
+			<div class="wpdtrt-gallery-viewer--embed">
+				<iframe aria-hidden="true" title="Gallery media viewer."></iframe>
 			</div>
-			<div class="gallery-viewer--embed">
-				<iframe width="100%" height="100%" src="" frameborder="0" allowfullscreen="true" scrolling="no" aria-hidden="true"></iframe>
-			</div>
-			<figcaption class="gallery-viewer--footer">
-				<div class="gallery-viewer--caption"></div>
+			<figcaption class="wpdtrt-gallery-viewer--footer">
+				<div class="wpdtrt-gallery-viewer--caption"></div>
 			</figcaption>
 		</figure>
 	</div>

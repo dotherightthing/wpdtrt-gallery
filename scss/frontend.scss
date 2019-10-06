@@ -1,9 +1,10 @@
 //
-// Styles for the public front-end
+// File: scss/frontend.scss
 //
-// @package WPDTRT_Gallery
-// @version 0.0.1
-// @since 0.7.0
+// Styles for the public front-end.
+//
+// Since:
+//   0.8.13 - DTRT WordPress Plugin Boilerplate Generator
 //
 
 @import 'vendor/dotherightthing/wpdtrt-plugin-boilerplate/scss/variables';
@@ -11,10 +12,110 @@
 @import 'variables';
 @import 'extends';
 
-// plugins
+// -------------------------------------------------------------------
+// Plugins
+// -------------------------------------------------------------------
+
 // omitting the extension makes the classes available for extend
 // https://stackoverflow.com/questions/7111610/import-regular-css-file-in-scss-file/30279590#30279590
 @import '../icons/icomoon/style.css';
+
+// -------------------------------------------------------------------
+// Mixins
+// -------------------------------------------------------------------
+
+@mixin expanded-state() {
+
+    .wpdtrt-gallery-viewer--expand {
+        // pin to bottom of header / top of image
+        position: absolute;
+        right: 1px; // allow for rounding error here as it's more noticeable
+        bottom: 0;
+        background-color: $wpdtrt-gallery-border-color;
+        margin-right: 0;
+    }
+
+    .wpdtrt-gallery-viewer--header,
+    .wpdtrt-gallery-viewer--footer {
+        // when the image is expanded the text gets out of the way
+        // so that the image can be viewed in its entirety
+        // this also applies to media viewers
+        // which use their own layout within the 'image' area
+        position: relative;
+        top: auto;
+        right: auto;
+        bottom: auto;
+        left: auto;
+    }
+
+    .wpdtrt-gallery-viewer--header > h2 {
+        margin-bottom: 0;
+    }
+
+    .wpdtrt-gallery-viewer--header > h2,
+    .wpdtrt-gallery-viewer--caption {
+        background-color: $wpdtrt-gallery-border-color;
+        border: 4px solid $wpdtrt-gallery-border-color;
+    }
+
+    .wpdtrt-gallery-viewer--footer {
+        // prevents the .stack--liner borders from peeking through
+        margin-left: 0;
+    }
+
+    &:focus {
+
+        .stack--liner {
+            &::after {
+                @include focus-state;
+            }
+        }
+
+        .wpdtrt-gallery-viewer--footer {
+            // masks .stack-liner which includes the caption area
+            z-index: 1;
+            background-color: $wpdtrt-gallery-border-color-alt;
+
+            &::before {
+                // adds a new fake bottom border for the stack-liner overlay
+                // (which excludes the caption area)
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                z-index: 2;
+                width: 100%;
+                border-top: 4px solid $wpdtrt-gallery-border-color;
+            }
+        }
+    }
+
+    .stack--wrapper {
+        // override inline styles, remove bgcolor so that caption is not fw
+        background: none !important;
+    }
+
+    img {
+        &,
+        .entry-date & {
+            // prevent mousedown+drag inside viewer from dragging a small version of the source panorama
+            // sass-lint:disable no-vendor-prefixes
+            -webkit-user-drag: none;
+            // sass-lint:enable no-vendor-prefixes
+        }
+    }
+}
+
+@mixin focus-state() {
+    // overlay a bordered box on focus
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 4px solid $wpdtrt-gallery-border-color-focus;
+}
 
 // -------------------------------------------------------------------
 // Styles
@@ -51,7 +152,6 @@
         font-weight: normal;
         font-style: normal;
         text-transform: none;
-        speak: none;
         font-variant: normal;
     }
 }
@@ -121,7 +221,7 @@
 
         &:hover,
         &:focus,
-        &[data-viewing='true'] {
+        &[aria-expanded='true'] {
             &::before {
                 // unselected icon overstate
                 color: $wpdtrt-gallery-thumbnail-icon-shadow-color;
@@ -145,12 +245,12 @@
                     left: 0;
                     width: 100%;
                     height: 100%;
-                    border: 4px solid $wpdtrt-gallery-viewer-border-color-focus;
+                    border: 4px solid $wpdtrt-gallery-border-color-focus;
                 }
             }
         }
 
-        &[data-viewing='true'] {
+        &[aria-expanded='true'] {
 
             .gallery > & {
                 opacity: 1;
@@ -176,7 +276,7 @@
 
         &[data-panorama] {
             &,
-            &[data-viewing='true'] {
+            &[aria-expanded='true'] {
                 &::before {
                     content: '\e90a';
                 }
@@ -185,7 +285,7 @@
 
         &[data-soundcloud-pageid] {
             &,
-            &[data-viewing='true'] {
+            &[aria-expanded='true'] {
                 &::before {
                     content: '\e90c';
                 }
@@ -194,7 +294,7 @@
 
         &[data-vimeo-pageid] {
             &,
-            &[data-viewing='true'] {
+            &[aria-expanded='true'] {
                 &::before {
                     content: '\e90b';
                 }
@@ -219,13 +319,24 @@
 
 // Enlargement viewer
 
-.gallery-viewer {
+.wpdtrt-gallery-viewer {
 
     &.stack {
         display: block;
         position: relative; // AP
         z-index: 1; // stack on top of sticky nav so that text can be selected
         margin-bottom: .5em;
+    }
+
+    img {
+        &[data-panorama='1'] {
+            max-width: none;
+        }
+
+        .entry-date & {
+            // ensure that both NZ and China are visible
+            max-height: 400px;
+        }
     }
 
     &--header,
@@ -241,8 +352,23 @@
     &--header > h2,
     &--caption {
         display: inline-block;
-        background-color: $wpdtrt-gallery-viewer-bg-color;
-        color: $wpdtrt-gallery-viewer-text-color;
+        background-color: $wpdtrt-gallery-bg-color;
+        color: $wpdtrt-gallery-text-color;
+    }
+
+    &--caption {
+        @extend %type-special;
+        font-size: 14px;
+        font-weight: bold;
+    }
+
+    &--embed {
+        > iframe {
+            width: 100%;
+            height: 100%;
+            border: 0;
+            overflow: hidden;
+        }
     }
 
     .stack--wrapper {
@@ -266,12 +392,12 @@
             top: 15.5px;
             right: 24px;
             z-index: 2;
-            color: $wpdtrt-gallery-viewer-text-color;
+            color: $wpdtrt-gallery-text-color;
             font-size: 1.4em;
-            text-shadow: -1px -1px 0 $wpdtrt-gallery-viewer-border-color,
-            1px -1px 0 $wpdtrt-gallery-viewer-border-color,
-            -1px 1px 0 $wpdtrt-gallery-viewer-border-color,
-            1px 1px 0 $wpdtrt-gallery-viewer-border-color;
+            text-shadow: -1px -1px 0 $wpdtrt-gallery-border-color,
+            1px -1px 0 $wpdtrt-gallery-border-color,
+            -1px 1px 0 $wpdtrt-gallery-border-color,
+            1px 1px 0 $wpdtrt-gallery-border-color;
         }
 
         &--icon-embed {
@@ -280,7 +406,7 @@
             top: 50%;
             left: 50%;
             z-index: 0;
-            color: $wpdtrt-gallery-viewer-icon-embed;
+            color: $wpdtrt-gallery-icon-embed;
             font-size: 48px;
             line-height: 0;
             margin-top: -(48px / 2);
@@ -291,13 +417,6 @@
     figure {
         // hide default markup unless it's required
         display: none;
-    }
-
-    img {
-        .entry-date & {
-            // ensure that both NZ and China are visible
-            max-height: 400px;
-        }
     }
 
     iframe {
@@ -311,20 +430,23 @@
     // -------------------------------------------------------------------
 
     &--expand {
+        @extend %type-special;
         opacity: 1;
         position: relative;
         right: 0; // 1px; // seems to be a browser rounding error as it's ok at random breakpoints
         float: right; // TODO prevent the heading from hitting this
         background-color: transparent;
-        color: $wpdtrt-gallery-viewer-text-color;
-        text-shadow: -1px -1px 0 $wpdtrt-gallery-viewer-border-color,
-        1px -1px 0 $wpdtrt-gallery-viewer-border-color,
-        -1px 1px 0 $wpdtrt-gallery-viewer-border-color,
-        1px 1px 0 $wpdtrt-gallery-viewer-border-color;
+        color: $wpdtrt-gallery-text-color;
+        line-height: 1;
+        text-shadow: -1px -1px 0 $wpdtrt-gallery-border-color,
+        1px -1px 0 $wpdtrt-gallery-border-color,
+        -1px 1px 0 $wpdtrt-gallery-border-color,
+        1px 1px 0 $wpdtrt-gallery-border-color;
         padding: .275em 1em;
         border: 4px solid transparent;
         border-radius: 0;
         margin-right: -4.5em;
+        cursor: pointer;
 
         &::after {
             // the icon
@@ -335,12 +457,12 @@
 
         &:hover,
         &:focus {
-            background-color: $wpdtrt-gallery-viewer-border-color;
-            color: $wpdtrt-gallery-viewer-border-color;
-            text-shadow: -1px -1px 0 $wpdtrt-gallery-viewer-border-color-alt,
-            1px -1px 0 $wpdtrt-gallery-viewer-border-color-alt,
-            -1px 1px 0 $wpdtrt-gallery-viewer-border-color-alt,
-            1px 1px 0 $wpdtrt-gallery-viewer-border-color-alt;
+            background-color: $wpdtrt-gallery-border-color;
+            color: $wpdtrt-gallery-border-color;
+            text-shadow: -1px -1px 0 $wpdtrt-gallery-border-color-alt,
+            1px -1px 0 $wpdtrt-gallery-border-color-alt,
+            -1px 1px 0 $wpdtrt-gallery-border-color-alt,
+            1px 1px 0 $wpdtrt-gallery-border-color-alt;
             outline: none;
         }
     }
@@ -356,20 +478,9 @@
             position: relative;
 
             &::after {
-                @extend .gallery-viewer--focus-border;
+                @include focus-state;
             }
         }
-    }
-
-    &--focus-border {
-        // overlay a bordered box on focus
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        border: 4px solid $wpdtrt-gallery-viewer-border-color-focus;
     }
 
     // -------------------------------------------------------------------
@@ -377,7 +488,7 @@
     // -------------------------------------------------------------------
 
     &[data-attachment] {
-        .gallery-viewer--caption {
+        .wpdtrt-gallery-viewer--caption {
             p {
                 margin-bottom: 0;
             }
@@ -389,9 +500,9 @@
     // viewer is expanded, button will collapse viewer
     // -------------------------------------------------------------------
 
-    &[data-has-gallery='true'] {
+    &[data-enabled='true'] {
 
-        .gallery-viewer--header {
+        .wpdtrt-gallery-viewer--header {
             // both text elements must be AP
             // so that the inline invisible image
             // can dictate the height that it needs to display fully
@@ -413,11 +524,11 @@
             }
         }
 
-        .gallery-viewer--caption {
+        .wpdtrt-gallery-viewer--caption {
             padding: .75em .625em .625em;
         }
 
-        .gallery-viewer--footer {
+        .wpdtrt-gallery-viewer--footer {
             // both text elements must be AP
             // so that the inline invisible image
             // can dictate the height that it needs to display fully
@@ -439,18 +550,18 @@
 
         &[data-expanded='true'] {
 
-            .gallery-viewer--expand {
+            .wpdtrt-gallery-viewer--expand {
                 // pin to bottom of header / top of image
                 position: absolute;
                 right: 1px; // allow for rounding error here as it's more noticeable
                 bottom: 0;
-                background-color: $wpdtrt-gallery-viewer-border-color;
+                background-color: $wpdtrt-gallery-border-color;
                 margin-right: 0;
 
                 &:hover,
                 &:focus {
-                    background-color: $wpdtrt-gallery-viewer-button-color-alt;
-                    color: $wpdtrt-gallery-viewer-button-color-alt;
+                    background-color: $wpdtrt-gallery-button-color-alt;
+                    color: $wpdtrt-gallery-button-color-alt;
                 }
 
                 &::after {
@@ -458,8 +569,8 @@
                 }
             }
 
-            .gallery-viewer--header,
-            .gallery-viewer--footer {
+            .wpdtrt-gallery-viewer--header,
+            .wpdtrt-gallery-viewer--footer {
                 // when the image is expanded the text gets out of the way
                 // so that the image can be viewed in its entirety
                 // this also applies to media viewers
@@ -471,17 +582,17 @@
                 left: auto;
             }
 
-            .gallery-viewer--header > h2 {
+            .wpdtrt-gallery-viewer--header > h2 {
                 margin-bottom: 0;
             }
 
-            .gallery-viewer--header > h2,
-            .gallery-viewer--caption {
-                background-color: $wpdtrt-gallery-viewer-border-color;
-                border: 4px solid $wpdtrt-gallery-viewer-border-color;
+            .wpdtrt-gallery-viewer--header > h2,
+            .wpdtrt-gallery-viewer--caption {
+                background-color: $wpdtrt-gallery-border-color;
+                border: 4px solid $wpdtrt-gallery-border-color;
             }
 
-            .gallery-viewer--footer {
+            .wpdtrt-gallery-viewer--footer {
                 // prevents the .stack--liner borders from peeking through
                 margin-left: 0;
             }
@@ -490,14 +601,14 @@
 
                 .stack--liner {
                     &::after {
-                        @extend .gallery-viewer--focus-border;
+                        @include focus-state;
                     }
                 }
 
-                .gallery-viewer--footer {
+                .wpdtrt-gallery-viewer--footer {
                     // masks .stack-liner which includes the caption area
                     z-index: 1;
-                    background-color: $wpdtrt-gallery-viewer-border-color-alt;
+                    background-color: $wpdtrt-gallery-border-color-alt;
 
                     &::before {
                         // adds a new fake bottom border for the stack-liner overlay
@@ -508,7 +619,7 @@
                         left: 0;
                         z-index: 2;
                         width: 100%;
-                        border-top: 4px solid $wpdtrt-gallery-viewer-border-color;
+                        border-top: 4px solid $wpdtrt-gallery-border-color;
                     }
                 }
             }
@@ -534,12 +645,12 @@
     // sections without galleries
     // -------------------------------------------------------------------
 
-    &[data-has-gallery='false'] {
-        .gallery-viewer--header {
+    &[data-enabled='false'] {
+        .wpdtrt-gallery-viewer--header {
             > h2 {
                 // the gallery viewer is in the template
                 // but not all sections have galleries
-                background-color: $wpdtrt-gallery-viewer-border-color;
+                background-color: $wpdtrt-gallery-border-color;
             }
         }
 
@@ -583,38 +694,38 @@
 
     &[data-soundcloud-pageid] {
         .stack--liner {
-            background-color: $wpdtrt-gallery-viewer-bg-color-embed;
+            background-color: $wpdtrt-gallery-bg-color-embed;
 
             &::before {
                 @extend .stack--liner--icon-embed;
                 content: '\e90c';
             }
 
-            .gallery-viewer--embed {
+            .wpdtrt-gallery-viewer--embed {
                 @extend %wpdtrt-plugin-boilerplate--embedresponsively;
             }
 
-            .gallery-viewer--footer {
-                background-color: $wpdtrt-gallery-viewer-bg-color-page;
+            .wpdtrt-gallery-viewer--footer {
+                background-color: $wpdtrt-gallery-bg-color-page;
             }
         }
     }
 
     &[data-vimeo-pageid] {
         .stack--liner {
-            background-color: $wpdtrt-gallery-viewer-bg-color-embed;
+            background-color: $wpdtrt-gallery-bg-color-embed;
 
             &::before {
                 @extend .stack--liner--icon-embed;
                 content: '\e90b';
             }
 
-            .gallery-viewer--embed {
+            .wpdtrt-gallery-viewer--embed {
                 @extend %wpdtrt-plugin-boilerplate--embedresponsively;
             }
 
-            .gallery-viewer--footer {
-                background-color: $wpdtrt-gallery-viewer-bg-color-page;
+            .wpdtrt-gallery-viewer--footer {
+                background-color: $wpdtrt-gallery-bg-color-page;
             }
         }
     }
@@ -648,6 +759,34 @@
     }
 }
 
+@include media('<tablet') {
+    &[data-enabled='true'] {
+        // move text off photo on small screens
+        &[data-expanded='false'] {
+            @include expanded-state;
+        }
+    }
+
+    .wpdtrt-gallery-viewer {
+        // extend
+        &--focus-border {
+            @include focus-state;
+        }
+
+        &--header {
+            > h2 {
+                // fit more text in before it wraps
+                font-size: 1.2em;
+            }
+        }
+
+        &--caption {
+            // remove bolding
+            font-weight: 500;
+        }
+    }
+}
+
 @include media('>tablet') {
 
     .gallery {
@@ -674,15 +813,10 @@
         }
     }
 
-    .gallery-viewer {
+    .wpdtrt-gallery-viewer {
 
         &.stack {
             margin-bottom: 2em;
-        }
-
-        &--expand {
-            padding-top: .5em;
-            padding-bottom: .5em;
         }
 
         &--heading {
@@ -700,7 +834,6 @@
 }
 
 @include media('>desktop') {
-
     .gallery-item {
         display: block;
         float: left;
@@ -719,6 +852,13 @@
             .gallery-columns-#{$i} & {
                 max-width: 50%; // 2 columns
             }
+        }
+    }
+
+    .wpdtrt-gallery-viewer {
+        &--expand {
+            padding-top: .5em;
+            padding-bottom: .5em;
         }
     }
 }

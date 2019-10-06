@@ -1,8 +1,15 @@
 //
+// File: scss/_extends.scss
+//
 // Extends (helpers)
-// Common extends should be added tp wpdtrt-plugin-boilerplate's copy of this file
 //
-// @package     WPDTRT_Gallery
-// @version 	0.0.1
-// @since       0.7.6
+// Note:
+// - Common extends should be added to wpdtrt-plugin-boilerplate's copy of this file.
 //
+// Since:
+//   0.8.13 - DTRT WordPress Plugin Boilerplate Generator
+//
+
+%type-special {
+    font-family: Montserrat, 'Helvetica Neue', sans-serif;
+}
