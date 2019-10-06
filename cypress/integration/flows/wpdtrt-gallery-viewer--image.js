@@ -145,8 +145,8 @@ describe( 'DTRT Gallery - Image Viewer', function () {
     it( '3. Does contain a landscape image, described accessibly', function () {
       cy.get( '@wpdtrtGalleryViewer' ).find( '.img-wrapper > img' )
         .should( 'exist' )
-        .should( 'have.css', 'width', '666px' )
-        .should( 'have.css', 'height', '283px' )
+        .should( 'have.css', 'width', '658px' )
+        .should( 'have.css', 'height', '280px' )
         .invoke( 'attr', 'alt' )
         .should( 'match', /.+/ ); // alt !== ''
     } );
@@ -206,8 +206,8 @@ describe( 'DTRT Gallery - Image Viewer', function () {
 
       cy.get( '@wpdtrtGalleryViewer' ).find( '.img-wrapper > img' )
         .should( 'exist' )
-        .should( 'have.css', 'width', '666px' )
-        .should( 'have.css', 'height', '375px' )
+        .should( 'have.css', 'width', '658px' )
+        .should( 'have.css', 'height', '370px' )
         .invoke( 'attr', 'alt' )
         .should( 'match', /.+/ ); // alt !== ''
     } );
