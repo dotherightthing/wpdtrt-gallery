@@ -7,9 +7,6 @@
  *   0.8.13 - DTRT WordPress Plugin Boilerplate Generator
  */
 
-import 'cypress-wait-until';
-import './commands/wait-for-resources';
-
 /**
  * reset the page & UI state
  */

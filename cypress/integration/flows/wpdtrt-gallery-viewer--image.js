@@ -203,7 +203,6 @@ describe( 'DTRT Gallery - Image Viewer', function () {
 
     it( '2. Does contain a taller landscape image, described accessibly', function () {
       // can we use this.attr.src here or invoke?
-      // cy.waitForResources( 'http://dontbelievethehype.imgix.net/day_20150902/20150811_134600.jpg?auto=compress%2Cformat&fit=scale&h=487&ixlib=php-1.2.1&w=865&wpsize=wpdtrt-gallery-desktop-expanded&s=8dfd518d2f8f147e51df09c0a390e954' );
 
       cy.get( '@wpdtrtGalleryViewer' ).find( '.img-wrapper > img' )
         .should( 'exist' )
