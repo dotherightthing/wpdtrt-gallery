@@ -44,8 +44,6 @@ echo do_shortcode('[wpdtrt_gallery_shortcode_heading]<h2>' . $heading . '</h2>[/
 == Changelog ==
 
 = 1.8.6 =
-
-= 1.8.6 =
 * Travis: Tell Travis to start MySQL as this no longer happens automatically
 * Composer: Fix casing of Composer dependency
 * Linting: Configure ESLint, suppress ESLint error jQuery noConflict iife
