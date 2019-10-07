@@ -135,7 +135,7 @@ class WPDTRT_GalleryTest extends WP_UnitTestCase {
 	 * - <https://developer.wordpress.org/reference/functions/wp_insert_attachment/>
 	 * - <http://develop.svn.wordpress.org/trunk/tests/phpunit/includes/factory/class-wp-unittest-factory-for-attachment.php>
 	 */
-	public function create_attachment( array $options ) : number {
+	public function create_attachment( array $options ) : int {
 
 		$filename       = null;
 		$parent_post_id = null;
@@ -208,7 +208,7 @@ class WPDTRT_GalleryTest extends WP_UnitTestCase {
 	 * - <https://wordpress.stackexchange.com/questions/37163/proper-formatting-of-post-date-for-wp-insert-post>
 	 * - <https://codex.wordpress.org/Function_Reference/wp_update_post>
 	 */
-	public function create_post( array $options ) : number {
+	public function create_post( array $options ) : int {
 
 		$post_title   = null;
 		$post_date    = null;
