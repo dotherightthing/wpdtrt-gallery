@@ -366,7 +366,7 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 	 * See:
 	 * - <https://developer.wordpress.org/reference/hooks/wp_get_attachment_image_attributes/>
 	 */
-	public function filter_thumbnail_attributes( array $atts, object $attachment ) : array {
+	public function filter_thumbnail_attributes( array $atts, WP_Post $attachment ) : array {
 
 		$id = $attachment->ID;
 
