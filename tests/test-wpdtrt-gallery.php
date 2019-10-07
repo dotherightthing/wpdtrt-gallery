@@ -321,6 +321,19 @@ class WPDTRT_GalleryTest extends WP_UnitTestCase {
 	 * Group: Tests
 	 * _____________________________________
 	 */
+	public function test_test_url() {
+		$url = get_post_permalink( $this->post_id_3 );
+
+		$this->go_to(
+			$url
+		);
+
+		$this->assertContains(
+			'?post_type=post&p=7',
+			$url,
+			'URL not as expected'
+		);
+	}
 
 	/**
 	 * Method: test_attachment_fields
