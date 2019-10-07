@@ -339,18 +339,18 @@ class WPDTRT_GalleryTest extends WP_UnitTestCase {
 		update_post_meta( $this->attachment_id_1, 'wpdtrt_gallery_attachment_panorama', '1' );
 
 		$this->assertContains(
-			'panorama=1',
+			'data-panorama="1"',
 			wp_get_attachment_link( $this->attachment_id_1 ),
-			'Thumbnail link HTML missing query param for panorama'
+			'Thumbnail link HTML missing data attribute for panorama'
 		);
 
 		// ride with gps map embed.
 		update_post_meta( $this->attachment_id_1, 'wpdtrt_gallery_attachment_rwgps_pageid', '123456789' );
 
 		$this->assertContains(
-			'rwgps_pageid=123456789',
+			'data-rwgps-pageid="123456789"',
 			wp_get_attachment_link( $this->attachment_id_1 ),
-			'Thumbnail link HTML missing query param for rwgps_pageid'
+			'Thumbnail link HTML missing data attribute for rwgps-pageid'
 		);
 
 		// soundcloud player embed - both keys must have values.
@@ -358,24 +358,24 @@ class WPDTRT_GalleryTest extends WP_UnitTestCase {
 		update_post_meta( $this->attachment_id_1, 'wpdtrt_gallery_attachment_soundcloud_trackid', '123456789' );
 
 		$this->assertContains(
-			'soundcloud_pageid=test-page',
+			'data-soundcloud-pageid="test-page"',
 			wp_get_attachment_link( $this->attachment_id_1 ),
-			'Thumbnail link HTML missing query param for soundcloud_pageid'
+			'Thumbnail link HTML missing data attribute for soundcloud-pageid'
 		);
 
 		$this->assertContains(
-			'soundcloud_trackid=123456789',
+			'data-soundcloud-trackid="123456789"',
 			wp_get_attachment_link( $this->attachment_id_1 ),
-			'Thumbnail link HTML missing query param for soundcloud_trackid'
+			'Thumbnail link HTML missing data attribute for soundcloud-trackid'
 		);
 
 		// vimeo.
 		update_post_meta( $this->attachment_id_1, 'wpdtrt_gallery_attachment_vimeo_pageid', '123456789' );
 
 		$this->assertContains(
-			'vimeo_pageid=123456789',
+			'data-vimeo-pageid="123456789"',
 			wp_get_attachment_link( $this->attachment_id_1 ),
-			'Thumbnail link HTML missing query param for vimeo_pageid'
+			'Thumbnail link HTML missing data attribute for vimeo-pageid'
 		);
 	}
 
