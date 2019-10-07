@@ -55,7 +55,7 @@ class WPDTRT_GalleryTest extends WP_UnitTestCase {
 			'parent_post_id' => $this->post_id_1,
 		));
 
-		$this->thumbnail_size = 'wpdtrt-gallery-thumbnail';
+		$this->thumbnail_size = 'thumbnail';
 
 		// Post (for testing populated shortcode)
 		// NOTE: generated attachment is attached to post_id_1 not post_id_2
