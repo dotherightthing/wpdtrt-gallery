@@ -81,7 +81,12 @@ class WPDTRT_GalleryTest extends WP_UnitTestCase {
 		// Post (for testing manually entered, naked shortcode).
 		$this->post_id_1 = $this->create_post( array(
 			'post_title'   => 'Empty gallery test',
-			'post_content' => '[wpdtrt_gallery_shortcode_heading]<h2>Post 1 heading</h2>[/wpdtrt_gallery_shortcode_heading]',
+			'post_content' => '
+				<section id="test-section">
+					[wpdtrt_gallery_shortcode_heading]
+						<h2>Post 1 heading</h2>
+					[/wpdtrt_gallery_shortcode_heading]
+				</section>',
 		));
 
 		// Attachment (for testing custom sizes and meta).
@@ -97,13 +102,22 @@ class WPDTRT_GalleryTest extends WP_UnitTestCase {
 		// this is a chicken-and-egg scenario.
 		$this->post_id_2 = $this->create_post( array(
 			'post_title'   => 'Single image gallery test',
-			'post_content' => '[wpdtrt_gallery_shortcode_heading]<h2>Post 2 heading</h2>[gallery link="file" ids="' . $this->attachment_id_1 . '"][/wpdtrt_gallery_shortcode_heading]',
+			'post_content' => '
+				<section id="test-section">
+					[wpdtrt_gallery_shortcode_heading]
+						<h2>Post 2 heading</h2>
+						[gallery link="file" ids="' . $this->image_1 . '"]
+					[/wpdtrt_gallery_shortcode_heading]
+				</section>',
 		));
 
 		// Post (for injected naked shortcode).
 		$this->post_id_3 = $this->create_post( array(
 			'post_title'   => 'Empty gallery test',
-			'post_content' => '<h2>Post 3 heading</h2>',
+			'post_content' => '
+				<section id="test-section">
+					<h2>Post 3 heading</h2>
+				</section>',
 		));
 	}
 
