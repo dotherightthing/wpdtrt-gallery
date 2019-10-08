@@ -30,7 +30,12 @@ class WPDTRT_GalleryTest extends WP_UnitTestCase {
 	 * Group: Variables
 	 * _____________________________________
 	 */
-	private $domain = 'http://example.org';
+
+	/**
+	 * Variable: $base_url
+	 */
+	private $base_url = 'http://example.org';
+
 
 	/**
 	 * Group: Lifecycle Events

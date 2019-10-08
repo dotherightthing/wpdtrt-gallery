@@ -1,5 +1,5 @@
 {
-  "baseUrl": "https://dontbelievethehype.co.nz",
+  "baseUrl": "http://example.org",
   "pageLoadTimeout": 60000,
   "responseTimeout": 60000,
   "viewportWidth": 1366,
