@@ -36,6 +36,30 @@ class WPDTRT_GalleryTest extends WP_UnitTestCase {
 	 */
 	private $base_url = 'http://example.org';
 
+	/**
+	 * Variable: $gallery_html
+	 *
+	 * Fixture.
+	 */
+	private $gallery_html = '
+	<section id="test-section">
+		<div class="wpdtrt-gallery-viewer stack stack_link_viewer" data-enabled="false" data-expanded="false">
+			<div class="wpdtrt-gallery-viewer--header">
+				<h2>Post 1 heading</h2>
+			</div>
+			<div class="stack--wrapper">
+				<figure class="stack--liner">
+					<div class="img-wrapper"></div>
+					<div class="wpdtrt-gallery-viewer--embed">
+						<iframe aria-hidden="true" title="Gallery media viewer."></iframe>
+					</div>
+					<figcaption class="wpdtrt-gallery-viewer--footer">
+						<div class="wpdtrt-gallery-viewer--caption"></div>
+					</figcaption>
+				</figure>
+			</div>
+		</div>
+	</section>';
 
 	/**
 	 * Group: Lifecycle Events
@@ -485,22 +509,7 @@ class WPDTRT_GalleryTest extends WP_UnitTestCase {
 		$content = get_post_field( 'post_content', $this->post_id_1 );
 
 		$this->assertEqualHtml(
-			'<div class="wpdtrt-gallery-viewer stack stack_link_viewer" data-enabled="false" data-expanded="false">
-				<div class="wpdtrt-gallery-viewer--header">
-					<h2>Post 1 heading</h2>
-				</div>
-				<div class="stack--wrapper">
-					<figure class="stack--liner">
-						<div class="img-wrapper"></div>
-						<div class="wpdtrt-gallery-viewer--embed">
-							<iframe aria-hidden="true" title="Gallery media viewer."></iframe>
-						</div>
-						<figcaption class="wpdtrt-gallery-viewer--footer">
-							<div class="wpdtrt-gallery-viewer--caption"></div>
-						</figcaption>
-					</figure>
-				</div>
-			</div>',
+			$this->gallery_html,
 			trim( do_shortcode( $content ) ),
 			'wpdtrt_gallery_shortcode does not return the correct HTML'
 		);
