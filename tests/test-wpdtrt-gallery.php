@@ -558,7 +558,7 @@ class WPDTRT_GalleryTest extends WP_UnitTestCase {
 	 *
 	 * Test wp-admin.
 	 */
-	public function disabled_test_wp_admin() {
+	public function __test_wp_admin() {
 		$this->go_to( '/wp-admin/plugins.php' );
 
 		$this->go_to( '/wp-admin/plugins.php?page=tgmpa-install-plugins&plugin_status=install' );
