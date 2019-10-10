@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e21b741f90c9f8b8ef50ebeb903ba313",
+    "content-hash": "13e5a8bb58f6c821f36ed0ffd53121d3",
     "packages": [
         {
             "name": "dotherightthing/wpdtrt-debug",
@@ -54,16 +54,16 @@
         },
         {
             "name": "dotherightthing/wpdtrt-plugin-boilerplate",
-            "version": "1.6.14",
+            "version": "dev-development",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dotherightthing/wpdtrt-plugin-boilerplate.git",
-                "reference": "fd464d6f37fdba40acbd356e3f4bd9a6f686e3b8"
+                "reference": "c8dd467157fd367159ab7aa88c5f4df7dc7fdce9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dotherightthing/wpdtrt-plugin-boilerplate/zipball/fd464d6f37fdba40acbd356e3f4bd9a6f686e3b8",
-                "reference": "fd464d6f37fdba40acbd356e3f4bd9a6f686e3b8",
+                "url": "https://api.github.com/repos/dotherightthing/wpdtrt-plugin-boilerplate/zipball/c8dd467157fd367159ab7aa88c5f4df7dc7fdce9",
+                "reference": "c8dd467157fd367159ab7aa88c5f4df7dc7fdce9",
                 "shasum": ""
             },
             "require": {
@@ -104,9 +104,9 @@
             "support": {
                 "email": "support@dotherightthing.co.nz",
                 "issues": "https://github.com/dotherightthing/wpdtrt-plugin-boilerplate/issues",
-                "source": "https://github.com/dotherightthing/wpdtrt-plugin-boilerplate/tree/1.6.14"
+                "source": "https://github.com/dotherightthing/wpdtrt-plugin-boilerplate/tree/development"
             },
-            "time": "2019-10-10T22:11:20+00:00"
+            "time": "2019-10-10T22:11:13+00:00"
         },
         {
             "name": "gamajo/template-loader",
@@ -3827,9 +3827,18 @@
             "time": "2018-02-16T01:57:48+00:00"
         }
     ],
-    "aliases": [],
+    "aliases": [
+        {
+            "alias": "1.6.x-dev",
+            "alias_normalized": "1.6.9999999.9999999-dev",
+            "version": "dev-development",
+            "package": "dotherightthing/wpdtrt-plugin-boilerplate"
+        }
+    ],
     "minimum-stability": "dev",
-    "stability-flags": [],
+    "stability-flags": {
+        "dotherightthing/wpdtrt-plugin-boilerplate": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": [],
