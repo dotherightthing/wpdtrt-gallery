@@ -93,7 +93,7 @@ describe( 'DTRT Gallery - Image Gallery Item', function () {
         .should( 'match', /wpsize=wpdtrt-gallery-panorama/ );
     } );
 
-    it.skip( '2. Does contain a square thumbnail, described accessibly (Issue #67)', function () {
+    it( '2. Does contain a square thumbnail, described accessibly (Issue #67)', function () {
       cy.get( '@wpdtrtGalleryFirstItem' ).find( 'img' ).as( 'wpdtrtGalleryFirstImage' );
 
       cy.get( '@wpdtrtGalleryFirstImage' )
