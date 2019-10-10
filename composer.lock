@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "54e6db14bdb82c67fd77059085cda256",
+    "content-hash": "e21b741f90c9f8b8ef50ebeb903ba313",
     "packages": [
         {
             "name": "dotherightthing/wpdtrt-debug",
@@ -54,16 +54,16 @@
         },
         {
             "name": "dotherightthing/wpdtrt-plugin-boilerplate",
-            "version": "1.6.12",
+            "version": "1.6.14",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dotherightthing/wpdtrt-plugin-boilerplate.git",
-                "reference": "bad4a0e9fec7465d3580e8c3b2f6676c225f8ab4"
+                "reference": "fd464d6f37fdba40acbd356e3f4bd9a6f686e3b8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dotherightthing/wpdtrt-plugin-boilerplate/zipball/bad4a0e9fec7465d3580e8c3b2f6676c225f8ab4",
-                "reference": "bad4a0e9fec7465d3580e8c3b2f6676c225f8ab4",
+                "url": "https://api.github.com/repos/dotherightthing/wpdtrt-plugin-boilerplate/zipball/fd464d6f37fdba40acbd356e3f4bd9a6f686e3b8",
+                "reference": "fd464d6f37fdba40acbd356e3f4bd9a6f686e3b8",
                 "shasum": ""
             },
             "require": {
@@ -76,13 +76,13 @@
                 "dealerdirect/phpcodesniffer-composer-installer": "^0.4.4",
                 "phpunit/phpunit": "^7.5.14",
                 "psy/psysh": "~0.6",
-                "wp-cli/wp-cli": "~0.22",
+                "wp-cli/wp-cli": "^2.3",
                 "wp-coding-standards/wpcs": "^0.14.1"
             },
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "DoTheRightThing\\WPDTRT_Plugin_Boilerplate\\r_1_6_12\\": "src"
+                    "DoTheRightThing\\WPDTRT_Plugin_Boilerplate\\r_1_6_14\\": "src"
                 }
             },
             "license": [
@@ -104,9 +104,9 @@
             "support": {
                 "email": "support@dotherightthing.co.nz",
                 "issues": "https://github.com/dotherightthing/wpdtrt-plugin-boilerplate/issues",
-                "source": "https://github.com/dotherightthing/wpdtrt-plugin-boilerplate/tree/1.6.12"
+                "source": "https://github.com/dotherightthing/wpdtrt-plugin-boilerplate/tree/1.6.14"
             },
-            "time": "2019-10-06T04:30:32+00:00"
+            "time": "2019-10-10T22:11:20+00:00"
         },
         {
             "name": "gamajo/template-loader",
