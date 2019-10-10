@@ -75,7 +75,7 @@ function wpdtrt_gallery_attachment_field_default( array $form_fields, object $po
  * See:
  * - <https://stackoverflow.com/questions/4554758/how-to-read-if-a-checkbox-is-checked-in-php>
  */
-function wpdtrt_gallery_attachment_field_default_save( object $post, array $attachment ) : object {
+function wpdtrt_gallery_attachment_field_default_save( array $post, array $attachment ) : array {
 
 	// if checked.
 	if ( isset( $attachment['wpdtrt-gallery-default'] ) ) {

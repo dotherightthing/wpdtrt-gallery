@@ -26,7 +26,7 @@
  * See:
  * - <https://code.tutsplus.com/articles/creating-custom-fields-for-attachments-in-wordpress--net-13076>
  */
-function wpdtrt_gallery_attachment_field_panorama( array $form_fields, object $post ) : array {
+function wpdtrt_gallery_attachment_field_panorama( array $form_fields, object $post ) {
 
 	// Get currently select value.
 	$selection = get_post_meta( $post->ID, 'wpdtrt_gallery_attachment_panorama', true );
@@ -77,7 +77,7 @@ function wpdtrt_gallery_attachment_field_panorama( array $form_fields, object $p
  * TODO:
  * - Calculate this automatically, or make it a theme option to do so
  */
-function wpdtrt_gallery_attachment_field_panorama_save( object $post, array $attachment ) : object {
+function wpdtrt_gallery_attachment_field_panorama_save( array $post, array $attachment ) : array {
 
 	if ( isset( $attachment['wpdtrt-gallery-panorama'] ) ) {
 		// if checked.

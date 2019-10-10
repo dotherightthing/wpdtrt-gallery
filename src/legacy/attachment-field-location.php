@@ -51,7 +51,7 @@ function wpdtrt_gallery_attachment_field_location( array $form_fields, object $p
  * See:
  * - <https://stackoverflow.com/questions/4554758/how-to-read-if-a-checkbox-is-checked-in-php>
  */
-function wpdtrt_gallery_attachment_field_location_save( object $post, array $attachment ) : object {
+function wpdtrt_gallery_attachment_field_location_save( array $post, array $attachment ) : array {
 	if ( isset( $attachment['wpdtrt-gallery-location'] ) ) {
 		update_post_meta( $post['ID'], 'wpdtrt_gallery_attachment_location', $attachment['wpdtrt-gallery-location'] );
 	}
