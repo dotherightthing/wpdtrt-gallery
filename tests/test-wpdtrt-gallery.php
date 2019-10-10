@@ -389,8 +389,8 @@ class WPDTRT_GalleryTest extends WP_UnitTestCase {
 	 */
 	public function test_attachment_fields() {
 
-		// TODO add test for #77
-
+		// TODO add test for #77.
+		//
 		// location - only used for Media Library searches
 		//
 		// panorama.
