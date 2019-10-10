@@ -455,7 +455,7 @@ class WPDTRT_GalleryTest extends WP_UnitTestCase {
 		);
 
 		$this->assertEquals(
-			$this->domain . '/wp-content/uploads/images/test1-150x150.jpg',
+			$this->base_url . '/wp-content/uploads/images/test1-150x150.jpg',
 			wp_get_attachment_image_src( $this->image_1, $this->thumbnail_size )[0],
 			'Thumbnail image not created'
 		);
