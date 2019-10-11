@@ -6,7 +6,7 @@ Tags: gallery, video, audio, map
 Requires at least: 4.9.5
 Tested up to: 4.9.5
 Requires PHP: 7.2.20
-Stable tag: 1.8.7
+Stable tag: 1.8.8
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -43,8 +43,67 @@ echo do_shortcode('[wpdtrt_gallery_shortcode_heading]<h2>' . $heading . '</h2>[/
 
 == Changelog ==
 
+= 1.8.8 =
+* Update wpdtrt-plugin-boilerplate, from 1.6.17 to 1.6.19
+
 = 1.8.7 =
-* Travis: update expected image dimensions, as images are slightly narrower on live, for some reason
+* Accessibility fixes (SortSite):
+  * Inject gallery viewer image, to fix invalid markup prior to lazy loading (#62)
+  * Apply width, height and allowfullscreen to iframe using JavaScript (#61)
+  * Remove iframe border & hide overflow using CSS rather than HTML (#61)
+  * Add dynamic title to gallery viewer iframe, remove JS populated src (#64)
+  * Remove JS populated id from viewer (#60)
+  * Hide items accessibly
+  * Replace `data-viewing` with `aria-expanded`
+* Boilerplate / generator migration:
+  * Update wpdtrt-plugin-boilerplate from 1.5.3 to 1.6.17
+  * Sync with generator-wpdtrt-plugin-boilerplate 0.8.12 (migration)
+  * Remove boilerplate code and file
+  * Add missing attachment fields
+  * Add missing icon, image, content template files
+  * Add fallback array if no options sent to output template
+  * Fix type declaration for integer
+  * Fix type declaration for post object
+  * Use correct variable types (fixes #77)
+* CI:
+  * Tell Travis to start MySQL as this no longer happens automatically
+  * Move database credentials into Travis settings
+  * Match PHP version to version used by Sitehost container (`7.2.20`)
+* Dependencies:
+  * Fix casing of Composer dependency
+  * Fix name of `extra` key in `composer.json`
+  * Update Composer dependencies
+  * Update Yarn dependencies
+* Documentation:
+  * Migrate PHPDoc to Natural Docs
+  * Exclude PHPDoc sniffs
+  * Don't install Mono on CI on dev branch (https://github.com/dotherightthing/wpdtrt-plugin-boilerplate/issues/173)
+* Linting:
+  * Configure ESLint, suppress ESLint error jQuery noConflict iife
+  * Remove unsupported CSS property
+  * When validating an HTML fragment via Tenon, pass the relevant option (does not resolve #56)
+  * Clean up `tenonAnalyzeHtml` output
+* Misc:
+  * Fix removeAttr typo
+  * Fix gallery viewer selector
+  * Show pointer cursor over gallery expand button
+  * Optimise `attr` and `removeAttr` for jQuery 1.7+
+  * Remove redundant attributes
+  * Only update the viewer if a different thumbnail was selected
+* SEO:
+  * Only track clicks when these were initiated by the user, not by the setup script
+* Unit testing:
+  * Add Cypress, add UI tests & several Gulp unit tests
+  * Increase Cypress' allowed response time, to allow loading of local WordPress pages via MAMP Pro (https://github.com/dotherightthing/generator-wpdtrt-plugin-boilerplate/issues/92)
+  * PHPUnit - update expected image dimensions, as images are slightly narrower on live, for some reason
+  * PHPUnit - Fix name of thumbnail size
+  * Add PHPUnit XML config file for generated plugin, as only the boilerplate tests were being run
+  * PHPUnit - Thumbnail links now store options as data attributes rather than URL params
+  * PHPUnit - Update expected gallery markup
+  * PHPUnit - Disable test without assertions
+  * PHPUnit - Format fixtures, move bulky fixture out of test, rename fixtures for readability
+  * PHPUnit - Ignore test images
+  * Cypress - Reinstate failing test (see #67)
 
 = 1.8.6 =
 * Travis: Tell Travis to start MySQL as this no longer happens automatically

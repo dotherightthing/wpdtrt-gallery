@@ -13,7 +13,7 @@
  *
  * Extends the base class to inherit boilerplate functionality, adds application-specific methods.
  */
-class WPDTRT_Gallery_Rewrite extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_1_6_14\Rewrite {
+class WPDTRT_Gallery_Rewrite extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_1_6_19\Rewrite {
 
 	/**
 	 * Function: __construct
