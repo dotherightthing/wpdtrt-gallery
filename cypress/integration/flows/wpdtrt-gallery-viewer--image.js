@@ -26,6 +26,9 @@
 const componentClass = 'wpdtrt-gallery-viewer';
 const sectionId = 'a-new-bike';
 
+// https://github.com/Bkucera/cypress-plugin-retries
+Cypress.env( 'RETRIES', 2 );
+
 describe( 'DTRT Gallery - Image Viewer', function () {
   before( function () {
     // load local tour diary page

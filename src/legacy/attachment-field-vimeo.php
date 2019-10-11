@@ -48,7 +48,7 @@ function wpdtrt_gallery_attachment_field_vimeo_pageid( array $form_fields, objec
  * Returns:
  *   $post - Modified post data
  */
-function wpdtrt_gallery_attachment_field_vimeo_pageid_save( object $post, array $attachment ) : object {
+function wpdtrt_gallery_attachment_field_vimeo_pageid_save( array $post, array $attachment ) : array {
 
 	if ( isset( $attachment['wpdtrt-gallery-vimeo-pageid'] ) ) {
 		update_post_meta( $post['ID'], 'wpdtrt_gallery_attachment_vimeo_pageid', $attachment['wpdtrt-gallery-vimeo-pageid'] );

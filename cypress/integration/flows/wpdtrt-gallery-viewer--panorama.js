@@ -23,6 +23,9 @@
 const componentClass = 'wpdtrt-gallery-viewer';
 const sectionId = 'itchy-feet';
 
+// https://github.com/Bkucera/cypress-plugin-retries
+Cypress.env( 'RETRIES', 2 );
+
 describe( 'DTRT Gallery - Panorama Viewer', function () {
   before( function () {
     // load local tour diary page

@@ -13,6 +13,14 @@ language: php
 php:
   - 7.2.20 # MAMP
 
+addons:
+  apt:
+    packages:
+      # Fix /home/travis/.cache/Cypress/3.4.1/Cypress/Cypress: error while loading shared libraries:
+      # libgconf-2.so.4: cannot open shared object file: No such file or directory
+      # see https://docs.cypress.io/guides/guides/continuous-integration.html#Travis
+      - libgconf-2-4
+
 # Public Environment Variables
 # https://docs.travis-ci.com/user/environment-variables
 # https://github.com/meitar/wordpress-plugin-skeleton/blob/master/.travis.yml
@@ -65,11 +73,11 @@ before_install:
   - phpenv config-rm xdebug.ini
   # Install Mono (Natural Docs dependency)
   # https://www.mono-project.com/download/stable/#download-lin-ubuntu
-  - sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF
-  - sudo apt install apt-transport-https ca-certificates
-  - echo "deb https://download.mono-project.com/repo/ubuntu stable-xenial main" | sudo tee /etc/apt/sources.list.d/mono-official-stable.list
-  - sudo apt update
-  - sudo apt install mono-complete
+  - if [ $TRAVIS_TAG ]; then sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF; fi
+  - if [ $TRAVIS_TAG ]; then sudo apt install apt-transport-https ca-certificates; fi
+  - if [ $TRAVIS_TAG ]; then echo "deb https://download.mono-project.com/repo/ubuntu stable-xenial main" | sudo tee /etc/apt/sources.list.d/mono-official-stable.list; fi
+  - if [ $TRAVIS_TAG ]; then sudo apt update; fi
+  - if [ $TRAVIS_TAG ]; then sudo apt install mono-complete; fi
   # Unsure if this is required here, it is needed by generated plugins.
   # See dotherightthing/generator-wpdtrt-plugin-boilerplate#88
   - composer config -g github-oauth.github.com $GH_TOKEN

@@ -27,6 +27,41 @@
 class WPDTRT_GalleryTest extends WP_UnitTestCase {
 
 	/**
+	 * Group: Variables
+	 * _____________________________________
+	 */
+
+	/**
+	 * Variable: $base_url
+	 */
+	private $base_url = 'http://example.org';
+
+	/**
+	 * Variable: $gallery_html
+	 *
+	 * Fixture.
+	 */
+	private $gallery_html = '
+	<section id="test-section">
+		<div class="wpdtrt-gallery-viewer stack stack_link_viewer" data-enabled="false" data-expanded="false">
+			<div class="wpdtrt-gallery-viewer--header">
+				<h2>Post 1 heading</h2>
+			</div>
+			<div class="stack--wrapper">
+				<figure class="stack--liner">
+					<div class="img-wrapper"></div>
+					<div class="wpdtrt-gallery-viewer--embed">
+						<iframe aria-hidden="true" title="Gallery media viewer."></iframe>
+					</div>
+					<figcaption class="wpdtrt-gallery-viewer--footer">
+						<div class="wpdtrt-gallery-viewer--caption"></div>
+					</figcaption>
+				</figure>
+			</div>
+		</div>
+	</section>';
+
+	/**
 	 * Group: Lifecycle Events
 	 * _____________________________________
 	 */
@@ -44,31 +79,45 @@ class WPDTRT_GalleryTest extends WP_UnitTestCase {
 		// Generate WordPress data fixtures
 		//
 		// Post (for testing manually entered, naked shortcode).
-		$this->post_id_1 = $this->create_post( array(
+		$this->post_with_empty_gallery = $this->create_post( array(
 			'post_title'   => 'Empty gallery test',
-			'post_content' => '[wpdtrt_gallery_shortcode_heading]<h2>Post 1 heading</h2>[/wpdtrt_gallery_shortcode_heading]',
+			'post_content' => '
+				<section id="test-section">
+					[wpdtrt_gallery_shortcode_heading]
+						<h2>Post 1 heading</h2>
+					[/wpdtrt_gallery_shortcode_heading]
+				</section>',
 		));
 
 		// Attachment (for testing custom sizes and meta).
-		$this->attachment_id_1 = $this->create_attachment( array(
+		$this->image_1 = $this->create_attachment( array(
 			'filename'       => 'images/test1.jpg',
-			'parent_post_id' => $this->post_id_1,
+			'parent_post_id' => $this->post_with_empty_gallery,
 		));
 
-		$this->thumbnail_size = 'wpdtrt-gallery-thumbnail';
+		$this->thumbnail_size = 'thumbnail';
 
 		// Post (for testing populated shortcode)
-		// NOTE: generated attachment is attached to post_id_1 not post_id_2
+		// NOTE: generated attachment is attached to post_with_empty_gallery not post_with_single_image_gallery
 		// this is a chicken-and-egg scenario.
-		$this->post_id_2 = $this->create_post( array(
+		$this->post_with_single_image_gallery = $this->create_post( array(
 			'post_title'   => 'Single image gallery test',
-			'post_content' => '[wpdtrt_gallery_shortcode_heading]<h2>Post 2 heading</h2>[gallery link="file" ids="' . $this->attachment_id_1 . '"][/wpdtrt_gallery_shortcode_heading]',
+			'post_content' => '
+				<section id="test-section">
+					[wpdtrt_gallery_shortcode_heading]
+						<h2>Post 2 heading</h2>
+						[gallery link="file" ids="' . $this->image_1 . '"]
+					[/wpdtrt_gallery_shortcode_heading]
+				</section>',
 		));
 
 		// Post (for injected naked shortcode).
-		$this->post_id_3 = $this->create_post( array(
+		$this->post_with_no_gallery = $this->create_post( array(
 			'post_title'   => 'Empty gallery test',
-			'post_content' => '<h2>Post 3 heading</h2>',
+			'post_content' => '
+				<section id="test-section">
+					<h2>Post 3 heading</h2>
+				</section>',
 		));
 	}
 
@@ -85,9 +134,9 @@ class WPDTRT_GalleryTest extends WP_UnitTestCase {
 
 		parent::tearDown();
 
-		wp_delete_post( $this->post_id_1, true );
-		wp_delete_post( $this->attachment_id_1, true );
-		wp_delete_post( $this->post_id_2, true );
+		wp_delete_post( $this->post_with_empty_gallery, true );
+		wp_delete_post( $this->image_1, true );
+		wp_delete_post( $this->post_with_single_image_gallery, true );
 
 		$this->delete_sized_images();
 	}
@@ -135,7 +184,7 @@ class WPDTRT_GalleryTest extends WP_UnitTestCase {
 	 * - <https://developer.wordpress.org/reference/functions/wp_insert_attachment/>
 	 * - <http://develop.svn.wordpress.org/trunk/tests/phpunit/includes/factory/class-wp-unittest-factory-for-attachment.php>
 	 */
-	public function create_attachment( array $options ) : number {
+	public function create_attachment( array $options ) : int {
 
 		$filename       = null;
 		$parent_post_id = null;
@@ -208,7 +257,7 @@ class WPDTRT_GalleryTest extends WP_UnitTestCase {
 	 * - <https://wordpress.stackexchange.com/questions/37163/proper-formatting-of-post-date-for-wp-insert-post>
 	 * - <https://codex.wordpress.org/Function_Reference/wp_update_post>
 	 */
-	public function create_post( array $options ) : number {
+	public function create_post( array $options ) : int {
 
 		$post_title   = null;
 		$post_date    = null;
@@ -315,6 +364,19 @@ class WPDTRT_GalleryTest extends WP_UnitTestCase {
 	 * Group: Tests
 	 * _____________________________________
 	 */
+	public function test_test_url() {
+		$url = get_post_permalink( $this->post_with_no_gallery );
+
+		$this->go_to(
+			$url
+		);
+
+		$this->assertContains(
+			'?post_type=post&p=7',
+			$url,
+			'URL not as expected'
+		);
+	}
 
 	/**
 	 * Method: test_attachment_fields
@@ -327,49 +389,51 @@ class WPDTRT_GalleryTest extends WP_UnitTestCase {
 	 */
 	public function test_attachment_fields() {
 
+		// TODO add test for #77.
+		//
 		// location - only used for Media Library searches
 		//
 		// panorama.
-		update_post_meta( $this->attachment_id_1, 'wpdtrt_gallery_attachment_panorama', '1' );
+		update_post_meta( $this->image_1, 'wpdtrt_gallery_attachment_panorama', '1' );
 
 		$this->assertContains(
-			'panorama=1',
-			wp_get_attachment_link( $this->attachment_id_1 ),
-			'Thumbnail link HTML missing query param for panorama'
+			'data-panorama="1"',
+			wp_get_attachment_link( $this->image_1 ),
+			'Thumbnail link HTML missing data attribute for panorama'
 		);
 
 		// ride with gps map embed.
-		update_post_meta( $this->attachment_id_1, 'wpdtrt_gallery_attachment_rwgps_pageid', '123456789' );
+		update_post_meta( $this->image_1, 'wpdtrt_gallery_attachment_rwgps_pageid', '123456789' );
 
 		$this->assertContains(
-			'rwgps_pageid=123456789',
-			wp_get_attachment_link( $this->attachment_id_1 ),
-			'Thumbnail link HTML missing query param for rwgps_pageid'
+			'data-rwgps-pageid="123456789"',
+			wp_get_attachment_link( $this->image_1 ),
+			'Thumbnail link HTML missing data attribute for rwgps-pageid'
 		);
 
 		// soundcloud player embed - both keys must have values.
-		update_post_meta( $this->attachment_id_1, 'wpdtrt_gallery_attachment_soundcloud_pageid', 'test-page' );
-		update_post_meta( $this->attachment_id_1, 'wpdtrt_gallery_attachment_soundcloud_trackid', '123456789' );
+		update_post_meta( $this->image_1, 'wpdtrt_gallery_attachment_soundcloud_pageid', 'test-page' );
+		update_post_meta( $this->image_1, 'wpdtrt_gallery_attachment_soundcloud_trackid', '123456789' );
 
 		$this->assertContains(
-			'soundcloud_pageid=test-page',
-			wp_get_attachment_link( $this->attachment_id_1 ),
-			'Thumbnail link HTML missing query param for soundcloud_pageid'
+			'data-soundcloud-pageid="test-page"',
+			wp_get_attachment_link( $this->image_1 ),
+			'Thumbnail link HTML missing data attribute for soundcloud-pageid'
 		);
 
 		$this->assertContains(
-			'soundcloud_trackid=123456789',
-			wp_get_attachment_link( $this->attachment_id_1 ),
-			'Thumbnail link HTML missing query param for soundcloud_trackid'
+			'data-soundcloud-trackid="123456789"',
+			wp_get_attachment_link( $this->image_1 ),
+			'Thumbnail link HTML missing data attribute for soundcloud-trackid'
 		);
 
 		// vimeo.
-		update_post_meta( $this->attachment_id_1, 'wpdtrt_gallery_attachment_vimeo_pageid', '123456789' );
+		update_post_meta( $this->image_1, 'wpdtrt_gallery_attachment_vimeo_pageid', '123456789' );
 
 		$this->assertContains(
-			'vimeo_pageid=123456789',
-			wp_get_attachment_link( $this->attachment_id_1 ),
-			'Thumbnail link HTML missing query param for vimeo_pageid'
+			'data-vimeo-pageid="123456789"',
+			wp_get_attachment_link( $this->image_1 ),
+			'Thumbnail link HTML missing data attribute for vimeo-pageid'
 		);
 	}
 
@@ -388,31 +452,31 @@ class WPDTRT_GalleryTest extends WP_UnitTestCase {
 
 		$this->assertGreaterThan(
 			0,
-			$this->attachment_id_1,
+			$this->image_1,
 			'Attachment image not created'
 		);
 
 		$this->assertEquals(
-			'http://example.org/wp-content/uploads/images/test1-150x150.jpg',
-			wp_get_attachment_image_src( $this->attachment_id_1, $this->thumbnail_size )[0],
+			$this->base_url . '/wp-content/uploads/images/test1-150x150.jpg',
+			wp_get_attachment_image_src( $this->image_1, $this->thumbnail_size )[0],
 			'Thumbnail image not created'
 		);
 
 		$this->assertEquals(
 			150,
-			wp_get_attachment_image_src( $this->attachment_id_1, $this->thumbnail_size )[1],
+			wp_get_attachment_image_src( $this->image_1, $this->thumbnail_size )[1],
 			'Thumbnail image file has incorrect width'
 		);
 
 		$this->assertEquals(
 			150,
-			wp_get_attachment_image_src( $this->attachment_id_1, $this->thumbnail_size )[2],
+			wp_get_attachment_image_src( $this->image_1, $this->thumbnail_size )[2],
 			'Thumbnail image file has incorrect height'
 		);
 
 		$this->assertContains(
 			'width="150" height="150"',
-			wp_get_attachment_image( $this->attachment_id_1, $this->thumbnail_size ),
+			wp_get_attachment_image( $this->image_1, $this->thumbnail_size ),
 			'Thumbnail image src has incorrect dimensions'
 		);
 	}
@@ -428,11 +492,11 @@ class WPDTRT_GalleryTest extends WP_UnitTestCase {
 	public function test_injected_shortcode_with_heading() {
 
 		$this->go_to(
-			get_post_permalink( $this->post_id_3 )
+			get_post_permalink( $this->post_with_no_gallery )
 		);
 
 		// https://stackoverflow.com/a/22270259/6850747.
-		$content = apply_filters( 'the_content', get_post_field( 'post_content', $this->post_id_3 ) );
+		$content = apply_filters( 'the_content', get_post_field( 'post_content', $this->post_with_no_gallery ) );
 
 		$this->assertContains(
 			'<h2>Post 3 heading</h2>',
@@ -455,30 +519,13 @@ class WPDTRT_GalleryTest extends WP_UnitTestCase {
 	public function test_shortcode_with_heading() {
 
 		$this->go_to(
-			get_post_permalink( $this->post_id_1 )
+			get_post_permalink( $this->post_with_empty_gallery )
 		);
 
-		$content = get_post_field( 'post_content', $this->post_id_1 );
+		$content = get_post_field( 'post_content', $this->post_with_empty_gallery );
 
 		$this->assertEqualHtml(
-			'<div class="wpdtrt-gallery stack stack_link_viewer gallery-viewer h2-viewer" id="[]-viewer" data-has-gallery="false" data-expanded="false">
-				<div class="gallery-viewer--header">
-					<h2>Post 1 heading</h2>
-				</div>
-				<div class="stack--wrapper" style="">
-					<figure class="stack--liner">
-						<div class="img-wrapper">
-							<img src="" alt="">
-						</div>
-						<div class="gallery-viewer--embed">
-							<iframe width="100%" height="100%" src="" frameborder="0" allowfullscreen="true" scrolling="no" aria-hidden="true"></iframe>
-						</div>
-						<figcaption class="gallery-viewer--footer">
-							<div class="gallery-viewer--caption"></div>
-						</figcaption>
-					</figure>
-				</div>
-			</div>',
+			$this->gallery_html,
 			trim( do_shortcode( $content ) ),
 			'wpdtrt_gallery_shortcode does not return the correct HTML'
 		);
@@ -495,11 +542,11 @@ class WPDTRT_GalleryTest extends WP_UnitTestCase {
 	public function test_shortcode_with_heading_and_gallery() {
 
 		$this->go_to(
-			get_post_permalink( $this->post_id_2 )
+			get_post_permalink( $this->post_with_single_image_gallery )
 		);
 
 		// https://stackoverflow.com/a/22270259/6850747.
-		$content = apply_filters( 'the_content', get_post_field( 'post_content', $this->post_id_2 ) );
+		$content = apply_filters( 'the_content', get_post_field( 'post_content', $this->post_with_single_image_gallery ) );
 
 		$this->assertContains(
 			'<h2>Post 2 heading</h2>',
@@ -513,7 +560,7 @@ class WPDTRT_GalleryTest extends WP_UnitTestCase {
 	 *
 	 * Test wp-admin.
 	 */
-	public function test_wp_admin() {
+	public function __test_wp_admin() {
 		$this->go_to( '/wp-admin/plugins.php' );
 
 		$this->go_to( '/wp-admin/plugins.php?page=tgmpa-install-plugins&plugin_status=install' );
@@ -529,7 +576,7 @@ class WPDTRT_GalleryTest extends WP_UnitTestCase {
 	 */
 	public function __test_shortcode_a11y() {
 
-		$permalink = get_post_permalink( $this->post_id_3 );
+		$permalink = get_post_permalink( $this->post_with_no_gallery );
 
 		$this->go_to( $permalink );
 

@@ -17,3 +17,6 @@ vendor
 wp-content
 cypress/screenshots
 cypress/videos
+images/test1-*.jpg
+.vscode
+*.bak

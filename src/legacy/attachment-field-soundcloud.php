@@ -48,7 +48,7 @@ function wpdtrt_gallery_attachment_field_soundcloud_pageid( array $form_fields, 
  * Returns:
  *   $post - Modified post data
  */
-function wpdtrt_gallery_attachment_field_soundcloud_pageid_save( object $post, array $attachment ) : object {
+function wpdtrt_gallery_attachment_field_soundcloud_pageid_save( array $post, array $attachment ) : array {
 
 	if ( isset( $attachment['wpdtrt-gallery-soundcloud-pageid'] ) ) {
 		update_post_meta( $post['ID'], 'wpdtrt_gallery_attachment_soundcloud_pageid', $attachment['wpdtrt-gallery-soundcloud-pageid'] );
@@ -89,7 +89,7 @@ function wpdtrt_gallery_attachment_field_soundcloud_trackid( array $form_fields,
  * Returns:
  *   $post - Modified post data
  */
-function wpdtrt_gallery_attachment_field_soundcloud_trackid_save( object $post, array $attachment ) : object {
+function wpdtrt_gallery_attachment_field_soundcloud_trackid_save( array $post, array $attachment ) : array {
 
 	if ( isset( $attachment['wpdtrt-gallery-soundcloud-trackid'] ) ) {
 		update_post_meta( $post['ID'], 'wpdtrt_gallery_attachment_soundcloud_trackid', $attachment['wpdtrt-gallery-soundcloud-trackid'] );
