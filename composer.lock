@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e21b741f90c9f8b8ef50ebeb903ba313",
+    "content-hash": "18590451169fffb90c3a5f172dba4f1f",
     "packages": [
         {
             "name": "dotherightthing/wpdtrt-debug",
@@ -54,16 +54,16 @@
         },
         {
             "name": "dotherightthing/wpdtrt-plugin-boilerplate",
-            "version": "1.6.14",
+            "version": "1.6.17",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dotherightthing/wpdtrt-plugin-boilerplate.git",
-                "reference": "fd464d6f37fdba40acbd356e3f4bd9a6f686e3b8"
+                "reference": "56410371d62939e72465d7032f0664379d1f3724"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dotherightthing/wpdtrt-plugin-boilerplate/zipball/fd464d6f37fdba40acbd356e3f4bd9a6f686e3b8",
-                "reference": "fd464d6f37fdba40acbd356e3f4bd9a6f686e3b8",
+                "url": "https://api.github.com/repos/dotherightthing/wpdtrt-plugin-boilerplate/zipball/56410371d62939e72465d7032f0664379d1f3724",
+                "reference": "56410371d62939e72465d7032f0664379d1f3724",
                 "shasum": ""
             },
             "require": {
@@ -82,7 +82,7 @@
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "DoTheRightThing\\WPDTRT_Plugin_Boilerplate\\r_1_6_14\\": "src"
+                    "DoTheRightThing\\WPDTRT_Plugin_Boilerplate\\r_1_6_17\\": "src"
                 }
             },
             "license": [
@@ -104,9 +104,9 @@
             "support": {
                 "email": "support@dotherightthing.co.nz",
                 "issues": "https://github.com/dotherightthing/wpdtrt-plugin-boilerplate/issues",
-                "source": "https://github.com/dotherightthing/wpdtrt-plugin-boilerplate/tree/1.6.14"
+                "source": "https://github.com/dotherightthing/wpdtrt-plugin-boilerplate/tree/1.6.17"
             },
-            "time": "2019-10-10T22:11:20+00:00"
+            "time": "2019-10-11T07:10:45+00:00"
         },
         {
             "name": "gamajo/template-loader",
