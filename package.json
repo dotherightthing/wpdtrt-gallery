@@ -29,19 +29,22 @@
     "urijs": "^1.19.1",
     "waypoints": "^4.0.1"
   },
+  "devDependencies": {
+    "gulp": "^4.0.2"
+  },
   "workspaces": [
     "vendor/dotherightthing/wpdtrt-plugin-boilerplate/"
   ],
   "scripts": {
-    "build": "./node_modules/.bin/gulp --gulpfile ./vendor/dotherightthing/wpdtrt-plugin-boilerplate/gulpfile-loader.js --cwd ./",
-    "dependencies": "./node_modules/.bin/gulp dependencies --gulpfile ./vendor/dotherightthing/wpdtrt-plugin-boilerplate/gulpfile-loader.js --cwd ./",
-    "docs": "./node_modules/.bin/gulp docs --gulpfile ./vendor/dotherightthing/wpdtrt-plugin-boilerplate/gulpfile-loader.js --cwd ./",
-    "installplugin": "./install.sh",
-    "lint": "./node_modules/.bin/gulp lint --gulpfile ./vendor/dotherightthing/wpdtrt-plugin-boilerplate/gulpfile-loader.js --cwd ./",
-    "release": "./node_modules/.bin/gulp release --gulpfile ./vendor/dotherightthing/wpdtrt-plugin-boilerplate/gulpfile-loader.js --cwd ./",
-    "test": "./node_modules/.bin/gulp test --gulpfile ./vendor/dotherightthing/wpdtrt-plugin-boilerplate/gulpfile-loader.js --cwd ./ && ./node_modules/.bin/cypress open",
-    "version": "./node_modules/.bin/gulp version --gulpfile ./vendor/dotherightthing/wpdtrt-plugin-boilerplate/gulpfile-loader.js --cwd ./",
-    "watch": "./node_modules/.bin/gulp compile --gulpfile ./vendor/dotherightthing/wpdtrt-plugin-boilerplate/gulpfile-loader.js --cwd ./ && gulp watch --gulpfile ./vendor/dotherightthing/wpdtrt-plugin-boilerplate/gulpfile-loader.js --cwd ./"
+    "build": "./node_modules/.bin/gulp --gulpfile ./node_modules/wpdtrt-gulp/gulpfile-loader.js --cwd ./",
+    "dependencies": "./node_modules/.bin/gulp dependencies --gulpfile ./node_modules/wpdtrt-gulp/gulpfile-loader.js --cwd ./",
+    "docs": "./node_modules/.bin/gulp documentation --gulpfile ./node_modules/wpdtrt-gulp/gulpfile-loader.js --cwd ./",
+    "lint": "./node_modules/.bin/gulp lint --gulpfile ./node_modules/wpdtrt-gulp/gulpfile-loader.js --cwd ./",
+    "release": "./node_modules/.bin/gulp release --gulpfile ./node_modules/wpdtrt-gulp/gulpfile-loader.js --cwd ./",
+    "test": "./node_modules/.bin/gulp test --gulpfile ./node_modules/wpdtrt-gulp/gulpfile-loader.js --cwd ./",
+    "version": "./node_modules/.bin/gulp version --gulpfile ./node_modules/wpdtrt-gulp/gulpfile-loader.js --cwd ./",
+    "watch": "./node_modules/.bin/gulp compile --gulpfile ./node_modules/wpdtrt-gulp/gulpfile-loader.js && gulp watch --gulpfile ./node_modules/wpdtrt-gulp/gulpfile-loader.js --cwd ./",
+    "installplugin": "./install.sh"  
   },
   "repository": {
     "type": "git",
@@ -53,8 +56,5 @@
   ],
   "license": "ISC",
   "homepage": "https://github.com/dotherightthing/wpdtrt-gallery",
-  "srcDir": "/Volumes/DanBackup/Websites/wpdtrt-gallery",
-  "devDependencies": {
-    "cypress-plugin-retries": "^1.3.0"
-  }
+  "srcDir": "/Volumes/DanBackup/Websites/wpdtrt-gallery"
 }
