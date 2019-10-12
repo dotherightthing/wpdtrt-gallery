@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "wpdtrt-gallery",
-  "version": "1.8.8",
+  "version": "1.8.9",
   "description": "Gallery viewer which supports images, panoramas, maps, SoundCloud and Vimeo.",
   "keywords": [
     "gallery",
@@ -44,7 +44,7 @@
     "test": "./node_modules/.bin/gulp test --gulpfile ./node_modules/wpdtrt-gulp/gulpfile-loader.js --cwd ./",
     "version": "./node_modules/.bin/gulp version --gulpfile ./node_modules/wpdtrt-gulp/gulpfile-loader.js --cwd ./",
     "watch": "./node_modules/.bin/gulp compile --gulpfile ./node_modules/wpdtrt-gulp/gulpfile-loader.js && gulp watch --gulpfile ./node_modules/wpdtrt-gulp/gulpfile-loader.js --cwd ./",
-    "installplugin": "./install.sh"  
+    "installplugin": "./install.sh"
   },
   "repository": {
     "type": "git",
