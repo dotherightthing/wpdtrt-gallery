@@ -3,9 +3,9 @@
 composer.phar
 config/naturaldocs/Working Data
 Natural Docs
-css
 docs/*
-!docs/README.md
+!docs/.gitkeep
+css
 generators
 js/*-es5.js
 logs
