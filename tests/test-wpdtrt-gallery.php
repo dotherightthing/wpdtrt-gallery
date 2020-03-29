@@ -43,12 +43,12 @@ class WPDTRT_GalleryTest extends WP_UnitTestCase {
 	 */
 	private $gallery_html = '
 	<section id="test-section">
-		<div class="wpdtrt-gallery-viewer stack stack_link_viewer" data-enabled="false" data-expanded="false">
+		<div class="wpdtrt-gallery-viewer stack stack--gallery-viewer" data-enabled="false" data-expanded="false">
 			<div class="wpdtrt-gallery-viewer--header">
 				<h2>Post 1 heading</h2>
 			</div>
-			<div class="stack--wrapper">
-				<figure class="stack--liner">
+			<div class="stack__wrapper">
+				<figure class="stack__liner">
 					<div class="img-wrapper"></div>
 					<div class="wpdtrt-gallery-viewer--embed">
 						<iframe aria-hidden="true" title="Gallery media viewer."></iframe>

@@ -59,13 +59,13 @@
     }
 
     .wpdtrt-gallery-viewer--footer {
-        // prevents the .stack--liner borders from peeking through
+        // prevents the .stack__liner borders from peeking through
         margin-left: 0;
     }
 
     &:focus {
 
-        .stack--liner {
+        .stack__liner {
             &::after {
                 @include focus-state;
             }
@@ -90,7 +90,7 @@
         }
     }
 
-    .stack--wrapper {
+    .stack__liner {
         // override inline styles, remove bgcolor so that caption is not fw
         background: none !important;
     }
@@ -371,7 +371,7 @@
         }
     }
 
-    .stack--wrapper {
+    .stack__liner {
         opacity: 1;
         background-color: transparent;
         transition: opacity .3s ease;
@@ -381,7 +381,7 @@
         }
     }
 
-    .stack--liner {
+    .stack__liner {
         vertical-align: bottom;
         background: none;
         text-align: left;
@@ -474,7 +474,7 @@
     &:focus {
         outline: none;
 
-        .stack--liner {
+        .stack__liner {
             position: relative;
 
             &::after {
@@ -593,13 +593,13 @@
             }
 
             .wpdtrt-gallery-viewer--footer {
-                // prevents the .stack--liner borders from peeking through
+                // prevents the .stack__liner borders from peeking through
                 margin-left: 0;
             }
 
             &:focus {
 
-                .stack--liner {
+                .stack__liner {
                     &::after {
                         @include focus-state;
                     }
@@ -624,7 +624,7 @@
                 }
             }
 
-            .stack--wrapper {
+            .stack__liner {
                 // override inline styles, remove bgcolor so that caption is not fw
                 background: none !important;
             }
@@ -654,7 +654,7 @@
             }
         }
 
-        .stack--wrapper {
+        .stack__liner {
             // the gallery viewer is in the template,
             // but not all sections have galleries
             .no-js & {
@@ -668,16 +668,16 @@
     // -------------------------------------------------------------------
 
     &[data-panorama] {
-        .stack--wrapper {
+        .stack__liner {
             .js & {
                 display: block; // prevent table display from blowing out panorama width
                 background: none !important; // prevent conflict with JS scroll
             }
         }
 
-        .stack--liner {
+        .stack__liner {
             &::before {
-                @extend .stack--liner--icon-hint;
+                @extend .stack__liner--icon-hint;
                 content: '\e90a';
             }
         }
@@ -693,11 +693,11 @@
     // -------------------------------------------------------------------
 
     &[data-soundcloud-pageid] {
-        .stack--liner {
+        .stack__liner {
             background-color: $wpdtrt-gallery-bg-color-embed;
 
             &::before {
-                @extend .stack--liner--icon-embed;
+                @extend .stack__liner--icon-embed;
                 content: '\e90c';
             }
 
@@ -712,11 +712,11 @@
     }
 
     &[data-vimeo-pageid] {
-        .stack--liner {
+        .stack__liner {
             background-color: $wpdtrt-gallery-bg-color-embed;
 
             &::before {
-                @extend .stack--liner--icon-embed;
+                @extend .stack__liner--icon-embed;
                 content: '\e90b';
             }
 
@@ -823,7 +823,7 @@
             padding: 13px 13px 9px;
         }
 
-        .stack--liner {
+        .stack__liner {
 
             &::before {
                 top: 20px;

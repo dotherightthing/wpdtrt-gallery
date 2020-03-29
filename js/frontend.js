@@ -618,7 +618,7 @@ const wpdtrt_gallery_ui = {
 
     // the generated enlargement
     const viewerId = $viewer.attr( 'id' );
-    // const $viewerWrapper = $viewer.find( '.stack--wrapper' );
+    // const $viewerWrapper = $viewer.find( '.stack__liner' );
 
     // the other gallery items
     const $galleryItemLinks = $( `[aria-controls='${viewerId}']` );
@@ -722,9 +722,9 @@ const wpdtrt_gallery_ui = {
     const $sectionGallery = $section.find( '.gallery' );
     const sectionId = $section.attr( 'id' );
     let viewerId = `${sectionId}-viewer`;
-    const $stackLinkViewer = $section.find( '.stack_link_viewer' );
+    const $stackLinkViewer = $section.find( '.stack--gallery-viewer' );
     const $heading = $stackLinkViewer.find( '.wpdtrt-gallery-viewer--heading' );
-    const $stackWrapper = $stackLinkViewer.find( '.stack--wrapper' );
+    const $stackWrapper = $stackLinkViewer.find( '.stack__liner' );
     const $sectionGalleryThumbnails = $sectionGallery.find( 'img' );
     const $sectionGalleryItemLinks = $sectionGallery.find( 'a' );
 
