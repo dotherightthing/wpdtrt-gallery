@@ -270,6 +270,35 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 	}
 
 	/**
+	 * Method: get_inner_html
+	/**
+	 * Method: get_html
+	 *
+	 * This is better than getting child nodes because WP shortcodes aren't HTML elements.
+	 *
+	 * Parameters:
+	 *   $n - DOM node
+	 *   $include_target_tag - whether to include the element tag in the output
+	 *
+	 * Returns:
+	 *   $html - HTML
+	 *
+	 * See:
+	 * <https://stackoverflow.com/a/53740544/6850747>
+	 */
+	public function get_html( DOMNode $n, $include_target_tag = false ) : string {
+		$dom = new DOMDocument();
+		$dom->appendChild( $dom->importNode( $n, true ) ); // $deep.
+		$html = trim( $dom->saveHTML() );
+
+		if ( $include_target_tag ) {
+			return $html;
+		}
+
+		return preg_replace( '@^<' . $n->nodeName . '[^>]*>|</'. $n->nodeName . '>$@', '', $html ); // phpcs:ignore
+	}
+
+	/**
 	 * Method: filter_shortcode_heading
 	 *
 	 * Automatically inject plugin shortcodes into the content.
@@ -285,6 +314,11 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 	 *
 	 * See:
 	 * <https://codex.wordpress.org/Shortcode_API#Function_reference>
+	 * <https://www.php.net/manual/en/class.domdocument.php>
+	 * <https://davidwalsh.name/domdocument>
+	 * <https://stackoverflow.com/questions/3577641/how-do-you-parse-and-process-html-xml-in-php>
+	 * <https://stackoverflow.com/questions/7048080/ignore-specific-warnings-with-php-codesniffer>
+	 * <https://stackoverflow.com/a/60673499/6850747>
 	 *
 	 * Manual alternatives:
 	 * --- php
@@ -295,9 +329,49 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 	 * ---
 	 */
 	public function filter_shortcode_heading( string $content ) : string {
+		$dom = new DOMDocument();
+		$dom->loadHTML( mb_convert_encoding( $content, 'HTML-ENTITIES', 'UTF-8' ) );
+		$sections = $dom->getElementsByTagName( 'section' );
+		$content  = '';
 
-		$content = preg_replace( '/(<h2>.+<\/h2>)/', '[wpdtrt_gallery_shortcode_heading]$1[/wpdtrt_gallery_shortcode_heading]', $content );
-		$content = preg_replace( "/<div id='gallery'>/", '<h3>Gallery</h3>$1', $content );
+		foreach ( $sections as $section ) {
+			$heading            = $section->getElementsByTagName( 'h2' )[0];
+			$gallery            = $heading->nextSibling; // phpcs:ignore
+			$gallery_html       = $this->get_html( $gallery, true );
+			$heading_html       = $this->get_html( $heading, true );
+			$new_heading_html   = '[wpdtrt_gallery_shortcode_heading]' . $heading_html . '[/wpdtrt_gallery_shortcode_heading]';
+			$section_inner_html = $this->get_html( $section, false );
+			$section_class      = $section->getAttribute( 'class' );
+			$section_html       = '';
+			$section_id         = $section->getAttribute( 'id' );
+			$section_tabindex   = $section->getAttribute( 'tabindex' );
+
+			// remove gallery shortcode.
+			$section_inner_html = str_replace( $gallery_html, '', $section_inner_html );
+
+			// wrap heading in gallery viewer shortcode.
+			$section_inner_html = str_replace( $heading_html, $new_heading_html, $section_inner_html );
+
+			// start section.
+			$section_html .= '<section id="' . $section_id . '" class="' . $section_class . '" tabindex="' . $section_tabindex . '">';
+
+			// wrap gallery viewer shortcode and remaining content.
+			$section_html .= '<div class="entry-content__content">';
+			$section_html .= $section_inner_html;
+			$section_html .= '</div>';
+
+			// insert gallery shortcode after content.
+			$section_html .= '<div class="entry-content__gallery gallery">';
+			$section_html .= '<h3 class="accessible">Photos</h3>';
+			$section_html .= $gallery_html;
+			$section_html .= '</div>';
+
+			// end section.
+			$section_html .= '</section>';
+
+			// update output.
+			$content .= $section_html;
+		}
 
 		return $content;
 	}
