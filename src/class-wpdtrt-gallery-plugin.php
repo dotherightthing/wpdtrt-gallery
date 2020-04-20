@@ -69,7 +69,7 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 		add_filter( 'wp_read_image_metadata', array( $this, 'filter_save_image_geodata' ), '', 3 );
 		add_filter( 'wp_get_attachment_link', array( $this, 'filter_thumbnail_queryparams' ), 1, 4 );
 		add_filter( 'wp_get_attachment_image_attributes', array( $this, 'filter_thumbnail_attributes' ), 1, 4 ); // 10,2
-		add_filter( 'the_content', array( $this, 'filter_shortcode_heading' ), 10 );
+		add_filter( 'the_content', array( $this, 'filter_content_galleries' ), 10 );
 		add_filter( 'jpeg_quality', array( $this, 'filter_image_quality' ) );
 		add_filter( 'wp_editor_set_quality', array( $this, 'filter_image_quality' ) );
 		// add_filter( 'ilab_s3_can_calculate_srcset', false, 10, 4 ); // https://github.com/Interfacelab/ilab-media-tools/issues/55.
@@ -270,8 +270,6 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 	}
 
 	/**
-	 * Method: get_inner_html
-	/**
 	 * Method: get_html
 	 *
 	 * This is better than getting child nodes because WP shortcodes aren't HTML elements.
@@ -299,9 +297,9 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 	}
 
 	/**
-	 * Method: filter_shortcode_heading
+	 * Method: filter_content_galleries
 	 *
-	 * Automatically inject plugin shortcodes into the content.
+	 * Automatically inject plugin shortcodes into the content sections added by wpdtrt-contentsections.
 	 *
 	 * Note:
 	 * - do_shortcode() is registered as a default filter on 'the_content' with a priority of 11.
@@ -328,7 +326,7 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 	 * do_shortcode( '[wpdtrt_gallery]H2 heading text[/wpdtrt_gallery]' );
 	 * ---
 	 */
-	public function filter_shortcode_heading( string $content ) : string {
+	public function filter_content_galleries( string $content ) : string {
 		$dom = new DOMDocument();
 		$dom->loadHTML( mb_convert_encoding( $content, 'HTML-ENTITIES', 'UTF-8' ) );
 		$sections = $dom->getElementsByTagName( 'section' );
