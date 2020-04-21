@@ -69,7 +69,7 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 		add_filter( 'wp_read_image_metadata', array( $this, 'filter_save_image_geodata' ), '', 3 );
 		add_filter( 'wp_get_attachment_link', array( $this, 'filter_thumbnail_queryparams' ), 1, 4 );
 		add_filter( 'wp_get_attachment_image_attributes', array( $this, 'filter_thumbnail_attributes' ), 1, 4 ); // 10,2
-		add_filter( 'the_content', array( $this, 'filter_content_galleries' ), 10 );
+		// add_filter( 'the_content', array( $this, 'filter_content_galleries' ), 10 );
 		add_filter( 'jpeg_quality', array( $this, 'filter_image_quality' ) );
 		add_filter( 'wp_editor_set_quality', array( $this, 'filter_image_quality' ) );
 		// add_filter( 'ilab_s3_can_calculate_srcset', false, 10, 4 ); // https://github.com/Interfacelab/ilab-media-tools/issues/55.
@@ -81,6 +81,33 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 	 * Group: Getters and Setters
 	 * _____________________________________
 	 */
+
+	/**
+	 * Method: get_html
+	 *
+	 * This is better than getting child nodes because WP shortcodes aren't HTML elements.
+	 *
+	 * Parameters:
+	 *   $n - DOM node
+	 *   $include_target_tag - whether to include the element tag in the output
+	 *
+	 * Returns:
+	 *   $html - HTML
+	 *
+	 * See:
+	 * <https://stackoverflow.com/a/53740544/6850747>
+	 */
+	public function get_html( DOMNode $n, $include_target_tag = false ) : string {
+		$dom = new DOMDocument();
+		$dom->appendChild( $dom->importNode( $n, true ) ); // $deep.
+		$html = trim( $dom->saveHTML() );
+
+		if ( $include_target_tag ) {
+			return $html;
+		}
+
+		return preg_replace( '@^<' . $n->nodeName . '[^>]*>|</'. $n->nodeName . '>$@', '', $html ); // phpcs:ignore
+	}
 
 	/**
 	 * Group: Renderers
@@ -270,36 +297,9 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 	}
 
 	/**
-	 * Method: get_html
-	 *
-	 * This is better than getting child nodes because WP shortcodes aren't HTML elements.
-	 *
-	 * Parameters:
-	 *   $n - DOM node
-	 *   $include_target_tag - whether to include the element tag in the output
-	 *
-	 * Returns:
-	 *   $html - HTML
-	 *
-	 * See:
-	 * <https://stackoverflow.com/a/53740544/6850747>
-	 */
-	public function get_html( DOMNode $n, $include_target_tag = false ) : string {
-		$dom = new DOMDocument();
-		$dom->appendChild( $dom->importNode( $n, true ) ); // $deep.
-		$html = trim( $dom->saveHTML() );
-
-		if ( $include_target_tag ) {
-			return $html;
-		}
-
-		return preg_replace( '@^<' . $n->nodeName . '[^>]*>|</'. $n->nodeName . '>$@', '', $html ); // phpcs:ignore
-	}
-
-	/**
 	 * Method: filter_content_galleries
 	 *
-	 * Automatically inject plugin shortcodes into the content sections added by wpdtrt-contentsections.
+	 * Automatically inject plugin shortcodes.
 	 *
 	 * Note:
 	 * - do_shortcode() is registered as a default filter on 'the_content' with a priority of 11.
