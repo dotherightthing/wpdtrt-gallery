@@ -44,6 +44,7 @@ echo do_shortcode('[wpdtrt_gallery_shortcode_heading]<h2>' . $heading . '</h2>[/
 == Changelog ==
 
 = 1.9.0 =
+* Remove wpdtrt-contentsections dependency
 * Replace gulp with wpdtrt-npm-scripts
 
 = 1.8.9 =

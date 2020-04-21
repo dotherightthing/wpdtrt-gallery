@@ -11,7 +11,3 @@ Please read [DTRT WordPress Plugin Boilerplate: Workflows](https://github.com/do
 ## WordPress Installation and Usage
 
 Please read the [WordPress readme.txt](readme.txt).
-
-## Dependencies
-
-1. The gallery viewer is initialised as [DTRT Content Sections](https://github.com/dotherightthing/wpdtrt-contentsections) are scrolled into view.

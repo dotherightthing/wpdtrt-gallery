@@ -27,18 +27,10 @@
         "wp-cli/wp-cli" : "~0.22",
         "wp-coding-standards/wpcs": "^0.14.1",
         "dealerdirect/phpcodesniffer-composer-installer": "^0.4.4",
-        "dotherightthing/wpdtrt-contentsections": "^0.2.3",
         "dotherightthing/wpdtrt-exif": "^0.2.2"
     },
     "extra": {
         "require-wp": [
-            {
-                "name": "DTRT Content Sections",
-                "host": "github",
-                "repository": "dotherightthing/wpdtrt-contentsections",
-                "file": "wpdtrt-contentsections.php",
-                "description": "The gallery viewer is initialised as these are scrolled into view"
-            },
             {
                 "name": "DTRT EXIF",
                 "host": "github",
@@ -62,10 +54,6 @@
         {
             "type": "vcs",
             "url": "https://github.com/dotherightthing/tgm-plugin-activation"
-        },
-        {
-            "type": "vcs",
-            "url": "https://github.com/dotherightthing/wpdtrt-contentsections"
         },
         {
             "type": "vcs",
