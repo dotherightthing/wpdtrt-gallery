@@ -43,6 +43,9 @@ echo do_shortcode('[wpdtrt_gallery_shortcode_heading]<h2>' . $heading . '</h2>[/
 
 == Changelog ==
 
+= 1.9.0 =
+* Replace gulp with wpdtrt-npm-scripts
+
 = 1.8.9 =
 * Update wpdtrt-plugin-boilerplate, from 1.6.19 to 1.7.0
 
