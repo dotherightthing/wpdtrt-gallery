@@ -1,0 +1,49 @@
+# https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
+# https://help.github.com/en/actions/configuring-and-managing-workflows/using-environment-variables
+
+name: Build
+
+on: push
+
+jobs:
+  build:
+    if: github.event_name == 'push' && contains(toJson(github.event.commits), '***NO_CI***') == false && contains(toJson(github.event.commits), '[ci skip]') == false && contains(toJson(github.event.commits), '[skip ci]') == false
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [13.x]
+
+    steps:
+    # check out the repository, so the workflow can access it
+    - uses: actions/checkout@v2
+
+    # https://github.community/t5/GitHub-Actions/How-to-get-just-the-tag-name/m-p/32738/highlight/true#M1238
+    - name: Branch name
+      id: branch_name
+      run: |
+        echo ::set-output name=SOURCE_NAME::${GITHUB_REF#refs/*/}
+        echo ::set-output name=SOURCE_BRANCH::${GITHUB_REF#refs/heads/}
+        echo ::set-output name=SOURCE_TAG::${GITHUB_REF#refs/tags/}
+
+    - name: Run build
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '7.2.15'
+        node-version: ${{ matrix.node-version }}
+    - run: composer config -g github-oauth.github.com ${{ secrets.GITHUB_TOKEN }}
+    - run: npm ci
+    - run: npm run lint --if-present
+    - run: npm run compile --if-present
+    # - run: npm run release --if-present
+
+    # https://github.com/marketplace/actions/action-release
+    # - name: Upload release to the repository's Releases page
+    #   uses: yakuhzi/action-release@v1
+    #   if: steps.branch_name.outputs.SOURCE_TAG
+    #   with:
+    #     file: release-${{ steps.branch_name.outputs.SOURCE_TAG }}.zip
+    #     changelog: README.txt
+    #   env:
+    #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
