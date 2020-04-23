@@ -1,20 +1,17 @@
 /**
- * File: cypress/support/commands.js
- *
- * Custom commands for UI testing
- *
- * Since:
- *   0.8.13 - DTRT WordPress Plugin Boilerplate Generator
+ * @file cypress/support/commands.js
+ * @summary Custom commands for UI testing
+ * @requires DTRT WordPress Plugin Boilerplate Generator 0.8.13
  */
 
 /**
  * reset the page & UI state
  */
-Cypress.Commands.add( 'resetUI', () => {
-  // cy.reload(); // causes cypress to hang
+Cypress.Commands.add('resetUI', () => {
+    // cy.reload(); // causes cypress to hang
 
-  // set to size of macbook air 11" (dev machine)
-  cy.viewport( 1366, 768 );
+    // set to size of macbook air 11" (dev machine)
+    cy.viewport(1366, 768);
 
-  cy.scrollTo( 0, 0 );
-} );
+    cy.scrollTo(0, 0);
+});

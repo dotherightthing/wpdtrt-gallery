@@ -17,4 +17,4 @@
 import './commands';
 
 // Alternatively you can use CommonJS syntax:
-require( 'cypress-plugin-retries' );
+require('cypress-plugin-retries');
