@@ -13,6 +13,7 @@ release*
 js/*-es5.js
 nodemon.json
 phpcs.xml
+phpunit.xml.dist
 postcss.config.js
 _wpdtrt-import.scss
 bin/Natural\ Docs
