@@ -29,7 +29,7 @@ class WPDTRT_Gallery_Taxonomy extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\
 	 * Since:
 	 *   0.8.13 - DTRT WordPress Plugin Boilerplate Generator
 	 */
-	public function __construct( $options ) {
+	public function __construct( $options ) { // phpcs:ignore
 
 		// edit here.
 		parent::__construct( $options );
@@ -51,7 +51,7 @@ class WPDTRT_Gallery_Taxonomy extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\
 	 * See:
 	 * - <Action order: https://codex.wordpress.org/Plugin_API/Action_Reference>
 	 */
-	protected function wp_setup() {
+	protected function wp_setup() { // phpcs:ignore
 
 		parent::wp_setup();
 

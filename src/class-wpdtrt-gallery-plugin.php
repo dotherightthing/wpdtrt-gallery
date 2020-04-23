@@ -30,7 +30,7 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 	 * Since:
 	 *   0.8.13 - DTRT WordPress Plugin Boilerplate Generator
 	 */
-	public function __construct( $options ) {
+	public function __construct( $options ) { // phpcs:ignore
 
 		// edit here.
 		parent::__construct( $options );
@@ -267,7 +267,7 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 	 */
 	public function filter_save_image_geodata( array $meta, string $file, int $source_image_type ) : array {
 
-		$exif = @exif_read_data( $file );
+		$exif = @exif_read_data( $file ); // phpcs:ignore
 
 		if ( ! empty( $exif['GPSLatitude'] ) ) {
 			$meta['latitude'] = $exif['GPSLatitude'];
