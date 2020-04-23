@@ -92,6 +92,7 @@
 
     .stack__liner {
         // override inline styles, remove bgcolor so that caption is not fw
+        // stylelint-disable-next-line declaration-no-important
         background: none !important;
     }
 
@@ -130,7 +131,8 @@
 
     .js {
         &[style] {
-            margin-top: 0 !important; // redundant?
+            // stylelint-disable-next-line declaration-no-important
+            margin-top: 0 !important;
         }
     }
 
@@ -146,6 +148,7 @@
         @extend %wpdtrt-plugin-boilerplate--text-sharpen;
         // icomoon
         // use !important to prevent issues with browser extensions that change fonts
+        // stylelint-disable-next-line declaration-no-important
         font-family: 'icomoon' !important;
         font-size: 1.1em;
         line-height: 1;
@@ -203,9 +206,9 @@
         line-height: 100%;
         text-align: right;
         text-shadow: -1px -1px 0 $wpdtrt-gallery-thumbnail-icon-shadow-color,
-        1px -1px 0 $wpdtrt-gallery-thumbnail-icon-shadow-color,
-        -1px 1px 0 $wpdtrt-gallery-thumbnail-icon-shadow-color,
-        1px 1px 0 $wpdtrt-gallery-thumbnail-icon-shadow-color;
+            1px -1px 0 $wpdtrt-gallery-thumbnail-icon-shadow-color,
+            -1px 1px 0 $wpdtrt-gallery-thumbnail-icon-shadow-color,
+            1px 1px 0 $wpdtrt-gallery-thumbnail-icon-shadow-color;
         padding-right: .3em;
         border: 4px solid transparent;
     }
@@ -226,9 +229,9 @@
                 // unselected icon overstate
                 color: $wpdtrt-gallery-thumbnail-icon-shadow-color;
                 text-shadow: -1px -1px 0 $wpdtrt-gallery-thumbnail-icon-color,
-                1px -1px 0 $wpdtrt-gallery-thumbnail-icon-color,
-                -1px 1px 0 $wpdtrt-gallery-thumbnail-icon-color,
-                1px 1px 0 $wpdtrt-gallery-thumbnail-icon-color;
+                    1px -1px 0 $wpdtrt-gallery-thumbnail-icon-color,
+                    -1px 1px 0 $wpdtrt-gallery-thumbnail-icon-color,
+                    1px 1px 0 $wpdtrt-gallery-thumbnail-icon-color;
                 // selected icon overstate // ?
                 border-color: transparent;
             }
@@ -373,18 +376,15 @@
 
     .stack__liner {
         opacity: 1;
+        vertical-align: bottom;
+        background: none;
         background-color: transparent;
+        text-align: left;
         transition: opacity .3s ease;
 
         &[data-loading] {
             opacity: 0;
         }
-    }
-
-    .stack__liner {
-        vertical-align: bottom;
-        background: none;
-        text-align: left;
 
         &--icon-hint {
             @extend .gallery--icon;
@@ -395,9 +395,9 @@
             color: $wpdtrt-gallery-text-color;
             font-size: 1.4em;
             text-shadow: -1px -1px 0 $wpdtrt-gallery-border-color,
-            1px -1px 0 $wpdtrt-gallery-border-color,
-            -1px 1px 0 $wpdtrt-gallery-border-color,
-            1px 1px 0 $wpdtrt-gallery-border-color;
+                1px -1px 0 $wpdtrt-gallery-border-color,
+                -1px 1px 0 $wpdtrt-gallery-border-color,
+                1px 1px 0 $wpdtrt-gallery-border-color;
         }
 
         &--icon-embed {
@@ -439,9 +439,9 @@
         color: $wpdtrt-gallery-text-color;
         line-height: 1;
         text-shadow: -1px -1px 0 $wpdtrt-gallery-border-color,
-        1px -1px 0 $wpdtrt-gallery-border-color,
-        -1px 1px 0 $wpdtrt-gallery-border-color,
-        1px 1px 0 $wpdtrt-gallery-border-color;
+            1px -1px 0 $wpdtrt-gallery-border-color,
+            -1px 1px 0 $wpdtrt-gallery-border-color,
+            1px 1px 0 $wpdtrt-gallery-border-color;
         padding: .275em 1em;
         border: 4px solid transparent;
         border-radius: 0;
@@ -460,9 +460,9 @@
             background-color: $wpdtrt-gallery-border-color;
             color: $wpdtrt-gallery-border-color;
             text-shadow: -1px -1px 0 $wpdtrt-gallery-border-color-alt,
-            1px -1px 0 $wpdtrt-gallery-border-color-alt,
-            -1px 1px 0 $wpdtrt-gallery-border-color-alt,
-            1px 1px 0 $wpdtrt-gallery-border-color-alt;
+                1px -1px 0 $wpdtrt-gallery-border-color-alt,
+                -1px 1px 0 $wpdtrt-gallery-border-color-alt,
+                1px 1px 0 $wpdtrt-gallery-border-color-alt;
             outline: none;
         }
     }
@@ -626,7 +626,7 @@
 
             .stack__liner {
                 // override inline styles, remove bgcolor so that caption is not fw
-                background: none !important;
+                background: none !important; // stylelint-disable-line declaration-no-important
             }
 
             img {
@@ -669,16 +669,15 @@
 
     &[data-panorama] {
         .stack__liner {
-            .js & {
-                display: block; // prevent table display from blowing out panorama width
-                background: none !important; // prevent conflict with JS scroll
-            }
-        }
-
-        .stack__liner {
             &::before {
                 @extend .stack__liner--icon-hint;
                 content: '\e90a';
+            }
+
+            .js & {
+                display: block; // prevent table display from blowing out panorama width
+                // stylelint-disable-next-line declaration-no-important
+                background: none !important; // prevent conflict with JS scroll
             }
         }
 
