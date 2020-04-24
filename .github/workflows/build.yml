@@ -22,8 +22,8 @@ jobs:
 
     # https://github.community/t5/GitHub-Actions/How-to-get-just-the-tag-name/m-p/32738/highlight/true#M1238
     - name: Get Git references
-    - id: get_git_refs
-    - run: |
+      id: get_git_refs
+      run: |
         echo ::set-output name=SOURCE_NAME::${GITHUB_REF#refs/*/}
         echo ::set-output name=SOURCE_BRANCH::${GITHUB_REF#refs/heads/}
         echo ::set-output name=SOURCE_TAG::${GITHUB_REF#refs/tags/}
@@ -35,14 +35,14 @@ jobs:
         node-version: ${{ matrix.node-version }}
     
     - name: Run build
-    - run: |
+      run: |
         composer config -g github-oauth.github.com ${{ secrets.GITHUB_TOKEN }}
         npm ci
         npm run lint --if-present
         npm run compile --if-present
         
     - name: Run tests
-    - run: npm run test --if-present
+      run: npm run test --if-present
       env:
         WPUNIT_DB_USER: root
         WPUNIT_DB_PASS: root
@@ -50,7 +50,7 @@ jobs:
         
     - name: Copy files to release folder
       if: steps.get_git_refs.outputs.SOURCE_TAG
-    - run: npm run release --if-present
+      run: npm run release --if-present
 
     - name: Zip release folder
       if: steps.get_git_refs.outputs.SOURCE_TAG
