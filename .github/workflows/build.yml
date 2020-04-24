@@ -40,12 +40,13 @@ jobs:
         npm ci
         npm run lint --if-present
         npm run compile --if-present
-        
+
+    # env: https://github.com/actions/virtual-environments/blob/master/images/linux/Ubuntu1604-README.md
     - name: Run tests
       run: npm run test --if-present
       env:
         WPUNIT_DB_USER: root
-        WPUNIT_DB_PASS: password
+        WPUNIT_DB_PASS: root
         WPUNIT_DB_HOST: 127.0.0.1
         
     - name: Copy files to release folder
