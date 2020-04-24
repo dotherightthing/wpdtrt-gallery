@@ -28,33 +28,41 @@ jobs:
         echo ::set-output name=SOURCE_BRANCH::${GITHUB_REF#refs/heads/}
         echo ::set-output name=SOURCE_TAG::${GITHUB_REF#refs/tags/}
 
-    - name: Run build and copy files to release folder
+    - name: Setup PHP
       uses: shivammathur/setup-php@v2
       with:
         php-version: '7.2.15'
         node-version: ${{ matrix.node-version }}
+    
+    - name: Run build
+    - run: |
+        composer config -g github-oauth.github.com ${{ secrets.GITHUB_TOKEN }}
+        npm ci
+        npm run lint --if-present
+        npm run compile --if-present
+        
+    - name: Run tests
+    - run: npm run test --if-present
       env:
         WPUNIT_DB_USER: root
         WPUNIT_DB_PASS: root
         WPUNIT_DB_HOST: localhost
-    - run: composer config -g github-oauth.github.com ${{ secrets.GITHUB_TOKEN }}
-    - run: npm ci
-    - run: npm run lint --if-present
-    - run: npm run compile --if-present
-    - run: npm run test --if-present
+        
+    - name: Copy files to release folder
+      if: steps.get_git_refs.outputs.SOURCE_TAG
     - run: npm run release --if-present
 
     - name: Zip release folder
       if: steps.get_git_refs.outputs.SOURCE_TAG
       uses: montudor/action-zip@v0.1.0
       with:
-        args: zip -qq -r ./release-${{ steps.branch_name.outputs.SOURCE_TAG }}.zip ./release
+        args: zip -qq -r ./release-${{ steps.get_git_refs.outputs.SOURCE_TAG }}.zip ./release
 
     - name: Upload release to the repository's Releases page
       if: steps.get_git_refs.outputs.SOURCE_TAG
       uses: yakuhzi/action-release@v1
       with:
-        file: release-${{ steps.branch_name.outputs.SOURCE_TAG }}.zip
+        file: release-${{ steps.get_git_refs.outputs.SOURCE_TAG }}.zip
         changelog: README.txt
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
