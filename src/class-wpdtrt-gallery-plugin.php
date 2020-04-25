@@ -321,7 +321,6 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 		$dom = new DOMDocument();
 		$dom->loadHTML( mb_convert_encoding( $content, 'HTML-ENTITIES', 'UTF-8' ) );
 		$sections = $dom->getElementsByTagName( 'div' );
-		$content  = '';
 
 		foreach ( $sections as $section ) {
 			preg_match( '/wpdtrt-anchorlinks__anchor/', $section->getAttribute( 'class' ), $matches );
@@ -362,7 +361,7 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 				$section_html .= '</div>';
 
 				// update output.
-				$content .= $section_html;
+				$content = $section_html;
 			}
 		}
 
