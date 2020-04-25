@@ -42,7 +42,7 @@ class WPDTRT_GalleryTest extends WP_UnitTestCase {
 	 * Fixture.
 	 */
 	private $gallery_html = '
-	<section id="test-section">
+	<div class="wpdtrt-gallery__section" id="test-section">
 		<div class="wpdtrt-gallery-viewer stack stack--gallery-viewer" data-enabled="false" data-expanded="false">
 			<div class="wpdtrt-gallery-viewer--header">
 				<h2>Post 1 heading</h2>
@@ -59,7 +59,7 @@ class WPDTRT_GalleryTest extends WP_UnitTestCase {
 				</figure>
 			</div>
 		</div>
-	</section>';
+	</div>';
 
 	/**
 	 * Group: Lifecycle Events
@@ -81,12 +81,7 @@ class WPDTRT_GalleryTest extends WP_UnitTestCase {
 		// Post (for testing manually entered, naked shortcode).
 		$this->post_with_empty_gallery = $this->create_post( array(
 			'post_title'   => 'Empty gallery test',
-			'post_content' => '
-				<section id="test-section">
-					[wpdtrt_gallery_shortcode_heading]
-						<h2>Post 1 heading</h2>
-					[/wpdtrt_gallery_shortcode_heading]
-				</section>',
+			'post_content' => '<div class="wpdtrt-gallery__section" id="test-section">[wpdtrt_gallery_shortcode_heading]<h2>Post 1 heading</h2>[/wpdtrt_gallery_shortcode_heading]</div>',
 		));
 
 		// Attachment (for testing custom sizes and meta).
@@ -102,22 +97,13 @@ class WPDTRT_GalleryTest extends WP_UnitTestCase {
 		// this is a chicken-and-egg scenario.
 		$this->post_with_single_image_gallery = $this->create_post( array(
 			'post_title'   => 'Single image gallery test',
-			'post_content' => '
-				<section id="test-section">
-					[wpdtrt_gallery_shortcode_heading]
-						<h2>Post 2 heading</h2>
-						[gallery link="file" ids="' . $this->image_1 . '"]
-					[/wpdtrt_gallery_shortcode_heading]
-				</section>',
+			'post_content' => '<div class="wpdtrt-gallery__section" id="test-section">[wpdtrt_gallery_shortcode_heading]<h2>Post 2 heading</h2>[gallery link="file" ids="' . $this->image_1 . '"][/wpdtrt_gallery_shortcode_heading]</div>',
 		));
 
 		// Post (for injected naked shortcode).
 		$this->post_with_no_gallery = $this->create_post( array(
 			'post_title'   => 'Empty gallery test',
-			'post_content' => '
-				<section id="test-section">
-					<h2>Post 3 heading</h2>
-				</section>',
+			'post_content' => '<div class="wpdtrt-gallery__section" id="test-section"><h2>Post 3 heading</h2></div>',
 		));
 	}
 
