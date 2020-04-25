@@ -305,6 +305,7 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 	 * <https://stackoverflow.com/questions/3577641/how-do-you-parse-and-process-html-xml-in-php>
 	 * <https://stackoverflow.com/questions/7048080/ignore-specific-warnings-with-php-codesniffer>
 	 * <https://stackoverflow.com/a/60673499/6850747>
+	 * <https://github.com/Yoast/wordpress-seo/commit/6a6de3b07fd959cc53a102fd00b874e4d405a26d>
 	 *
 	 * Manual alternatives:
 	 * --- php
@@ -318,8 +319,15 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 	 * - https://github.com/dotherightthing/wpdtrt-gallery/issues/81
 	 */
 	public function filter_content_galleries( string $content ) : string {
+		// Prevent DOMDocument from raising warnings about invalid HTML.
+		libxml_use_internal_errors( true );
+
 		$dom = new DOMDocument();
 		$dom->loadHTML( mb_convert_encoding( $content, 'HTML-ENTITIES', 'UTF-8' ) );
+
+		// Clear errors, so they aren't kept in memory.
+		libxml_clear_errors();
+
 		$sections = $dom->getElementsByTagName( 'div' );
 
 		foreach ( $sections as $section ) {
