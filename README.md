@@ -11,3 +11,13 @@ Please read [DTRT WordPress Plugin Boilerplate: Workflows](https://github.com/do
 ## WordPress Installation and Usage
 
 Please read the [WordPress readme.txt](readme.txt).
+
+## Dependencies
+
+1. The WordPress content filter looks for galleries within the markup injected by [DTRT Anchorlinks](https://github.com/dotherightthing/wpdtrt-anchorlinks):
+
+```html
+<div class="wpdtrt-anchorlinks__anchor">
+    <!-- h2, .gallery, etc -->
+</div>
+```

@@ -325,6 +325,9 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 	 * --- php
 	 * do_shortcode( '[wpdtrt_gallery]H2 heading text[/wpdtrt_gallery]' );
 	 * ---
+	 *
+	 * TODO:
+	 * - https://github.com/dotherightthing/wpdtrt-gallery/issues/81
 	 */
 	public function filter_content_galleries( string $content ) : string {
 		$dom = new DOMDocument();
