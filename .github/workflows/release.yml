@@ -11,6 +11,9 @@ on:
 
 jobs:
   release:
+    runs-on: ubuntu-latest
+
+    steps:
     - name: Download release folder from Build
       uses: actions/download-artifact@v1
       with:
