@@ -76,6 +76,7 @@ const wpdtrtGalleryUi = {
                     if (direction === 'down') {
                         wpdtrtGalleryUi.galleryViewerInit($, $section);
                         waypoint.destroy();
+                        Waypoint.refreshAll(); // update offset of remaining waypoints.
                     }
                 },
                 offset: 'bottom-in-view'
