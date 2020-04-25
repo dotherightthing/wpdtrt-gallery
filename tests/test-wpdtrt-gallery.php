@@ -41,25 +41,7 @@ class WPDTRT_GalleryTest extends WP_UnitTestCase {
 	 *
 	 * Fixture.
 	 */
-	private $gallery_html = '
-	<div class="wpdtrt-gallery__section" id="test-section">
-		<div class="wpdtrt-gallery-viewer stack stack--gallery-viewer" data-enabled="false" data-expanded="false">
-			<div class="wpdtrt-gallery-viewer--header">
-				<h2>Post 1 heading</h2>
-			</div>
-			<div class="stack__wrapper">
-				<figure class="stack__liner">
-					<div class="img-wrapper"></div>
-					<div class="wpdtrt-gallery-viewer--embed">
-						<iframe aria-hidden="true" title="Gallery media viewer."></iframe>
-					</div>
-					<figcaption class="wpdtrt-gallery-viewer--footer">
-						<div class="wpdtrt-gallery-viewer--caption"></div>
-					</figcaption>
-				</figure>
-			</div>
-		</div>
-	</div>';
+	private $gallery_html = '<div class="wpdtrt-gallery__section" id="test-section"><div class="wpdtrt-gallery-viewer stack stack--gallery-viewer" data-enabled="false" data-expanded="false"><div class="wpdtrt-gallery-viewer--header"><h2>Post 1 heading</h2></div><div class="stack__wrapper"><figure class="stack__liner"><div class="img-wrapper"></div><div class="wpdtrt-gallery-viewer--embed"><iframe aria-hidden="true" title="Gallery media viewer."></iframe></div><figcaption class="wpdtrt-gallery-viewer--footer"><div class="wpdtrt-gallery-viewer--caption"></div></figcaption></figure></div></div></div>';
 
 	/**
 	 * Group: Lifecycle Events
@@ -97,7 +79,7 @@ class WPDTRT_GalleryTest extends WP_UnitTestCase {
 		// this is a chicken-and-egg scenario.
 		$this->post_with_single_image_gallery = $this->create_post( array(
 			'post_title'   => 'Single image gallery test',
-			'post_content' => '<div class="wpdtrt-gallery__section" id="test-section">[wpdtrt_gallery_shortcode_heading]<h2>Post 2 heading</h2>[gallery link="file" ids="' . $this->image_1 . '"][/wpdtrt_gallery_shortcode_heading]</div>',
+			'post_content' => '<div class="wpdtrt-gallery__section" id="test-section">[wpdtrt_gallery_shortcode_heading]<h2>Post 2 heading</h2>[/wpdtrt_gallery_shortcode_heading][gallery link="file" ids="' . $this->image_1 . '"]</div>',
 		));
 
 		// Post (for injected naked shortcode).
