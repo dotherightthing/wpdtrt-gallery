@@ -78,7 +78,7 @@ const wpdtrtGalleryUi = {
                         waypoint.destroy();
                     }
                 },
-                offset: '50%'
+                offset: 'bottom-in-view'
             });
         });
     },
