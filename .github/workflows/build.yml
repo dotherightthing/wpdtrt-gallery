@@ -7,7 +7,7 @@ on: push
 
 jobs:
   build:
-    if: github.event_name == 'push' && contains(toJson(github.event.commits), '***NO_CI***') == false && contains(toJson(github.event.commits), '[ci skip]') == false && contains(toJson(github.event.commits), '[skip ci]') == false
+    if: github.event_name == 'push' && contains(toJson(github.event.commits), '[ci skip]') == false && contains(toJson(github.event.commits), '[skip ci]') == false
 
     runs-on: ubuntu-latest
 
@@ -51,22 +51,13 @@ jobs:
         WPUNIT_DB_USER: root
         WPUNIT_DB_PASS: root
         WPUNIT_DB_HOST: 127.0.0.1
-        
-    - name: Copy files to release folder
-      if: steps.get_git_refs.outputs.SOURCE_TAG
+
+    - name: Copy built files to release folder
       run: npm run release --if-present
 
-    - name: Zip release folder
-      if: steps.get_git_refs.outputs.SOURCE_TAG
-      uses: montudor/action-zip@v0.1.0
+    # https://help.github.com/en/actions/configuring-and-managing-workflows/persisting-workflow-data-using-artifacts
+    - name: Archive release folder
+      uses: actions/upload-artifact@v1
       with:
-        args: zip -qq -r ./release-${{ steps.get_git_refs.outputs.SOURCE_TAG }}.zip ./release
-
-    - name: Upload release to the repository's Releases page
-      if: steps.get_git_refs.outputs.SOURCE_TAG
-      uses: yakuhzi/action-release@v1
-      with:
-        file: release-${{ steps.get_git_refs.outputs.SOURCE_TAG }}.zip
-        changelog: README.txt
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        name: release
+        path: release

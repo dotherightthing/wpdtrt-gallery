@@ -6,6 +6,7 @@ debug.log
 config/naturaldocs
 css
 release*
+!.github/workflows/release*
 .babelrc
 .browserslistrc
 .eslintrc
