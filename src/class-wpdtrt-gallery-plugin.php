@@ -328,7 +328,8 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 		// Clear errors, so they aren't kept in memory.
 		libxml_clear_errors();
 
-		$sections = $dom->getElementsByTagName( 'div' );
+		$sections             = $dom->getElementsByTagName( 'div' );
+		$content_replacements = [];
 
 		foreach ( $sections as $section ) {
 			preg_match( '/wpdtrt-anchorlinks__anchor/', $section->getAttribute( 'class' ), $matches );
@@ -369,7 +370,15 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 				$section_html .= '</div>';
 
 				// update output.
-				$content = $section_html;
+				$content_replacements[] = $section_html;
+			}
+		}
+
+		if ( count( $content_replacements ) > 0 ) {
+			$content = '';
+
+			foreach ( $content_replacements as $content_replacement ) {
+				$content .= $content_replacement;
 			}
 		}
 
