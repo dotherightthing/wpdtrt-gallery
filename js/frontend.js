@@ -68,14 +68,17 @@ const wpdtrtGalleryUi = {
         const $sections = $('.wpdtrt-gallery__section');
 
         $sections.each((i, item) => {
-            let $section = $(item);
+            var $section = $(item);
 
-            let inview = new Waypoint.Inview({
-                element: $section[0],
-                enter: () => {
-                    wpdtrtGalleryUi.galleryViewerInit($, $section);
-                    inview.destroy();
-                }
+            var waypoint = new Waypoint({
+                element: $section.get(0),
+                handler: function (direction) {
+                    if (direction === 'down') {
+                        wpdtrtGalleryUi.galleryViewerInit($, $section);
+                        waypoint.destroy();
+                    }
+                },
+                offset: '50%'
             });
         });
     },

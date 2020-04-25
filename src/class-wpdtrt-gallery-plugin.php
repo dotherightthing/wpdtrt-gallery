@@ -135,23 +135,12 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 			$attach_to_footer
 		);
 
-		// inview lazy loading.
+		// lazy initialisation.
 		wp_register_script( 'jquery_waypoints',
 			$this->get_url() . 'node_modules/waypoints/lib/jquery.waypoints.min.js',
 			array(
 				// load these registered dependencies first:.
 				'jquery',
-			),
-			'4.0.0',
-			$attach_to_footer
-		);
-
-		// inview lazy loading.
-		wp_register_script( 'waypoints_inview',
-			$this->get_url() . 'node_modules/waypoints/lib/shortcuts/inview.min.js',
-			array(
-				// load these registered dependencies first:.
-				'jquery_waypoints',
 			),
 			'4.0.0',
 			$attach_to_footer
@@ -165,7 +154,6 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 				// load these registered dependencies first:.
 				'jquery',
 				'uri',
-				'waypoints_inview',
 			),
 			$this->get_version(),
 			$attach_to_footer
