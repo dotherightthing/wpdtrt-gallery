@@ -65,7 +65,7 @@ const wpdtrtGalleryUi = {
      * @since 3.0.0
      */
     galleryViewerLazyInit: ($) => {
-        const $sections = $('section');
+        const $sections = $('.wpdtrt-anchorlinks__section');
 
         $sections.each((i, item) => {
             let $section = $(item);

@@ -69,7 +69,7 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 		add_filter( 'wp_read_image_metadata', array( $this, 'filter_save_image_geodata' ), '', 3 );
 		add_filter( 'wp_get_attachment_link', array( $this, 'filter_thumbnail_queryparams' ), 1, 4 );
 		add_filter( 'wp_get_attachment_image_attributes', array( $this, 'filter_thumbnail_attributes' ), 1, 4 ); // 10,2
-		// add_filter( 'the_content', array( $this, 'filter_content_galleries' ), 10 );
+		add_filter( 'the_content', array( $this, 'filter_content_galleries' ), 10 );
 		add_filter( 'jpeg_quality', array( $this, 'filter_image_quality' ) );
 		add_filter( 'wp_editor_set_quality', array( $this, 'filter_image_quality' ) );
 		// add_filter( 'ilab_s3_can_calculate_srcset', false, 10, 4 ); // https://github.com/Interfacelab/ilab-media-tools/issues/55.
@@ -329,46 +329,50 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 	public function filter_content_galleries( string $content ) : string {
 		$dom = new DOMDocument();
 		$dom->loadHTML( mb_convert_encoding( $content, 'HTML-ENTITIES', 'UTF-8' ) );
-		$sections = $dom->getElementsByTagName( 'section' );
+		$sections = $dom->getElementsByTagName( 'div' );
 		$content  = '';
 
 		foreach ( $sections as $section ) {
-			$heading            = $section->getElementsByTagName( 'h2' )[0];
-			$gallery            = $heading->nextSibling; // phpcs:ignore
-			$gallery_html       = $this->get_html( $gallery, true );
-			$heading_html       = $this->get_html( $heading, true );
-			$new_heading_html   = '[wpdtrt_gallery_shortcode_heading]' . $heading_html . '[/wpdtrt_gallery_shortcode_heading]';
-			$section_inner_html = $this->get_html( $section, false );
-			$section_class      = $section->getAttribute( 'class' );
-			$section_html       = '';
-			$section_id         = $section->getAttribute( 'id' );
-			$section_tabindex   = $section->getAttribute( 'tabindex' );
+			preg_match( '/wpdtrt-anchorlinks__anchor/', $section->getAttribute( 'class' ), $matches );
 
-			// remove gallery shortcode.
-			$section_inner_html = str_replace( $gallery_html, '', $section_inner_html );
+			if ( count( $matches ) > 0 ) {
+				$heading            = $section->getElementsByTagName( 'h2' )[0];
+				$gallery            = $heading->nextSibling; // phpcs:ignore
+				$gallery_html       = $this->get_html( $gallery, true );
+				$heading_html       = $this->get_html( $heading, true );
+				$new_heading_html   = '[wpdtrt_gallery_shortcode_heading]' . $heading_html . '[/wpdtrt_gallery_shortcode_heading]';
+				$section_inner_html = $this->get_html( $section, false );
+				$section_class      = $section->getAttribute( 'class' );
+				$section_html       = '';
+				$section_id         = $section->getAttribute( 'id' );
+				$section_tabindex   = $section->getAttribute( 'tabindex' );
 
-			// wrap heading in gallery viewer shortcode.
-			$section_inner_html = str_replace( $heading_html, $new_heading_html, $section_inner_html );
+				// remove gallery shortcode.
+				$section_inner_html = str_replace( $gallery_html, '', $section_inner_html );
 
-			// start section.
-			$section_html .= '<section id="' . $section_id . '" class="' . $section_class . '" tabindex="' . $section_tabindex . '">';
+				// wrap heading in gallery viewer shortcode.
+				$section_inner_html = str_replace( $heading_html, $new_heading_html, $section_inner_html );
 
-			// wrap gallery viewer shortcode and remaining content.
-			$section_html .= '<div class="entry-content__content">';
-			$section_html .= $section_inner_html;
-			$section_html .= '</div>';
+				// start section.
+				$section_html .= '<div id="' . $section_id . '" class="' . $section_class . '" tabindex="' . $section_tabindex . '">';
 
-			// insert gallery shortcode after content.
-			$section_html .= '<div class="entry-content__gallery gallery">';
-			$section_html .= '<h3 class="accessible">Photos</h3>';
-			$section_html .= $gallery_html;
-			$section_html .= '</div>';
+				// wrap gallery viewer shortcode and remaining content.
+				$section_html .= '<div class="entry-content__content">';
+				$section_html .= $section_inner_html;
+				$section_html .= '</div>';
 
-			// end section.
-			$section_html .= '</section>';
+				// insert gallery shortcode after content.
+				$section_html .= '<div class="entry-content__gallery gallery">';
+				$section_html .= '<h3 class="accessible">Photos</h3>';
+				$section_html .= $gallery_html;
+				$section_html .= '</div>';
 
-			// update output.
-			$content .= $section_html;
+				// end section.
+				$section_html .= '</div>';
+
+				// update output.
+				$content .= $section_html;
+			}
 		}
 
 		return $content;

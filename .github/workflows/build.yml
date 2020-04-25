@@ -20,14 +20,6 @@ jobs:
     - name: Checkout repo
       uses: actions/checkout@v2
 
-    # https://github.community/t5/GitHub-Actions/How-to-get-just-the-tag-name/m-p/32738/highlight/true#M1238
-    - name: Get Git references
-      id: get_git_refs
-      run: |
-        echo ::set-output name=SOURCE_NAME::${GITHUB_REF#refs/*/}
-        echo ::set-output name=SOURCE_BRANCH::${GITHUB_REF#refs/heads/}
-        echo ::set-output name=SOURCE_TAG::${GITHUB_REF#refs/tags/}
-
     - name: Setup PHP
       uses: shivammathur/setup-php@v2
       with:
