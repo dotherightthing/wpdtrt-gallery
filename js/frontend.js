@@ -65,7 +65,7 @@ const wpdtrtGalleryUi = {
      * @since 3.0.0
      */
     galleryViewerLazyInit: ($) => {
-        const $sections = $('.wpdtrt-anchorlinks__section');
+        const $sections = $('.wpdtrt-gallery__section');
 
         $sections.each((i, item) => {
             let $section = $(item);
@@ -664,7 +664,7 @@ const wpdtrtGalleryUi = {
      * @protected
      *
      * @param {external:jQuery} $ - jQuery
-     * @param {external:jQuery} $section - jQuery page section
+     * @param {external:jQuery} $section - .wpdtrt-gallery__section
      * @requires includes/attachment.php
      * @since 3.0.0
      */

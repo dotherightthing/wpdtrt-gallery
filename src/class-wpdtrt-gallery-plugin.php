@@ -342,7 +342,7 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 				$heading_html       = $this->get_html( $heading, true );
 				$new_heading_html   = '[wpdtrt_gallery_shortcode_heading]' . $heading_html . '[/wpdtrt_gallery_shortcode_heading]';
 				$section_inner_html = $this->get_html( $section, false );
-				$section_class      = $section->getAttribute( 'class' );
+				$section_class      = $section->getAttribute( 'class' ) . ' wpdtrt-gallery__section';
 				$section_html       = '';
 				$section_id         = $section->getAttribute( 'id' );
 				$section_tabindex   = $section->getAttribute( 'tabindex' );
