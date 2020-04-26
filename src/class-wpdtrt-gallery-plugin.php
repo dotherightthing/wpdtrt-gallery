@@ -326,7 +326,7 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 			if ( count( $anchor_matches ) > 0 ) {
 				$heading            = $section->getElementsByTagName( 'h2' )[0];
 				$gallery            = $heading->nextSibling; // phpcs:ignore
-				$gallery_html       = $this->get_html( $gallery, true );
+				$gallery_shortcode  = $this->get_html( $gallery, true );
 				$heading_html       = $this->get_html( $heading, true );
 				$new_heading_html   = '[wpdtrt_gallery_shortcode_heading]' . $heading_html . '[/wpdtrt_gallery_shortcode_heading]';
 				$section_class      = $section->getAttribute( 'class' ) . ' wpdtrt-gallery__section';
@@ -339,7 +339,7 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 				$section_html .= '<div id="' . $section_id . '" class="' . $section_class . '" tabindex="' . $section_tabindex . '">';
 
 				// remove gallery shortcode.
-				$section_inner_html = str_replace( $gallery_html, '', $section_inner_html );
+				$section_inner_html = str_replace( $gallery_shortcode, '', $section_inner_html );
 
 				// wrap heading in gallery viewer shortcode.
 				$section_inner_html = str_replace( $heading_html, $new_heading_html, $section_inner_html );
@@ -353,9 +353,9 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 
 				if ( count( $gallery_matches ) > 0 ) {
 					// insert gallery shortcode after content.
-					$section_html .= '<div class="entry-content__gallery gallery">';
+					$section_html .= '<div class="entry-content__gallery gallery wpdtrt-gallery-gallery">';
 					$section_html .= '<h3 class="accessible">Photos</h3>';
-					$section_html .= $gallery_html;
+					$section_html .= $gallery_shortcode;
 					$section_html .= '</div>';
 				}
 
