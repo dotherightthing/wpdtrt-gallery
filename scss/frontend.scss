@@ -363,6 +363,10 @@
         @extend %type-special;
         font-size: 14px;
         font-weight: bold;
+
+        &:empty {
+            display: none;
+        }
     }
 
     &__embed {

@@ -697,7 +697,7 @@ const wpdtrtGalleryUi = {
         const sectionId = $section.attr('id');
         let viewerId = `${sectionId}-viewer`;
         const $stackLinkViewer = $section.find('.wpdtrt-gallery-viewer');
-        const $heading = $stackLinkViewer.find('.wpdtrt-gallery-viewer--heading');
+        const $stackWrapper2 = $stackLinkViewer.find('.wpdtrt-gallery-viewer__wrapper');
         const $stackWrapper = $stackLinkViewer.find('.wpdtrt-gallery-viewer__liner');
         const $sectionGalleryThumbnails = $sectionGallery.find('img');
         const $sectionGalleryItemLinks = $sectionGallery.find('a');
@@ -710,7 +710,7 @@ const wpdtrtGalleryUi = {
             $stackLinkViewer
                 .removeAttr('id data-expanded');
 
-            $stackWrapper
+            $stackWrapper2
                 .remove();
 
             return;
@@ -718,9 +718,6 @@ const wpdtrtGalleryUi = {
 
         $stackWrapper
             .attr('data-loading', true);
-
-        $heading
-            .after('<h3 class=\'says\'>Gallery</h3>');
 
         $stackLinkViewer
             .attr({

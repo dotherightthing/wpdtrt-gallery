@@ -321,19 +321,25 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 		$content_replacements = [];
 
 		foreach ( $sections as $section ) {
-			preg_match( '/wpdtrt-anchorlinks__anchor/', $section->getAttribute( 'class' ), $matches );
+			preg_match( '/wpdtrt-anchorlinks__anchor/', $section->getAttribute( 'class' ), $anchor_matches );
 
-			if ( count( $matches ) > 0 ) {
+			if ( count( $anchor_matches ) > 0 ) {
 				$heading            = $section->getElementsByTagName( 'h2' )[0];
-				$gallery            = $heading->nextSibling; // phpcs:ignore
-				$gallery_html       = $this->get_html( $gallery, true );
-				$heading_html       = $this->get_html( $heading, true );
-				$new_heading_html   = '[wpdtrt_gallery_shortcode_heading]' . $heading_html . '[/wpdtrt_gallery_shortcode_heading]';
-				$section_inner_html = $this->get_html( $section, false );
 				$section_class      = $section->getAttribute( 'class' ) . ' wpdtrt-gallery__section';
 				$section_html       = '';
+				$section_inner_html = $this->get_html( $section, false );
 				$section_id         = $section->getAttribute( 'id' );
 				$section_tabindex   = $section->getAttribute( 'tabindex' );
+
+				// start section.
+				$section_html .= '<div id="' . $section_id . '" class="' . $section_class . '" tabindex="' . $section_tabindex . '">';
+
+				preg_match( '/\[gallery link="file" ids=/', $heading->nextSibling->nodeValue, $gallery_matches ); // phpcs:ignore
+
+				$gallery          = $heading->nextSibling; // phpcs:ignore
+				$gallery_html     = $this->get_html( $gallery, true );
+				$heading_html     = $this->get_html( $heading, true );
+				$new_heading_html = '[wpdtrt_gallery_shortcode_heading]' . $heading_html . '[/wpdtrt_gallery_shortcode_heading]';
 
 				// remove gallery shortcode.
 				$section_inner_html = str_replace( $gallery_html, '', $section_inner_html );
@@ -341,26 +347,25 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 				// wrap heading in gallery viewer shortcode.
 				$section_inner_html = str_replace( $heading_html, $new_heading_html, $section_inner_html );
 
-				// start section.
-				$section_html .= '<div id="' . $section_id . '" class="' . $section_class . '" tabindex="' . $section_tabindex . '">';
-
 				// wrap gallery viewer shortcode and remaining content.
 				$section_html .= '<div class="entry-content__content">';
 				$section_html .= $section_inner_html;
 				$section_html .= '</div>';
 
-				// insert gallery shortcode after content.
-				$section_html .= '<div class="entry-content__gallery gallery">';
-				$section_html .= '<h3 class="accessible">Photos</h3>';
-				$section_html .= $gallery_html;
-				$section_html .= '</div>';
+				if ( count( $gallery_matches ) > 0 ) {
+					// insert gallery shortcode after content.
+					$section_html .= '<div class="entry-content__gallery gallery">';
+					$section_html .= '<h3 class="accessible">Photos</h3>';
+					$section_html .= $gallery_html;
+					$section_html .= '</div>';
+				}
 
 				// end section.
 				$section_html .= '</div>';
-
-				// update output.
-				$content_replacements[] = $section_html;
 			}
+
+			// update output.
+			$content_replacements[] = $section_html;
 		}
 
 		if ( count( $content_replacements ) > 0 ) {
