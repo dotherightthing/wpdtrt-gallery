@@ -323,22 +323,16 @@
 // Enlargement viewer
 
 .wpdtrt-gallery-viewer {
+    $block: &;
 
-    &.stack {
-        display: block;
-        position: relative; // AP
-        z-index: 1; // stack on top of sticky nav so that text can be selected
-        margin-bottom: .5em;
-    }
+    display: block;
+    position: relative; // AP
+    z-index: 1; // stack on top of sticky nav so that text can be selected
+    margin-bottom: .5em;
 
-    img {
-        &[data-panorama='1'] {
-            max-width: none;
-        }
-
-        .entry-date & {
-            // ensure that both NZ and China are visible
-            max-height: 400px;
+    &__img-wrapper {
+        > img {
+            width: 100%;
         }
     }
 
@@ -383,7 +377,7 @@
         }
     }
 
-    .wpdtrt-gallery-viewer__liner {
+    &__liner {
         opacity: 1;
         vertical-align: bottom;
         background: none;
@@ -511,7 +505,7 @@
 
     &[data-enabled='true'] {
 
-        .wpdtrt-gallery-viewer__header {
+        #{$block}__header {
             // both text elements must be AP
             // so that the inline invisible image
             // can dictate the height that it needs to display fully
@@ -533,11 +527,11 @@
             }
         }
 
-        .wpdtrt-gallery-viewer__caption {
+        #{$block}__caption {
             padding: .75em .625em .625em;
         }
 
-        .wpdtrt-gallery-viewer__footer {
+        #{$block}__footer {
             // both text elements must be AP
             // so that the inline invisible image
             // can dictate the height that it needs to display fully
@@ -559,7 +553,7 @@
 
         &[data-expanded='true'] {
 
-            .wpdtrt-gallery-viewer__expand {
+            #{$block}__expand {
                 // pin to bottom of header / top of image
                 position: absolute;
                 right: 1px; // allow for rounding error here as it's more noticeable
@@ -578,8 +572,8 @@
                 }
             }
 
-            .wpdtrt-gallery-viewer__header,
-            .wpdtrt-gallery-viewer__footer {
+            #{$block}__header,
+            #{$block}__footer {
                 // when the image is expanded the text gets out of the way
                 // so that the image can be viewed in its entirety
                 // this also applies to media viewers
@@ -591,30 +585,30 @@
                 left: auto;
             }
 
-            .wpdtrt-gallery-viewer__header > h2 {
+            #{$block}__header > h2 {
                 margin-bottom: 0;
             }
 
-            .wpdtrt-gallery-viewer__header > h2,
-            .wpdtrt-gallery-viewer__caption {
+            #{$block}__header > h2,
+            #{$block}__caption {
                 background-color: var(--wpdtrt-gallery-border-color);
                 border: 4px solid var(--wpdtrt-gallery-border-color);
             }
 
-            .wpdtrt-gallery-viewer__footer {
+            #{$block}__footer {
                 // prevents the .wpdtrt-gallery-viewer__liner borders from peeking through
                 margin-left: 0;
             }
 
             &:focus {
 
-                .wpdtrt-gallery-viewer__liner {
+                #{$block}__liner {
                     &::after {
                         @include focus-state;
                     }
                 }
 
-                .wpdtrt-gallery-viewer__footer {
+                #{$block}__footer {
                     // masks .stack-liner which includes the caption area
                     z-index: 1;
                     background-color: var(--wpdtrt-gallery-border-color-alt);
@@ -633,7 +627,7 @@
                 }
             }
 
-            .wpdtrt-gallery-viewer__liner {
+            #{$block}__liner {
                 // override inline styles, remove bgcolor so that caption is not fw
                 background: none !important; // stylelint-disable-line declaration-no-important
             }
@@ -655,7 +649,7 @@
     // -------------------------------------------------------------------
 
     &[data-enabled='false'] {
-        .wpdtrt-gallery-viewer__header {
+        #{$block}__header {
             > h2 {
                 // the gallery viewer is in the template
                 // but not all sections have galleries
@@ -663,7 +657,7 @@
             }
         }
 
-        .wpdtrt-gallery-viewer__liner {
+        #{$block}__liner {
             // the gallery viewer is in the template,
             // but not all sections have galleries
             .no-js & {
@@ -677,7 +671,7 @@
     // -------------------------------------------------------------------
 
     &[data-panorama] {
-        .wpdtrt-gallery-viewer__liner {
+        #{$block}__liner {
             &::before {
                 @extend .wpdtrt-gallery-viewer__liner--icon-hint;
                 content: '\e90a';
@@ -690,9 +684,13 @@
             }
         }
 
-        .wpdtrt-gallery-viewer__img-wrapper {
+        #{$block}__img-wrapper {
             max-width: none;
             overflow-x: scroll;
+
+            > img {
+                width: auto;
+            }
         }
     }
 
@@ -701,26 +699,26 @@
     // -------------------------------------------------------------------
 
     &[data-soundcloud-pageid] {
-        .wpdtrt-gallery-viewer__liner {
+        #{$block}__liner {
             background-color: var(--wpdtrt-gallery-bg-color-embed);
 
             &::before {
-                @extend .wpdtrt-gallery-viewer__liner--icon-embed;
+                @extend #{$block}__liner--icon-embed;
                 content: '\e90c';
             }
 
-            .wpdtrt-gallery-viewer__embed {
+            #{$block}__embed {
                 @extend %wpdtrt-plugin-boilerplate--embedresponsively;
             }
 
-            .wpdtrt-gallery-viewer__footer {
+            #{$block}__footer {
                 background-color: var(--wpdtrt-gallery-bg-color-page);
             }
         }
     }
 
     &[data-vimeo-pageid] {
-        .wpdtrt-gallery-viewer__liner {
+        #{$block}__liner {
             background-color: var(--wpdtrt-gallery-bg-color-embed);
 
             &::before {
@@ -728,54 +726,28 @@
                 content: '\e90b';
             }
 
-            .wpdtrt-gallery-viewer__embed {
+            #{$block}__embed {
                 @extend %wpdtrt-plugin-boilerplate--embedresponsively;
             }
 
-            .wpdtrt-gallery-viewer__footer {
+            #{$block}__footer {
                 background-color: var(--wpdtrt-gallery-bg-color-page);
             }
         }
     }
-}
 
-// -------------------------------------------------------------------
-// Media Queries
-// -------------------------------------------------------------------
+    // -------------------------------------------------------------------
+    // Media Queries
+    // -------------------------------------------------------------------
 
-@include media('>phone_large') {
-
-    .gallery-item {
-
-        @for $i from 1 through 9 {
-            .gallery-columns-#{$i} & {
-                max-width: 25%; // 4 columns
+    @include media('<tablet') {
+        &[data-enabled='true'] {
+            // move text off photo on small screens
+            &[data-expanded='false'] {
+                @include expanded-state;
             }
         }
-    }
-}
 
-@include media('>tablet_small') {
-
-    .gallery-item {
-
-        @for $i from 1 through 9 {
-            .gallery-columns-#{$i} & {
-                max-width: 20%; // 5 columns
-            }
-        }
-    }
-}
-
-@include media('<tablet') {
-    &[data-enabled='true'] {
-        // move text off photo on small screens
-        &[data-expanded='false'] {
-            @include expanded-state;
-        }
-    }
-
-    .wpdtrt-gallery-viewer {
         // extend
         &--focus-border {
             @include focus-state;
@@ -793,80 +765,107 @@
             font-weight: 500;
         }
     }
-}
 
-@include media('>tablet') {
-
-    .gallery {
-        max-width: none;
-        text-align: right;
-        margin-bottom: 0;
-    }
-
-    .gallery-item {
-
-        @for $i from 1 through 9 {
-            .gallery-columns-#{$i} & {
-                max-width: 100%; // 1 column
-            }
-        }
-
-        // if there is only one thumbnail, do display it
-        &:first-child {
-            &:last-child {
-                .js & {
-                    display: inline-block;
-                }
-            }
-        }
-    }
-
-    .wpdtrt-gallery-viewer {
-
-        &.stack {
-            margin-bottom: 2em;
-        }
+    @include media('>tablet') {
+        margin-bottom: 2em;
 
         &--heading {
             padding: 13px 13px 9px;
         }
 
-        .wpdtrt-gallery-viewer__liner {
-
+        &__liner {
             &::before {
                 top: 20px;
                 right: 23px;
             }
         }
     }
+
+    @include media('>desktop') {
+        &__expand {
+            padding-top: .5em;
+            padding-bottom: .5em;
+        }
+    }
 }
 
-@include media('>desktop') {
-    .gallery-item {
-        display: block;
-        float: left;
+.wpdtrt-gallery-gallery {
 
-        // if there is only one thumbnail, do display it
-        &,
-        &:first-child {
-            &:last-child {
-                .js & {
-                    display: block;
+    // -------------------------------------------------------------------
+    // Media Queries
+    // -------------------------------------------------------------------
+
+    @include media('>phone_large') {
+
+        .gallery-item {
+
+            @for $i from 1 through 9 {
+                .gallery-columns-#{$i} & {
+                    max-width: 25%; // 4 columns
                 }
-            }
-        }
-
-        @for $i from 1 through 9 {
-            .gallery-columns-#{$i} & {
-                max-width: 50%; // 2 columns
             }
         }
     }
 
-    .wpdtrt-gallery-viewer {
-        &__expand {
-            padding-top: .5em;
-            padding-bottom: .5em;
+    @include media('>tablet_small') {
+
+        .gallery-item {
+
+            @for $i from 1 through 9 {
+                .gallery-columns-#{$i} & {
+                    max-width: 20%; // 5 columns
+                }
+            }
+        }
+    }
+
+    @include media('>tablet') {
+
+        .gallery {
+            max-width: none;
+            text-align: right;
+            margin-bottom: 0;
+        }
+
+        .gallery-item {
+
+            @for $i from 1 through 9 {
+                .gallery-columns-#{$i} & {
+                    max-width: 100%; // 1 column
+                }
+            }
+
+            // if there is only one thumbnail, do display it
+            &:first-child {
+                &:last-child {
+                    .js & {
+                        display: inline-block;
+                    }
+                }
+            }
+        }
+    }
+
+    @include media('>desktop') {
+        .gallery-item {
+            display: block;
+            float: left;
+
+            // if there is only one thumbnail, do display it
+            &,
+            &:first-child {
+                &:last-child {
+                    .js & {
+                        display: block;
+                    }
+                }
+            }
+
+            @for $i from 1 through 9 {
+                .gallery-columns-#{$i} & {
+                    max-width: 50%; // 2 columns
+                }
+            }
         }
     }
 }
