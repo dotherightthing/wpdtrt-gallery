@@ -44,7 +44,7 @@ echo $before_title . $title . $after_title;
 ?>
 
 <div class="wpdtrt-gallery-viewer stack stack--gallery-viewer" data-enabled="false" data-expanded="false">
-	<div class="wpdtrt-gallery-viewer--header">
+	<div class="wpdtrt-gallery-viewer__header">
 	<?php
 		echo $content;
 	?>
@@ -52,11 +52,11 @@ echo $before_title . $title . $after_title;
 	<div class="stack__wrapper">
 		<figure class="stack__liner">
 			<div class="img-wrapper"></div>
-			<div class="wpdtrt-gallery-viewer--embed">
+			<div class="wpdtrt-gallery-viewer__embed">
 				<iframe aria-hidden="true" title="Gallery media viewer."></iframe>
 			</div>
-			<figcaption class="wpdtrt-gallery-viewer--footer">
-				<div class="wpdtrt-gallery-viewer--caption"></div>
+			<figcaption class="wpdtrt-gallery-viewer__footer">
+				<div class="wpdtrt-gallery-viewer__caption"></div>
 			</figcaption>
 		</figure>
 	</div>

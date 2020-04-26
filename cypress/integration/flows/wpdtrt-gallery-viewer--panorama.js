@@ -89,13 +89,13 @@ describe('DTRT Gallery - Panorama Viewer', function () {
         });
 
         it('5. Does contain a hidden embed iframe, hidden accessibly', function () {
-            cy.get('@wpdtrtGalleryViewer').find('.wpdtrt-gallery-viewer--embed > iframe')
+            cy.get('@wpdtrtGalleryViewer').find('.wpdtrt-gallery-viewer__embed > iframe')
                 .should('have.attr', 'aria-hidden', 'true')
                 .should('not.be.visible');
         });
 
         it('6. Does not contain an expand button', function () {
-            cy.get('@wpdtrtGalleryViewer').find('.wpdtrt-gallery-viewer--expand')
+            cy.get('@wpdtrtGalleryViewer').find('.wpdtrt-gallery-viewer__expand')
                 .should('not.exist');
         });
 
@@ -153,13 +153,13 @@ describe('DTRT Gallery - Panorama Viewer', function () {
         });
 
         it('4. Does contain a hidden embed iframe, hidden accessibly', function () {
-            cy.get('@wpdtrtGalleryViewer').find('.wpdtrt-gallery-viewer--embed > iframe')
+            cy.get('@wpdtrtGalleryViewer').find('.wpdtrt-gallery-viewer__embed > iframe')
                 .should('have.attr', 'aria-hidden', 'true')
                 .should('not.be.visible');
         });
 
         it('5. Does contain a hidden expand button, hidden accessibly', function () {
-            cy.get('@wpdtrtGalleryViewer').find('.wpdtrt-gallery-viewer--expand')
+            cy.get('@wpdtrtGalleryViewer').find('.wpdtrt-gallery-viewer__expand')
                 .should('exist')
                 .should('have.attr', 'aria-hidden', 'true')
                 .should('not.be.visible')

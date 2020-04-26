@@ -112,7 +112,7 @@ const wpdtrtGalleryUi = {
      * @since 1.3.0
      */
     galleryViewerReset: ($, $viewer) => {
-        const $expandButton = $viewer.find('.wpdtrt-gallery-viewer--expand');
+        const $expandButton = $viewer.find('.wpdtrt-gallery-viewer__expand');
 
         // remove forced expand used by panorama & iframe viewers
         $viewer
@@ -308,7 +308,7 @@ const wpdtrtGalleryUi = {
      * @since 3.0.0
      */
     galleryViewerCaptionUpdate: function ($, $viewer, $galleryItemLink) {
-        const $viewerCaption = $viewer.find('.wpdtrt-gallery-viewer--caption');
+        const $viewerCaption = $viewer.find('.wpdtrt-gallery-viewer__caption');
         const galleryItemCaption = $.trim($galleryItemLink.parent().next('figcaption').text());
 
         // set the text of the large image caption
@@ -340,7 +340,7 @@ const wpdtrtGalleryUi = {
         const rwgpsPageId = $galleryItemLink.find('img').data('rwgps-pageid');
         // const isDefault = $galleryItemLink.find('img').data('initial');
 
-        const $expandButton = $viewer.find('.wpdtrt-gallery-viewer--expand');
+        const $expandButton = $viewer.find('.wpdtrt-gallery-viewer__expand');
 
         let embedHeightTimer;
 
@@ -463,7 +463,7 @@ const wpdtrtGalleryUi = {
      */
     galleryViewerPanoramaUpdate: function ($, $viewer, $galleryItemLink) {
         const panorama = $galleryItemLink.find('img').data('panorama');
-        const $expandButton = $viewer.find('.wpdtrt-gallery-viewer--expand');
+        const $expandButton = $viewer.find('.wpdtrt-gallery-viewer__expand');
         const $scrollLiner = $viewer.find('.img-wrapper');
         const $gal = $scrollLiner;
         let galleryScrollTimer;
@@ -574,7 +574,7 @@ const wpdtrtGalleryUi = {
      * @since 3.0.0
      */
     galleryViewerImageUpdate: function ($, $viewer, $galleryItemLink) {
-        const $expandButton = $viewer.find('.wpdtrt-gallery-viewer--expand');
+        const $expandButton = $viewer.find('.wpdtrt-gallery-viewer__expand');
         const $galleryItemImage = $galleryItemLink.find('img');
         const galleryItemImageAlt = $galleryItemImage.attr('alt');
         const galleryItemImageFull = $galleryItemLink.attr('href');
@@ -708,8 +708,8 @@ const wpdtrtGalleryUi = {
                 'data-enabled': true
             });
 
-        $stackLinkViewer.find('.wpdtrt-gallery-viewer--header')
-            .append(`<button id='${sectionId}-viewer-expand' class='wpdtrt-gallery-viewer--expand' aria-expanded='false' aria-controls='${viewerId}'><span class='says'>Show uncropped image</span></button>`);
+        $stackLinkViewer.find('.wpdtrt-gallery-viewer__header')
+            .append(`<button id='${sectionId}-viewer-expand' class='wpdtrt-gallery-viewer__expand' aria-expanded='false' aria-controls='${viewerId}'><span class='says'>Show uncropped image</span></button>`);
 
         const $expandButton = $(`#${sectionId}-viewer-expand`);
 

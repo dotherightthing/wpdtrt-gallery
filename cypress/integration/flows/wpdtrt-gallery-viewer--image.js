@@ -90,13 +90,13 @@ describe('DTRT Gallery - Image Viewer', function () {
         });
 
         it('5. Does contain a hidden embed iframe, hidden accessibly', function () {
-            cy.get('@wpdtrtGalleryViewer').find('.wpdtrt-gallery-viewer--embed > iframe')
+            cy.get('@wpdtrtGalleryViewer').find('.wpdtrt-gallery-viewer__embed > iframe')
                 .should('have.attr', 'aria-hidden', 'true')
                 .should('not.be.visible');
         });
 
         it('6. Does not contain an expand button', function () {
-            cy.get('@wpdtrtGalleryViewer').find('.wpdtrt-gallery-viewer--expand')
+            cy.get('@wpdtrtGalleryViewer').find('.wpdtrt-gallery-viewer__expand')
                 .should('not.exist');
         });
 
@@ -154,13 +154,13 @@ describe('DTRT Gallery - Image Viewer', function () {
         });
 
         it('5. Does contain a hidden embed iframe, hidden accessibly', function () {
-            cy.get('@wpdtrtGalleryViewer').find('.wpdtrt-gallery-viewer--embed > iframe')
+            cy.get('@wpdtrtGalleryViewer').find('.wpdtrt-gallery-viewer__embed > iframe')
                 .should('have.attr', 'aria-hidden', 'true')
                 .should('not.be.visible');
         });
 
         it('6. Does contain a visible expand button, shown accessibly', function () {
-            cy.get('@wpdtrtGalleryViewer').find('.wpdtrt-gallery-viewer--expand')
+            cy.get('@wpdtrtGalleryViewer').find('.wpdtrt-gallery-viewer__expand')
                 .should('exist')
                 .should('be.visible')
                 .should('have.attr', 'aria-controls', `${ sectionId }-viewer`)
@@ -187,7 +187,7 @@ describe('DTRT Gallery - Image Viewer', function () {
 
     describe('D. Expanded state (system selection)', function () {
         it('1. Is expanded, expanded accessibly', function () {
-            cy.get('@wpdtrtGalleryViewer').find('.wpdtrt-gallery-viewer--expand')
+            cy.get('@wpdtrtGalleryViewer').find('.wpdtrt-gallery-viewer__expand')
                 .click()
                 .should('contain.text', 'Show cropped image');
 
@@ -209,7 +209,7 @@ describe('DTRT Gallery - Image Viewer', function () {
         });
 
         it('3. Does contain a hidden embed iframe, hidden accessibly', function () {
-            cy.get('@wpdtrtGalleryViewer').find('.wpdtrt-gallery-viewer--embed > iframe')
+            cy.get('@wpdtrtGalleryViewer').find('.wpdtrt-gallery-viewer__embed > iframe')
                 .should('have.attr', 'aria-hidden', 'true')
                 .should('not.be.visible');
         });

@@ -26,17 +26,17 @@
 
 @mixin expanded-state() {
 
-    .wpdtrt-gallery-viewer--expand {
+    .wpdtrt-gallery-viewer__expand {
         // pin to bottom of header / top of image
         position: absolute;
         right: 1px; // allow for rounding error here as it's more noticeable
         bottom: 0;
-        background-color: $wpdtrt-gallery-border-color;
+        background-color: var(--wpdtrt-gallery-border-color);
         margin-right: 0;
     }
 
-    .wpdtrt-gallery-viewer--header,
-    .wpdtrt-gallery-viewer--footer {
+    .wpdtrt-gallery-viewer__header,
+    .wpdtrt-gallery-viewer__footer {
         // when the image is expanded the text gets out of the way
         // so that the image can be viewed in its entirety
         // this also applies to media viewers
@@ -48,17 +48,17 @@
         left: auto;
     }
 
-    .wpdtrt-gallery-viewer--header > h2 {
+    .wpdtrt-gallery-viewer__header > h2 {
         margin-bottom: 0;
     }
 
-    .wpdtrt-gallery-viewer--header > h2,
-    .wpdtrt-gallery-viewer--caption {
-        background-color: $wpdtrt-gallery-border-color;
-        border: 4px solid $wpdtrt-gallery-border-color;
+    .wpdtrt-gallery-viewer__header > h2,
+    .wpdtrt-gallery-viewer__caption {
+        background-color: var(--wpdtrt-gallery-border-color);
+        border: 4px solid var(--wpdtrt-gallery-border-color);
     }
 
-    .wpdtrt-gallery-viewer--footer {
+    .wpdtrt-gallery-viewer__footer {
         // prevents the .stack__liner borders from peeking through
         margin-left: 0;
     }
@@ -71,10 +71,10 @@
             }
         }
 
-        .wpdtrt-gallery-viewer--footer {
+        .wpdtrt-gallery-viewer__footer {
             // masks .stack-liner which includes the caption area
             z-index: 1;
-            background-color: $wpdtrt-gallery-border-color-alt;
+            background-color: var(--wpdtrt-gallery-border-color-alt);
 
             &::before {
                 // adds a new fake bottom border for the stack-liner overlay
@@ -85,7 +85,7 @@
                 left: 0;
                 z-index: 2;
                 width: 100%;
-                border-top: 4px solid $wpdtrt-gallery-border-color;
+                border-top: 4px solid var(--wpdtrt-gallery-border-color);
             }
         }
     }
@@ -115,7 +115,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    border: 4px solid $wpdtrt-gallery-border-color-focus;
+    border: 4px solid var(--wpdtrt-gallery-border-color-focus);
 }
 
 // -------------------------------------------------------------------
@@ -201,14 +201,14 @@
         width: 100%;
         height: 100%;
         vertical-align: top;
-        color: $wpdtrt-gallery-thumbnail-icon-color;
+        color: var(--wpdtrt-gallery-thumbnail-icon-color);
         font-size: 1.5em;
         line-height: 100%;
         text-align: right;
-        text-shadow: -1px -1px 0 $wpdtrt-gallery-thumbnail-icon-shadow-color,
-            1px -1px 0 $wpdtrt-gallery-thumbnail-icon-shadow-color,
-            -1px 1px 0 $wpdtrt-gallery-thumbnail-icon-shadow-color,
-            1px 1px 0 $wpdtrt-gallery-thumbnail-icon-shadow-color;
+        text-shadow: -1px -1px 0 var(--wpdtrt-gallery-thumbnail-icon-shadow-color),
+            1px -1px 0 var(--wpdtrt-gallery-thumbnail-icon-shadow-color),
+            -1px 1px 0 var(--wpdtrt-gallery-thumbnail-icon-shadow-color),
+            1px 1px 0 var(--wpdtrt-gallery-thumbnail-icon-shadow-color);
         padding-right: .3em;
         border: 4px solid transparent;
     }
@@ -227,11 +227,11 @@
         &[aria-expanded='true'] {
             &::before {
                 // unselected icon overstate
-                color: $wpdtrt-gallery-thumbnail-icon-shadow-color;
-                text-shadow: -1px -1px 0 $wpdtrt-gallery-thumbnail-icon-color,
-                    1px -1px 0 $wpdtrt-gallery-thumbnail-icon-color,
-                    -1px 1px 0 $wpdtrt-gallery-thumbnail-icon-color,
-                    1px 1px 0 $wpdtrt-gallery-thumbnail-icon-color;
+                color: var(--wpdtrt-gallery-thumbnail-icon-shadow-color);
+                text-shadow: -1px -1px 0 var(--wpdtrt-gallery-thumbnail-icon-color),
+                    1px -1px 0 var(--wpdtrt-gallery-thumbnail-icon-color),
+                    -1px 1px 0 var(--wpdtrt-gallery-thumbnail-icon-color),
+                    1px 1px 0 var(--wpdtrt-gallery-thumbnail-icon-color);
                 // selected icon overstate // ?
                 border-color: transparent;
             }
@@ -248,7 +248,7 @@
                     left: 0;
                     width: 100%;
                     height: 100%;
-                    border: 4px solid $wpdtrt-gallery-border-color-focus;
+                    border: 4px solid var(--wpdtrt-gallery-border-color-focus);
                 }
             }
         }
@@ -257,13 +257,13 @@
 
             .gallery > & {
                 opacity: 1;
-                border-color: $wpdtrt-gallery-thumbnail-border-color--active;
+                border-color: var(--wpdtrt-gallery-thumbnail-border-color-active);
                 cursor: not-allowed;
             }
 
             &::before {
                 content: '-';
-                background-color: $wpdtrt-gallery-thumbnail-icon-color--active;
+                background-color: var(--wpdtrt-gallery-thumbnail-icon-color-active);
                 transition: none;
             }
         }
@@ -342,30 +342,30 @@
         }
     }
 
-    &--header,
-    &--footer {
+    &__header,
+    &__footer {
         // internal gutters match dash gutters, ie both are in pixels
         margin: 4px;
     }
 
-    &--header > h2 {
+    &__header > h2 {
         padding: .25em .8125em;
     }
 
-    &--header > h2,
-    &--caption {
+    &__header > h2,
+    &__caption {
         display: inline-block;
-        background-color: $wpdtrt-gallery-bg-color;
-        color: $wpdtrt-gallery-text-color;
+        background-color: var(--wpdtrt-gallery-bg-color);
+        color: var(--wpdtrt-gallery-text-color);
     }
 
-    &--caption {
+    &__caption {
         @extend %type-special;
         font-size: 14px;
         font-weight: bold;
     }
 
-    &--embed {
+    &__embed {
         > iframe {
             width: 100%;
             height: 100%;
@@ -392,12 +392,12 @@
             top: 15.5px;
             right: 24px;
             z-index: 2;
-            color: $wpdtrt-gallery-text-color;
+            color: var(--wpdtrt-gallery-text-color);
             font-size: 1.4em;
-            text-shadow: -1px -1px 0 $wpdtrt-gallery-border-color,
-                1px -1px 0 $wpdtrt-gallery-border-color,
-                -1px 1px 0 $wpdtrt-gallery-border-color,
-                1px 1px 0 $wpdtrt-gallery-border-color;
+            text-shadow: -1px -1px 0 var(--wpdtrt-gallery-border-color),
+                1px -1px 0 var(--wpdtrt-gallery-border-color),
+                -1px 1px 0 var(--wpdtrt-gallery-border-color),
+                1px 1px 0 var(--wpdtrt-gallery-border-color);
         }
 
         &--icon-embed {
@@ -406,7 +406,7 @@
             top: 50%;
             left: 50%;
             z-index: 0;
-            color: $wpdtrt-gallery-icon-embed;
+            color: var(--wpdtrt-gallery-icon-embed);
             font-size: 48px;
             line-height: 0;
             margin-top: -(48px / 2);
@@ -429,19 +429,19 @@
     // gallery viewer expand/collapse button
     // -------------------------------------------------------------------
 
-    &--expand {
+    &__expand {
         @extend %type-special;
         opacity: 1;
         position: relative;
         right: 0; // 1px; // seems to be a browser rounding error as it's ok at random breakpoints
         float: right; // TODO prevent the heading from hitting this
         background-color: transparent;
-        color: $wpdtrt-gallery-text-color;
+        color: var(--wpdtrt-gallery-text-color);
         line-height: 1;
-        text-shadow: -1px -1px 0 $wpdtrt-gallery-border-color,
-            1px -1px 0 $wpdtrt-gallery-border-color,
-            -1px 1px 0 $wpdtrt-gallery-border-color,
-            1px 1px 0 $wpdtrt-gallery-border-color;
+        text-shadow: -1px -1px 0 var(--wpdtrt-gallery-border-color),
+            1px -1px 0 var(--wpdtrt-gallery-border-color),
+            -1px 1px 0 var(--wpdtrt-gallery-border-color),
+            1px 1px 0 var(--wpdtrt-gallery-border-color);
         padding: .275em 1em;
         border: 4px solid transparent;
         border-radius: 0;
@@ -457,12 +457,12 @@
 
         &:hover,
         &:focus {
-            background-color: $wpdtrt-gallery-border-color;
-            color: $wpdtrt-gallery-border-color;
-            text-shadow: -1px -1px 0 $wpdtrt-gallery-border-color-alt,
-                1px -1px 0 $wpdtrt-gallery-border-color-alt,
-                -1px 1px 0 $wpdtrt-gallery-border-color-alt,
-                1px 1px 0 $wpdtrt-gallery-border-color-alt;
+            background-color: var(--wpdtrt-gallery-border-color);
+            color: var(--wpdtrt-gallery-border-color);
+            text-shadow: -1px -1px 0 var(--wpdtrt-gallery-border-color-alt),
+                1px -1px 0 var(--wpdtrt-gallery-border-color-alt),
+                -1px 1px 0 var(--wpdtrt-gallery-border-color-alt),
+                1px 1px 0 var(--wpdtrt-gallery-border-color-alt);
             outline: none;
         }
     }
@@ -488,7 +488,7 @@
     // -------------------------------------------------------------------
 
     &[data-attachment] {
-        .wpdtrt-gallery-viewer--caption {
+        .wpdtrt-gallery-viewer__caption {
             p {
                 margin-bottom: 0;
             }
@@ -502,7 +502,7 @@
 
     &[data-enabled='true'] {
 
-        .wpdtrt-gallery-viewer--header {
+        .wpdtrt-gallery-viewer__header {
             // both text elements must be AP
             // so that the inline invisible image
             // can dictate the height that it needs to display fully
@@ -524,11 +524,11 @@
             }
         }
 
-        .wpdtrt-gallery-viewer--caption {
+        .wpdtrt-gallery-viewer__caption {
             padding: .75em .625em .625em;
         }
 
-        .wpdtrt-gallery-viewer--footer {
+        .wpdtrt-gallery-viewer__footer {
             // both text elements must be AP
             // so that the inline invisible image
             // can dictate the height that it needs to display fully
@@ -550,18 +550,18 @@
 
         &[data-expanded='true'] {
 
-            .wpdtrt-gallery-viewer--expand {
+            .wpdtrt-gallery-viewer__expand {
                 // pin to bottom of header / top of image
                 position: absolute;
                 right: 1px; // allow for rounding error here as it's more noticeable
                 bottom: 0;
-                background-color: $wpdtrt-gallery-border-color;
+                background-color: var(--wpdtrt-gallery-border-color);
                 margin-right: 0;
 
                 &:hover,
                 &:focus {
-                    background-color: $wpdtrt-gallery-button-color-alt;
-                    color: $wpdtrt-gallery-button-color-alt;
+                    background-color: var(--wpdtrt-gallery-button-color-alt);
+                    color: var(--wpdtrt-gallery-button-color-alt);
                 }
 
                 &::after {
@@ -569,8 +569,8 @@
                 }
             }
 
-            .wpdtrt-gallery-viewer--header,
-            .wpdtrt-gallery-viewer--footer {
+            .wpdtrt-gallery-viewer__header,
+            .wpdtrt-gallery-viewer__footer {
                 // when the image is expanded the text gets out of the way
                 // so that the image can be viewed in its entirety
                 // this also applies to media viewers
@@ -582,17 +582,17 @@
                 left: auto;
             }
 
-            .wpdtrt-gallery-viewer--header > h2 {
+            .wpdtrt-gallery-viewer__header > h2 {
                 margin-bottom: 0;
             }
 
-            .wpdtrt-gallery-viewer--header > h2,
-            .wpdtrt-gallery-viewer--caption {
-                background-color: $wpdtrt-gallery-border-color;
-                border: 4px solid $wpdtrt-gallery-border-color;
+            .wpdtrt-gallery-viewer__header > h2,
+            .wpdtrt-gallery-viewer__caption {
+                background-color: var(--wpdtrt-gallery-border-color);
+                border: 4px solid var(--wpdtrt-gallery-border-color);
             }
 
-            .wpdtrt-gallery-viewer--footer {
+            .wpdtrt-gallery-viewer__footer {
                 // prevents the .stack__liner borders from peeking through
                 margin-left: 0;
             }
@@ -605,10 +605,10 @@
                     }
                 }
 
-                .wpdtrt-gallery-viewer--footer {
+                .wpdtrt-gallery-viewer__footer {
                     // masks .stack-liner which includes the caption area
                     z-index: 1;
-                    background-color: $wpdtrt-gallery-border-color-alt;
+                    background-color: var(--wpdtrt-gallery-border-color-alt);
 
                     &::before {
                         // adds a new fake bottom border for the stack-liner overlay
@@ -619,7 +619,7 @@
                         left: 0;
                         z-index: 2;
                         width: 100%;
-                        border-top: 4px solid $wpdtrt-gallery-border-color;
+                        border-top: 4px solid var(--wpdtrt-gallery-border-color);
                     }
                 }
             }
@@ -646,11 +646,11 @@
     // -------------------------------------------------------------------
 
     &[data-enabled='false'] {
-        .wpdtrt-gallery-viewer--header {
+        .wpdtrt-gallery-viewer__header {
             > h2 {
                 // the gallery viewer is in the template
                 // but not all sections have galleries
-                background-color: $wpdtrt-gallery-border-color;
+                background-color: var(--wpdtrt-gallery-border-color);
             }
         }
 
@@ -693,38 +693,38 @@
 
     &[data-soundcloud-pageid] {
         .stack__liner {
-            background-color: $wpdtrt-gallery-bg-color-embed;
+            background-color: var(--wpdtrt-gallery-bg-color-embed);
 
             &::before {
                 @extend .stack__liner--icon-embed;
                 content: '\e90c';
             }
 
-            .wpdtrt-gallery-viewer--embed {
+            .wpdtrt-gallery-viewer__embed {
                 @extend %wpdtrt-plugin-boilerplate--embedresponsively;
             }
 
-            .wpdtrt-gallery-viewer--footer {
-                background-color: $wpdtrt-gallery-bg-color-page;
+            .wpdtrt-gallery-viewer__footer {
+                background-color: var(--wpdtrt-gallery-bg-color-page);
             }
         }
     }
 
     &[data-vimeo-pageid] {
         .stack__liner {
-            background-color: $wpdtrt-gallery-bg-color-embed;
+            background-color: var(--wpdtrt-gallery-bg-color-embed);
 
             &::before {
                 @extend .stack__liner--icon-embed;
                 content: '\e90b';
             }
 
-            .wpdtrt-gallery-viewer--embed {
+            .wpdtrt-gallery-viewer__embed {
                 @extend %wpdtrt-plugin-boilerplate--embedresponsively;
             }
 
-            .wpdtrt-gallery-viewer--footer {
-                background-color: $wpdtrt-gallery-bg-color-page;
+            .wpdtrt-gallery-viewer__footer {
+                background-color: var(--wpdtrt-gallery-bg-color-page);
             }
         }
     }
@@ -772,14 +772,14 @@
             @include focus-state;
         }
 
-        &--header {
+        &__header {
             > h2 {
                 // fit more text in before it wraps
                 font-size: 1.2em;
             }
         }
 
-        &--caption {
+        &__caption {
             // remove bolding
             font-weight: 500;
         }
@@ -855,7 +855,7 @@
     }
 
     .wpdtrt-gallery-viewer {
-        &--expand {
+        &__expand {
             padding-top: .5em;
             padding-bottom: .5em;
         }
