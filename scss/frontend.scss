@@ -375,6 +375,11 @@
             height: 100%;
             border: 0;
             overflow: hidden;
+
+            &[style] {
+                // stylelint-disable-next-line declaration-no-important
+                height: 100% !important;
+            }
         }
     }
 
