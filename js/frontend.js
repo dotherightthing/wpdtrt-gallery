@@ -5,7 +5,7 @@
  * @requires DTRT WordPress Plugin Boilerplate Generator 0.8.13
  */
 
-/* global jQuery, Waypoint */
+/* global jQuery */
 /* eslint-disable func-names, camelcase */
 
 /**
@@ -66,22 +66,42 @@ const wpdtrtGalleryUi = {
      */
     galleryViewerLazyInit: ($) => {
         const $sections = $('.wpdtrt-gallery__section');
+        let $section;
 
-        $sections.each((i, item) => {
-            var $section = $(item);
+        /**
+         * Respond to an observed intersection.
+         *
+         * @param {*} changes
+         * @param {*} observer
+         */
+        function onChange(changes, observer) {
+            changes.forEach(change => {
+                // ratio of the element which is visible
+                if (change.intersectionRatio > 0.1) {
+                    let $inView = $(change.target);
 
-            var waypoint = new Waypoint({
-                element: $section.get(0),
-                handler: function (direction) {
-                    if (direction === 'down') {
-                        wpdtrtGalleryUi.galleryViewerInit($, $section);
-                        waypoint.destroy();
-                        Waypoint.refreshAll(); // update offset of remaining waypoints.
-                    }
-                },
-                offset: 'bottom-in-view'
+                    wpdtrtGalleryUi.galleryViewerInit($, $inView);
+                    observer.unobserve(change.target);
+                }
             });
-        });
+        }
+
+        if ('IntersectionObserver' in window) {
+            let observer = new IntersectionObserver(onChange, {
+                root: null, // relative to document viewport
+                rootMargin: '0px', // margin around root, unitless values not allowed
+                threshold: 0.1 // visible amount of item shown in relation to root
+            });
+
+            $sections.each((i, item) => {
+                // add element to the set being watched by the IntersectionObserver
+                observer.observe($(item).get(0));
+            });
+        } else {
+            $sections.each((i, item) => {
+                wpdtrtGalleryUi.galleryViewerInit($, $section);
+            });
+        }
     },
 
     /**
@@ -791,7 +811,7 @@ document.addEventListener('touchstart', () => {
 /* eslint-disable wrap-iife */
 (function ($) {
     $(window).on('load', () => {
-        // defer load of .initial enlargements, to reduce initial load time for PageSpeed
+        // defer initialisation of viewers, to reduce initial load time
         wpdtrtGalleryUi.galleryViewerLazyInit($);
     });
 })(jQuery);

@@ -27,7 +27,6 @@
   },
   "dependencies": {
     "urijs": "^1.19.1",
-    "waypoints": "^4.0.1",
     "wpdtrt-npm-scripts": "github:dotherightthing/wpdtrt-npm-scripts"
   },
   "config": {

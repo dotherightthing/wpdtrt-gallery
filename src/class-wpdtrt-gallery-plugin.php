@@ -135,17 +135,6 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 			$attach_to_footer
 		);
 
-		// lazy initialisation.
-		wp_register_script( 'jquery_waypoints',
-			$this->get_url() . 'node_modules/waypoints/lib/jquery.waypoints.min.js',
-			array(
-				// load these registered dependencies first:.
-				'jquery',
-			),
-			'4.0.0',
-			$attach_to_footer
-		);
-
 		// init
 		// from Plugin.php + extra dependencies.
 		wp_enqueue_script( $this->get_prefix(),
