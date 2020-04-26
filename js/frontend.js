@@ -71,8 +71,8 @@ const wpdtrtGalleryUi = {
         /**
          * Respond to an observed intersection.
          *
-         * @param {*} changes
-         * @param {*} observer
+         * @param {object} changes - Observed changes
+         * @param {object} observer - Intersection Observer
          */
         function onChange(changes, observer) {
             changes.forEach(change => {
@@ -98,7 +98,7 @@ const wpdtrtGalleryUi = {
                 observer.observe($(item).get(0));
             });
         } else {
-            $sections.each((i, item) => {
+            $sections.each(() => {
                 wpdtrtGalleryUi.galleryViewerInit($, $section);
             });
         }
