@@ -59,13 +59,13 @@
     }
 
     .wpdtrt-gallery-viewer__footer {
-        // prevents the .stack__liner borders from peeking through
+        // prevents the .wpdtrt-gallery-viewer__liner borders from peeking through
         margin-left: 0;
     }
 
     &:focus {
 
-        .stack__liner {
+        .wpdtrt-gallery-viewer__liner {
             &::after {
                 @include focus-state;
             }
@@ -90,7 +90,7 @@
         }
     }
 
-    .stack__liner {
+    .wpdtrt-gallery-viewer__liner {
         // override inline styles, remove bgcolor so that caption is not fw
         // stylelint-disable-next-line declaration-no-important
         background: none !important;
@@ -374,7 +374,7 @@
         }
     }
 
-    .stack__liner {
+    .wpdtrt-gallery-viewer__liner {
         opacity: 1;
         vertical-align: bottom;
         background: none;
@@ -474,7 +474,7 @@
     &:focus {
         outline: none;
 
-        .stack__liner {
+        .wpdtrt-gallery-viewer__liner {
             position: relative;
 
             &::after {
@@ -593,13 +593,13 @@
             }
 
             .wpdtrt-gallery-viewer__footer {
-                // prevents the .stack__liner borders from peeking through
+                // prevents the .wpdtrt-gallery-viewer__liner borders from peeking through
                 margin-left: 0;
             }
 
             &:focus {
 
-                .stack__liner {
+                .wpdtrt-gallery-viewer__liner {
                     &::after {
                         @include focus-state;
                     }
@@ -624,7 +624,7 @@
                 }
             }
 
-            .stack__liner {
+            .wpdtrt-gallery-viewer__liner {
                 // override inline styles, remove bgcolor so that caption is not fw
                 background: none !important; // stylelint-disable-line declaration-no-important
             }
@@ -654,7 +654,7 @@
             }
         }
 
-        .stack__liner {
+        .wpdtrt-gallery-viewer__liner {
             // the gallery viewer is in the template,
             // but not all sections have galleries
             .no-js & {
@@ -668,9 +668,9 @@
     // -------------------------------------------------------------------
 
     &[data-panorama] {
-        .stack__liner {
+        .wpdtrt-gallery-viewer__liner {
             &::before {
-                @extend .stack__liner--icon-hint;
+                @extend .wpdtrt-gallery-viewer__liner--icon-hint;
                 content: '\e90a';
             }
 
@@ -681,7 +681,7 @@
             }
         }
 
-        .img-wrapper {
+        .wpdtrt-gallery-viewer__img-wrapper {
             max-width: none;
             overflow-x: scroll;
         }
@@ -692,11 +692,11 @@
     // -------------------------------------------------------------------
 
     &[data-soundcloud-pageid] {
-        .stack__liner {
+        .wpdtrt-gallery-viewer__liner {
             background-color: var(--wpdtrt-gallery-bg-color-embed);
 
             &::before {
-                @extend .stack__liner--icon-embed;
+                @extend .wpdtrt-gallery-viewer__liner--icon-embed;
                 content: '\e90c';
             }
 
@@ -711,11 +711,11 @@
     }
 
     &[data-vimeo-pageid] {
-        .stack__liner {
+        .wpdtrt-gallery-viewer__liner {
             background-color: var(--wpdtrt-gallery-bg-color-embed);
 
             &::before {
-                @extend .stack__liner--icon-embed;
+                @extend .wpdtrt-gallery-viewer__liner--icon-embed;
                 content: '\e90b';
             }
 
@@ -822,7 +822,7 @@
             padding: 13px 13px 9px;
         }
 
-        .stack__liner {
+        .wpdtrt-gallery-viewer__liner {
 
             &::before {
                 top: 20px;

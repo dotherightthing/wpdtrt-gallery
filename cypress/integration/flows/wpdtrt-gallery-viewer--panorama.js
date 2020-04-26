@@ -78,7 +78,7 @@ describe('DTRT Gallery - Panorama Viewer', function () {
         });
 
         it('3. Does not contain an image', function () {
-            cy.get('@wpdtrtGalleryViewer').find('.img-wrapper > img')
+            cy.get('@wpdtrtGalleryViewer').find('.wpdtrt-gallery-viewer__img-wrapper > img')
                 .should('not.exist');
         });
 
@@ -142,9 +142,9 @@ describe('DTRT Gallery - Panorama Viewer', function () {
             cy.get('@wpdtrtGalleryViewer')
                 .should('have.attr', 'data-panorama', '1');
 
-            cy.get('@wpdtrtGalleryViewer').find('.img-wrapper > img')
+            cy.get('@wpdtrtGalleryViewer').find('.wpdtrt-gallery-viewer__img-wrapper > img')
                 .should('exist')
-                // cannot check if .img-wrapper has .scrollWidth
+                // cannot check if .wpdtrt-gallery-viewer__img-wrapper has .scrollWidth
                 .should('have.css', 'width', '1369px')
                 // https://github.com/dotherightthing/wpdtrt-gallery/issues/65
                 .should('have.css', 'height', '368px')

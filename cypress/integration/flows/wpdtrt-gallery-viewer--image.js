@@ -79,7 +79,7 @@ describe('DTRT Gallery - Image Viewer', function () {
         });
 
         it('3. Does not contain an image', function () {
-            cy.get('@wpdtrtGalleryViewer').find('.img-wrapper > img')
+            cy.get('@wpdtrtGalleryViewer').find('.wpdtrt-gallery-viewer__img-wrapper > img')
                 .should('not.exist');
         });
 
@@ -139,7 +139,7 @@ describe('DTRT Gallery - Image Viewer', function () {
         });
 
         it('3. Does contain a landscape image, described accessibly', function () {
-            cy.get('@wpdtrtGalleryViewer').find('.img-wrapper > img')
+            cy.get('@wpdtrtGalleryViewer').find('.wpdtrt-gallery-viewer__img-wrapper > img')
                 .should('exist')
                 .should('have.css', 'width', '658px')
                 .should('have.css', 'height', '280px')
@@ -200,7 +200,7 @@ describe('DTRT Gallery - Image Viewer', function () {
         it('2. Does contain a taller landscape image, described accessibly', function () {
             // can we use this.attr.src here or invoke?
 
-            cy.get('@wpdtrtGalleryViewer').find('.img-wrapper > img')
+            cy.get('@wpdtrtGalleryViewer').find('.wpdtrt-gallery-viewer__img-wrapper > img')
                 .should('exist')
                 .should('have.css', 'width', '658px')
                 .should('have.css', 'height', '370px')

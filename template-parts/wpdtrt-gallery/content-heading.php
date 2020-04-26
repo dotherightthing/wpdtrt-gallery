@@ -43,15 +43,15 @@ echo $before_widget;
 echo $before_title . $title . $after_title;
 ?>
 
-<div class="wpdtrt-gallery-viewer stack stack--gallery-viewer" data-enabled="false" data-expanded="false">
+<div class="wpdtrt-gallery-viewer" data-enabled="false" data-expanded="false">
 	<div class="wpdtrt-gallery-viewer__header">
 	<?php
 		echo $content;
 	?>
 	</div>
-	<div class="stack__wrapper">
-		<figure class="stack__liner">
-			<div class="img-wrapper"></div>
+	<div class="wpdtrt-gallery-viewer__wrapper">
+		<figure class="wpdtrt-gallery-viewer__liner">
+			<div class="wpdtrt-gallery-viewer__img-wrapper"></div>
 			<div class="wpdtrt-gallery-viewer__embed">
 				<iframe aria-hidden="true" title="Gallery media viewer."></iframe>
 			</div>
