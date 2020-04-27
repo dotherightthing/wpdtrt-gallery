@@ -43,7 +43,7 @@ echo $before_widget;
 echo $before_title . $title . $after_title;
 ?>
 
-<div class="wpdtrt-gallery-viewer" data-enabled="false" data-expanded="false">
+<div class="wpdtrt-gallery-viewer" data-wpdtrt-anchorlinks-controls="highlighting" data-enabled="false" data-expanded="false">
 	<div class="wpdtrt-gallery-viewer__header">
 	<?php
 		echo $content;
