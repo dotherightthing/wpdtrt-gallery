@@ -690,6 +690,7 @@
 
             > img {
                 width: auto;
+                min-width: 100%;
                 max-width: none;
             }
         }
@@ -825,7 +826,6 @@
         .gallery {
             max-width: none;
             text-align: right;
-            margin-bottom: 0;
         }
 
         .gallery-item {
