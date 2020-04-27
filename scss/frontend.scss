@@ -178,7 +178,7 @@
     padding-left: 1px;
 
     @for $i from 1 through 9 {
-        .gallery-columns-#{$i} & {
+        @at-root .wpdtrt-gallery-gallery .gallery-columns-#{$i} .gallery-item {
             max-width: (100 / $i) * 1%; // $i columns
         }
     }
@@ -801,7 +801,7 @@
         .gallery-item {
 
             @for $i from 1 through 9 {
-                .gallery-columns-#{$i} & {
+                @at-root .wpdtrt-gallery-gallery .gallery-columns-#{$i} .gallery-item {
                     max-width: 25%; // 4 columns
                 }
             }
@@ -813,7 +813,7 @@
         .gallery-item {
 
             @for $i from 1 through 9 {
-                .gallery-columns-#{$i} & {
+                @at-root .wpdtrt-gallery-gallery .gallery-columns-#{$i} .gallery-item {
                     max-width: 20%; // 5 columns
                 }
             }
@@ -831,7 +831,7 @@
         .gallery-item {
 
             @for $i from 1 through 9 {
-                .gallery-columns-#{$i} & {
+                @at-root .wpdtrt-gallery-gallery .gallery-columns-#{$i} .gallery-item {
                     max-width: 100%; // 1 column
                 }
             }
@@ -863,7 +863,7 @@
             }
 
             @for $i from 1 through 9 {
-                .gallery-columns-#{$i} & {
+                @at-root .wpdtrt-gallery-gallery .gallery-columns-#{$i} .gallery-item {
                     max-width: 50%; // 2 columns
                 }
             }
