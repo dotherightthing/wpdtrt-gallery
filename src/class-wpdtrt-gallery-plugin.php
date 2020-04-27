@@ -345,7 +345,7 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 				$section_inner_html = str_replace( $heading_html, $new_heading_html, $section_inner_html );
 
 				// wrap gallery viewer shortcode and remaining content.
-				$section_html .= '<div class="entry-content__content">';
+				$section_html .= '<div class="entry-content">';
 				$section_html .= $section_inner_html;
 				$section_html .= '</div>';
 
@@ -353,7 +353,7 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 
 				if ( count( $gallery_matches ) > 0 ) {
 					// insert gallery shortcode after content.
-					$section_html .= '<div class="entry-content__gallery gallery wpdtrt-gallery-gallery">';
+					$section_html .= '<div class="wpdtrt-gallery-gallery">';
 					$section_html .= '<h3 class="accessible">Photos</h3>';
 					$section_html .= $gallery_shortcode;
 					$section_html .= '</div>';
