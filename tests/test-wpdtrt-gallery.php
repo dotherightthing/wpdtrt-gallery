@@ -37,11 +37,11 @@ class WPDTRT_GalleryTest extends WP_UnitTestCase {
 	private $base_url = 'http://example.org';
 
 	/**
-	 * Variable: $gallery_html
+	 * Variable: $expected_gallery_html
 	 *
 	 * Fixture.
 	 */
-	private $gallery_html = '<div class="wpdtrt-gallery__section" id="test-section"><div class="wpdtrt-gallery-viewer" data-wpdtrt-anchorlinks-controls="highlighting" data-enabled="false" data-expanded="false"><div class="wpdtrt-gallery-viewer__header"><h2>Post 1 heading</h2></div><div class="wpdtrt-gallery-viewer__wrapper"><figure class="wpdtrt-gallery-viewer__liner"><div class="wpdtrt-gallery-viewer__img-wrapper"></div><div class="wpdtrt-gallery-viewer__embed"><iframe aria-hidden="true" title="Gallery media viewer."></iframe></div><figcaption class="wpdtrt-gallery-viewer__footer"><div class="wpdtrt-gallery-viewer__caption"></div></figcaption></figure></div></div></div>';
+	private $expected_gallery_html = '<div class="wpdtrt-gallery__section" id="post-section"><div class="wpdtrt-gallery-viewer" data-wpdtrt-anchorlinks-controls="highlighting" data-enabled="false" data-expanded="false"><div class="wpdtrt-gallery-viewer__header"><h2>Post heading</h2></div><div class="wpdtrt-gallery-viewer__wrapper"><figure class="wpdtrt-gallery-viewer__liner"><div class="wpdtrt-gallery-viewer__img-wrapper"></div><div class="wpdtrt-gallery-viewer__embed"><iframe aria-hidden="true" title="Gallery media viewer."></iframe></div><figcaption class="wpdtrt-gallery-viewer__footer"><div class="wpdtrt-gallery-viewer__caption"></div></figcaption></figure><p>A short sentence.</p></div></div></div>';
 
 	/**
 	 * Group: Lifecycle Events
@@ -61,31 +61,31 @@ class WPDTRT_GalleryTest extends WP_UnitTestCase {
 		// Generate WordPress data fixtures
 		//
 		// Post (for testing manually entered, naked shortcode).
-		$this->post_with_empty_gallery = $this->create_post( array(
+		$this->post_for_test_image = $this->create_post( array(
 			'post_title'   => 'Empty gallery test',
-			'post_content' => '<div class="wpdtrt-gallery__section" id="test-section">[wpdtrt_gallery_shortcode_heading]<h2>Post 1 heading</h2>[/wpdtrt_gallery_shortcode_heading]</div>',
+			'post_content' => '<p>Post for image</p>',
 		));
 
 		// Attachment (for testing custom sizes and meta).
 		$this->image_1 = $this->create_attachment( array(
 			'filename'       => 'images/test1.jpg',
-			'parent_post_id' => $this->post_with_empty_gallery,
+			'parent_post_id' => $this->post_for_test_image,
 		));
 
 		$this->thumbnail_size = 'thumbnail';
 
 		// Post (for testing populated shortcode)
-		// NOTE: generated attachment is attached to post_with_empty_gallery not post_with_single_image_gallery
+		// NOTE: generated attachment is attached to post_for_test_image not post_with_single_image_gallery
 		// this is a chicken-and-egg scenario.
 		$this->post_with_single_image_gallery = $this->create_post( array(
 			'post_title'   => 'Single image gallery test',
-			'post_content' => '<div class="wpdtrt-gallery__section" id="test-section">[wpdtrt_gallery_shortcode_heading]<h2>Post 2 heading</h2>[/wpdtrt_gallery_shortcode_heading][gallery link="file" ids="' . $this->image_1 . '"]</div>',
+			'post_content' => '<div class="wpdtrt-anchorlinks__section wpdtrt-anchorlinks__anchor" id="post-heading" tabindex="-1"><h2 data-id="post-heading">Post heading<a class="wpdtrt-anchorlinks__anchor-link" href="#post-heading"><span aria-label="Anchor" class="wpdtrt-anchorlinks__anchor-icon">#</span></a></h2>[gallery link="file" ids="' . $this->image_1 . '"]<p>A short sentence.</p></div>',
 		));
 
 		// Post (for injected naked shortcode).
 		$this->post_with_no_gallery = $this->create_post( array(
 			'post_title'   => 'Empty gallery test',
-			'post_content' => '<div class="wpdtrt-gallery__section" id="test-section"><h2>Post 3 heading</h2></div>',
+			'post_content' => '<div class="wpdtrt-anchorlinks__section wpdtrt-anchorlinks__anchor" id="post-heading" tabindex="-1"><h2 data-id="post-heading">Post heading<a class="wpdtrt-anchorlinks__anchor-link" href="#post-heading"><span aria-label="Anchor" class="wpdtrt-anchorlinks__anchor-icon">#</span></a></h2><p>A short sentence.</p></div>',
 		));
 	}
 
@@ -102,7 +102,7 @@ class WPDTRT_GalleryTest extends WP_UnitTestCase {
 
 		parent::tearDown();
 
-		wp_delete_post( $this->post_with_empty_gallery, true );
+		wp_delete_post( $this->post_for_test_image, true );
 		wp_delete_post( $this->image_1, true );
 		wp_delete_post( $this->post_with_single_image_gallery, true );
 
@@ -450,14 +450,14 @@ class WPDTRT_GalleryTest extends WP_UnitTestCase {
 	}
 
 	/**
-	 * Method: test_injected_shortcode_with_heading
+	 * Method: test_shortcode_in_post_with_no_gallery
 	 *
 	 * Test shortcode with a heading and gallery containing a single image.
 	 *
 	 * Note:
 	 * - Test theme does not appear to output HTML5 markup for gallery.
 	 */
-	public function test_injected_shortcode_with_heading() {
+	public function test_shortcode_in_post_with_no_gallery() {
 
 		$this->go_to(
 			get_post_permalink( $this->post_with_no_gallery )
@@ -474,40 +474,14 @@ class WPDTRT_GalleryTest extends WP_UnitTestCase {
 	}
 
 	/**
-	 * Method: test_shortcode_with_heading
-	 *
-	 * Test shortcode with a heading only.
-	 *
-	 * Note:
-	 * - trim() removes line break added by WordPress
-	 *
-	 * TODO:
-	 * - <https://github.com/dotherightthing/wpdtrt-gallery/issues/2>
-	 */
-	public function test_shortcode_with_heading() {
-
-		$this->go_to(
-			get_post_permalink( $this->post_with_empty_gallery )
-		);
-
-		$content = get_post_field( 'post_content', $this->post_with_empty_gallery );
-
-		$this->assertEqualHtml(
-			$this->gallery_html,
-			trim( do_shortcode( $content ) ),
-			'wpdtrt_gallery_shortcode does not return the correct HTML'
-		);
-	}
-
-	/**
-	 * Method: test_shortcode_with_heading_and_gallery
+	 * Method: test_shortcode_in_post_with_single_image_gallery
 	 *
 	 * Test shortcode with a heading and gallery containing a single image.
 	 *
 	 * Note:
 	 * - Test theme does not appear to output HTML5 markup for gallery.
 	 */
-	public function test_shortcode_with_heading_and_gallery() {
+	public function test_shortcode_in_post_with_single_image_gallery() {
 
 		$this->go_to(
 			get_post_permalink( $this->post_with_single_image_gallery )
