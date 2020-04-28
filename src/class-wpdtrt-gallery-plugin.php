@@ -314,6 +314,8 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 		$dom = new DOMDocument();
 		$dom->loadHTML( mb_convert_encoding( $content, 'HTML-ENTITIES', 'UTF-8' ) );
 
+		// phpcs:disable WordPress.NamingConventions
+
 		// Clear errors, so they aren't kept in memory.
 		libxml_clear_errors();
 
@@ -327,7 +329,7 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 
 			if ( count( $anchor_matches ) > 0 ) {
 				$heading            = $section->getElementsByTagName( 'h2' )[0];
-				$gallery            = $heading->nextSibling; // phpcs:ignore
+				$gallery            = $heading->nextSibling;
 				$gallery_shortcode  = $this->get_html( $gallery, true );
 				$heading_html       = $this->get_html( $heading, true );
 				$new_heading_html   = '[wpdtrt_gallery_shortcode_heading]' . $heading_html . '[/wpdtrt_gallery_shortcode_heading]';
@@ -350,7 +352,7 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 				$section_html .= $section_inner_html;
 				$section_html .= '</div>';
 
-				preg_match( '/\[gallery link="file" ids=/', $gallery->nodeValue, $gallery_matches ); // phpcs:ignore
+				preg_match( '/\[gallery link="file" ids=/', $gallery->nodeValue, $gallery_matches );
 
 				if ( count( $gallery_matches ) > 0 ) {
 					// insert gallery shortcode after content.
@@ -367,6 +369,8 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 			// update output.
 			$content_replacements[] = $section_html;
 		}
+
+		// phpcs:enable WordPress.NamingConventions
 
 		if ( count( $content_replacements ) > 0 ) {
 			$content = '';
