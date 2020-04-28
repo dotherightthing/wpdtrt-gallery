@@ -19,8 +19,6 @@
  *   0.8.13 - DTRT WordPress Plugin Boilerplate Generator
  */
 
-// phpcs:disable
-
 /**
  * Class: WPDTRT_GalleryTest
  *
@@ -462,6 +460,8 @@ class WPDTRT_GalleryTest extends WP_UnitTestCase {
 		$content = apply_filters( 'the_content', get_post_field( 'post_content', $this->post_with_no_gallery ) );
 
 		/*
+		Snapshot:
+
 		<div id="section-heading" class="wpdtrt-anchorlinks__section wpdtrt-anchorlinks__anchor wpdtrt-gallery__section" tabindex="-1">
 			<div class="entry-content">
 				<div class="wpdtrt-gallery-viewer" data-wpdtrt-anchorlinks-controls="highlighting" data-enabled="false">
@@ -564,9 +564,9 @@ class WPDTRT_GalleryTest extends WP_UnitTestCase {
 		// https://stackoverflow.com/a/22270259/6850747.
 		$content = apply_filters( 'the_content', get_post_field( 'post_content', $this->post_with_single_image_gallery ) );
 
-		echo $content;
-
 		/*
+		Snapshot:
+
 		<div id="section-heading" class="wpdtrt-anchorlinks__section wpdtrt-anchorlinks__anchor wpdtrt-gallery__section" tabindex="-1">
 			<div class="entry-content">
 				<div class="wpdtrt-gallery-viewer" data-wpdtrt-anchorlinks-controls="highlighting" data-enabled="false" data-expanded="false">
@@ -756,5 +756,3 @@ class WPDTRT_GalleryTest extends WP_UnitTestCase {
 		);
 	}
 }
-
-// phpcs:enable
