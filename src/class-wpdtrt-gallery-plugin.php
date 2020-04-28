@@ -323,6 +323,8 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 		foreach ( $sections as $section ) {
 			preg_match( '/wpdtrt-anchorlinks__anchor/', $section->getAttribute( 'class' ), $anchor_matches );
 
+			$section_html = '';
+
 			if ( count( $anchor_matches ) > 0 ) {
 				$heading            = $section->getElementsByTagName( 'h2' )[0];
 				$gallery            = $heading->nextSibling; // phpcs:ignore
@@ -330,7 +332,6 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 				$heading_html       = $this->get_html( $heading, true );
 				$new_heading_html   = '[wpdtrt_gallery_shortcode_heading]' . $heading_html . '[/wpdtrt_gallery_shortcode_heading]';
 				$section_class      = $section->getAttribute( 'class' ) . ' wpdtrt-gallery__section';
-				$section_html       = '';
 				$section_inner_html = $this->get_html( $section, false );
 				$section_id         = $section->getAttribute( 'id' );
 				$section_tabindex   = $section->getAttribute( 'tabindex' );
