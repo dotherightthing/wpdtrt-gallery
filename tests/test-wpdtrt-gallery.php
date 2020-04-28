@@ -483,66 +483,66 @@ class WPDTRT_GalleryTest extends WP_UnitTestCase {
 		$dom->loadHTML( mb_convert_encoding( $content, 'HTML-ENTITIES', 'UTF-8' ) );
 
 		$this->assertEquals(
+			1,
 			count(
 				$dom
 					->getElementsByTagName( 'h2' )
 			),
-			1,
 			'Heading should remain intact'
 		);
 
 		$this->assertEquals(
+			'wpdtrt-anchorlinks__section wpdtrt-anchorlinks__anchor wpdtrt-gallery__section',
 			$dom
 				->getElementsByTagName( 'div' )[0]
 				->getAttribute( 'class' ),
-			'wpdtrt-anchorlinks__section wpdtrt-anchorlinks__anchor wpdtrt-gallery__section',
 			'wpdtrt-gallery__section should be one of the section classnames'
 		);
 
 		$this->assertEquals(
+			'entry-content',
 			$dom
 				->getElementsByTagName( 'div' )[0]
 				->getElementsByTagName( 'div' )[0]
 				->getAttribute( 'class' ),
-			'entry-content',
 			'entry-content should be nested within section'
 		);
 
 		$this->assertEquals(
+			null,
 			$dom
 				->getElementsByTagName( 'div' )[0]
 				->getElementsByTagName( 'div' )[0]
 				->nextSibling,
-			null,
 			'entry-content should not be followed by wpdtrt-gallery-gallery when there is no gallery'
 		);
 
 		$this->assertEquals(
+			'wpdtrt-gallery-viewer__header',
 			$dom
 				->getElementsByTagName( 'h2' )[0]
 				->parentNode
 				->getAttribute( 'class' ),
-			'wpdtrt-gallery-viewer__header',
 			'wpdtrt-gallery-viewer__header should wrap heading'
 		);
 
 		$this->assertEquals(
+			'wpdtrt-gallery-viewer',
 			$dom
 				->getElementsByTagName( 'h2' )[0]
 				->parentNode
 				->parentNode
 				->getAttribute( 'class' ),
-			'wpdtrt-gallery-viewer',
 			'wpdtrt-gallery-viewer should wrap heading'
 		);
 
 		$this->assertEquals(
+			'highlighting',
 			$dom
 				->getElementsByTagName( 'h2' )[0]
 				->parentNode
 				->parentNode
 				->getAttribute( 'data-wpdtrt-anchorlinks-controls' ),
-			'highlighting',
 			'wpdtrt-gallery-viewer should control link highlighting'
 		);
 	}
@@ -612,28 +612,28 @@ class WPDTRT_GalleryTest extends WP_UnitTestCase {
 		$dom->loadHTML( mb_convert_encoding( $content, 'HTML-ENTITIES', 'UTF-8' ) );
 
 		$this->assertEquals(
+			1,
 			count(
 				$dom
 					->getElementsByTagName( 'h2' )
 			),
-			1,
 			'Heading should remain intact'
 		);
 
 		$this->assertEquals(
+			'wpdtrt-anchorlinks__section wpdtrt-anchorlinks__anchor wpdtrt-gallery__section',
 			$dom
 				->getElementsByTagName( 'div' )[0]
 				->getAttribute( 'class' ),
-			'wpdtrt-anchorlinks__section wpdtrt-anchorlinks__anchor wpdtrt-gallery__section',
 			'wpdtrt-gallery__section should be one of the section classnames'
 		);
 
 		$this->assertEquals(
+			'entry-content',
 			$dom
 				->getElementsByTagName( 'div' )[0]
 				->getElementsByTagName( 'div' )[0]
 				->getAttribute( 'class' ),
-			'entry-content',
 			'entry-content should be nested within section'
 		);
 
@@ -641,53 +641,53 @@ class WPDTRT_GalleryTest extends WP_UnitTestCase {
 		// this nextSibling test fails due to whitespace in the rendered content
 		// but works in real life.
 		$this->assertNotEquals(
+			null,
 			$dom
 				->getElementsByTagName( 'div' )[0]
 				->getElementsByTagName( 'div' )[0]
 				->nextSibling,
-			null,
 			'entry-content should be followed by wpdtrt-gallery-gallery when there is a gallery'
 		);
 
 		// this nextSibling test fails due to whitespace in the rendered content
 		// but works in real life.
 		$this->assertEquals(
+			'wpdtrt-gallery-gallery',
 			$dom
 				->getElementsByTagName( 'div' )[0]
 				->getElementsByTagName( 'div' )[0]
 				->nextSibling
 				->getAttribute( 'class' ),
-			'wpdtrt-gallery-gallery',
 			'entry-content should be followed by wpdtrt-gallery-gallery when there is a gallery'
 		);
 		*/
 
 		$this->assertEquals(
+			'wpdtrt-gallery-viewer__header',
 			$dom
 				->getElementsByTagName( 'h2' )[0]
 				->parentNode
 				->getAttribute( 'class' ),
-			'wpdtrt-gallery-viewer__header',
 			'wpdtrt-gallery-viewer__header should wrap heading'
 		);
 
 		$this->assertEquals(
+			'wpdtrt-gallery-viewer',
 			$dom
 				->getElementsByTagName( 'h2' )[0]
 				->parentNode
 				->parentNode
 				->getAttribute( 'class' ),
-			'wpdtrt-gallery-viewer',
 			'wpdtrt-gallery-viewer should wrap heading'
 		);
 
 		$this->assertEquals(
+			'highlighting',
 			$dom
 				->getElementsByTagName( 'h2' )[0]
 				->parentNode
 				->parentNode
 				->getAttribute( 'data-wpdtrt-anchorlinks-controls' ),
-			'highlighting',
 			'wpdtrt-gallery-viewer should control link highlighting'
 		);
 	}
