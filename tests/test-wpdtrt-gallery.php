@@ -41,7 +41,7 @@ class WPDTRT_GalleryTest extends WP_UnitTestCase {
 	 *
 	 * Fixture.
 	 */
-	private $gallery_html = '<div class="wpdtrt-gallery__section" data-wpdtrt-anchorlinks-controls="highlighting" id="test-section"><div class="wpdtrt-gallery-viewer" data-enabled="false" data-expanded="false"><div class="wpdtrt-gallery-viewer__header"><h2>Post 1 heading</h2></div><div class="wpdtrt-gallery-viewer__wrapper"><figure class="wpdtrt-gallery-viewer__liner"><div class="wpdtrt-gallery-viewer__img-wrapper"></div><div class="wpdtrt-gallery-viewer__embed"><iframe aria-hidden="true" title="Gallery media viewer."></iframe></div><figcaption class="wpdtrt-gallery-viewer__footer"><div class="wpdtrt-gallery-viewer__caption"></div></figcaption></figure></div></div></div>';
+	private $gallery_html = '<div class="wpdtrt-gallery__section" id="test-section"><div class="wpdtrt-gallery-viewer" data-wpdtrt-anchorlinks-controls="highlighting" data-enabled="false" data-expanded="false"><div class="wpdtrt-gallery-viewer__header"><h2>Post 1 heading</h2></div><div class="wpdtrt-gallery-viewer__wrapper"><figure class="wpdtrt-gallery-viewer__liner"><div class="wpdtrt-gallery-viewer__img-wrapper"></div><div class="wpdtrt-gallery-viewer__embed"><iframe aria-hidden="true" title="Gallery media viewer."></iframe></div><figcaption class="wpdtrt-gallery-viewer__footer"><div class="wpdtrt-gallery-viewer__caption"></div></figcaption></figure></div></div></div>';
 
 	/**
 	 * Group: Lifecycle Events
