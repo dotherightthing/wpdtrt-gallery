@@ -125,8 +125,9 @@
 // Thumbnail icons
 
 .gallery {
+    display: flex;
     position: relative; // stack on top of sticky nav
-    clear: left;
+    flex-direction: row;
     margin: 0 0 2em;
 
     .js {
@@ -136,15 +137,7 @@
         }
     }
 
-    &::after {
-        // maintain gaps between photo gallery and other media embeds
-        content: '';
-        display: table;
-        clear: left;
-        width: 100%;
-    }
-
-    &--icon {
+    &__icon {
         @extend %wpdtrt-plugin-boilerplate--text-sharpen;
         // icomoon
         // use !important to prevent issues with browser extensions that change fonts
@@ -160,39 +153,17 @@
 }
 
 .gallery-item {
-    display: inline-block;
     position: relative;
-    width: 100%;
-    max-width: 25%;
-    vertical-align: top;
-    text-align: center;
-    padding: 0 1.1400652% 2.2801304%;
-
-    // Gallery thumb spacing
-    // Note that change to one has to be applied to all, as horz padding/border affects the thumb height.
-    // A side-effect is that the first image is 1px narrow than the caption below it.
-    // This is resolved by the caption left offset + border hack.
-    // However note that the border hack is visible when the dashed focus outline is applied [old styling],
-    // this cannot be resolved as the caption follows the thumb link.
-    // The alternate fix is to hide the overflow, but this hurts accessiblity.
-    padding-left: 1px;
+    width: calc(25% - 4px);
+    margin-right: 4px;
 
     @for $i from 1 through 9 {
         @at-root .wpdtrt-gallery-gallery .gallery-columns-#{$i} .gallery-item {
-            max-width: (100 / $i) * 1%; // $i columns
+            width: calc(#{(100 / $i) * 1%} - 4px); // $i columns
         }
     }
 
-    // if there is only one thumbnail, don't display it
-    &:first-child {
-        &:last-child {
-            .js & {
-                display: none;
-            }
-        }
-    }
-
-    &--icon {
+    &__icon {
         // type icon
         content: '+';
         position: absolute;
@@ -219,7 +190,7 @@
         box-shadow: 0 0 0 0 currentColor;
 
         &::before {
-            @extend .gallery-item--icon;
+            @extend .gallery-item__icon;
         }
 
         &:hover,
@@ -272,7 +243,7 @@
         &[data-soundcloud-pageid],
         &[data-vimeo-pageid] {
             &::before {
-                @extend .gallery--icon;
+                @extend .gallery__icon;
                 padding-top: .3em;
             }
         }
@@ -336,14 +307,8 @@
         }
     }
 
-    &__header,
-    &__footer {
-        // internal gutters match dash gutters, ie both are in pixels
-        margin: 4px;
-    }
-
     &__header > h2 {
-        padding: .25em .8125em;
+        padding: 6px;
     }
 
     &__header > h2,
@@ -390,7 +355,7 @@
         }
 
         &--icon-hint {
-            @extend .gallery--icon;
+            @extend .gallery__icon;
             position: absolute;
             top: 15.5px;
             right: 24px;
@@ -404,7 +369,7 @@
         }
 
         &--icon-embed {
-            @extend .gallery--icon;
+            @extend .gallery__icon;
             position: absolute;
             top: 50%;
             left: 50%;
@@ -437,7 +402,7 @@
         opacity: 1;
         position: relative;
         right: 0; // 1px; // seems to be a browser rounding error as it's ok at random breakpoints
-        float: right; // TODO prevent the heading from hitting this
+        float: right; // desktop
         background-color: transparent;
         color: var(--wpdtrt-gallery-text-color);
         line-height: 1;
@@ -755,6 +720,14 @@
             @include focus-state;
         }
 
+        &__expand {
+            padding: .275em .7em;
+
+            &::after {
+                font-size: 1.5em;
+            }
+        }
+
         &__header {
             > h2 {
                 // fit more text in before it wraps
@@ -770,6 +743,17 @@
 
     @include media('>tablet') {
         margin-bottom: 2em;
+
+        &__header,
+        &__footer {
+            // internal gutters match dash gutters, ie both are in pixels
+            margin: 4px;
+        }
+
+        &__header > h2 {
+            padding-right: 21px;
+            padding-left: 21px;
+        }
 
         &--heading {
             padding: 13px 13px 9px;
@@ -849,8 +833,6 @@
 
     @include media('>desktop') {
         .gallery-item {
-            display: block;
-            float: left;
 
             // if there is only one thumbnail, do display it
             &,
