@@ -349,7 +349,7 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 
 				// wrap gallery viewer shortcode and remaining content.
 				$section_html .= '<div class="entry-content">';
-				$section_html .= $section_inner_html;
+				$section_html .= str_replace( '&nbsp;', ' ', $section_inner_html );
 				$section_html .= '</div>';
 
 				preg_match( '/\[gallery link="file" ids=/', $gallery->nodeValue, $gallery_matches );
