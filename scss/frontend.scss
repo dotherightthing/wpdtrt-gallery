@@ -48,11 +48,11 @@
         left: auto;
     }
 
-    .wpdtrt-gallery-viewer__header > h2 {
+    .wpdtrt-gallery-viewer__header > * {
         margin-bottom: 0;
     }
 
-    .wpdtrt-gallery-viewer__header > h2,
+    .wpdtrt-gallery-viewer__header > *,
     .wpdtrt-gallery-viewer__caption {
         background-color: var(--wpdtrt-gallery-border-color);
         border: 4px solid var(--wpdtrt-gallery-border-color);
@@ -307,11 +307,11 @@
         }
     }
 
-    &__header > h2 {
+    &__header > * {
         padding: 6px;
     }
 
-    &__header > h2,
+    &__header > *,
     &__caption {
         display: inline-block;
         background-color: var(--wpdtrt-gallery-bg-color);
@@ -550,11 +550,11 @@
                 left: auto;
             }
 
-            #{$block}__header > h2 {
+            #{$block}__header > * {
                 margin-bottom: 0;
             }
 
-            #{$block}__header > h2,
+            #{$block}__header > *,
             #{$block}__caption {
                 background-color: var(--wpdtrt-gallery-border-color);
                 border: 4px solid var(--wpdtrt-gallery-border-color);
@@ -615,7 +615,7 @@
 
     &[data-enabled='false'] {
         #{$block}__header {
-            > h2 {
+            > * {
                 // the gallery viewer is in the template
                 // but not all sections have galleries
                 background-color: var(--wpdtrt-gallery-border-color);
@@ -729,7 +729,7 @@
         }
 
         &__header {
-            > h2 {
+            > * {
                 // fit more text in before it wraps
                 font-size: 1.2em;
             }
@@ -750,7 +750,7 @@
             margin: 4px;
         }
 
-        &__header > h2 {
+        &__header > * {
             padding-right: 21px;
             padding-left: 21px;
         }
