@@ -21,275 +21,26 @@
 @import '../icons/icomoon/style.css';
 
 // -------------------------------------------------------------------
-// Mixins
+// Extends
 // -------------------------------------------------------------------
 
-@mixin expanded-state() {
-
-    .wpdtrt-gallery-viewer__expand {
-        // pin to bottom of header / top of image
-        position: absolute;
-        right: 0;
-        bottom: 0;
-        background-color: var(--wpdtrt-gallery-border-color);
-        margin-right: 0;
-    }
-
-    .wpdtrt-gallery-viewer__header,
-    .wpdtrt-gallery-viewer__footer {
-        // when the image is expanded the text gets out of the way
-        // so that the image can be viewed in its entirety
-        // this also applies to media viewers
-        // which use their own layout within the 'image' area
-        position: relative;
-        top: auto;
-        right: auto;
-        bottom: auto;
-        left: auto;
-    }
-
-    .wpdtrt-gallery-viewer__header > * {
-        margin-bottom: 0;
-    }
-
-    .wpdtrt-gallery-viewer__header > *,
-    .wpdtrt-gallery-viewer__caption {
-        background-color: var(--wpdtrt-gallery-border-color);
-        border: 4px solid var(--wpdtrt-gallery-border-color);
-    }
-
-    .wpdtrt-gallery-viewer__footer {
-        // prevents the .wpdtrt-gallery-viewer__liner borders from peeking through
-        margin-left: 0;
-    }
-
-    &:focus {
-
-        .wpdtrt-gallery-viewer__liner {
-            &::after {
-                @include focus-state;
-            }
-        }
-
-        .wpdtrt-gallery-viewer__footer {
-            // masks .stack-liner which includes the caption area
-            z-index: 1;
-            background-color: var(--wpdtrt-gallery-border-color-alt);
-
-            &::before {
-                // adds a new fake bottom border for the stack-liner overlay
-                // (which excludes the caption area)
-                content: '';
-                position: absolute;
-                top: 0;
-                left: 0;
-                z-index: 2;
-                width: 100%;
-                border-top: 4px solid var(--wpdtrt-gallery-border-color);
-            }
-        }
-    }
-
-    .wpdtrt-gallery-viewer__liner {
-        // override inline styles, remove bgcolor so that caption is not fw
-        // stylelint-disable-next-line declaration-no-important
-        background: none !important;
-    }
-
-    img {
-        &,
-        .entry-date & {
-            // prevent mousedown+drag inside viewer from dragging a small version of the source panorama
-            // sass-lint:disable no-vendor-prefixes
-            -webkit-user-drag: none;
-            // sass-lint:enable no-vendor-prefixes
-        }
-    }
-}
-
-@mixin focus-state() {
-    // overlay a bordered box on focus
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    border: 4px solid var(--wpdtrt-gallery-border-color-focus);
+%wpdtrt-gallery-icon {
+    @extend %wpdtrt-plugin-boilerplate--text-sharpen;
+    // icomoon
+    // use !important to prevent issues with browser extensions that change fonts
+    // stylelint-disable-next-line declaration-no-important
+    font-family: 'icomoon' !important;
+    font-size: 1.1em;
+    line-height: 1;
+    font-weight: normal;
+    font-style: normal;
+    text-transform: none;
+    font-variant: normal;
 }
 
 // -------------------------------------------------------------------
 // Styles
 // -------------------------------------------------------------------
-
-// Thumbnail icons
-
-.gallery {
-    display: flex;
-    position: relative; // stack on top of sticky nav
-    flex-direction: row;
-    margin: 0 0 2em;
-
-    .js {
-        &[style] {
-            // stylelint-disable-next-line declaration-no-important
-            margin-top: 0 !important;
-        }
-    }
-
-    &__icon {
-        @extend %wpdtrt-plugin-boilerplate--text-sharpen;
-        // icomoon
-        // use !important to prevent issues with browser extensions that change fonts
-        // stylelint-disable-next-line declaration-no-important
-        font-family: 'icomoon' !important;
-        font-size: 1.1em;
-        line-height: 1;
-        font-weight: normal;
-        font-style: normal;
-        text-transform: none;
-        font-variant: normal;
-    }
-}
-
-.gallery-item {
-    position: relative;
-    width: calc(25% - 4px);
-    margin-right: 4px;
-
-    @for $i from 1 through 9 {
-        @at-root .wpdtrt-gallery-gallery .gallery-columns-#{$i} .gallery-item {
-            width: calc(#{(100 / $i) * 1%} - 4px); // $i columns
-        }
-    }
-
-    &__icon {
-        // type icon
-        content: '+';
-        position: absolute;
-        top: 0;
-        right: 0;
-        width: 100%;
-        height: 100%;
-        vertical-align: top;
-        color: var(--wpdtrt-gallery-thumbnail-icon-color);
-        font-size: 1.5em;
-        line-height: 100%;
-        text-align: right;
-        text-shadow: -1px -1px 0 var(--wpdtrt-gallery-thumbnail-icon-shadow-color),
-            1px -1px 0 var(--wpdtrt-gallery-thumbnail-icon-shadow-color),
-            -1px 1px 0 var(--wpdtrt-gallery-thumbnail-icon-shadow-color),
-            1px 1px 0 var(--wpdtrt-gallery-thumbnail-icon-shadow-color);
-        padding-right: .3em;
-        border: 4px solid transparent;
-    }
-
-    a {
-        display: block; // better transition over state
-        position: relative; // AP
-        box-shadow: 0 0 0 0 currentColor;
-
-        &::before {
-            @extend .gallery-item__icon;
-        }
-
-        &:hover,
-        &:focus,
-        &[aria-expanded='true'] {
-            &::before {
-                // unselected icon overstate
-                color: var(--wpdtrt-gallery-thumbnail-icon-shadow-color);
-                text-shadow: -1px -1px 0 var(--wpdtrt-gallery-thumbnail-icon-color),
-                    1px -1px 0 var(--wpdtrt-gallery-thumbnail-icon-color),
-                    -1px 1px 0 var(--wpdtrt-gallery-thumbnail-icon-color),
-                    1px 1px 0 var(--wpdtrt-gallery-thumbnail-icon-color);
-                // selected icon overstate // ?
-                border-color: transparent;
-            }
-        }
-
-        &:focus {
-            .gallery > & {
-                outline: none;
-
-                &::after {
-                    content: '';
-                    position: absolute;
-                    top: 0;
-                    left: 0;
-                    width: 100%;
-                    height: 100%;
-                    border: 4px solid var(--wpdtrt-gallery-border-color-focus);
-                }
-            }
-        }
-
-        &[aria-expanded='true'] {
-
-            .gallery > & {
-                opacity: 1;
-                border-color: var(--wpdtrt-gallery-thumbnail-border-color-active);
-                cursor: not-allowed;
-            }
-
-            &::before {
-                content: '-';
-                background-color: var(--wpdtrt-gallery-thumbnail-icon-color-active);
-                transition: none;
-            }
-        }
-
-        &[data-panorama],
-        &[data-soundcloud-pageid],
-        &[data-vimeo-pageid] {
-            &::before {
-                @extend .gallery__icon;
-                padding-top: .3em;
-            }
-        }
-
-        &[data-panorama] {
-            &,
-            &[aria-expanded='true'] {
-                &::before {
-                    content: '\e90a';
-                }
-            }
-        }
-
-        &[data-soundcloud-pageid] {
-            &,
-            &[aria-expanded='true'] {
-                &::before {
-                    content: '\e90c';
-                }
-            }
-        }
-
-        &[data-vimeo-pageid] {
-            &,
-            &[aria-expanded='true'] {
-                &::before {
-                    content: '\e90b';
-                }
-            }
-        }
-    }
-
-    .gallery-caption {
-        // user can enlarge image or link to media page to read caption
-        display: none;
-    }
-
-    .gallery-icon {
-        img {
-            width: 100%;
-            height: auto;
-            max-width: 100%;
-            margin: 0 auto;
-        }
-    }
-}
 
 // Enlargement viewer
 
@@ -299,30 +50,19 @@
     display: block;
     position: relative; // AP
     z-index: 1; // stack on top of sticky nav so that text can be selected
-    margin-bottom: .5em;
 
-    &__img-wrapper {
-        > img {
-            width: 100%;
-        }
+    &:focus {
+        outline: 0;
     }
 
+    &__caption,
     &__header > * {
-        padding: 6px;
-    }
-
-    &__header > *,
-    &__caption {
         display: inline-block;
         background-color: var(--wpdtrt-gallery-bg-color);
         color: var(--wpdtrt-gallery-text-color);
     }
 
     &__caption {
-        @extend %type-special;
-        font-size: 14px;
-        font-weight: bold;
-
         &:empty {
             display: none;
         }
@@ -342,6 +82,44 @@
         }
     }
 
+    &__icon-embed {
+        @extend %wpdtrt-gallery-icon;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        z-index: 0;
+        color: var(--wpdtrt-gallery-icon-embed);
+        font-size: 48px;
+        line-height: 0;
+        margin-top: -(48px / 2);
+        margin-left: -(48px / 2);
+    }
+
+    &__icon-image-type {
+        @extend %wpdtrt-gallery-icon;
+        position: absolute;
+        top: 15.5px;
+        right: 24px;
+        z-index: 2;
+        color: var(--wpdtrt-gallery-text-color);
+        font-size: 1.4em;
+        text-shadow: -1px -1px 0 var(--wpdtrt-gallery-border-color),
+            1px -1px 0 var(--wpdtrt-gallery-border-color),
+            -1px 1px 0 var(--wpdtrt-gallery-border-color),
+            1px 1px 0 var(--wpdtrt-gallery-border-color);
+    }
+
+    &__img-wrapper {
+        :focus & {
+            outline: 4px solid var(--wpdtrt-gallery-border-color-focus);
+            outline-offset: -4px;
+        }
+
+        > img {
+            width: 100%;
+        }
+    }
+
     &__liner {
         opacity: 1;
         vertical-align: bottom;
@@ -352,33 +130,6 @@
 
         &[data-loading] {
             opacity: 0;
-        }
-
-        &--icon-hint {
-            @extend .gallery__icon;
-            position: absolute;
-            top: 15.5px;
-            right: 24px;
-            z-index: 2;
-            color: var(--wpdtrt-gallery-text-color);
-            font-size: 1.4em;
-            text-shadow: -1px -1px 0 var(--wpdtrt-gallery-border-color),
-                1px -1px 0 var(--wpdtrt-gallery-border-color),
-                -1px 1px 0 var(--wpdtrt-gallery-border-color),
-                1px 1px 0 var(--wpdtrt-gallery-border-color);
-        }
-
-        &--icon-embed {
-            @extend .gallery__icon;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            z-index: 0;
-            color: var(--wpdtrt-gallery-icon-embed);
-            font-size: 48px;
-            line-height: 0;
-            margin-top: -(48px / 2);
-            margin-left: -(48px / 2);
         }
     }
 
@@ -398,19 +149,18 @@
     // -------------------------------------------------------------------
 
     &__expand {
-        @extend %type-special;
         opacity: 1;
         position: relative;
         right: 0; // 1px; // seems to be a browser rounding error as it's ok at random breakpoints
         float: right; // desktop
         background-color: transparent;
         color: var(--wpdtrt-gallery-text-color);
-        line-height: 1;
+        line-height: 0;
         text-shadow: -1px -1px 0 var(--wpdtrt-gallery-border-color),
             1px -1px 0 var(--wpdtrt-gallery-border-color),
             -1px 1px 0 var(--wpdtrt-gallery-border-color),
             1px 1px 0 var(--wpdtrt-gallery-border-color);
-        padding: .275em 1em;
+        padding: 1em;
         border: 4px solid transparent;
         border-radius: 0;
         margin-right: -72px;
@@ -432,22 +182,6 @@
                 -1px 1px 0 var(--wpdtrt-gallery-border-color-alt),
                 1px 1px 0 var(--wpdtrt-gallery-border-color-alt);
             outline: none;
-        }
-    }
-
-    // -------------------------------------------------------------------
-    // focus state
-    // -------------------------------------------------------------------
-
-    &:focus {
-        outline: none;
-
-        .wpdtrt-gallery-viewer__liner {
-            position: relative;
-
-            &::after {
-                @include focus-state;
-            }
         }
     }
 
@@ -566,13 +300,6 @@
             }
 
             &:focus {
-
-                #{$block}__liner {
-                    &::after {
-                        @include focus-state;
-                    }
-                }
-
                 #{$block}__footer {
                     // masks .stack-liner which includes the caption area
                     z-index: 1;
@@ -638,7 +365,7 @@
     &[data-panorama] {
         #{$block}__liner {
             &::before {
-                @extend .wpdtrt-gallery-viewer__liner--icon-hint;
+                @extend .wpdtrt-gallery-viewer__icon-image-type;
                 content: '\e90a';
             }
 
@@ -670,7 +397,7 @@
             background-color: var(--wpdtrt-gallery-bg-color-embed);
 
             &::before {
-                @extend #{$block}__liner--icon-embed;
+                @extend #{$block}__icon-embed;
                 content: '\e90c';
             }
 
@@ -689,7 +416,7 @@
             background-color: var(--wpdtrt-gallery-bg-color-embed);
 
             &::before {
-                @extend .wpdtrt-gallery-viewer__liner--icon-embed;
+                @extend .wpdtrt-gallery-viewer__icon-embed;
                 content: '\e90b';
             }
 
@@ -711,18 +438,81 @@
         &[data-enabled='true'] {
             // move text off photo on small screens
             &[data-expanded='false'] {
-                @include expanded-state;
+                .wpdtrt-gallery-viewer__expand {
+                    // pin to bottom of header / top of image
+                    position: absolute;
+                    right: 0;
+                    bottom: 0;
+                    background-color: var(--wpdtrt-gallery-border-color);
+                    margin-right: 0;
+                }
+
+                .wpdtrt-gallery-viewer__header,
+                .wpdtrt-gallery-viewer__footer {
+                    // when the image is expanded the text gets out of the way
+                    // so that the image can be viewed in its entirety
+                    // this also applies to media viewers
+                    // which use their own layout within the 'image' area
+                    position: relative;
+                    top: auto;
+                    right: auto;
+                    bottom: auto;
+                    left: auto;
+                }
+
+                .wpdtrt-gallery-viewer__header > * {
+                    margin-bottom: 0;
+                }
+
+                .wpdtrt-gallery-viewer__header > *,
+                .wpdtrt-gallery-viewer__caption {
+                    background-color: var(--wpdtrt-gallery-border-color);
+                    border: 4px solid var(--wpdtrt-gallery-border-color);
+                }
+
+                .wpdtrt-gallery-viewer__footer {
+                    // prevents the .wpdtrt-gallery-viewer__liner borders from peeking through
+                    margin-left: 0;
+                }
+
+                &:focus {
+                    .wpdtrt-gallery-viewer__footer {
+                        // masks .stack-liner which includes the caption area
+                        z-index: 1;
+                        background-color: var(--wpdtrt-gallery-border-color-alt);
+
+                        &::before {
+                            // adds a new fake bottom border for the stack-liner overlay
+                            // (which excludes the caption area)
+                            content: '';
+                            position: absolute;
+                            top: 0;
+                            left: 0;
+                            z-index: 2;
+                            width: 100%;
+                            border-top: 4px solid var(--wpdtrt-gallery-border-color);
+                        }
+                    }
+                }
+
+                .wpdtrt-gallery-viewer__liner {
+                    // override inline styles, remove bgcolor so that caption is not fw
+                    // stylelint-disable-next-line declaration-no-important
+                    background: none !important;
+                }
+
+                img {
+                    &,
+                    .entry-date & {
+                        // prevent mousedown+drag inside viewer from dragging a small version of the source panorama
+                        // sass-lint:disable no-vendor-prefixes
+                        -webkit-user-drag: none;
+                        // sass-lint:enable no-vendor-prefixes
+                    }
+                }
             }
         }
-
-        // extend
-        &--focus-border {
-            @include focus-state;
-        }
-
         &__expand {
-            padding: .275em .7em;
-
             &::after {
                 font-size: 1.5em;
             }
@@ -742,22 +532,14 @@
     }
 
     @include media('>tablet') {
-        margin-bottom: 2em;
+        // &__header > * {
+        //     padding-right: 21px;
+        //     padding-left: 21px;
+        // }
 
-        &__header,
-        &__footer {
-            // internal gutters match dash gutters, ie both are in pixels
-            margin: 4px;
-        }
-
-        &__header > * {
-            padding-right: 21px;
-            padding-left: 21px;
-        }
-
-        &--heading {
-            padding: 13px 13px 9px;
-        }
+        // &__heading {
+        //     padding: 13px 13px 9px;
+        // }
 
         &__liner {
             &::before {
@@ -766,16 +548,148 @@
             }
         }
     }
-
-    @include media('>desktop') {
-        &__expand {
-            padding-top: .5em;
-            padding-bottom: .5em;
-        }
-    }
 }
 
 .wpdtrt-gallery-gallery {
+    position: relative; // stack on top of sticky nav
+
+    // Thumbnail icons
+
+    .gallery {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        margin: 0 0 2em;
+
+        .js {
+            &[style] {
+                // stylelint-disable-next-line declaration-no-important
+                margin-top: 0 !important;
+            }
+        }
+    }
+
+    .gallery-item {
+        position: relative;
+        width: calc(25% - 6px);
+        flex-grow: 0;
+        flex-shrink: 0;
+        margin: 0 6px 6px 0;
+
+        @for $i from 1 through 9 {
+            @at-root .wpdtrt-gallery-gallery .gallery-columns-#{$i} .gallery-item {
+                width: calc(#{(100 / $i) * 1%} - 6px); // $i columns
+            }
+        }
+
+        a {
+            display: block; // better transition over state
+            position: relative; // AP for hover border
+            box-shadow: 0 0 0 0 currentColor;
+
+            &::before {
+                @extend %wpdtrt-gallery-icon;
+
+                content: '+';
+                position: absolute;
+                top: 0;
+                right: 0;
+                width: 100%;
+                height: 100%;
+                vertical-align: top;
+                color: var(--wpdtrt-gallery-thumbnail-icon-color);
+                font-size: 1.5em;
+                line-height: 100%;
+                text-align: right;
+                text-shadow: -1px -1px 0 var(--wpdtrt-gallery-thumbnail-icon-shadow-color),
+                    1px -1px 0 var(--wpdtrt-gallery-thumbnail-icon-shadow-color),
+                    -1px 1px 0 var(--wpdtrt-gallery-thumbnail-icon-shadow-color),
+                    1px 1px 0 var(--wpdtrt-gallery-thumbnail-icon-shadow-color);
+                padding-right: .3em;
+                border: 4px solid transparent;
+            }
+
+            &:hover,
+            &:focus,
+            &[aria-expanded='true'] {
+                &::before {
+                    // unselected icon overstate
+                    color: var(--wpdtrt-gallery-thumbnail-icon-shadow-color);
+                    text-shadow: -1px -1px 0 var(--wpdtrt-gallery-thumbnail-icon-color),
+                        1px -1px 0 var(--wpdtrt-gallery-thumbnail-icon-color),
+                        -1px 1px 0 var(--wpdtrt-gallery-thumbnail-icon-color),
+                        1px 1px 0 var(--wpdtrt-gallery-thumbnail-icon-color);
+                    // selected icon overstate // ?
+                    border-color: transparent;
+                }
+            }
+
+            &[aria-expanded='true'] {
+
+                .gallery > & {
+                    opacity: 1;
+                    border-color: var(--wpdtrt-gallery-thumbnail-border-color-active);
+                    cursor: not-allowed;
+                }
+
+                &::before {
+                    content: '-';
+                    background-color: var(--wpdtrt-gallery-thumbnail-icon-color-active);
+                    transition: none;
+                }
+            }
+
+            &[data-panorama],
+            &[data-soundcloud-pageid],
+            &[data-vimeo-pageid] {
+                &::before {
+                    @extend %wpdtrt-gallery-icon;
+                    padding-top: .3em;
+                }
+            }
+
+            &[data-panorama] {
+                &,
+                &[aria-expanded='true'] {
+                    &::before {
+                        content: '\e90a';
+                    }
+                }
+            }
+
+            &[data-soundcloud-pageid] {
+                &,
+                &[aria-expanded='true'] {
+                    &::before {
+                        content: '\e90c';
+                    }
+                }
+            }
+
+            &[data-vimeo-pageid] {
+                &,
+                &[aria-expanded='true'] {
+                    &::before {
+                        content: '\e90b';
+                    }
+                }
+            }
+        }
+
+        .gallery-caption {
+            // user can enlarge image or link to media page to read caption
+            display: none;
+        }
+
+        .gallery-icon {
+            img {
+                width: 100%;
+                height: auto;
+                max-width: 100%;
+                margin: 0 auto;
+            }
+        }
+    }
 
     // -------------------------------------------------------------------
     // Media Queries
@@ -809,7 +723,6 @@
 
         .gallery {
             max-width: none;
-            text-align: right;
         }
 
         .gallery-item {
