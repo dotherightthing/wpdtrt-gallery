@@ -702,9 +702,10 @@ const wpdtrtGalleryUi = {
         const $sectionGalleryThumbnails = $sectionGallery.find('img');
         const $sectionGalleryItemLinks = $sectionGallery.find('a');
 
-        if ($stackLinkViewer.attr('data-attachment')) {
-            return;
-        }
+        // ?
+        // if ($stackLinkViewer.attr('data-attachment')) {
+        //     return;
+        // }
 
         if (!$sectionGallery.length) {
             $stackLinkViewer
