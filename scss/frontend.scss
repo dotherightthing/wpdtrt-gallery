@@ -44,10 +44,20 @@
 
 // Enlargement viewer
 
+// -------------------------------------------------------------------
+// Default state:
+// viewer is disabled, or
+// viewer is enabled + expanded
+//
+// heading and caption sit outside image area
+// so that the image/embed can be viewed in its entirety
+// background bleeds to area where the inset would be
+// via a border.
+// -------------------------------------------------------------------
+
 .wpdtrt-gallery-viewer {
     $block: &;
 
-    display: block;
     position: relative; // AP
     z-index: 1; // stack on top of sticky nav so that text can be selected
 
@@ -56,10 +66,17 @@
     }
 
     &__caption,
+    &__expand,
+    &__header > * {
+        background-color: var(--wpdtrt-gallery-bg-color); // var(--wpdtrt-gallery-border-color);
+        color: var(--wpdtrt-gallery-text-color);
+        padding: var(--wpdtrt-gallery-viewer-inset-header);
+        border: var(--wpdtrt-gallery-viewer-inset) solid var(--wpdtrt-gallery-border-color);
+    }
+
+    &__caption,
     &__header > * {
         display: inline-block;
-        background-color: var(--wpdtrt-gallery-bg-color);
-        color: var(--wpdtrt-gallery-text-color);
     }
 
     &__caption {
@@ -70,6 +87,8 @@
 
     &__embed {
         > iframe {
+            position: relative;
+            z-index: 1; // make buttons clickable
             width: 100%;
             height: 100%;
             border: 0;
@@ -79,6 +98,61 @@
                 // stylelint-disable-next-line declaration-no-important
                 height: 100% !important;
             }
+        }
+    }
+
+    // viewer expand/collapse button
+    // positioned at bottom right of header
+    &__expand {
+        opacity: 1;
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        width: 56px;
+        height: 56px;
+        line-height: (56px - 4px - 4px);
+        text-shadow: -1px -1px 0 var(--wpdtrt-gallery-border-color),
+            1px -1px 0 var(--wpdtrt-gallery-border-color),
+            -1px 1px 0 var(--wpdtrt-gallery-border-color),
+            1px 1px 0 var(--wpdtrt-gallery-border-color);
+        border-radius: 0;
+        cursor: pointer;
+
+        &::after {
+            // the icon
+            content: '+';
+            font-size: 2em;
+            font-weight: 100;
+
+            &:hover,
+            &:focus {
+                background-color: var(--wpdtrt-gallery-button-color-alt);
+                color: var(--wpdtrt-gallery-button-color-alt);
+            }
+        }
+
+        &:hover,
+        &:focus {
+            background-color: var(--wpdtrt-gallery-border-color);
+            color: var(--wpdtrt-gallery-border-color);
+            text-shadow: -1px -1px 0 var(--wpdtrt-gallery-border-color-alt),
+                1px -1px 0 var(--wpdtrt-gallery-border-color-alt),
+                -1px 1px 0 var(--wpdtrt-gallery-border-color-alt),
+                1px 1px 0 var(--wpdtrt-gallery-border-color-alt);
+            outline: none;
+        }
+    }
+
+    &__footer {
+        text-align: right;
+    }
+
+    &__header {
+        position: relative; // AP
+        padding-right: 72px; // space for expand button in collapsed state
+
+        > * {
+            margin-bottom: 0;
         }
     }
 
@@ -111,37 +185,30 @@
 
     &__img-wrapper {
         :focus & {
-            outline: 4px solid var(--wpdtrt-gallery-border-color-focus);
-            outline-offset: -4px;
+            outline: var(--wpdtrt-gallery-viewer-inset) solid var(--wpdtrt-gallery-border-color-focus);
+            outline-offset: var(--wpdtrt-gallery-viewer-inset-inverse);
         }
 
         > img {
             width: 100%;
+
+            // prevent mousedown+drag inside viewer from dragging a small version of the source panorama
+            // sass-lint:disable no-vendor-prefixes
+            -webkit-user-drag: none;
+            // sass-lint:enable no-vendor-prefixes
         }
     }
 
     &__liner {
+        display: block; // figure
         opacity: 1;
-        vertical-align: bottom;
         background: none;
         background-color: transparent;
-        text-align: left;
         transition: opacity .3s ease;
 
         &[data-loading] {
             opacity: 0;
         }
-    }
-
-    figure {
-        // hide default markup unless it's required
-        display: none;
-    }
-
-    iframe {
-        position: relative;
-        z-index: 1; // make buttons clickable
-        margin-bottom: 0;
     }
 
     // ?
@@ -155,215 +222,30 @@
     // }
 
     // -------------------------------------------------------------------
-    // gallery viewer expand/collapse button
-    // -------------------------------------------------------------------
-
-    &__expand {
-        opacity: 1;
-        position: relative;
-        right: 0; // 1px; // seems to be a browser rounding error as it's ok at random breakpoints
-        float: right; // desktop
-        background-color: transparent;
-        color: var(--wpdtrt-gallery-text-color);
-        line-height: 0;
-        text-shadow: -1px -1px 0 var(--wpdtrt-gallery-border-color),
-            1px -1px 0 var(--wpdtrt-gallery-border-color),
-            -1px 1px 0 var(--wpdtrt-gallery-border-color),
-            1px 1px 0 var(--wpdtrt-gallery-border-color);
-        padding: 1em;
-        border: 4px solid transparent;
-        border-radius: 0;
-        margin-right: -72px;
-        cursor: pointer;
-
-        &::after {
-            // the icon
-            content: '+';
-            font-size: 2em;
-            font-weight: 100;
-        }
-
-        &:hover,
-        &:focus {
-            background-color: var(--wpdtrt-gallery-border-color);
-            color: var(--wpdtrt-gallery-border-color);
-            text-shadow: -1px -1px 0 var(--wpdtrt-gallery-border-color-alt),
-                1px -1px 0 var(--wpdtrt-gallery-border-color-alt),
-                -1px 1px 0 var(--wpdtrt-gallery-border-color-alt),
-                1px 1px 0 var(--wpdtrt-gallery-border-color-alt);
-            outline: none;
-        }
-    }
-
-    // -------------------------------------------------------------------
-    // attachment - ?
-    // -------------------------------------------------------------------
-
-    &[data-attachment] {
-        .wpdtrt-gallery-viewer__caption {
-            p {
-                margin-bottom: 0;
-            }
-        }
-    }
-
-    // -------------------------------------------------------------------
-    // sections with galleries
-    // viewer is expanded, button will collapse viewer
-    // -------------------------------------------------------------------
-
-    &[data-enabled='true'] {
-
-        #{$block}__header {
-            // both text elements must be AP
-            // so that the inline invisible image
-            // can dictate the height that it needs to display fully
-            // and be available for ALT inspection
-            // TODO: convert the image height to ems
-            // so that it scales when the text size is increased
-            // -
-            // left + right are used instead of width + margin to prevent bleed
-            position: absolute;
-            top: 4px;
-            right: 4px;
-            left: 4px;
-            z-index: 2; // stack on top of sticky nav so that text can be selected
-            padding-right: 72px; // space for expand button
-            margin: 0;
-
-            .attachment & {
-                padding-right: 0;
-            }
-        }
-
-        #{$block}__caption {
-            padding: .75em .625em .625em;
-        }
-
-        #{$block}__footer {
-            // both text elements must be AP
-            // so that the inline invisible image
-            // can dictate the height that it needs to display fully
-            // and be available for ALT inspection
-            // TODO: convert the image height to ems
-            // so that it scales when the text size is increased
-            position: absolute;
-            right: 4px;
-            bottom: 4px;
-            line-height: 1.45;
-            text-align: right;
-            margin: 0 0 0 4px; // prevent long captions from hitting the other side
-        }
-
-        // here it's required
-        figure {
-            display: block;
-        }
-
-        &[data-expanded='true'] {
-
-            #{$block}__expand {
-                // pin to bottom of header / top of image
-                position: absolute;
-                right: 0;
-                bottom: 0;
-                background-color: var(--wpdtrt-gallery-border-color);
-                margin-right: 0;
-
-                &:hover,
-                &:focus {
-                    background-color: var(--wpdtrt-gallery-button-color-alt);
-                    color: var(--wpdtrt-gallery-button-color-alt);
-                }
-
-                &::after {
-                    content: '-';
-                }
-            }
-
-            #{$block}__header,
-            #{$block}__footer {
-                // when the image is expanded the text gets out of the way
-                // so that the image can be viewed in its entirety
-                // this also applies to media viewers
-                // which use their own layout within the 'image' area
-                position: relative;
-                top: auto;
-                right: auto;
-                bottom: auto;
-                left: auto;
-            }
-
-            #{$block}__header > * {
-                margin-bottom: 0;
-            }
-
-            #{$block}__header > *,
-            #{$block}__caption {
-                background-color: var(--wpdtrt-gallery-border-color);
-                border: 4px solid var(--wpdtrt-gallery-border-color);
-            }
-
-            #{$block}__footer {
-                // prevents the .wpdtrt-gallery-viewer__liner borders from peeking through
-                margin-left: 0;
-            }
-
-            &:focus {
-                #{$block}__footer {
-                    // masks .stack-liner which includes the caption area
-                    z-index: 1;
-                    background-color: var(--wpdtrt-gallery-border-color-alt);
-
-                    &::before {
-                        // adds a new fake bottom border for the stack-liner overlay
-                        // (which excludes the caption area)
-                        content: '';
-                        position: absolute;
-                        top: 0;
-                        left: 0;
-                        z-index: 2;
-                        width: 100%;
-                        border-top: 4px solid var(--wpdtrt-gallery-border-color);
-                    }
-                }
-            }
-
-            #{$block}__liner {
-                // override inline styles, remove bgcolor so that caption is not fw
-                background: none !important; // stylelint-disable-line declaration-no-important
-            }
-
-            img {
-                &,
-                .entry-date & {
-                    // prevent mousedown+drag inside viewer from dragging a small version of the source panorama
-                    // sass-lint:disable no-vendor-prefixes
-                    -webkit-user-drag: none;
-                    // sass-lint:enable no-vendor-prefixes
-                }
-            }
-        }
-    }
-
-    // -------------------------------------------------------------------
     // sections without galleries
+    // the gallery viewer is in the template, but not all sections have galleries
     // -------------------------------------------------------------------
 
     &[data-enabled='false'] {
-        #{$block}__header {
-            > * {
-                // the gallery viewer is in the template
-                // but not all sections have galleries
-                background-color: var(--wpdtrt-gallery-border-color);
-            }
-        }
-
         #{$block}__liner {
             // the gallery viewer is in the template,
             // but not all sections have galleries
             .no-js & {
                 display: none;
+            }
+        }
+    }
+
+    // -------------------------------------------------------------------
+    // viewer is enabled + expanded
+    // -------------------------------------------------------------------
+
+    &[data-enabled='true'][data-expanded='true'] {
+        #{$block}__expand {
+            line-height: 0;
+
+            &::after {
+                content: '-';
             }
         }
     }
@@ -375,12 +257,11 @@
     &[data-panorama] {
         #{$block}__liner {
             &::before {
-                @extend .wpdtrt-gallery-viewer__icon-image-type;
+                @extend #{$block}__icon-image-type;
                 content: '\e90a';
             }
 
             .js & {
-                display: block; // prevent table display from blowing out panorama width
                 // stylelint-disable-next-line declaration-no-important
                 background: none !important; // prevent conflict with JS scroll
             }
@@ -414,10 +295,6 @@
             #{$block}__embed {
                 @extend %wpdtrt-plugin-boilerplate--embedresponsively;
             }
-
-            #{$block}__footer {
-                background-color: var(--wpdtrt-gallery-bg-color-page);
-            }
         }
     }
 
@@ -426,16 +303,12 @@
             background-color: var(--wpdtrt-gallery-bg-color-embed);
 
             &::before {
-                @extend .wpdtrt-gallery-viewer__icon-embed;
+                @extend #{$block}__icon-embed;
                 content: '\e90b';
             }
 
             #{$block}__embed {
                 @extend %wpdtrt-plugin-boilerplate--embedresponsively;
-            }
-
-            #{$block}__footer {
-                background-color: var(--wpdtrt-gallery-bg-color-page);
             }
         }
     }
@@ -445,83 +318,6 @@
     // -------------------------------------------------------------------
 
     @include media('<tablet') {
-        &[data-enabled='true'] {
-            // move text off photo on small screens
-            &[data-expanded='false'] {
-                .wpdtrt-gallery-viewer__expand {
-                    // pin to bottom of header / top of image
-                    position: absolute;
-                    right: 0;
-                    bottom: 0;
-                    background-color: var(--wpdtrt-gallery-border-color);
-                    margin-right: 0;
-                }
-
-                .wpdtrt-gallery-viewer__header,
-                .wpdtrt-gallery-viewer__footer {
-                    // when the image is expanded the text gets out of the way
-                    // so that the image can be viewed in its entirety
-                    // this also applies to media viewers
-                    // which use their own layout within the 'image' area
-                    position: relative;
-                    top: auto;
-                    right: auto;
-                    bottom: auto;
-                    left: auto;
-                }
-
-                .wpdtrt-gallery-viewer__header > * {
-                    margin-bottom: 0;
-                }
-
-                .wpdtrt-gallery-viewer__header > *,
-                .wpdtrt-gallery-viewer__caption {
-                    background-color: var(--wpdtrt-gallery-border-color);
-                    border: 4px solid var(--wpdtrt-gallery-border-color);
-                }
-
-                .wpdtrt-gallery-viewer__footer {
-                    // prevents the .wpdtrt-gallery-viewer__liner borders from peeking through
-                    margin-left: 0;
-                }
-
-                &:focus {
-                    .wpdtrt-gallery-viewer__footer {
-                        // masks .stack-liner which includes the caption area
-                        z-index: 1;
-                        background-color: var(--wpdtrt-gallery-border-color-alt);
-
-                        &::before {
-                            // adds a new fake bottom border for the stack-liner overlay
-                            // (which excludes the caption area)
-                            content: '';
-                            position: absolute;
-                            top: 0;
-                            left: 0;
-                            z-index: 2;
-                            width: 100%;
-                            border-top: 4px solid var(--wpdtrt-gallery-border-color);
-                        }
-                    }
-                }
-
-                .wpdtrt-gallery-viewer__liner {
-                    // override inline styles, remove bgcolor so that caption is not fw
-                    // stylelint-disable-next-line declaration-no-important
-                    background: none !important;
-                }
-
-                img {
-                    &,
-                    .entry-date & {
-                        // prevent mousedown+drag inside viewer from dragging a small version of the source panorama
-                        // sass-lint:disable no-vendor-prefixes
-                        -webkit-user-drag: none;
-                        // sass-lint:enable no-vendor-prefixes
-                    }
-                }
-            }
-        }
         &__expand {
             &::after {
                 font-size: 1.5em;
@@ -534,27 +330,83 @@
                 font-size: 1.2em;
             }
         }
-
-        &__caption {
-            // remove bolding
-            font-weight: 500;
-        }
     }
 
     @include media('>tablet') {
-        // &__header > * {
-        //     padding-right: 21px;
-        //     padding-left: 21px;
-        // }
-
-        // &__heading {
-        //     padding: 13px 13px 9px;
-        // }
+        &__img-wrapper {
+            min-height: var(--wpdtrt-gallery-viewer-desktop-height); // loading height
+        }
 
         &__liner {
             &::before {
                 top: 20px;
                 right: 23px;
+            }
+        }
+
+        &[data-soundcloud-pageid],
+        &[data-vimeo-pageid] {
+            #{$block}__img-wrapper {
+                min-height: 0; // loading height
+            }
+        }
+
+        // -------------------------------------------------------------------
+        // viewer is enabled + collapsed
+        //
+        // heading and caption sit inside image area
+        // both text elements must be AP
+        // so that the inline invisible image
+        // can dictate the height that it needs to display fully
+        // and be available for ALT inspection
+        // -------------------------------------------------------------------
+
+        &[data-enabled='true'][data-expanded='false'] {
+            &:focus {
+                #{$block}__footer {
+                    z-index: 1;
+                }
+            }
+
+            #{$block}__caption,
+            #{$block}__expand,
+            #{$block}__header > * {
+                border: 0;
+                margin: var(--wpdtrt-gallery-viewer-inset);
+            }
+
+            #{$block}__expand,
+            #{$block}__footer,
+            #{$block}__header {
+                position: absolute;
+                right: 0;
+            }
+
+            #{$block}__expand {
+                top: 0;
+            }
+
+            #{$block}__footer,
+            #{$block}__header {
+                left: 0;
+            }
+
+            #{$block}__footer {
+                bottom: 0;
+            }
+
+            #{$block}__header {
+                top: 0;
+                z-index: 2; // stack on top of sticky nav so that text can be selected
+
+                .attachment & {
+                    padding-right: 0;
+                }
+            }
+
+            #{$block}__liner {
+                // override inline styles, remove bgcolor so that caption is not fw
+                background: none !important; // stylelint-disable-line declaration-no-important
             }
         }
     }
@@ -616,7 +468,7 @@
                     -1px 1px 0 var(--wpdtrt-gallery-thumbnail-icon-shadow-color),
                     1px 1px 0 var(--wpdtrt-gallery-thumbnail-icon-shadow-color);
                 padding-right: .3em;
-                border: 4px solid transparent;
+                border: var(--wpdtrt-gallery-viewer-inset) solid transparent;
             }
 
             &:hover,

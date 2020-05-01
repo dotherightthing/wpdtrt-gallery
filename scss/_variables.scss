@@ -35,9 +35,9 @@ $breakpoints: (
 // -------------------------------------------------------------------
 
 :root {
-    --wpdtrt-gallery-bg-color: rgba(0, 0, 0, .85);
-    --wpdtrt-gallery-border-color: rgba(0, 0, 0, 1);
-    --wpdtrt-gallery-border-color-focus: rgba(0, 0, 0, .85);
+    --wpdtrt-gallery-bg-color: hsl(80, 5%, 11%);
+    --wpdtrt-gallery-border-color: hsl(80, 5%, 11%); // border can't use alpha, else will appear darker than bg
+    --wpdtrt-gallery-border-color-focus: hsl(80, 5%, 11%);
     --wpdtrt-gallery-border-color-alt: rgba(255, 255, 255, 1);
     --wpdtrt-gallery-button-color-alt: rgba(102, 102, 102, 1);
     --wpdtrt-gallery-bg-color-page: rgba(255, 255, 255, 1);
@@ -48,4 +48,8 @@ $breakpoints: (
     --wpdtrt-gallery-thumbnail-icon-color: rgba(255, 255, 255, 1);
     --wpdtrt-gallery-thumbnail-icon-color-active: rgba(255, 255, 255, .5);
     --wpdtrt-gallery-thumbnail-icon-shadow-color: rgba(0, 0, 0, 1);
+    --wpdtrt-gallery-viewer-inset-header: 5px 12px;
+    --wpdtrt-gallery-viewer-inset: 4px;
+    --wpdtrt-gallery-viewer-inset-inverse: -4px;
+    --wpdtrt-gallery-viewer-desktop-height: 368px;
 }
