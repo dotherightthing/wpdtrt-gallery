@@ -29,7 +29,7 @@
     .wpdtrt-gallery-viewer__expand {
         // pin to bottom of header / top of image
         position: absolute;
-        right: 1px; // allow for rounding error here as it's more noticeable
+        right: 0;
         bottom: 0;
         background-color: var(--wpdtrt-gallery-border-color);
         margin-right: 0;
@@ -521,7 +521,7 @@
             #{$block}__expand {
                 // pin to bottom of header / top of image
                 position: absolute;
-                right: 1px; // allow for rounding error here as it's more noticeable
+                right: 0;
                 bottom: 0;
                 background-color: var(--wpdtrt-gallery-border-color);
                 margin-right: 0;
