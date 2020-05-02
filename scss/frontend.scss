@@ -420,8 +420,9 @@
     .gallery {
         display: flex;
         flex-direction: row;
-        flex-wrap: wrap;
+        flex-wrap: nowrap;
         margin: 0 0 2em;
+        overflow-x: auto; // nowrap scroll
 
         .js {
             &[style] {
@@ -436,7 +437,7 @@
         width: calc(25% - 6px);
         flex-grow: 0;
         flex-shrink: 0;
-        margin: 0 6px 6px 0;
+        margin-right: 6px;
 
         @for $i from 1 through 9 {
             @at-root .wpdtrt-gallery-gallery .gallery-columns-#{$i} .gallery-item {
@@ -448,6 +449,7 @@
             display: block; // better transition over state
             position: relative; // AP for hover border
             box-shadow: 0 0 0 0 currentColor;
+            outline-offset: -3px;
 
             &::before {
                 @extend %wpdtrt-gallery-icon;
@@ -585,9 +587,12 @@
 
         .gallery {
             max-width: none;
+            flex-wrap: wrap;
+            overflow-x: visible;
         }
 
         .gallery-item {
+            margin-bottom: 6px;
 
             @for $i from 1 through 9 {
                 @at-root .wpdtrt-gallery-gallery .gallery-columns-#{$i} .gallery-item {
