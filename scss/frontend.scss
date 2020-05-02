@@ -184,6 +184,8 @@
     }
 
     &__img-wrapper {
+        background-color: var(--wpdtrt-gallery-bg-color-loading);
+
         :focus & {
             outline: var(--wpdtrt-gallery-viewer-inset) solid var(--wpdtrt-gallery-border-color-focus);
             outline-offset: var(--wpdtrt-gallery-viewer-inset-inverse);
@@ -285,8 +287,6 @@
 
     &[data-soundcloud-pageid] {
         #{$block}__liner {
-            background-color: var(--wpdtrt-gallery-bg-color-embed);
-
             &::before {
                 @extend #{$block}__icon-embed;
                 content: '\e90c';
@@ -294,14 +294,13 @@
 
             #{$block}__embed {
                 @extend %wpdtrt-plugin-boilerplate--embedresponsively;
+                background-color: var(--wpdtrt-gallery-bg-color-embed);
             }
         }
     }
 
     &[data-vimeo-pageid] {
         #{$block}__liner {
-            background-color: var(--wpdtrt-gallery-bg-color-embed);
-
             &::before {
                 @extend #{$block}__icon-embed;
                 content: '\e90b';
@@ -309,6 +308,7 @@
 
             #{$block}__embed {
                 @extend %wpdtrt-plugin-boilerplate--embedresponsively;
+                background-color: var(--wpdtrt-gallery-bg-color-embed);
             }
         }
     }
@@ -437,6 +437,7 @@
         width: calc(25% - 6px);
         flex-grow: 0;
         flex-shrink: 0;
+        background-color: var(--wpdtrt-gallery-bg-color-loading);
         margin-right: 6px;
 
         @for $i from 1 through 9 {
