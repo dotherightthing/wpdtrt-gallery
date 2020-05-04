@@ -277,6 +277,10 @@ const wpdtrtGalleryUi = {
             // update the hidden button text
             $expandButtonText
                 .text('Show cropped image');
+
+            if (!triggered) {
+                wpdtrtGalleryUi.galleryViewerScrollToElement($, $viewer, 100, 150);
+            }
         } else if ($viewer.attr('data-expanded') === 'false') {
             // if the viewer is now collapsed
 
@@ -292,9 +296,7 @@ const wpdtrtGalleryUi = {
             $expandButtonText.text('Show uncropped image');
 
             if (!triggered) {
-            // scroll to the top of the viewer
-                $viewer
-                    .scrollView(100, 150);
+                wpdtrtGalleryUi.galleryViewerScrollToElement($, $viewer, 100, 150);
             }
         }
 
@@ -656,6 +658,26 @@ const wpdtrtGalleryUi = {
         .focus();
         }
         */
+    },
+
+    /**
+     * @function galleryViewerScrollToElement
+     * @summary Scroll to top of element.
+     * @memberof wpdtrtGalleryUi
+     * @protected
+     *
+     * @param {external:jQuery} $ - jQuery
+     * @param {external:jQuery} $target - Target
+     * @param {number} offset - Offset
+     * @param {number} duration - Duration
+     * @see https://web-design-weekly.com/snippets/scroll-to-position-with-jquery/
+     */
+    galleryViewerScrollToElement: function ($, $target, offset, duration) {
+        $target.each(function () {
+            $('html, body').animate({
+                scrollTop: $(this).offset().top - offset
+            }, duration);
+        });
     },
 
     /**
