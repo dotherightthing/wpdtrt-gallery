@@ -560,7 +560,7 @@
     // Media Queries
     // -------------------------------------------------------------------
 
-    @include media('>phone_large') {
+    @include media('>phone') {
 
         .gallery-item {
 
@@ -572,7 +572,7 @@
         }
     }
 
-    @include media('>tablet_small') {
+    @include media('>tablet') {
 
         .gallery-item {
 
@@ -584,7 +584,7 @@
         }
     }
 
-    @include media('>tablet') {
+    @include media('>laptop') {
 
         .gallery {
             max-width: none;

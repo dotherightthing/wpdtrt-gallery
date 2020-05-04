@@ -7,26 +7,19 @@
 //   0.8.13 - DTRT WordPress Plugin Boilerplate Generator
 //
 
-// front-end dependencies are specified in
-// ./vendor/dotherightthing/wpdtrt-plugin-boilerplate/package.json
-// but installed to ./node_modules, via Yarn workspaces
+// -------------------------------------------------------------------
+// Breakpoints for include-media
+// see: https://gist.github.com/dotherightthing/06f33bf784279aa24072e0b6873c968c
+// usage: @include media()
+// -------------------------------------------------------------------
+
 @import 'node_modules/include-media/dist/include-media';
 
-// -------------------------------------------------------------------
-// Breakpoints
-// -------------------------------------------------------------------
-
-// $breakpoints for include-media
-// Usage: @include media(">phone", "<=tablet") { ... }
-// Usage: @include media("<=1150px") { ... }
-// See https://include-media.com/
-
 $breakpoints: (
-    phone: 320px,
-    phone_large: 400px,
-    tablet_small: 550px,
-    tablet: 710px,
-    desktop: 910px
+    phone: 414px,
+    tablet: 768px,
+    laptop: 1366px,
+    desktop: 2000px
 );
 
 // -------------------------------------------------------------------
