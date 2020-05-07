@@ -332,7 +332,7 @@
         }
     }
 
-    @include media('>tablet') {
+    @include media('>=tablet') {
         &__img-wrapper {
             min-height: var(--wpdtrt-gallery-viewer-desktop-height); // loading height
         }
@@ -560,7 +560,7 @@
     // Media Queries
     // -------------------------------------------------------------------
 
-    @include media('>phone') {
+    @include media('>=phone') {
 
         .gallery-item {
 
@@ -572,7 +572,7 @@
         }
     }
 
-    @include media('>tablet') {
+    @include media('>=tablet') {
 
         .gallery-item {
 
@@ -584,7 +584,7 @@
         }
     }
 
-    @include media('>laptop') {
+    @include media('>=laptop') {
 
         .gallery {
             max-width: none;
@@ -612,7 +612,7 @@
         }
     }
 
-    @include media('>desktop') {
+    @include media('>=desktop') {
         .gallery-item {
 
             // if there is only one thumbnail, do display it
