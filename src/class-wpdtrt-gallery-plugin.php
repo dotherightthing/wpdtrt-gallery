@@ -83,7 +83,12 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 	 */
 
 	/**
-	 * Method: get_html
+	 * Group: Renderers
+	 * _____________________________________
+	 */
+
+	/**
+	 * Method: render_html
 	 *
 	 * This is better than getting child nodes because WP shortcodes aren't HTML elements.
 	 *
@@ -97,7 +102,7 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 	 * See:
 	 * <https://stackoverflow.com/a/53740544/6850747>
 	 */
-	public function get_html( DOMNode $n, $include_target_tag = false ) : string {
+	public function render_html( DOMNode $n, $include_target_tag = false ) : string {
 		$dom = new DOMDocument();
 		$dom->appendChild( $dom->importNode( $n, true ) ); // $deep.
 		$html = trim( $dom->saveHTML() );
@@ -109,10 +114,6 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 		return preg_replace( '@^<' . $n->nodeName . '[^>]*>|</'. $n->nodeName . '>$@', '', $html ); // phpcs:ignore
 	}
 
-	/**
-	 * Group: Renderers
-	 * _____________________________________
-	 */
 
 	/**
 	 * Method: render_js_frontend
@@ -328,7 +329,7 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 			$section_class      = 'wpdtrt-gallery__section';
 			$section_html       = '';
 			$section_id         = '';
-			$section_inner_html = $this->get_html( $section, false );
+			$section_inner_html = $this->render_html( $section, false );
 			$section_tabindex   = '';
 
 			// class is added to h2 by wpdtrt-anchorlinks->filter_content_anchors().
@@ -337,8 +338,8 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 			if ( count( $anchor_matches ) > 0 ) {
 				$heading           = $section->getElementsByTagName( 'h2' )[0];
 				$gallery           = $heading->nextSibling; // note: if sibling isn't a gallery it will be filtered out by regex below.
-				$gallery_shortcode = $this->get_html( $gallery, true );
-				$heading_html      = $this->get_html( $heading, true );
+				$gallery_shortcode = $this->render_html( $gallery, true );
+				$heading_html      = $this->render_html( $heading, true );
 				$new_heading_html  = '[wpdtrt_gallery_shortcode_heading]' . $heading_html . '[/wpdtrt_gallery_shortcode_heading]';
 				$section_class     = $section->getAttribute( 'class' ) . ' wpdtrt-gallery__section';
 				$section_id        = $section->getAttribute( 'id' );
