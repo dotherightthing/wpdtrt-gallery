@@ -323,35 +323,59 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 		$content_replacements = [];
 
 		foreach ( $sections as $section ) {
+			$gallery_shortcode  = '';
+			$heading_html       = '';
+			$section_class      = 'wpdtrt-gallery__section';
+			$section_html       = '';
+			$section_id         = '';
+			$section_inner_html = $this->get_html( $section, false );
+			$section_tabindex   = '';
+
+			// class is added to h2 by wpdtrt-anchorlinks->filter_content_anchors().
 			preg_match( '/wpdtrt-anchorlinks__anchor/', $section->getAttribute( 'class' ), $anchor_matches );
 
-			$section_html = '';
-
 			if ( count( $anchor_matches ) > 0 ) {
-				$heading            = $section->getElementsByTagName( 'h2' )[0];
-				$gallery            = $heading->nextSibling;
-				$gallery_shortcode  = $this->get_html( $gallery, true );
-				$heading_html       = $this->get_html( $heading, true );
-				$new_heading_html   = '[wpdtrt_gallery_shortcode_heading]' . $heading_html . '[/wpdtrt_gallery_shortcode_heading]';
-				$section_class      = $section->getAttribute( 'class' ) . ' wpdtrt-gallery__section';
-				$section_inner_html = $this->get_html( $section, false );
-				$section_id         = $section->getAttribute( 'id' );
-				$section_tabindex   = $section->getAttribute( 'tabindex' );
+				$heading           = $section->getElementsByTagName( 'h2' )[0];
+				$gallery           = $heading->nextSibling; // note: if sibling isn't a gallery it will be filtered out by regex below.
+				$gallery_shortcode = $this->get_html( $gallery, true );
+				$heading_html      = $this->get_html( $heading, true );
+				$new_heading_html  = '[wpdtrt_gallery_shortcode_heading]' . $heading_html . '[/wpdtrt_gallery_shortcode_heading]';
+				$section_class     = $section->getAttribute( 'class' ) . ' wpdtrt-gallery__section';
+				$section_id        = $section->getAttribute( 'id' );
+				$section_tabindex  = $section->getAttribute( 'tabindex' );
+			}
 
-				// start section.
-				$section_html .= '<div id="' . $section_id . '" class="' . $section_class . '" tabindex="' . $section_tabindex . '">';
+			// start section.
+			$section_html .= '<div class="' . $section_class . '"';
 
-				// remove gallery shortcode.
+			if ( strlen( $section_id ) > 0 ) {
+				$section_html .= ' id="' . $section_id . '"';
+			}
+
+			if ( strlen( $section_tabindex ) > 0 ) {
+				$section_html .= ' tabindex="' . $section_tabindex . '"';
+			}
+
+			$section_html .= '>';
+
+			// remove gallery shortcode from html,
+			// we'll add it back in in a different location.
+			// TODO validate this as a shortcode first (#81).
+			if ( strlen( $gallery_shortcode ) > 0 ) {
 				$section_inner_html = str_replace( $gallery_shortcode, '', $section_inner_html );
+			}
 
-				// wrap heading in gallery viewer shortcode.
+			// wrap heading in gallery viewer shortcode.
+			if ( strlen( $heading_html ) > 0 ) {
 				$section_inner_html = str_replace( $heading_html, $new_heading_html, $section_inner_html );
+			}
 
-				// wrap gallery viewer shortcode and remaining content.
-				$section_html .= '<div class="entry-content">';
-				$section_html .= str_replace( '&nbsp;', ' ', $section_inner_html );
-				$section_html .= '</div>';
+			// wrap gallery viewer shortcode and remaining content.
+			$section_html .= '<div class="entry-content">';
+			$section_html .= str_replace( '&nbsp;', ' ', $section_inner_html );
+			$section_html .= '</div>';
 
+			if ( isset( $gallery ) ) {
 				preg_match( '/\[gallery link="file" ids=/', $gallery->nodeValue, $gallery_matches );
 
 				if ( count( $gallery_matches ) > 0 ) {
@@ -361,10 +385,10 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 					$section_html .= $gallery_shortcode;
 					$section_html .= '</div>';
 				}
-
-				// end section.
-				$section_html .= '</div>';
 			}
+
+			// end section.
+			$section_html .= '</div>';
 
 			// update output.
 			$content_replacements[] = $section_html;
