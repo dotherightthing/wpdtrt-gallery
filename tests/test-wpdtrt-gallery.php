@@ -72,13 +72,13 @@ class WPDTRT_GalleryTest extends WP_UnitTestCase {
 		// this is a chicken-and-egg scenario.
 		$this->post_with_single_image_gallery = $this->create_post( array(
 			'post_title'   => 'Single image gallery test',
-			'post_content' => '<div class="wpdtrt-anchorlinks__section wpdtrt-anchorlinks__anchor" id="section-heading" tabindex="-1">[wpdtrt_gallery_shortcode_heading]<h2 data-id="section-heading">Section heading<a class="wpdtrt-anchorlinks__anchor-link" href="#section-heading"><span aria-label="Anchor" class="wpdtrt-anchorlinks__anchor-icon">#</span></a></h2>[/wpdtrt_gallery_shortcode_heading][gallery link="file" ids="' . $this->image_1 . '"]<p>A short sentence.</p></div>',
+			'post_content' => '<div class="wpdtrt-anchorlinks__section wpdtrt-anchorlinks__anchor" id="section-heading" tabindex="-1">[wpdtrt_gallery_shortcode_heading]<h2 data-anchorlinks-id="section-heading">Section heading<a class="wpdtrt-anchorlinks__anchor-link" href="#section-heading"><span aria-label="Anchor" class="wpdtrt-anchorlinks__anchor-icon">#</span></a></h2>[/wpdtrt_gallery_shortcode_heading][gallery link="file" ids="' . $this->image_1 . '"]<p>A short sentence.</p></div>',
 		));
 
 		// Post (for injected naked shortcode).
 		$this->post_with_no_gallery = $this->create_post( array(
 			'post_title'   => 'Empty gallery test',
-			'post_content' => '<div class="wpdtrt-anchorlinks__section wpdtrt-anchorlinks__anchor" id="section-heading" tabindex="-1">[wpdtrt_gallery_shortcode_heading]<h2 data-id="section-heading">Section heading<a class="wpdtrt-anchorlinks__anchor-link" href="#section-heading"><span aria-label="Anchor" class="wpdtrt-anchorlinks__anchor-icon">#</span></a></h2>[/wpdtrt_gallery_shortcode_heading]<p>A short sentence.</p></div>',
+			'post_content' => '<div class="wpdtrt-anchorlinks__section wpdtrt-anchorlinks__anchor" id="section-heading" tabindex="-1">[wpdtrt_gallery_shortcode_heading]<h2 data-anchorlinks-id="section-heading">Section heading<a class="wpdtrt-anchorlinks__anchor-link" href="#section-heading"><span aria-label="Anchor" class="wpdtrt-anchorlinks__anchor-icon">#</span></a></h2>[/wpdtrt_gallery_shortcode_heading]<p>A short sentence.</p></div>',
 		));
 	}
 
@@ -466,7 +466,7 @@ class WPDTRT_GalleryTest extends WP_UnitTestCase {
 			<div class="entry-content">
 				<div class="wpdtrt-gallery-viewer" data-wpdtrt-anchorlinks-controls="highlighting" data-enabled="false">
 					<div class="wpdtrt-gallery-viewer__header">
-						<h2 data-id="section-heading">
+						<h2 data-anchorlinks-id="section-heading">
 							Section heading
 							<a class="wpdtrt-anchorlinks__anchor-link" href="#section-heading">
 								<span aria-label="Anchor" class="wpdtrt-anchorlinks__anchor-icon">#</span>
@@ -571,7 +571,7 @@ class WPDTRT_GalleryTest extends WP_UnitTestCase {
 			<div class="entry-content">
 				<div class="wpdtrt-gallery-viewer" data-wpdtrt-anchorlinks-controls="highlighting" data-enabled="false" data-expanded="false">
 					<div class="wpdtrt-gallery-viewer__header">
-						<h2 data-id="section-heading">
+						<h2 data-anchorlinks-id="section-heading">
 							Section heading
 							<a class="wpdtrt-anchorlinks__anchor-link" href="#section-heading">
 								<span aria-label="Anchor" class="wpdtrt-anchorlinks__anchor-icon">#</span>
