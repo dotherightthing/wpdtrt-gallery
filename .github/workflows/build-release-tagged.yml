@@ -79,12 +79,12 @@ jobs:
       if: steps.check-tag.outputs.match == 'true'
       uses: montudor/action-zip@v0.1.0
       with:
-        args: zip -qq -r ./release-${{ github.event.release.tag_name }}.zip ./release
+        args: zip -qq -r ./release.zip ./release
 
     - name: Upload release to the repository's Releases page
       if: steps.check-tag.outputs.match == 'true'
       uses: yakuhzi/action-release@v1
       with:
-        file: release-${{ github.event.release.tag_name }}.zip
+        file: release.zip
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
