@@ -1,9 +1,10 @@
 {
   "private": true,
   "name": "wpdtrt-gallery",
-  "version": "1.8.9",
+  "version": "1.9.0",
   "description": "Gallery viewer which supports images, panoramas, maps, SoundCloud and Vimeo.",
   "keywords": [
+    "wordpress-plugin",
     "gallery",
     "video",
     "audio",

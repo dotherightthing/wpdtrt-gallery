@@ -6,7 +6,7 @@ Tags: gallery, video, audio, map
 Requires at least: 4.9.5
 Tested up to: 4.9.5
 Requires PHP: 7.2.20
-Stable tag: 1.8.9
+Stable tag: 1.9.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
