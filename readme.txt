@@ -44,8 +44,22 @@ echo do_shortcode('[wpdtrt_gallery_shortcode_heading]<h2>' . $heading . '</h2>[/
 == Changelog ==
 
 = 1.9.0 =
-* Remove wpdtrt-contentsections dependency
-* Replace gulp with wpdtrt-npm-scripts
+* CSS: Convert selectors to BEM
+* CSS: Convert colours to CSS variables
+* CSS: Remove wpdtrt-dbth .stack selectors, move theme specific styles to wpdtrt-dbth
+* CSS: Scroll gallery thumbnails on mobile
+* CSS: Fix video iframe dimensions
+* CSS: Fix panorama width
+* CSS: Replace floats and inline-block with flexbox
+* CSS: Add loading bg color, fix embed bg color, convert colours to hsla
+* CSS: Optimise number of breakpoints
+* JS: Replace unreliable Waypoint detection with Intersection Observer
+* JS: Scroll into view on expand and collapse to maintain button position
+* JS: Disable expand button when viewer source is panorama or embed
+* Replace wpdtrt-contentsections dependency with DOMDocument
+* Replace wpdtrt-gulp with wpdtrt-npm-scripts
+* Update tests to use DOMDocument
+* Replace Travis CI with Github Actions
 
 = 1.8.9 =
 * Update wpdtrt-plugin-boilerplate, from 1.6.19 to 1.7.0
