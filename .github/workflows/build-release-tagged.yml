@@ -86,6 +86,5 @@ jobs:
       uses: yakuhzi/action-release@v1
       with:
         file: release-${{ github.event.release.tag_name }}.zip
-        changelog: README.txt
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
