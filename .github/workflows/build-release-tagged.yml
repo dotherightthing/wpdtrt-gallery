@@ -3,7 +3,7 @@
 # https://help.github.com/en/actions/reference/events-that-trigger-workflows#release-event-release
 # https://help.github.com/en/actions/configuring-and-managing-workflows/persisting-workflow-data-using-artifacts#passing-data-between-jobs-in-a-workflow
 
-name: Build and release
+name: Build and release if tagged
 
 on: push
 
@@ -58,6 +58,7 @@ jobs:
 
   release:
     runs-on: ubuntu-latest
+    needs: build
 
     # https://stackoverflow.com/a/58869470/6850747
     # https://help.github.com/en/actions/reference/workflow-commands-for-github-actions#setting-an-output-parameter
