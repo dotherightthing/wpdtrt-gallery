@@ -300,6 +300,12 @@ const wpdtrtGalleryUi = {
             }
         }
 
+        if (isEmbed) {
+            $expandButton.attr('disabled', true);
+        } else {
+            $expandButton.removeAttr('disabled');
+        }
+
         // update iframe size
         if (rwgpsPageId) {
             $viewerIframe
