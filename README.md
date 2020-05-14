@@ -1,6 +1,6 @@
 # DTRT Gallery
 
-[![GitHub release](https://img.shields.io/github/v/tag/dotherightthing/wpdtrt-gallery)](https://github.com/dotherightthing/wpdtrt-gallery/releases) [![Build](https://github.com/dotherightthing/wpdtrt-gallery/workflows/Build/badge.svg)](https://github.com/dotherightthing/wpdtrt-gallery/actions?query=workflow%3ABuild) [![GitHub issues](https://img.shields.io/github/issues/dotherightthing/wpdtrt-gallery.svg)](https://github.com/dotherightthing/wpdtrt-gallery/issues)
+[![GitHub release](https://img.shields.io/github/v/tag/dotherightthing/wpdtrt-gallery)](https://github.com/dotherightthing/wpdtrt-gallery/releases) [![Build Status](https://github.com/dotherightthing/wpdtrt-gallery/workflows/Build%20and%20release%20if%20tagged/badge.svg)](https://github.com/dotherightthing/wpdtrt-gallery/actions?query=workflow%3A%22Build+and+release+if+tagged%22) [![GitHub issues](https://img.shields.io/github/issues/dotherightthing/wpdtrt-gallery.svg)](https://github.com/dotherightthing/wpdtrt-gallery/issues)
 
 Gallery viewer which supports images, panoramas, maps, SoundCloud and Vimeo.
 
