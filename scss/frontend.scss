@@ -333,10 +333,6 @@
     }
 
     @include media('>=tablet') {
-        &__img-wrapper {
-            min-height: var(--wpdtrt-gallery-viewer-desktop-height); // loading height
-        }
-
         &__liner {
             &::before {
                 top: 20px;
