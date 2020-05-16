@@ -272,7 +272,7 @@
 
         #{$block}__img-wrapper {
             max-width: none;
-            overflow-x: scroll;
+            overflow-x: auto; // scroll if window too narrow show entire panorama
 
             > img {
                 width: auto;
