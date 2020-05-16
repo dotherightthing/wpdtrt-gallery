@@ -844,5 +844,6 @@ document.addEventListener('touchstart', () => {
 /* eslint-enable wrap-iife */
 
 jQuery(document).ready(() => {
-    // const config = wpdtrt_gallery_config;
+    const config = wpdtrt_gallery_config; // eslint-disable-line
+    console.log('wpdtrtGalleryUi.init'); // eslint-disable-line no-console
 });
