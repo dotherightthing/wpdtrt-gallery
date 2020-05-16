@@ -184,6 +184,7 @@
     }
 
     &__img-wrapper {
+        min-width: 100%;
         background-color: var(--wpdtrt-gallery-bg-color-loading);
 
         :focus & {
