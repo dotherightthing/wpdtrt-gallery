@@ -24,22 +24,7 @@ Gallery viewer which supports images, panoramas, maps, SoundCloud and Vimeo.
 
 == Frequently Asked Questions ==
 
-The plugin shortcode is automatically injected into the content and wraps all `<h2>` headings.
-
-To manually use the shortcode:
-
-```
-<!-- in WYSIWYG -->
-[wpdtrt_gallery_shortcode_heading]<h2>Heading to wrap</h2>[/wpdtrt_gallery_shortcode_heading]
-
-// in PHP
-$heading = 'Heading to wrap';
-echo do_shortcode('[wpdtrt_gallery_shortcode_heading]<h2>' . $heading . '</h2>[/wpdtrt_gallery_shortcode_heading]');
-```
-
-= Caveats =
-
-* A WordPress gallery must immediately follow the `<h2>` heading
+See [WordPress Usage](README.md#wordpress-usage).
 
 == Changelog ==
 
