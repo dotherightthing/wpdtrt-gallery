@@ -56,6 +56,16 @@ jobs:
         name: release
         path: release
 
+    - name: Archive changelog
+      uses: actions/upload-artifact@v1
+      with:
+        name: changelog
+        path: CHANGELOG.md
+
+  # The 'release' job starts with a clean directory,
+  # we don't check out the repo again
+  # instead we download and work with
+  # the artifacts from the previous 'build' job
   release:
     runs-on: ubuntu-latest
     needs: build
@@ -69,11 +79,28 @@ jobs:
         if [[ ${{ github.event.ref }} =~ ^refs\/tags\/[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
           echo ::set-output name=match::true
         fi
+
+    # Download 'release' folder artifact
+    # to 'release' sub folder
+    # otherwise the contents will be added
+    # to the (empty) root
+    # (as of download-artifact@v2)
     - name: Download release folder from Build
       if: steps.check-tag.outputs.match == 'true'
-      uses: actions/download-artifact@v1
+      uses: actions/download-artifact@v2
       with:
         name: release
+        path: release
+
+    - name: Download changelog from Build
+      if: steps.check-tag.outputs.match == 'true'
+      uses: actions/download-artifact@v2
+      with:
+        name: changelog
+        path: changelog
+
+    - name: Check that artifacts were downloaded as expected
+      run: ls -R
 
     - name: Zip release folder
       if: steps.check-tag.outputs.match == 'true'
@@ -86,5 +113,6 @@ jobs:
       uses: yakuhzi/action-release@v1
       with:
         file: release.zip
+        changelog: changelog/CHANGELOG.md
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

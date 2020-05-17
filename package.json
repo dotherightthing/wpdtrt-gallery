@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "wpdtrt-gallery",
-  "version": "1.9.6",
+  "version": "1.9.7",
   "description": "Gallery viewer which supports images, panoramas, maps, SoundCloud and Vimeo.",
   "keywords": [
     "wordpress-plugin",
@@ -27,15 +27,14 @@
     "url": "https://github.com/dotherightthing/wpdtrt-gallery/issues"
   },
   "dependencies": {
-    "urijs": "^1.19.1",
-    "wpdtrt-npm-scripts": "github:dotherightthing/wpdtrt-npm-scripts"
+    "urijs": "^1.19.1"
   },
   "config": {
-    "wpdtrt_plugin_boilerplate_backend_js": "vendor/dotherightthing/wpdtrt-plugin-boilerplate/js/backend.js",
-    "wpdtrt_plugin_boilerplate_frontend_js": "vendor/dotherightthing/wpdtrt-plugin-boilerplate/js/frontend.js",
+    "wpdtrt_base_url_local": "http://dontbelievethehype.dan",
     "wpdtrt_npm_scripts": "./node_modules/wpdtrt-npm-scripts"
   },
   "scripts": {
+    "changelog": "npm run changelog --prefix $npm_package_config_wpdtrt_npm_scripts",
     "compile": "npm run compile --prefix $npm_package_config_wpdtrt_npm_scripts",
     "docs": "npm run docs --prefix $npm_package_config_wpdtrt_npm_scripts",
     "lint": "npm run lint --prefix $npm_package_config_wpdtrt_npm_scripts",
@@ -50,5 +49,8 @@
   },
   "license": "ISC",
   "homepage": "https://github.com/dotherightthing/wpdtrt-gallery",
-  "srcDir": "/Volumes/DanBackup/Websites/wpdtrt-gallery"
+  "srcDir": "/Volumes/DanBackup/Websites/wpdtrt-gallery",
+  "devDependencies": {
+    "wpdtrt-npm-scripts": "github:dotherightthing/wpdtrt-npm-scripts#semver:0.3.*"
+  }
 }
