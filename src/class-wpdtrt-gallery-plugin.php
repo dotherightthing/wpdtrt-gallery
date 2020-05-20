@@ -320,10 +320,20 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 		// Clear errors, so they aren't kept in memory.
 		libxml_clear_errors();
 
+		// DOMDocument doesn't support HTML5
+		// so we use a div rather than section element.
+		// For better or worse,
+		// these divs were initially added by wpdtrt-contentsections
+		// but are now added by wpdtrt-anchorlinks,
+		// which requires 'tall' sectioning blocks
+		// containing gallery/text
+		// rather than traditional 'short' headings anchors
+		// in order to correctly highlight the 'active' anchor list link.
 		$sections             = $dom->getElementsByTagName( 'div' );
 		$content_replacements = [];
 
 		foreach ( $sections as $section ) {
+			$gallery            = null;
 			$gallery_shortcode  = '';
 			$heading_html       = '';
 			$section_class      = 'wpdtrt-gallery__section';
@@ -335,18 +345,40 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 			// class is added to h2 by wpdtrt-anchorlinks->filter_content_anchors().
 			preg_match( '/wpdtrt-anchorlinks__anchor/', $section->getAttribute( 'class' ), $anchor_matches );
 
+			// only process existing sectioned content.
 			if ( count( $anchor_matches ) > 0 ) {
-				$heading           = $section->getElementsByTagName( 'h2' )[0];
-				$gallery           = $heading->nextSibling; // note: if sibling isn't a gallery it will be filtered out by regex below.
-				$gallery_shortcode = $this->render_html( $gallery, true );
-				$heading_html      = $this->render_html( $heading, true );
-				$new_heading_html  = '[wpdtrt_gallery_shortcode_heading]' . $heading_html . '[/wpdtrt_gallery_shortcode_heading]';
-				$section_class     = $section->getAttribute( 'class' ) . ' wpdtrt-gallery__section';
-				$section_id        = $section->getAttribute( 'id' );
-				$section_tabindex  = $section->getAttribute( 'tabindex' );
+				// only h2s are supported.
+				$heading = $section->getElementsByTagName( 'h2' )[0];
+
+				if ( count( $heading ) > 0 ) {
+					if ( $heading->nextSibling ) {
+						// Check node type
+						// XML_TEXT_NODE = DOMText.
+						// XML_ELEMENT_NODE = DOMElement.
+						// See https://www.php.net/manual/en/class.domtext.php.
+						// See https://www.php.net/manual/en/dom.constants.php.
+						if ( XML_TEXT_NODE === $heading->nextSibling->nodeType ) {
+							$siblingText = $heading->nextSibling->wholeText;
+
+							// substr would also work
+							// but I'm concerned about leading whitespace.
+							preg_match( '/\[gallery link="file" ids=/', $siblingText, $gallery_matches );
+
+							if ( count( $gallery_matches ) > 0 ) {
+								$gallery = $heading->nextSibling;
+							}
+						}
+					}
+
+					$heading_html     = $this->render_html( $heading, true );
+					$new_heading_html = '[wpdtrt_gallery_shortcode_heading]' . $heading_html . '[/wpdtrt_gallery_shortcode_heading]';
+					$section_class    = $section->getAttribute( 'class' ) . ' wpdtrt-gallery__section';
+					$section_id       = $section->getAttribute( 'id' );
+					$section_tabindex = $section->getAttribute( 'tabindex' );
+				}
 			}
 
-			// start section.
+			// rebuild the sectioning element to add our own class.
 			$section_html .= '<div class="' . $section_class . '"';
 
 			if ( strlen( $section_id ) > 0 ) {
@@ -359,15 +391,18 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 
 			$section_html .= '>';
 
-			// remove gallery shortcode from html,
-			// we'll add it back in in a different location.
-			// TODO validate this as a shortcode first (#81).
-			if ( strlen( $gallery_shortcode ) > 0 ) {
-				$section_inner_html = str_replace( $gallery_shortcode, '', $section_inner_html );
+			if ( ! is_null( $gallery ) ) {
+				$gallery_shortcode = $this->render_html( $gallery, true );
+
+				if ( strlen( $gallery_shortcode ) > 0 ) {
+					$section_inner_html = str_replace( $gallery_shortcode, '', $section_inner_html );
+				}
 			}
 
 			// wrap heading in gallery viewer shortcode.
 			if ( strlen( $heading_html ) > 0 ) {
+				// headings are wrapped regardless of whether they precede galleries
+				// to apply the gallery heading styling.
 				$section_inner_html = str_replace( $heading_html, $new_heading_html, $section_inner_html );
 			}
 
