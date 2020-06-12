@@ -520,6 +520,10 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 			}
 		}
 
+		if ( '' !== $atts['alt'] ) {
+			$atts['alt'] = 'View enlargement of ' . $atts['alt'];
+		}
+
 		$atts['data-id'] = $id;
 
 		// Vimeo.
