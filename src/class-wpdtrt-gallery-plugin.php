@@ -511,6 +511,15 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 
 		$id = $attachment->ID;
 
+		// Fix missing alt text.
+		if ( '' === $atts['alt'] ) {
+			$caption = wp_get_attachment_caption( $id );
+
+			if ( '' !== $caption ) {
+				$atts['alt'] = $caption;
+			}
+		}
+
 		$atts['data-id'] = $id;
 
 		// Vimeo.
