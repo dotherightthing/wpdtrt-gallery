@@ -449,6 +449,9 @@ class WPDTRT_GalleryTest extends WP_UnitTestCase {
 	 *
 	 * Note:
 	 * - Test theme does not appear to output HTML5 markup for gallery.
+	 *
+	 * TODO:
+	 * - count(): Parameter must be an array or an object that implements Countable
 	 */
 	public function test_shortcode_in_post_with_no_gallery() {
 
@@ -554,6 +557,9 @@ class WPDTRT_GalleryTest extends WP_UnitTestCase {
 	 *
 	 * Note:
 	 * - Test theme does not appear to output HTML5 markup for gallery.
+	 *
+	 * TODO:
+	 * - count(): Parameter must be an array or an object that implements Countable
 	 */
 	public function test_shortcode_in_post_with_single_image_gallery() {
 
