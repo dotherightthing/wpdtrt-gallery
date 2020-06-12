@@ -347,10 +347,13 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 
 			// only process existing sectioned content.
 			if ( count( $anchor_matches ) > 0 ) {
-				// only h2s are supported.
-				$heading = $section->getElementsByTagName( 'h2' )[0];
 
-				if ( count( $heading ) > 0 ) {
+				$headings = $section->getElementsByTagName( 'h2' );
+
+				if ( $headings->length > 0 ) {
+					// only h2s are supported.
+					$heading = $section->getElementsByTagName( 'h2' )[0];
+
 					if ( $heading->nextSibling ) {
 						// Check node type
 						// XML_TEXT_NODE = DOMText.
