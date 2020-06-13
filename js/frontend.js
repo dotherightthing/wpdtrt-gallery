@@ -66,7 +66,6 @@ const wpdtrtGalleryUi = {
      */
     galleryViewerLazyInit: ($) => {
         const $sections = $('.wpdtrt-gallery__section');
-        let $section;
 
         /**
          * Respond to an observed intersection.
@@ -98,8 +97,8 @@ const wpdtrtGalleryUi = {
                 observer.observe($(item).get(0));
             });
         } else {
-            $sections.each(() => {
-                wpdtrtGalleryUi.galleryViewerInit($, $section);
+            $sections.each((i, item) => {
+                wpdtrtGalleryUi.galleryViewerInit($, $(item));
             });
         }
     },
