@@ -35,6 +35,12 @@ In a PHP template, as a template tag:
 ?>
 ```
 
+### Styling
+
+Core CSS properties may be overwritten by changing the variable values in your theme stylesheet.
+
+See `scss/_variables.scss`.
+
 ## Dependencies
 
 1. The WordPress content filter looks for galleries within the markup injected by [DTRT Anchorlinks](https://github.com/dotherightthing/wpdtrt-anchorlinks):
