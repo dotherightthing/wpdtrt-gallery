@@ -1,0 +1,21 @@
+//
+// File: scss/variables/_scss.scss
+//
+// Since:
+//   0.9.x - DTRT WordPress Plugin Boilerplate Generator
+//
+
+// -------------------------------------------------------------------
+// Breakpoints for include-media
+// see: https://gist.github.com/dotherightthing/06f33bf784279aa24072e0b6873c968c
+// usage: @include media()
+// -------------------------------------------------------------------
+
+@import 'node_modules/include-media/dist/include-media';
+
+$breakpoints: (
+    phone: 414px,
+    tablet: 768px,
+    laptop: 1366px,
+    desktop: 2000px
+);

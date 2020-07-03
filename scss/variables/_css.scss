@@ -1,30 +1,15 @@
 //
-// File: scss/_variables.scss
-//
-// Variables.
+// File: scss/variables/_css.scss
 //
 // Since:
-//   0.8.13 - DTRT WordPress Plugin Boilerplate Generator
+//   0.9.x - DTRT WordPress Plugin Boilerplate Generator
 //
-
-// -------------------------------------------------------------------
-// Breakpoints for include-media
-// see: https://gist.github.com/dotherightthing/06f33bf784279aa24072e0b6873c968c
-// usage: @include media()
-// -------------------------------------------------------------------
-
-@import 'node_modules/include-media/dist/include-media';
-
-$breakpoints: (
-    phone: 414px,
-    tablet: 768px,
-    laptop: 1366px,
-    desktop: 2000px
-);
-
-// -------------------------------------------------------------------
-// Colors
-// -------------------------------------------------------------------
+// Colours are specified in hsla values:
+// - Hue: 0 - 360 on a colour wheel (e.g. http://hslpicker.com/)
+// - Saturation: 0 (grayscale) - 100 (full colour)
+// - Lightness: 0% (black), 50% (average), 100% (completely light)
+// - Alpha
+//
 
 :root {
     --wpdtrt-gallery-bg-color: hsla(80, 5%, 11%, 1);
