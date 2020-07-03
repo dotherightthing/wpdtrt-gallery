@@ -125,7 +125,6 @@ describe('DTRT Gallery - Image Gallery Item', function () {
                 .invoke('attr', 'href')
                 .should('match', /wpsize=wpdtrt-gallery-panorama/);
 
-
             cy.get('@wpdtrtGalleryFirstImage')
                 .should('have.attr', 'data-panorama', '1');
         });
