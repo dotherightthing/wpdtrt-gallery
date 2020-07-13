@@ -50,3 +50,9 @@ See `scss/_variables.scss`.
     <!-- h2, .gallery, etc -->
 </div>
 ```
+
+## Unit tests
+
+```shell
+./node_modules/.bin/cypress open
+```
