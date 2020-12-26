@@ -420,7 +420,7 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 				if ( count( $gallery_matches ) > 0 ) {
 					// insert gallery shortcode after content.
 					$section_html .= '<div class="wpdtrt-gallery-gallery">';
-					$section_html .= '<h3 class="accessible">Photos</h3>';
+					$section_html .= '<h3 class="wpdtrt-gallery-gallery__header">Photos</h3>';
 					$section_html .= $gallery_shortcode;
 					$section_html .= '</div>';
 				}
