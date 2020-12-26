@@ -19,6 +19,7 @@
  * @namespace wpdtrtGalleryUi
  */
 const wpdtrtGalleryUi = {
+    animations: false,
     thumbnailData: [
         'id',
         'initial',
@@ -31,6 +32,32 @@ const wpdtrtGalleryUi = {
         'src-desktop-expanded',
         'vimeo-pageid'
     ],
+
+    /**
+     * @function galleryViewerAnimations
+     * @summary Allow animations to be managed via browser preferences.
+     * @memberof wpdtrtGalleryUi
+     * @protected
+     *
+     * @see https://github.com/dotherightthing/accessibility-research
+     */
+    galleryViewerAnimations: function () {
+        const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+        if (!mediaQuery || mediaQuery.matches) {
+            wpdtrtGalleryUi.animations = false;
+        } else {
+            wpdtrtGalleryUi.animations = true;
+        }
+
+        mediaQuery.addEventListener('change', () => {
+            if (mediaQuery.matches) {
+                wpdtrtGalleryUi.animations = false;
+            } else {
+                wpdtrtGalleryUi.animations = true;
+            }
+        });
+    },
 
     /**
      * @function galleryViewerCopyThumbnailDataToLink
@@ -678,11 +705,13 @@ const wpdtrtGalleryUi = {
      * @see https://web-design-weekly.com/snippets/scroll-to-position-with-jquery/
      */
     galleryViewerScrollToElement: function ($, $target, offset, duration) {
-        $target.each(function () {
-            $('html, body').animate({
-                scrollTop: $(this).offset().top - offset
-            }, duration);
-        });
+        if (wpdtrtGalleryUi.animations) {
+            $target.each(function () {
+                $('html, body').animate({
+                    scrollTop: $(this).offset().top - offset
+                }, duration);
+            });
+        }
     },
 
     /**
@@ -824,6 +853,8 @@ const wpdtrtGalleryUi = {
 
         $stackWrapper
             .removeAttr('data-loading');
+
+        wpdtrtGalleryUi.galleryViewerAnimations();
     }
 };
 
