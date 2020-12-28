@@ -858,11 +858,6 @@ const wpdtrtGalleryUi = {
     }
 };
 
-// http://stackoverflow.com/a/28771425
-document.addEventListener('touchstart', () => {
-    // nada, this is just a hack to make :focus state render on touch
-}, false);
-
 // https://api.jquery.com/jQuery.noConflict/
 /* eslint-disable wrap-iife */
 (function ($) {

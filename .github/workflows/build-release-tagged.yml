@@ -15,7 +15,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [13.x]
+        node: [ '13.x' ]
 
     steps:
     # check out the repository, so the workflow can access it
@@ -26,7 +26,7 @@ jobs:
       uses: shivammathur/setup-php@v2
       with:
         php-version: '7.2.15'
-        node-version: ${{ matrix.node-version }}
+        node-version: ${{ matrix.node }}
     
     - name: Run build
       run: |
