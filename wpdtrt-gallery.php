@@ -166,8 +166,7 @@ $debug = new DoTheRightThing\WPDebug\Debug();
 register_activation_hook( dirname( __FILE__ ), 'wpdtrt_gallery_activate' );
 
 add_action( 'init', 'wpdtrt_gallery_plugin_init', 0 );
-add_action( 'init', 'wpdtrt_gallery_shortcode_init', 100 );
-
+// add_action( 'init', 'wpdtrt_gallery_shortcode_init', 100 );.
 add_filter( 'attachment_fields_to_edit', 'wpdtrt_gallery_attachment_field_default', 10, 2 );
 add_filter( 'attachment_fields_to_edit', 'wpdtrt_gallery_attachment_field_heading', 10, 2 );
 add_filter( 'attachment_fields_to_edit', 'wpdtrt_gallery_attachment_field_location', 10, 2 );

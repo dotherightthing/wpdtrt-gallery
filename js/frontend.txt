@@ -1,1 +1,4 @@
+./node_modules/accessible-components/js/_eslint.js
+./node_modules/accessible-components/js/_keyboard-helpers.js
+./node_modules/accessible-components/js/_tabbed-carousel.js
 ./js/_frontend.js

@@ -65,8 +65,9 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 		include_once ABSPATH . 'wp-admin/includes/image.php';
 
 		// add actions and filters here.
-		add_filter( 'post_gallery', array( $this, 'filter_shortcode_galleries' ), 10, 3 );
+		add_filter( 'post_gallery', array( $this, 'filter_gallery_html' ), 10, 3 );
 		add_filter( 'shortcode_atts_gallery', array( $this, 'filter_gallery_attributes' ), 10, 3 );
+		add_filter( 'use_default_gallery_style', '__return_false' );
 		add_filter( 'wp_read_image_metadata', array( $this, 'filter_save_image_geodata' ), '', 3 );
 		add_filter( 'wp_get_attachment_link', array( $this, 'filter_thumbnail_queryparams' ), 1, 4 );
 		add_filter( 'wp_get_attachment_image_attributes', array( $this, 'filter_thumbnail_attributes' ), 1, 4 ); // 10,2
@@ -171,12 +172,12 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 	 */
 
 	/**
-	 * Method: filter_shortcode_galleries
+	 * Method: filter_gallery_html
 	 *
 	 * Set attachment defaults.
 	 *
 	 * Note:
-	 * - Duplicated from wp-includes/media.php
+	 * - Duplicated from wp-includes/media.php and enhanced
 	 * - This affects the front-end, overriding the selections in wp-admin.
 	 *
 	 * Parameters:
@@ -187,7 +188,7 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 	 * See:
 	 * - <https://gist.github.com/mjsdiaz/7204576>
 	 */
-	public function filter_shortcode_galleries( $output = '', $attr = null, $instance = null ) {
+	public function filter_gallery_html( $output = '', $attr = null, $instance = null ) {
 		$post = get_post();
 
 		static $instance = 0;
@@ -204,7 +205,7 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 		/**
 		 * Filters the default gallery shortcode output.
 		 *
-		 * If the filtered output isn't empty, it will be used instead of generating
+		 * This will be used instead of generating
 		 * the default gallery template.
 		 *
 		 * @since 2.5.0
@@ -216,26 +217,43 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 		 * @param array  $attr     Attributes of the gallery shortcode.
 		 * @param int    $instance Unique numeric ID of this gallery shortcode instance.
 		 */
-		// $output = apply_filters( 'post_gallery', '', $attr, $instance );
-
-		// if ( ! empty( $output ) ) {
-		// 	return $output;
-		// }
-
 		$html5 = current_theme_supports( 'html5', 'gallery' );
 		$atts  = shortcode_atts(
 			array(
-				'order'      => 'ASC',
-				'orderby'    => 'menu_order ID',
-				'id'         => $post ? $post->ID : 0,
-				'itemtag'    => $html5 ? 'figure' : 'dl',
-				'icontag'    => $html5 ? 'div' : 'dt',
-				'captiontag' => $html5 ? 'figcaption' : 'dd',
-				'columns'    => 3,
-				'size'       => 'thumbnail',
-				'include'    => '',
-				'exclude'    => '',
-				'link'       => '',
+				'order'                     => 'ASC',
+				'orderby'                   => 'menu_order ID',
+				'id'                        => $post ? $post->ID : 0,
+				'itemtag'                   => $html5 ? 'figure' : 'dl',
+				'icontag'                   => $html5 ? 'div' : 'dt',
+				'captiontag'                => $html5 ? 'figcaption' : 'dd',
+				'columns'                   => 3,
+				'size'                      => 'thumbnail',
+				'include'                   => '',
+				'exclude'                   => '',
+				'link'                      => '',
+				// additions:.
+				'tabclass'                  => '',
+				'tabtag'                    => '',
+				'tablinerclass'             => '',
+				'tablinertag'               => '',
+				'tablistclass'              => '',
+				'tablistlabel'              => '',
+				'tabpanelcaptionclass'      => '',
+				'tabpanelcaptionlinerclass' => '',
+				'tabpanelcaptiontag'        => $html5 ? 'figcaption' : 'dd',
+				'tabpanelclass'             => '',
+				'tabpanelimageclass'        => '',
+				'tabpanelimagesize'         => '',
+				'tabpanelimagetag'          => $html5 ? 'div' : 'dt',
+				'tabpanelitemclass'         => '',
+				'tabpanelitemtag'           => $html5 ? 'figure' : 'dl',
+				'tabpanelsheaderclass'      => '',
+				'tabpanelslinerclass'       => '',
+				'tabpanelswrapperclass'     => '',
+				'usecaptiontag'             => 'true',
+				'useicontag'                => 'true',
+				'useitemtag'                => 'true',
+				'usetabspattern'            => 'false',
 			),
 			$attr,
 			'gallery'
@@ -323,6 +341,65 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 		$itemwidth = $columns > 0 ? floor( 100 / $columns ) : 100;
 		$float     = is_rtl() ? 'right' : 'left';
 
+		// switch for wai-aria tabs pattern.
+		$usetabspattern = filter_var( $atts['usetabspattern'], FILTER_VALIDATE_BOOLEAN );
+
+		// tabpanels wrapper - wraps all tabpanel items.
+		$tabpanelswrapperclass = $this->helper_sanitize_html_classes( $atts['tabpanelswrapperclass'] );
+
+		// tabpanels header - child of tabpanels wrapper.
+		$tabpanelsheaderclass = $this->helper_sanitize_html_classes( $atts['tabpanelsheaderclass'] );
+
+		// tabpanels liner - child of tabpanels wrapper.
+		$tabpanelslinerclass = $this->helper_sanitize_html_classes( $atts['tabpanelslinerclass'] );
+
+		// tabpanel - wraps the tabpanel image.
+		$tabpanelclass = $this->helper_sanitize_html_classes( $atts['tabpanelclass'] );
+
+		// tabpanel item.
+		$tabpanelitemclass = $this->helper_sanitize_html_classes( $atts['tabpanelitemclass'] );
+		$tabpanelitemtag   = tag_escape( $atts['tabpanelitemtag'] );
+
+		if ( ! isset( $valid_tags[ $tabpanelitemtag ] ) ) {
+			$tabpanelitemtag = 'dl';
+		}
+
+		// tabpanel image.
+		$tabpanelimageclass = $this->helper_sanitize_html_classes( $atts['tabpanelimageclass'] );
+		$tabpanelimagesize  = esc_html( $atts['tabpanelimagesize'] );
+		$tabpanelimagetag   = tag_escape( $atts['tabpanelimagetag'] );
+
+		if ( ! isset( $valid_tags[ $tabpanelimagetag ] ) ) {
+			$tabpanelimagetag = 'dt';
+		}
+		// tabpanel caption - output below large image.
+		$tabpanelcaptionclass = $this->helper_sanitize_html_classes( $atts['tabpanelcaptionclass'] );
+		$tabpanelcaptiontag   = tag_escape( $atts['tabpanelcaptiontag'] );
+
+		if ( ! isset( $valid_tags[ $tabpanelcaptiontag ] ) ) {
+			$tabpanelcaptiontag = 'dd';
+		}
+
+		// tabpanel caption liner - child of tabpanel caption.
+		$tabpanelcaptionlinerclass = $this->helper_sanitize_html_classes( $atts['tabpanelcaptionlinerclass'] );
+
+		// tablist - wraps all tabs.
+		$tablistclass = $this->helper_sanitize_html_classes( $atts['tablistclass'] );
+		$tablistlabel = esc_attr( $atts['tablistlabel'] );
+
+		// tab - wraps thumbnail/icon.
+		$tabclass = $this->helper_sanitize_html_classes( $atts['tabclass'] );
+		$tabtag   = tag_escape( $atts['tabtag'] );
+
+		// tab liner - child of tab.
+		$tablinerclass = $this->helper_sanitize_html_classes( $atts['tablinerclass'] );
+		$tablinertag   = tag_escape( $atts['tablinertag'] );
+
+		// gallery - output booleans.
+		$usecaptiontag = filter_var( $atts['usecaptiontag'], FILTER_VALIDATE_BOOLEAN );
+		$useicontag    = filter_var( $atts['useicontag'], FILTER_VALIDATE_BOOLEAN );
+		$useitemtag    = filter_var( $atts['useitemtag'], FILTER_VALIDATE_BOOLEAN );
+
 		$selector = "gallery-{$instance}";
 
 		$gallery_style = '';
@@ -360,8 +437,178 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 			</style>\n\t\t";
 		}
 
-		$size_class  = sanitize_html_class( $atts['size'] );
+		$size_class = sanitize_html_class( $atts['size'] );
+		$output     = '';
+
+		/**
+		 * START TABPANELS WRAPPER
+		 */
+
+		if ( $usetabspattern ) {
+
+			$tabpanelswrapper_attrs = '';
+			$tabpanelsliner_attrs   = '';
+			$tabpanelsheader_attrs  = '';
+
+			if ( '' !== $tabpanelswrapperclass ) {
+				$tabpanelswrapper_attrs .= " class='{$tabpanelswrapperclass}'";
+				$tabpanelswrapper_attrs .= " data-enabled='false'";
+				$tabpanelswrapper_attrs .= " data-expanded='false'";
+				$tabpanelswrapper_attrs .= " data-wpdtrt-anchorlinks-controls='highlighting'";
+			}
+
+			$output .= "<div${tabpanelswrapper_attrs}>";
+
+			/**
+			 * START TABPANEL LINER
+			 */
+
+			if ( '' !== $tabpanelsheaderclass ) {
+				$tabpanelsheader_attrs .= " class='{$tabpanelsheaderclass}'";
+			}
+
+			if ( '' !== $tabpanelslinerclass ) {
+				$tabpanelsliner_attrs .= " class='{$tabpanelslinerclass}'";
+			}
+
+			$output .= "<div{$tabpanelsheader_attrs}>";
+			$output .= '<h2>TITLE</h2>';
+			$output .= '</div>';
+
+			$output .= "<div{$tabpanelsliner_attrs}>";
+
+			$count     = 0;
+			$i         = 0;
+			$parent_id = $id;
+
+			foreach ( $attachments as $id => $attachment ) {
+
+				++$count;
+
+				$image_output = wp_get_attachment_image( $id, $atts['tabpanelimagesize'], false, $attr );
+				$image_meta   = wp_get_attachment_metadata( $id );
+				// $orientation  = '';
+				// if ( isset( $image_meta['height'], $image_meta['width'] ) ) {
+				// $orientation = ( $image_meta['height'] > $image_meta['width'] ) ? 'portrait' : 'landscape';
+				// }
+				if ( $usetabspattern ) {
+					/**
+					 * START TABPANEL
+					 */
+
+					$tabpanel_attrs  = " role='tabpanel'";
+					$tabpanel_attrs .= " id='galleryid-{$id}-tabpanel-{$count}'";
+					$tabpanel_attrs .= " aria-labelledby='galleryid-{$id}-tab-{$count}'";
+					$tabpanel_attrs .= " tabindex='0'";
+
+					if ( $count > 1 ) {
+						$tabpanel_attrs .= ' hidden';
+					}
+
+					if ( '' !== $tabpanelclass ) {
+						$tabpanel_attrs .= " class='{$tabpanelclass}'";
+					}
+
+					$output .= "<div{$tabpanel_attrs}>";
+
+					/**
+					 * START TABPANEL ITEM
+					 */
+
+					$tabpanelitem_attrs = '';
+
+					if ( '' !== $tabpanelitemclass ) {
+						$tabpanelitem_attrs .= " class='{$tabpanelitemclass}'";
+					}
+
+					$output .= "<{$tabpanelitemtag}{$tabpanelitem_attrs}>";
+
+					/**
+					 * START TABPANEL IMAGE
+					 */
+
+					$tabpanelimage_attrs = '';
+
+					if ( '' !== $tabpanelimageclass ) {
+						$tabpanelimage_attrs .= " class='{$tabpanelimageclass}'";
+					}
+
+					$output .= "<{$tabpanelimagetag}{$tabpanelimage_attrs}>";
+					$output .= $image_output;
+					$output .= "</{$tabpanelimagetag}>";
+
+					// TODO.
+					$output .= "<div class='wpdtrt-gallery-viewer__embed'>";
+					$output .= "<iframe aria-hidden='true' title='Gallery media viewer.'></iframe>";
+					$output .= '</div>';
+
+					if ( '' !== $captiontag && trim( $attachment->post_excerpt ) ) {
+						$enlargementcaption_attrs      = '';
+						$enlargementcaptionliner_attrs = '';
+
+						if ( '' !== $tabpanelcaptionclass ) {
+							$enlargementcaption_attrs .= " class='{$tabpanelcaptionclass}'";
+						}
+
+						if ( '' !== $tabpanelcaptionlinerclass ) {
+							$enlargementcaptionliner_attrs .= " class='{$tabpanelcaptionlinerclass}'";
+						}
+
+						$output .= "<{$tabpanelcaptiontag}{$enlargementcaption_attrs}>";
+						$output .= "<div{$enlargementcaptionliner_attrs}>";
+						$output .= wptexturize( $attachment->post_excerpt );
+						$output .= '</div>';
+						$output .= "</{$tabpanelcaptiontag}>";
+					}
+
+					/**
+					 * END TABPANEL IMAGE
+					 */
+
+					$output .= "</{$tabpanelitemtag}>";
+
+					/**
+					 * END TABPANEL ITEM
+					 */
+
+					$output .= '</div>';
+
+					/**
+					 * END TABPANEL
+					 */
+				}
+			}
+
+			$output .= '</div>';
+
+			// TODO.
+			$output .= '</div>';
+
+			/**
+			 * END TABPANEL LINER
+			 */
+		}
+
+		/**
+		 * END TABPANELS WRAPPER
+		 */
+
+		/**
+		 * START GALLERY DIV
+		 */
+
 		$gallery_div = "<div id='$selector' class='gallery galleryid-{$id} gallery-columns-{$columns} gallery-size-{$size_class}'>";
+
+		if ( $usetabspattern ) {
+			$gallery_attrs = " role='tablist'";
+
+			if ( '' !== $tablistlabel ) {
+				$gallery_attrs .= " aria-label='{$tablistlabel}'";
+			}
+
+			$gallery_div = str_replace( '>', $gallery_attrs . '>', $gallery_div );
+			$gallery_div = str_replace( "class='gallery", "class='gallery " . $tablistclass, $gallery_div );
+		}
 
 		/**
 		 * Filters the default gallery shortcode CSS styles.
@@ -370,17 +617,57 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 		 *
 		 * @param string $gallery_style Default CSS styles and opening HTML div container
 		 *                              for the gallery shortcode output.
+		 *
+		 * Note:
+		 * - Not used for wpdtrt-gallery enhancements as it discards the useful $id, $columns, $size_class attributes
 		 */
-		$output = apply_filters( 'gallery_style', $gallery_style . $gallery_div );
+		$output .= apply_filters( 'gallery_style', $gallery_style . $gallery_div );
 
-		$i = 0;
+		$count = 0;
+		$i     = 0;
 
 		foreach ( $attachments as $id => $attachment ) {
 
-			$attr = ( trim( $attachment->post_excerpt ) ) ? array( 'aria-describedby' => "$selector-$id" ) : '';
+			++$count;
+
+			$attr = ( $usecaptiontag && trim( $attachment->post_excerpt ) ) ? array( 'aria-describedby' => "$selector-$id" ) : '';
 
 			if ( ! empty( $atts['link'] ) && 'file' === $atts['link'] ) {
 				$image_output = wp_get_attachment_link( $id, $atts['size'], false, false, false, $attr );
+			} elseif ( $usetabspattern && ! empty( $atts['link'] ) && 'none' === $atts['link'] ) {
+				$tab_attrs  = " role='tab'";
+				$tab_attrs .= " class='gallery-item {$tabclass}'";
+				$tab_attrs .= " aria-controls='galleryid-{$id}-tabpanel-{$count}'";
+				$tab_attrs .= " id='galleryid-{$id}-tab-{$count}'";
+				$tab_attrs .= " data-kh-proxy='selectFocussed'";
+				$tab_attrs .= ' disabled';
+
+				if ( 1 === $count ) {
+					$tab_attrs .= " aria-selected='true'";
+					$tab_attrs .= " tabindex='0'";
+				} else {
+					$tab_attrs .= " aria-selected='false'";
+					$tab_attrs .= " tabindex='-1'";
+				}
+				$linklinerattrs = '';
+
+				if ( '' !== $tablinerclass ) {
+					$linklinerattrs .= " class='{$tablinerclass}'";
+				}
+
+				$image_output = "<{$tabtag}{$tab_attrs}>";
+
+				if ( '' !== $tablinertag ) {
+					$image_output .= "<{$tablinertag} {$linklinerattrs}>";
+				}
+
+				$image_output .= wp_get_attachment_image( $id, $atts['size'], false, $attr );
+
+				if ( '' !== $tablinertag ) {
+					$image_output .= "</{$tablinertag}>";
+				}
+
+				$image_output .= "</{$tabtag}>";
 			} elseif ( ! empty( $atts['link'] ) && 'none' === $atts['link'] ) {
 				$image_output = wp_get_attachment_image( $id, $atts['size'], false, $attr );
 			} else {
@@ -395,33 +682,41 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 				$orientation = ( $image_meta['height'] > $image_meta['width'] ) ? 'portrait' : 'landscape';
 			}
 
-			$output .= "<{$itemtag} class='gallery-item'>";
-			$output .= "
-				<{$icontag} class='gallery-icon {$orientation}'>
-					$image_output
-				</{$icontag}>";
+			if ( $itemtag && $useitemtag ) {
+				$output .= "<{$itemtag} class='gallery-item'>";
+			}
 
-			if ( $captiontag && trim( $attachment->post_excerpt ) ) {
+			if ( $icontag && $useicontag ) {
+				$output .= "<{$icontag} class='gallery-icon {$orientation}'>";
+			}
+
+			$output .= $image_output;
+
+			if ( $icontag && $useicontag ) {
+				$output .= "</{$icontag}>";
+			}
+
+			if ( $captiontag && $usecaptiontag && trim( $attachment->post_excerpt ) ) {
 				$output .= "
 					<{$captiontag} class='wp-caption-text gallery-caption' id='$selector-$id'>
 					" . wptexturize( $attachment->post_excerpt ) . "
 					</{$captiontag}>";
 			}
 
-			$output .= "</{$itemtag}>";
+			if ( $itemtag && $useitemtag ) {
+				$output .= "</{$itemtag}>";
+			}
 
 			if ( ! $html5 && $columns > 0 && 0 === ++$i % $columns ) {
 				$output .= '<br style="clear: both" />';
 			}
 		}
 
-		if ( ! $html5 && $columns > 0 && 0 !== $i % $columns ) {
-			$output .= "
-				<br style='clear: both' />";
-		}
+		$output .= '</div>';
 
-		$output .= "
-			</div>\n";
+		/**
+		 * END GALLERY DIV
+		 */
 
 		return $output;
 	}
@@ -445,7 +740,28 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 	public function filter_gallery_attributes( array $result, array $defaults, array $atts ) {
 
 		$result['columns'] = '3';
-		$result['link']    = 'file';
+		$result['link']    = 'none';
+
+		// additions:.
+		$result['tabclass']                  = '';
+		$result['tabtag']                    = 'button';
+		$result['tablinerclass']             = 'a';
+		$result['tablinertag']               = 'span';
+		$result['tablistclass']              = 'wpdtrt-gallery-gallery';
+		$result['tablistlabel']              = 'Choose photo to display';
+		$result['tabpanelclass']             = '';
+		$result['tabpanelcaptionclass']      = 'wpdtrt-gallery-viewer__footer';
+		$result['tabpanelcaptionlinerclass'] = 'wpdtrt-gallery-viewer__caption';
+		$result['tabpanelimageclass']        = 'wpdtrt-gallery-viewer__img-wrapper';
+		$result['tabpanelimagesize']         = 'wpdtrt-gallery-desktop';
+		$result['tabpanelitemclass']         = 'wpdtrt-gallery-viewer__liner';
+		$result['tabpanelsheaderclass']      = 'wpdtrt-gallery-viewer__header';
+		$result['tabpanelslinerclass']       = 'wpdtrt-gallery-viewer__wrapper';
+		$result['tabpanelswrapperclass']     = 'wpdtrt-gallery-viewer';
+		$result['usecaptiontag']             = 'false';
+		$result['useicontag']                = 'false';
+		$result['useitemtag']                = 'false';
+		$result['usetabspattern']            = 'true';
 
 		return $result;
 	}
@@ -666,22 +982,24 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 				$section_inner_html = str_replace( $heading_html, $new_heading_html, $section_inner_html );
 			}
 
-			// wrap gallery viewer shortcode and remaining content.
-			$section_html .= '<div class="entry-content">';
-			$section_html .= str_replace( '&nbsp;', ' ', $section_inner_html );
-			$section_html .= '</div>';
-
 			if ( isset( $gallery ) ) {
 				preg_match( '/\[gallery link="file" ids=/', $gallery->nodeValue, $gallery_matches );
 
 				if ( count( $gallery_matches ) > 0 ) {
-					// insert gallery shortcode after content.
-					$section_html .= '<div class="wpdtrt-gallery-gallery">';
-					$section_html .= '<h3 class="wpdtrt-gallery-gallery__header">Photos</h3>';
-					$section_html .= $gallery_shortcode;
-					$section_html .= '</div>';
+					// insert gallery shortcode before content.
+					// $section_html .= '<div class="wpdtrt-gallery">';
+					// $section_html .= '<h3 class="wpdtrt-gallery-gallery__header">Photos</h3>';
+					// .
+					$section_html .= $gallery_shortcode; // this is the raw shortcode.
+					// $section_html .= '</div>';
+					// .
 				}
 			}
+
+			// wrap remaining content.
+			$section_html .= '<div class="entry-content">';
+			$section_html .= str_replace( '&nbsp;', ' ', $section_inner_html );
+			$section_html .= '</div>';
 
 			// end section.
 			$section_html .= '</div>';
@@ -781,7 +1099,7 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 		}
 
 		if ( '' !== $atts['alt'] ) {
-			$atts['alt'] = 'View enlargement of ' . $atts['alt'];
+			$atts['alt'] = 'Photo N'; // TODO get order number somehow.
 		}
 
 		$atts['data-id'] = $id;
@@ -807,13 +1125,6 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 
 		if ( $rwgps_pageid ) {
 			$atts['data-rwgps-pageid'] = rawurlencode( $rwgps_pageid );
-		}
-
-		// Select onload.
-		$default = get_post_meta( $id, 'wpdtrt_gallery_attachment_default', true );
-
-		if ( '1' === $default ) {
-			$atts['data-initial'] = $default;
 		}
 
 		// Panorama.
@@ -891,5 +1202,39 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 			$panorama_height_collapsed,
 			$panorama_crop_collapsed
 		);
+	}
+
+	/**
+	 * Method: helper_sanitize_html_classes
+	 *
+	 * Escape multiple HTML classes.
+	 *
+	 * Parameters:
+	 *   $classes - Array|String, an array of classes or a string of them separated by a delimiter
+	 *   $sep - String, class separator
+	 *
+	 * Returns:
+	 *   $string - string
+	 *
+	 * See:
+	 * - <https://developer.wordpress.org/reference/functions/sanitize_html_class/#comment-2084>
+	 */
+	public function helper_sanitize_html_classes( $classes, $sep = ' ' ) : string {
+		$return = '';
+
+		if ( ! is_array( $classes ) ) {
+			$classes = explode( $sep, $classes );
+		}
+
+		if ( ! empty( $classes ) ) {
+			foreach ( $classes as $class ) {
+				$return .= sanitize_html_class( $class ) . ' ';
+			}
+		}
+
+		// remove trailing space.
+		$return = trim( $return );
+
+		return $return;
 	}
 }

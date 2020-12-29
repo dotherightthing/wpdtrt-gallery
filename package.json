@@ -27,6 +27,7 @@
     "url": "https://github.com/dotherightthing/wpdtrt-gallery/issues"
   },
   "dependencies": {
+    "accessible-components": "git+https://github.com/dotherightthing/accessible-components.git",
     "urijs": "^1.19.1"
   },
   "config": {

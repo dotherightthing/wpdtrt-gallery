@@ -7,6 +7,9 @@
 //   0.8.13 - DTRT WordPress Plugin Boilerplate Generator
 //
 
+@import 'node_modules/accessible-components/scss/accessible-components-variables';
+// @import 'node_modules/accessible-components/scss/tabbed-carousel';
+
 @import 'vendor/dotherightthing/wpdtrt-plugin-boilerplate/scss/variables';
 @import 'vendor/dotherightthing/wpdtrt-plugin-boilerplate/scss/extends';
 @import 'variables/scss';
@@ -54,6 +57,10 @@
 // background bleeds to area where the inset would be
 // via a border.
 // -------------------------------------------------------------------
+
+[hidden] {
+    display: none;
+}
 
 .wpdtrt-gallery-viewer {
     $block: &;
@@ -413,10 +420,11 @@
 
     // Thumbnail icons
 
-    .gallery {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: nowrap;
+    &.gallery {
+        display: inline-block;
+        // align-items: flex-start;
+        // flex-direction: row;
+        // flex-wrap: nowrap;
         margin: 0 0 2em;
         overflow-x: auto; // nowrap scroll
 
@@ -431,18 +439,25 @@
     .gallery-item {
         position: relative;
         width: calc(25% - 6px);
-        flex-grow: 0;
-        flex-shrink: 0;
+        // flex-grow: 0;
+        // flex-shrink: 0;
         background-color: var(--wpdtrt-gallery-bg-color-loading);
-        margin-right: 6px;
+        padding: 0 !important; // override wpdtrt-dbth
+        border: 0;
 
         @for $i from 1 through 9 {
-            @at-root .wpdtrt-gallery-gallery .gallery-columns-#{$i} .gallery-item {
+            @at-root .wpdtrt-gallery-gallery.gallery-columns-#{$i} .gallery-item {
                 width: calc(#{(100 / $i) * 1%} - 6px); // $i columns
             }
         }
 
-        a {
+        &,
+        &:hover {
+            margin-right: 6px;
+        }
+
+        a,
+        .a {
             display: block; // better transition over state
             position: relative; // AP for hover border
             box-shadow: 0 0 0 0 currentColor;
@@ -469,7 +484,9 @@
                 padding-right: .3em;
                 border: var(--wpdtrt-gallery-viewer-inset) solid transparent;
             }
+        }
 
+        a {
             &:hover,
             &:focus,
             &[aria-expanded='true'] {
@@ -537,6 +554,34 @@
             }
         }
 
+        .a {
+            @at-root .wpdtrt-gallery-gallery .gallery-item :hover .a {
+                &::before {
+                    // unselected icon overstate
+                    color: var(--wpdtrt-gallery-thumbnail-icon-shadow-color);
+                    text-shadow: -1px -1px 0 var(--wpdtrt-gallery-thumbnail-icon-color),
+                        1px -1px 0 var(--wpdtrt-gallery-thumbnail-icon-color),
+                        -1px 1px 0 var(--wpdtrt-gallery-thumbnail-icon-color),
+                        1px 1px 0 var(--wpdtrt-gallery-thumbnail-icon-color);
+                    // selected icon overstate // ?
+                    border-color: transparent;
+                }
+            }
+
+            @at-root .wpdtrt-gallery-gallery .gallery-item :focus .a {
+                &::before {
+                    // unselected icon overstate
+                    color: var(--wpdtrt-gallery-thumbnail-icon-shadow-color);
+                    text-shadow: -1px -1px 0 var(--wpdtrt-gallery-thumbnail-icon-color),
+                        1px -1px 0 var(--wpdtrt-gallery-thumbnail-icon-color),
+                        -1px 1px 0 var(--wpdtrt-gallery-thumbnail-icon-color),
+                        1px 1px 0 var(--wpdtrt-gallery-thumbnail-icon-color);
+                    // selected icon overstate // ?
+                    border-color: transparent;
+                }
+            }
+        }
+
         .gallery-caption {
             // user can enlarge image or link to media page to read caption
             display: none;
@@ -561,7 +606,7 @@
         .gallery-item {
 
             @for $i from 1 through 9 {
-                @at-root .wpdtrt-gallery-gallery .gallery-columns-#{$i} .gallery-item {
+                @at-root .wpdtrt-gallery-gallery.gallery-columns-#{$i} .gallery-item {
                     max-width: 25%; // 4 columns
                 }
             }
@@ -573,7 +618,7 @@
         .gallery-item {
 
             @for $i from 1 through 9 {
-                @at-root .wpdtrt-gallery-gallery .gallery-columns-#{$i} .gallery-item {
+                @at-root .wpdtrt-gallery-gallery.gallery-columns-#{$i} .gallery-item {
                     max-width: 20%; // 5 columns
                 }
             }
@@ -582,17 +627,20 @@
 
     @include media('>=laptop') {
 
-        .gallery {
+        &.gallery {
             max-width: none;
             flex-wrap: wrap;
             overflow-x: visible;
         }
 
         .gallery-item {
-            margin-bottom: 6px;
+            &,
+            &:hover {
+                margin-bottom: 6px;
+            }
 
             @for $i from 1 through 9 {
-                @at-root .wpdtrt-gallery-gallery .gallery-columns-#{$i} .gallery-item {
+                @at-root .wpdtrt-gallery-gallery.gallery-columns-#{$i} .gallery-item {
                     max-width: 100%; // 1 column
                 }
             }
@@ -622,7 +670,7 @@
             }
 
             @for $i from 1 through 9 {
-                @at-root .wpdtrt-gallery-gallery .gallery-columns-#{$i} .gallery-item {
+                @at-root .wpdtrt-gallery-gallery.gallery-columns-#{$i} .gallery-item {
                     max-width: 50%; // 2 columns
                 }
             }

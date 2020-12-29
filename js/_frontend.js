@@ -5,7 +5,7 @@
  * @requires DTRT WordPress Plugin Boilerplate Generator 0.8.13
  */
 
-/* global jQuery */
+/* globals jQuery, TabbedCarousel */
 /* eslint-disable func-names, camelcase */
 
 /**
@@ -302,7 +302,7 @@ const wpdtrtGalleryUi = {
 
             // update the hidden button text
             $expandButtonText
-                .text('Show cropped image');
+                .text('Collapse');
 
             if (!triggered) {
                 wpdtrtGalleryUi.galleryViewerScrollToElement($, $viewer, 100, 150);
@@ -319,7 +319,7 @@ const wpdtrtGalleryUi = {
                 .attr('aria-expanded', false);
 
             // update the hidden button text
-            $expandButtonText.text('Show uncropped image');
+            $expandButtonText.text('Expand');
 
             if (!triggered) {
                 wpdtrtGalleryUi.galleryViewerScrollToElement($, $viewer, 100, 150);
@@ -783,7 +783,7 @@ const wpdtrtGalleryUi = {
             });
 
         $stackLinkViewer.find('.wpdtrt-gallery-viewer__header')
-            .append(`<button id='${sectionId}-viewer-expand' class='wpdtrt-gallery-viewer__expand' aria-expanded='false' aria-controls='${viewerId}'><span class='says'>Show uncropped image</span></button>`);
+            .append(`<button id='${sectionId}-viewer-expand' class='wpdtrt-gallery-viewer__expand' aria-expanded='false' aria-controls='${viewerId}'><span class='says'>Expand</span></button>`);
 
         const $expandButton = $(`#${sectionId}-viewer-expand`);
 
@@ -838,19 +838,6 @@ const wpdtrtGalleryUi = {
                 .galleryViewerCaptionUpdate($, $viewer, $galleryItemLink);
         });
 
-        const $galleryThumbnailInitial = $sectionGalleryThumbnails.filter('[data-initial]');
-
-        if ($galleryThumbnailInitial.length) {
-            // this is the item assigned the 'initial' class in the media library 'Gallery Link Additional CSS Classes' field
-            // if there is more than one, select the first
-            $galleryThumbnailInitial.parents('a').eq(0)
-                .click();
-        } else {
-            // automatically select the first gallery item to load its large image
-            $sectionGalleryItemLinks.eq(0)
-                .click();
-        }
-
         $stackWrapper
             .removeAttr('data-loading');
 
@@ -871,4 +858,14 @@ const wpdtrtGalleryUi = {
 jQuery(document).ready(() => {
     const config = wpdtrt_gallery_config; // eslint-disable-line
     console.log('wpdtrtGalleryUi.init'); // eslint-disable-line no-console
+
+    document.querySelectorAll('.wpdtrt-gallery__section').forEach((tabbedCarousel) => {
+        const tabbedCarouselInstance = new TabbedCarousel({
+            initialSelection: '1', // tabbedCarousel.getAttribute('data-initial-selection'),
+            instanceElement: tabbedCarousel,
+            selectionFollowsFocus: false
+        });
+
+        tabbedCarouselInstance.init();
+    });
 });
