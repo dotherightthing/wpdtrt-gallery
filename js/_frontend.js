@@ -755,7 +755,7 @@ const wpdtrtGalleryUi = {
         const $stackLinkViewer = $section.find('.wpdtrt-gallery-viewer');
         const $stackWrapper2 = $stackLinkViewer.find('.wpdtrt-gallery-viewer__wrapper');
         const $stackWrapper = $stackLinkViewer.find('.wpdtrt-gallery-viewer__liner');
-        const $sectionGalleryThumbnails = $sectionGallery.find('img');
+        // const $sectionGalleryThumbnails = $sectionGallery.find('img');
         const $sectionGalleryItemLinks = $sectionGallery.find('a');
 
         // ?
