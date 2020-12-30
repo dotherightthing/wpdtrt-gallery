@@ -250,9 +250,6 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 				'tabpanelsheaderclass'      => '',
 				'tabpanelslinerclass'       => '',
 				'tabpanelswrapperclass'     => '',
-				'usecaptiontag'             => 'true',
-				'useicontag'                => 'true',
-				'useitemtag'                => 'true',
 				'usetabspattern'            => 'false',
 			),
 			$attr,
@@ -394,11 +391,6 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 		// tab liner - child of tab.
 		$tablinerclass = $this->helper_sanitize_html_classes( $atts['tablinerclass'] );
 		$tablinertag   = tag_escape( $atts['tablinertag'] );
-
-		// gallery - output booleans.
-		$usecaptiontag = filter_var( $atts['usecaptiontag'], FILTER_VALIDATE_BOOLEAN );
-		$useicontag    = filter_var( $atts['useicontag'], FILTER_VALIDATE_BOOLEAN );
-		$useitemtag    = filter_var( $atts['useitemtag'], FILTER_VALIDATE_BOOLEAN );
 
 		$selector = "gallery-{$instance}";
 
@@ -630,11 +622,11 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 
 			++$count;
 
-			$attr = ( $usecaptiontag && trim( $attachment->post_excerpt ) ) ? array( 'aria-describedby' => "$selector-$id" ) : '';
+			$attr = ( trim( $attachment->post_excerpt ) && ! $usetabspattern ) ? array( 'aria-describedby' => "$selector-$id" ) : '';
 
 			if ( ! empty( $atts['link'] ) && 'file' === $atts['link'] ) {
 				$image_output = wp_get_attachment_link( $id, $atts['size'], false, false, false, $attr );
-			} elseif ( $usetabspattern && ! empty( $atts['link'] ) && 'none' === $atts['link'] ) {
+			} elseif ( ! empty( $atts['link'] ) && 'none' === $atts['link'] && $usetabspattern ) {
 				$tab_attrs  = " role='tab'";
 				$tab_attrs .= " class='gallery-item {$tabclass}'";
 				$tab_attrs .= " aria-controls='galleryid-{$id}-tabpanel-{$count}'";
@@ -682,28 +674,28 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 				$orientation = ( $image_meta['height'] > $image_meta['width'] ) ? 'portrait' : 'landscape';
 			}
 
-			if ( $itemtag && $useitemtag ) {
+			if ( $itemtag && ! $usetabspattern ) {
 				$output .= "<{$itemtag} class='gallery-item'>";
 			}
 
-			if ( $icontag && $useicontag ) {
+			if ( $icontag && ! $usetabspattern ) {
 				$output .= "<{$icontag} class='gallery-icon {$orientation}'>";
 			}
 
 			$output .= $image_output;
 
-			if ( $icontag && $useicontag ) {
+			if ( $icontag && ! $usetabspattern ) {
 				$output .= "</{$icontag}>";
 			}
 
-			if ( $captiontag && $usecaptiontag && trim( $attachment->post_excerpt ) ) {
+			if ( $captiontag && trim( $attachment->post_excerpt ) && ! $usetabspattern ) {
 				$output .= "
 					<{$captiontag} class='wp-caption-text gallery-caption' id='$selector-$id'>
 					" . wptexturize( $attachment->post_excerpt ) . "
 					</{$captiontag}>";
 			}
 
-			if ( $itemtag && $useitemtag ) {
+			if ( $itemtag && ! $usetabspattern ) {
 				$output .= "</{$itemtag}>";
 			}
 
@@ -758,9 +750,6 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 		$result['tabpanelsheaderclass']      = 'wpdtrt-gallery-viewer__header';
 		$result['tabpanelslinerclass']       = 'wpdtrt-gallery-viewer__wrapper';
 		$result['tabpanelswrapperclass']     = 'wpdtrt-gallery-viewer';
-		$result['usecaptiontag']             = 'false';
-		$result['useicontag']                = 'false';
-		$result['useitemtag']                = 'false';
 		$result['usetabspattern']            = 'true';
 
 		return $result;
