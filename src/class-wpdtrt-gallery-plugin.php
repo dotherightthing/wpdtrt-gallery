@@ -247,8 +247,14 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 				'tabpanelimagetag'          => $html5 ? 'div' : 'dt',
 				'tabpanelitemclass'         => '',
 				'tabpanelitemtag'           => $html5 ? 'figure' : 'dl',
-				'tabpanelsheaderclass'      => '',
 				'tabpanelslinerclass'       => '',
+				'tabpanelstitle'            => '',
+				'tabpanelstitleclass'       => '',
+				'tabpanelstitletag'         => 'h2',
+				'tabpanelstitleanchorclass' => '',
+				'tabpanelstitleanchorhref' => '',
+				'tabpanelstitleanchoriconclass' => '',
+				'tabpanelstitleanchoriconlabel' => '',
 				'tabpanelswrapperclass'     => '',
 				'usetabspattern'            => 'false',
 			),
@@ -344,8 +350,16 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 		// tabpanels wrapper - wraps all tabpanel items.
 		$tabpanelswrapperclass = $this->helper_sanitize_html_classes( $atts['tabpanelswrapperclass'] );
 
-		// tabpanels header - child of tabpanels wrapper.
-		$tabpanelsheaderclass = $this->helper_sanitize_html_classes( $atts['tabpanelsheaderclass'] );
+		// tabpanels title - child of tabpanels wrapper.
+		$tabpanelstitle      = esc_html( $atts['tabpanelstitle'] );
+		$tabpanelstitleclass = $this->helper_sanitize_html_classes( $atts['tabpanelstitleclass'] );
+		$tabpanelstitletag   = tag_escape( $atts['tabpanelstitletag'] );
+
+		// anchor is injected by wpdtrt-anchorlinks.
+		$tabpanelstitleanchorclass = $this->helper_sanitize_html_classes( $atts['tabpanelstitleanchorclass'] );
+		$tabpanelstitleanchorhref  = esc_url_raw( $atts['tabpanelstitleanchorhref'] );
+		$tabpanelstitleanchoriconclass = $this->helper_sanitize_html_classes( $atts['tabpanelstitleanchoriconclass'] );
+		$tabpanelstitleanchoriconlabel = esc_html( $atts['tabpanelstitleanchoriconlabel'] );
 
 		// tabpanels liner - child of tabpanels wrapper.
 		$tabpanelslinerclass = $this->helper_sanitize_html_classes( $atts['tabpanelslinerclass'] );
@@ -440,7 +454,7 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 
 			$tabpanelswrapper_attrs = '';
 			$tabpanelsliner_attrs   = '';
-			$tabpanelsheader_attrs  = '';
+			$tabpanelstitle_attrs  = '';
 
 			if ( '' !== $tabpanelswrapperclass ) {
 				$tabpanelswrapper_attrs .= " class='{$tabpanelswrapperclass}'";
@@ -455,17 +469,26 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 			 * START TABPANEL LINER
 			 */
 
-			if ( '' !== $tabpanelsheaderclass ) {
-				$tabpanelsheader_attrs .= " class='{$tabpanelsheaderclass}'";
+			if ( '' !== $tabpanelstitleclass ) {
+				$tabpanelstitle_attrs .= " class='{$tabpanelstitleclass}'";
 			}
+
+			$output .= "<div{$tabpanelstitle_attrs}>";
+			$output .= "<{$tabpanelstitletag}>";
+			$output .= $tabpanelstitle;
+
+			if ( ( '' !== $tabpanelstitleanchorclass ) && ( '' !== $tabpanelstitleanchorhref ) && ( '' !== $tabpanelstitleanchoriconlabel ) && ( '' !== $tabpanelstitleanchoriconclass ) ) {
+				$output .= "<a class='{$tabpanelstitleanchorclass}' href='{$tabpanelstitleanchorhref}'>";
+				$output .= "<span aria-label='{$tabpanelstitleanchoriconlabel}' class='{$tabpanelstitleanchoriconclass}'>#</span>";
+				$output .= '</a>';
+			}
+
+			$output .= "</{$tabpanelstitletag}>";
+			$output .= '</div>';
 
 			if ( '' !== $tabpanelslinerclass ) {
 				$tabpanelsliner_attrs .= " class='{$tabpanelslinerclass}'";
 			}
-
-			$output .= "<div{$tabpanelsheader_attrs}>";
-			$output .= '<h2>TITLE</h2>';
-			$output .= '</div>';
 
 			$output .= "<div{$tabpanelsliner_attrs}>";
 
@@ -586,7 +609,7 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 		 */
 
 		/**
-		 * START GALLERY DIV
+		 * START TABLIST
 		 */
 
 		$gallery_div = "<div id='$selector' class='gallery galleryid-{$id} gallery-columns-{$columns} gallery-size-{$size_class}'>";
@@ -707,7 +730,7 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 		$output .= '</div>';
 
 		/**
-		 * END GALLERY DIV
+		 * END TABLIST
 		 */
 
 		return $output;
@@ -747,8 +770,8 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 		$result['tabpanelimageclass']        = 'wpdtrt-gallery-viewer__img-wrapper';
 		$result['tabpanelimagesize']         = 'wpdtrt-gallery-desktop';
 		$result['tabpanelitemclass']         = 'wpdtrt-gallery-viewer__liner';
-		$result['tabpanelsheaderclass']      = 'wpdtrt-gallery-viewer__header';
 		$result['tabpanelslinerclass']       = 'wpdtrt-gallery-viewer__wrapper';
+		$result['tabpanelstitleclass']       = 'wpdtrt-gallery-viewer__header';
 		$result['tabpanelswrapperclass']     = 'wpdtrt-gallery-viewer';
 		$result['usetabspattern']            = 'true';
 
@@ -897,7 +920,12 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 		foreach ( $sections as $section ) {
 			$gallery            = null;
 			$gallery_shortcode  = '';
+			$heading_anchor_class = '';
+			$heading_anchor_href = '';
+			$heading_anchor_icon_class = '';
+			$heading_anchor_icon_label = '';
 			$heading_html       = '';
+			$heading_text       = '';
 			$section_class      = 'wpdtrt-gallery__section';
 			$section_html       = '';
 			$section_id         = '';
@@ -936,6 +964,21 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 					}
 
 					$heading_html     = $this->render_html( $heading, true );
+					$heading_text     = $this->render_html( $heading, false );
+					$heading_text     = explode( '<', $heading_text )[0];
+					$heading_anchor   = $heading->getElementsByTagName( 'a' );
+
+					if ( $heading_anchor->length > 0 ) {
+						$heading_anchor_class = $heading_anchor[0]->getAttribute( 'class' );
+						$heading_anchor_href  = $heading_anchor[0]->getAttribute( 'href' );
+						$heading_anchor_icon  = $heading_anchor[0]->getElementsByTagName( 'span' );
+
+						if ( $heading_anchor_icon->length > 0 ) {
+							$heading_anchor_icon_class = $heading_anchor_icon[0]->getAttribute( 'class' );
+							$heading_anchor_icon_label = $heading_anchor_icon[0]->getAttribute( 'aria-label' );
+						}
+					}
+
 					$new_heading_html = '[wpdtrt_gallery_shortcode_heading]' . $heading_html . '[/wpdtrt_gallery_shortcode_heading]';
 					$section_class    = $section->getAttribute( 'class' ) . ' wpdtrt-gallery__section';
 					$section_id       = $section->getAttribute( 'id' );
@@ -979,6 +1022,35 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 					// $section_html .= '<div class="wpdtrt-gallery">';
 					// $section_html .= '<h3 class="wpdtrt-gallery-gallery__header">Photos</h3>';
 					// .
+					$gallery_shortcode_atts  = '';
+
+					if ( '' !== $heading_text ) {
+						$gallery_shortcode_atts .= " tabpanelstitle='{$heading_text}'";
+					}
+
+					if ( '' !== $heading_anchor_class ) {
+						$gallery_shortcode_atts .= " tabpanelstitleanchorclass='{$heading_anchor_class}'";
+					}
+
+					if ( '' !== $heading_anchor_href ) {
+						$gallery_shortcode_atts .= " tabpanelstitleanchorhref='{$heading_anchor_href}'";
+					}
+
+					if ( '' !== $heading_anchor_icon_class ) {
+						$gallery_shortcode_atts .= " tabpanelstitleanchoriconclass='{$heading_anchor_icon_class}'";
+					}
+
+					if ( '' !== $heading_anchor_icon_label ) {
+						$gallery_shortcode_atts .= " tabpanelstitleanchoriconlabel='{$heading_anchor_icon_label}'";
+					}
+
+					global $debug;
+					$debug->log( $gallery_shortcode_atts );
+
+					// add attributes to shortcode.
+					$gallery_shortcode = str_replace( ']', $gallery_shortcode_atts . ']', $gallery_shortcode );
+
+
 					$section_html .= $gallery_shortcode; // this is the raw shortcode.
 					// $section_html .= '</div>';
 					// .
