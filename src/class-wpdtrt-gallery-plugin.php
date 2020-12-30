@@ -979,7 +979,6 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 						}
 					}
 
-					$new_heading_html = '[wpdtrt_gallery_shortcode_heading]' . $heading_html . '[/wpdtrt_gallery_shortcode_heading]';
 					$section_class    = $section->getAttribute( 'class' ) . ' wpdtrt-gallery__section';
 					$section_id       = $section->getAttribute( 'id' );
 					$section_tabindex = $section->getAttribute( 'tabindex' );
@@ -999,26 +998,18 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 
 			$section_html .= '>';
 
-			if ( ! is_null( $gallery ) ) {
+			if ( isset( $gallery ) ) {
 				$gallery_shortcode = $this->render_html( $gallery, true );
 
 				if ( strlen( $gallery_shortcode ) > 0 ) {
 					$section_inner_html = str_replace( $gallery_shortcode, '', $section_inner_html );
 				}
-			}
 
-			// wrap heading in gallery viewer shortcode.
-			if ( strlen( $heading_html ) > 0 ) {
-				// headings are wrapped regardless of whether they precede galleries
-				// to apply the gallery heading styling.
-				$section_inner_html = str_replace( $heading_html, $new_heading_html, $section_inner_html );
-			}
-
-			if ( isset( $gallery ) ) {
 				preg_match( '/\[gallery link="file" ids=/', $gallery->nodeValue, $gallery_matches );
 
 				if ( count( $gallery_matches ) > 0 ) {
 					// insert gallery shortcode before content.
+					//
 					// $section_html .= '<h3 class="wpdtrt-gallery-gallery__header">Photos</h3>';.
 					$gallery_shortcode_atts = '';
 
@@ -1042,11 +1033,21 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 						$gallery_shortcode_atts .= " tabpanelstitleanchoriconlabel='{$heading_anchor_icon_label}'";
 					}
 
-					// add attributes to shortcode.
+					// add dynamic attributes to shortcode.
 					$gallery_shortcode = str_replace( ']', $gallery_shortcode_atts . ']', $gallery_shortcode );
 
 					$section_html .= $gallery_shortcode; // this is the raw shortcode.
+
+					// remove the old heading as it now appears in the gallery tabpanels area.
+					$section_inner_html = str_replace( $heading_html, '', $section_inner_html );
 				}
+			} elseif ( strlen( $heading_html ) > 0 ) {
+				// if there's no gallery, wrap heading in gallery heading shortcode.
+				// headings are wrapped regardless of whether they precede galleries
+				// to apply the gallery heading styling.
+				$new_heading_html = '[wpdtrt_gallery_shortcode_heading]' . $heading_html . '[/wpdtrt_gallery_shortcode_heading]';
+
+				$section_inner_html = str_replace( $heading_html, $new_heading_html, $section_inner_html );
 			}
 
 			// wrap remaining content.
