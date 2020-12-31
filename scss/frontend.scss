@@ -62,6 +62,143 @@
     display: none;
 }
 
+.wpdtrt-gallery {
+    $block: &;
+
+    display: contents;
+
+    &__header {
+        position: relative; // AP
+        margin-right: 72px; // space for expand button in collapsed state
+
+        > * {
+            display: inline-block;
+            background-color: var(--wpdtrt-gallery-bg-color); // var(--wpdtrt-gallery-border-color);
+            color: var(--wpdtrt-gallery-text-color);
+            padding: var(--wpdtrt-gallery-viewer-inset-header);
+            border: var(--wpdtrt-gallery-viewer-inset) solid var(--wpdtrt-gallery-border-color);
+            margin-bottom: 0;
+        }
+    }
+
+    // -------------------------------------------------------------------
+    // sections without galleries
+    // the gallery viewer is in the template, but not all sections have galleries
+    // -------------------------------------------------------------------
+
+    // &[data-enabled='false'] {
+    //     .wpdtrt-gallery-viewer__liner {
+    //         // the gallery viewer is in the template,
+    //         // but not all sections have galleries
+    //         .no-js & {
+    //             display: none;
+    //         }
+    //     }
+    // }
+
+    // -------------------------------------------------------------------
+    // viewer is enabled + expanded
+    // -------------------------------------------------------------------
+
+    &[data-enabled='true'][data-expanded='true'] {
+        .wpdtrt-gallery-viewer {
+            &__expand {
+                top: auto;
+                bottom: 0;
+
+                line-height: 0;
+
+                &::after {
+                    content: '-';
+                }
+            }
+        }
+    }
+
+    @include media('<tablet') {
+        #{$block}__header {
+            > * {
+                // fit more text in before it wraps
+                font-size: 1.2em;
+            }
+        }
+    }
+
+    @include media('>=tablet') {
+        // -------------------------------------------------------------------
+        // viewer is enabled + collapsed
+        //
+        // heading and caption sit inside image area
+        // both text elements must be AP
+        // so that the inline invisible image
+        // can dictate the height that it needs to display fully
+        // and be available for ALT inspection
+        // -------------------------------------------------------------------
+
+        &[data-enabled='true'][data-expanded='false'] {
+            &:focus {
+                .wpdtrt-gallery-viewer {
+                    &__footer {
+                        z-index: 1;
+                    }
+                }
+            }
+
+            #{$block}__header > * {
+                // position: absolute;
+                // top: 0;
+                z-index: 2; // stack on top of sticky nav so that text can be selected
+                border: 0;
+                margin: var(--wpdtrt-gallery-viewer-inset);
+
+                .attachment & {
+                    padding-right: 0;
+                }
+            }
+
+            .wpdtrt-gallery-viewer {
+                &__caption,
+                &__expand {
+                    border: 0;
+                    margin: var(--wpdtrt-gallery-viewer-inset);
+                }
+
+                &__footer {
+                    position: absolute;
+                    right: 0;
+                    bottom: 0;
+                    left: 0;
+                }
+
+                &__liner {
+                    // override inline styles, remove bgcolor so that caption is not fw
+                    background: none !important; // stylelint-disable-line declaration-no-important
+                }
+            }
+        }
+    }
+
+    @include media('>=laptop') {
+        // -------------------------------------------------------------------
+        // viewer is enabled + collapsed
+        //
+        // heading and caption sit inside image area
+        // both text elements must be AP
+        // so that the inline invisible image
+        // can dictate the height that it needs to display fully
+        // and be available for ALT inspection
+        // -------------------------------------------------------------------
+
+        &[data-enabled='true'][data-expanded='false'] {
+
+            #{$block}__header > * {
+                position: absolute;
+                top: 0;
+            }
+        }
+    }
+}
+
 .wpdtrt-gallery-viewer {
     $block: &;
 
@@ -72,21 +209,21 @@
         outline: 0;
     }
 
+    &__expand-wrapper {
+        position: relative;
+    }
+
     &__caption,
-    &__expand,
-    &__header > * {
+    &__expand {
         background-color: var(--wpdtrt-gallery-bg-color); // var(--wpdtrt-gallery-border-color);
         color: var(--wpdtrt-gallery-text-color);
         padding: var(--wpdtrt-gallery-viewer-inset-header);
         border: var(--wpdtrt-gallery-viewer-inset) solid var(--wpdtrt-gallery-border-color);
     }
 
-    &__caption,
-    &__header > * {
-        display: inline-block;
-    }
-
     &__caption {
+        display: inline-block;
+
         &:empty {
             display: none;
         }
@@ -113,8 +250,9 @@
     &__expand {
         opacity: 1;
         position: absolute;
+        top: 0;
         right: 0;
-        bottom: 0;
+        z-index: 1;
         width: 56px;
         height: 56px;
         line-height: (56px - 4px - 4px);
@@ -147,19 +285,14 @@
                 -1px 1px 0 var(--wpdtrt-gallery-border-color-alt),
                 1px 1px 0 var(--wpdtrt-gallery-border-color-alt);
         }
+
+        &[disabled] {
+            opacity: .7;
+        }
     }
 
     &__footer {
         text-align: right;
-    }
-
-    &__header {
-        position: relative; // AP
-        padding-right: 72px; // space for expand button in collapsed state
-
-        > * {
-            margin-bottom: 0;
-        }
     }
 
     &__icon-embed {
@@ -198,6 +331,11 @@
             outline-offset: var(--wpdtrt-gallery-viewer-inset-inverse);
         }
 
+        @at-root .wpdtrt-gallery-viewer:focus-within & {
+            outline: var(--wpdtrt-gallery-viewer-inset) solid var(--wpdtrt-gallery-border-color-focus);
+            outline-offset: var(--wpdtrt-gallery-viewer-inset-inverse);
+        }
+
         > img {
             width: 100%;
 
@@ -230,92 +368,65 @@
     //     }
     // }
 
-    // -------------------------------------------------------------------
-    // sections without galleries
-    // the gallery viewer is in the template, but not all sections have galleries
-    // -------------------------------------------------------------------
+    &__tabpanel {
+        // -------------------------------------------------------------------
+        // tabpanel image is a horizontal panorama
+        // -------------------------------------------------------------------
 
-    &[data-enabled='false'] {
-        #{$block}__liner {
-            // the gallery viewer is in the template,
-            // but not all sections have galleries
-            .no-js & {
-                display: none;
-            }
-        }
-    }
+        &[data-panorama] {
+            #{$block}__liner {
+                &::before {
+                    @extend #{$block}__icon-image-type;
+                    content: '\e90a';
+                }
 
-    // -------------------------------------------------------------------
-    // viewer is enabled + expanded
-    // -------------------------------------------------------------------
-
-    &[data-enabled='true'][data-expanded='true'] {
-        #{$block}__expand {
-            line-height: 0;
-
-            &::after {
-                content: '-';
-            }
-        }
-    }
-
-    // -------------------------------------------------------------------
-    // gallery image is a horizontal panorama
-    // -------------------------------------------------------------------
-
-    &[data-panorama] {
-        #{$block}__liner {
-            &::before {
-                @extend #{$block}__icon-image-type;
-                content: '\e90a';
+                .js & {
+                    // stylelint-disable-next-line declaration-no-important
+                    background: none !important; // prevent conflict with JS scroll
+                }
             }
 
-            .js & {
-                // stylelint-disable-next-line declaration-no-important
-                background: none !important; // prevent conflict with JS scroll
-            }
-        }
-
-        #{$block}__img-wrapper {
-            max-width: none;
-            overflow-x: auto; // scroll if window too narrow show entire panorama
-
-            > img {
-                width: auto;
-                min-width: 100%;
+            #{$block}__img-wrapper {
                 max-width: none;
+                overflow-x: auto; // scroll if window too narrow show entire panorama
+
+                > img {
+                    width: auto;
+                    min-width: 100%;
+                    max-width: none;
+                }
             }
         }
-    }
 
-    // -------------------------------------------------------------------
-    // Display media icon behind iframe embeds to mitigate delayed load
-    // -------------------------------------------------------------------
+        // -------------------------------------------------------------------
+        // Display media icon behind iframe embeds to mitigate delayed load
+        // -------------------------------------------------------------------
 
-    &[data-soundcloud-pageid] {
-        #{$block}__liner {
-            &::before {
-                @extend #{$block}__icon-embed;
-                content: '\e90c';
-            }
+        &[data-soundcloud-pageid] {
+            #{$block}__liner {
+                &::before {
+                    @extend #{$block}__icon-embed;
+                    content: '\e90c';
+                }
 
-            #{$block}__embed {
-                @extend %wpdtrt-plugin-boilerplate--embedresponsively;
-                background-color: var(--wpdtrt-gallery-bg-color-embed);
+                #{$block}__embed {
+                    @extend %wpdtrt-plugin-boilerplate--embedresponsively;
+                    background-color: var(--wpdtrt-gallery-bg-color-embed);
+                }
             }
         }
-    }
 
-    &[data-vimeo-pageid] {
-        #{$block}__liner {
-            &::before {
-                @extend #{$block}__icon-embed;
-                content: '\e90b';
-            }
+        &[data-vimeo-pageid] {
+            #{$block}__liner {
+                &::before {
+                    @extend #{$block}__icon-embed;
+                    content: '\e90b';
+                }
 
-            #{$block}__embed {
-                @extend %wpdtrt-plugin-boilerplate--embedresponsively;
-                background-color: var(--wpdtrt-gallery-bg-color-embed);
+                #{$block}__embed {
+                    @extend %wpdtrt-plugin-boilerplate--embedresponsively;
+                    background-color: var(--wpdtrt-gallery-bg-color-embed);
+                }
             }
         }
     }
@@ -328,13 +439,6 @@
         &__expand {
             &::after {
                 font-size: 1.5em;
-            }
-        }
-
-        &__header {
-            > * {
-                // fit more text in before it wraps
-                font-size: 1.2em;
             }
         }
     }
@@ -353,86 +457,25 @@
                 min-height: 0; // loading height
             }
         }
-
-        // -------------------------------------------------------------------
-        // viewer is enabled + collapsed
-        //
-        // heading and caption sit inside image area
-        // both text elements must be AP
-        // so that the inline invisible image
-        // can dictate the height that it needs to display fully
-        // and be available for ALT inspection
-        // -------------------------------------------------------------------
-
-        &[data-enabled='true'][data-expanded='false'] {
-            &:focus {
-                #{$block}__footer {
-                    z-index: 1;
-                }
-            }
-
-            #{$block}__caption,
-            #{$block}__expand,
-            #{$block}__header > * {
-                border: 0;
-                margin: var(--wpdtrt-gallery-viewer-inset);
-            }
-
-            #{$block}__expand,
-            #{$block}__footer,
-            #{$block}__header {
-                position: absolute;
-                right: 0;
-            }
-
-            #{$block}__expand {
-                top: 0;
-            }
-
-            #{$block}__footer,
-            #{$block}__header {
-                left: 0;
-            }
-
-            #{$block}__footer {
-                bottom: 0;
-            }
-
-            #{$block}__header {
-                top: 0;
-                z-index: 2; // stack on top of sticky nav so that text can be selected
-
-                .attachment & {
-                    padding-right: 0;
-                }
-            }
-
-            #{$block}__liner {
-                // override inline styles, remove bgcolor so that caption is not fw
-                background: none !important; // stylelint-disable-line declaration-no-important
-            }
-        }
     }
 }
 
 .wpdtrt-gallery-gallery {
+    display: flex;
     position: relative; // stack on top of sticky nav
+    // align-items: flex-start;
+    // flex-direction: row;
+    // flex-wrap: nowrap;
 
-    // Thumbnail icons
+    justify-content: space-between;
 
-    &.gallery {
-        display: inline-block;
-        // align-items: flex-start;
-        // flex-direction: row;
-        // flex-wrap: nowrap;
-        margin: 0 0 2em;
-        overflow-x: auto; // nowrap scroll
+    margin-bottom: 8px;
+    overflow-x: auto; // nowrap scroll
 
-        .js {
-            &[style] {
-                // stylelint-disable-next-line declaration-no-important
-                margin-top: 0 !important;
-            }
+    .js {
+        &[style] {
+            // stylelint-disable-next-line declaration-no-important
+            margin-top: 0 !important;
         }
     }
 
@@ -442,7 +485,7 @@
         // flex-grow: 0;
         // flex-shrink: 0;
         background-color: var(--wpdtrt-gallery-bg-color-loading);
-        padding: 0 !important; // override wpdtrt-dbth
+        padding: 0 !important; /* stylelint-disable-line declaration-no-important */
         border: 0;
 
         @for $i from 1 through 9 {
@@ -451,12 +494,6 @@
             }
         }
 
-        &,
-        &:hover {
-            margin-right: 6px;
-        }
-
-        a,
         .a {
             display: block; // better transition over state
             position: relative; // AP for hover border
@@ -486,114 +523,107 @@
             }
         }
 
-        a {
-            &:hover,
-            &:focus,
+        &,
+        &:hover {
+            margin-right: 6px;
+        }
+
+        &:hover,
+        &:focus,
+        &[aria-selected='true'] {
+            .a::before {
+                // unselected icon overstate
+                color: var(--wpdtrt-gallery-thumbnail-icon-shadow-color);
+                text-shadow: -1px -1px 0 var(--wpdtrt-gallery-thumbnail-icon-color),
+                    1px -1px 0 var(--wpdtrt-gallery-thumbnail-icon-color),
+                    -1px 1px 0 var(--wpdtrt-gallery-thumbnail-icon-color),
+                    1px 1px 0 var(--wpdtrt-gallery-thumbnail-icon-color);
+                // selected icon overstate // ?
+                border-color: transparent;
+            }
+        }
+
+        &:hover {
+            .a::before {
+                // unselected icon overstate
+                color: var(--wpdtrt-gallery-thumbnail-icon-shadow-color);
+                text-shadow: -1px -1px 0 var(--wpdtrt-gallery-thumbnail-icon-color),
+                    1px -1px 0 var(--wpdtrt-gallery-thumbnail-icon-color),
+                    -1px 1px 0 var(--wpdtrt-gallery-thumbnail-icon-color),
+                    1px 1px 0 var(--wpdtrt-gallery-thumbnail-icon-color);
+                // selected icon overstate // ?
+                border-color: transparent;
+            }
+        }
+
+        &:focus {
+            .a::before {
+                // unselected icon overstate
+                color: var(--wpdtrt-gallery-thumbnail-icon-shadow-color);
+                text-shadow: -1px -1px 0 var(--wpdtrt-gallery-thumbnail-icon-color),
+                    1px -1px 0 var(--wpdtrt-gallery-thumbnail-icon-color),
+                    -1px 1px 0 var(--wpdtrt-gallery-thumbnail-icon-color),
+                    1px 1px 0 var(--wpdtrt-gallery-thumbnail-icon-color);
+                // selected icon overstate // ?
+                border-color: transparent;
+            }
+        }
+
+        &[aria-selected='true'] {
+            .a {
+                opacity: 1;
+                border-color: var(--wpdtrt-gallery-thumbnail-border-color-active);
+                cursor: not-allowed;
+            }
+
+            .a::before {
+                content: '-';
+                background-color: var(--wpdtrt-gallery-thumbnail-icon-color-active);
+                transition: none;
+            }
+        }
+
+        &[data-panorama],
+        &[data-soundcloud-pageid],
+        &[data-vimeo-pageid] {
+            .a::before {
+                @extend %wpdtrt-gallery-icon;
+                padding-top: .3em;
+            }
+        }
+
+        &[data-panorama] {
+            &,
             &[aria-expanded='true'] {
-                &::before {
-                    // unselected icon overstate
-                    color: var(--wpdtrt-gallery-thumbnail-icon-shadow-color);
-                    text-shadow: -1px -1px 0 var(--wpdtrt-gallery-thumbnail-icon-color),
-                        1px -1px 0 var(--wpdtrt-gallery-thumbnail-icon-color),
-                        -1px 1px 0 var(--wpdtrt-gallery-thumbnail-icon-color),
-                        1px 1px 0 var(--wpdtrt-gallery-thumbnail-icon-color);
-                    // selected icon overstate // ?
-                    border-color: transparent;
+                .a::before {
+                    content: '\e90a';
                 }
             }
+        }
 
+        &[data-soundcloud-pageid] {
+            &,
             &[aria-expanded='true'] {
-
-                .gallery > & {
-                    opacity: 1;
-                    border-color: var(--wpdtrt-gallery-thumbnail-border-color-active);
-                    cursor: not-allowed;
-                }
-
-                &::before {
-                    content: '-';
-                    background-color: var(--wpdtrt-gallery-thumbnail-icon-color-active);
-                    transition: none;
-                }
-            }
-
-            &[data-panorama],
-            &[data-soundcloud-pageid],
-            &[data-vimeo-pageid] {
-                &::before {
-                    @extend %wpdtrt-gallery-icon;
-                    padding-top: .3em;
-                }
-            }
-
-            &[data-panorama] {
-                &,
-                &[aria-expanded='true'] {
-                    &::before {
-                        content: '\e90a';
-                    }
-                }
-            }
-
-            &[data-soundcloud-pageid] {
-                &,
-                &[aria-expanded='true'] {
-                    &::before {
-                        content: '\e90c';
-                    }
-                }
-            }
-
-            &[data-vimeo-pageid] {
-                &,
-                &[aria-expanded='true'] {
-                    &::before {
-                        content: '\e90b';
-                    }
+                .a::before {
+                    content: '\e90c';
                 }
             }
         }
 
-        .a {
-            @at-root .wpdtrt-gallery-gallery .gallery-item :hover .a {
-                &::before {
-                    // unselected icon overstate
-                    color: var(--wpdtrt-gallery-thumbnail-icon-shadow-color);
-                    text-shadow: -1px -1px 0 var(--wpdtrt-gallery-thumbnail-icon-color),
-                        1px -1px 0 var(--wpdtrt-gallery-thumbnail-icon-color),
-                        -1px 1px 0 var(--wpdtrt-gallery-thumbnail-icon-color),
-                        1px 1px 0 var(--wpdtrt-gallery-thumbnail-icon-color);
-                    // selected icon overstate // ?
-                    border-color: transparent;
-                }
-            }
-
-            @at-root .wpdtrt-gallery-gallery .gallery-item :focus .a {
-                &::before {
-                    // unselected icon overstate
-                    color: var(--wpdtrt-gallery-thumbnail-icon-shadow-color);
-                    text-shadow: -1px -1px 0 var(--wpdtrt-gallery-thumbnail-icon-color),
-                        1px -1px 0 var(--wpdtrt-gallery-thumbnail-icon-color),
-                        -1px 1px 0 var(--wpdtrt-gallery-thumbnail-icon-color),
-                        1px 1px 0 var(--wpdtrt-gallery-thumbnail-icon-color);
-                    // selected icon overstate // ?
-                    border-color: transparent;
+        &[data-vimeo-pageid] {
+            &,
+            &[aria-expanded='true'] {
+                .a::before {
+                    content: '\e90b';
                 }
             }
         }
 
-        .gallery-caption {
-            // user can enlarge image or link to media page to read caption
-            display: none;
-        }
-
-        .gallery-icon {
-            img {
-                width: 100%;
-                height: auto;
-                max-width: 100%;
-                margin: 0 auto;
-            }
+        img {
+            width: 100%;
+            height: auto;
+            max-width: 100%;
+            margin: 0 auto;
         }
     }
 
@@ -626,12 +656,10 @@
     }
 
     @include media('>=laptop') {
-
-        &.gallery {
-            max-width: none;
-            flex-wrap: wrap;
-            overflow-x: visible;
-        }
+        max-width: none;
+        flex-wrap: wrap;
+        margin-bottom: 40px;
+        overflow-x: visible;
 
         .gallery-item {
             &,

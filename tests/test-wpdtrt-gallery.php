@@ -465,7 +465,7 @@ class WPDTRT_GalleryTest extends WP_UnitTestCase {
 		<div id="section-heading" class="wpdtrt-anchorlinks__section wpdtrt-anchorlinks__anchor wpdtrt-gallery__section" tabindex="-1">
 			<div class="entry-content">
 				<div class="wpdtrt-gallery-viewer" data-wpdtrt-anchorlinks-controls="highlighting" data-enabled="false">
-					<div class="wpdtrt-gallery-viewer__header">
+					<div class="wpdtrt-gallery__header">
 						<h2 data-anchorlinks-id="section-heading">
 							Section heading
 							<a class="wpdtrt-anchorlinks__anchor-link" href="#section-heading">
@@ -516,12 +516,12 @@ class WPDTRT_GalleryTest extends WP_UnitTestCase {
 		);
 
 		$this->assertEquals(
-			'wpdtrt-gallery-viewer__header',
+			'wpdtrt-gallery__header',
 			$dom
 				->getElementsByTagName( 'h2' )[0]
 				->parentNode
 				->getAttribute( 'class' ),
-			'wpdtrt-gallery-viewer__header should wrap heading'
+			'wpdtrt-gallery__header should wrap heading'
 		);
 
 		$this->assertEquals(
@@ -568,7 +568,7 @@ class WPDTRT_GalleryTest extends WP_UnitTestCase {
 		<div id="section-heading" class="wpdtrt-anchorlinks__section wpdtrt-anchorlinks__anchor wpdtrt-gallery__section" tabindex="-1">
 			<div class="entry-content">
 				<div class="wpdtrt-gallery-viewer" data-wpdtrt-anchorlinks-controls="highlighting" data-enabled="false" data-expanded="false">
-					<div class="wpdtrt-gallery-viewer__header">
+					<div class="wpdtrt-gallery__header">
 						<h2 data-anchorlinks-id="section-heading">
 							Section heading
 							<a class="wpdtrt-anchorlinks__anchor-link" href="#section-heading">
@@ -659,12 +659,12 @@ class WPDTRT_GalleryTest extends WP_UnitTestCase {
 		*/
 
 		$this->assertEquals(
-			'wpdtrt-gallery-viewer__header',
+			'wpdtrt-gallery__header',
 			$dom
 				->getElementsByTagName( 'h2' )[0]
 				->parentNode
 				->getAttribute( 'class' ),
-			'wpdtrt-gallery-viewer__header should wrap heading'
+			'wpdtrt-gallery__header should wrap heading'
 		);
 
 		$this->assertEquals(
