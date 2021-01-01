@@ -489,11 +489,11 @@
         // flex-grow: 0;
         // flex-shrink: 0;
         background-color: var(--wpdtrt-gallery-bg-color-loading);
-        padding: 0 !important; /* stylelint-disable-line declaration-no-important */
+        padding: 0;
         border: 0;
 
         @for $i from 1 through 9 {
-            @at-root .wpdtrt-gallery-gallery.gallery-columns-#{$i} .gallery-item {
+            @at-root .wpdtrt-gallery-gallery.gallery-columns-#{$i} .wpdtrt-gallery-gallery__tab {
                 width: calc(#{(100 / $i) * 1%} - 6px); // $i columns
             }
         }
@@ -533,43 +533,22 @@
         }
 
         &:hover,
-        &:focus,
-        &[aria-selected='true'] {
-            .a::before {
-                // unselected icon overstate
-                color: var(--wpdtrt-gallery-thumbnail-icon-shadow-color);
-                text-shadow: -1px -1px 0 var(--wpdtrt-gallery-thumbnail-icon-color),
-                    1px -1px 0 var(--wpdtrt-gallery-thumbnail-icon-color),
-                    -1px 1px 0 var(--wpdtrt-gallery-thumbnail-icon-color),
-                    1px 1px 0 var(--wpdtrt-gallery-thumbnail-icon-color);
-                // selected icon overstate // ?
-                border-color: transparent;
-            }
-        }
-
-        &:hover {
-            .a::before {
-                // unselected icon overstate
-                color: var(--wpdtrt-gallery-thumbnail-icon-shadow-color);
-                text-shadow: -1px -1px 0 var(--wpdtrt-gallery-thumbnail-icon-color),
-                    1px -1px 0 var(--wpdtrt-gallery-thumbnail-icon-color),
-                    -1px 1px 0 var(--wpdtrt-gallery-thumbnail-icon-color),
-                    1px 1px 0 var(--wpdtrt-gallery-thumbnail-icon-color);
-                // selected icon overstate // ?
-                border-color: transparent;
-            }
-        }
-
         &:focus {
-            .a::before {
-                // unselected icon overstate
-                color: var(--wpdtrt-gallery-thumbnail-icon-shadow-color);
-                text-shadow: -1px -1px 0 var(--wpdtrt-gallery-thumbnail-icon-color),
-                    1px -1px 0 var(--wpdtrt-gallery-thumbnail-icon-color),
-                    -1px 1px 0 var(--wpdtrt-gallery-thumbnail-icon-color),
-                    1px 1px 0 var(--wpdtrt-gallery-thumbnail-icon-color);
-                // selected icon overstate // ?
-                border-color: transparent;
+            &:not([disabled]) {
+                cursor: pointer;
+
+                .a {
+                    &::before {
+                        // unselected icon overstate
+                        color: var(--wpdtrt-gallery-thumbnail-icon-shadow-color);
+                        text-shadow: -1px -1px 0 var(--wpdtrt-gallery-thumbnail-icon-color),
+                            1px -1px 0 var(--wpdtrt-gallery-thumbnail-icon-color),
+                            -1px 1px 0 var(--wpdtrt-gallery-thumbnail-icon-color),
+                            1px 1px 0 var(--wpdtrt-gallery-thumbnail-icon-color);
+                        // selected icon overstate // ?
+                        border-color: transparent;
+                    }
+                }
             }
         }
 
@@ -578,52 +557,70 @@
                 opacity: 1;
                 border-color: var(--wpdtrt-gallery-thumbnail-border-color-active);
                 cursor: not-allowed;
-            }
 
-            .a::before {
-                content: '-';
-                background-color: var(--wpdtrt-gallery-thumbnail-icon-color-active);
-                transition: none;
+                &::before {
+                    content: '-';
+                    // unselected icon overstate
+                    background-color: var(--wpdtrt-gallery-thumbnail-icon-color-active);
+                    color: var(--wpdtrt-gallery-thumbnail-icon-shadow-color);
+                    text-shadow: -1px -1px 0 var(--wpdtrt-gallery-thumbnail-icon-color),
+                        1px -1px 0 var(--wpdtrt-gallery-thumbnail-icon-color),
+                        -1px 1px 0 var(--wpdtrt-gallery-thumbnail-icon-color),
+                        1px 1px 0 var(--wpdtrt-gallery-thumbnail-icon-color);
+                    // selected icon overstate // ?
+                    border-color: transparent;
+                    transition: none;
+                }
             }
         }
 
         &[data-panorama],
         &[data-soundcloud-pageid],
         &[data-vimeo-pageid] {
-            .a::before {
-                @extend %wpdtrt-gallery-icon;
-                padding-top: .3em;
+            .a {
+                &::before {
+                    @extend %wpdtrt-gallery-icon;
+                    padding-top: .3em;
+                }
             }
         }
 
         &[data-panorama] {
             &,
-            &[aria-expanded='true'] {
-                .a::before {
-                    content: '\e90a';
+            &[aria-selected='true'] {
+                .a {
+                    &::before {
+                        content: '\e90a';
+                    }
                 }
             }
         }
 
         &[data-soundcloud-pageid] {
             &,
-            &[aria-expanded='true'] {
-                .a::before {
-                    content: '\e90c';
+            &[aria-selected='true'] {
+                .a {
+                    &::before {
+                        content: '\e90c';
+                    }
                 }
             }
         }
 
         &[data-vimeo-pageid] {
             &,
-            &[aria-expanded='true'] {
-                .a::before {
-                    content: '\e90b';
+            &[aria-selected='true'] {
+                .a {
+                    &::before {
+                        content: '\e90b';
+                    }
                 }
             }
         }
 
         &[disabled] {
+            cursor: not-allowed;
+
             .a {
                 opacity: .5;
             }
@@ -643,10 +640,10 @@
 
     @include media('>=phone') {
 
-        .gallery-item {
+        &__tab {
 
             @for $i from 1 through 9 {
-                @at-root .wpdtrt-gallery-gallery.gallery-columns-#{$i} .gallery-item {
+                @at-root .wpdtrt-gallery-gallery.gallery-columns-#{$i} .wpdtrt-gallery-gallery__tab {
                     max-width: 25%; // 4 columns
                 }
             }
@@ -655,10 +652,10 @@
 
     @include media('>=tablet') {
 
-        .gallery-item {
+        &__tab {
 
             @for $i from 1 through 9 {
-                @at-root .wpdtrt-gallery-gallery.gallery-columns-#{$i} .gallery-item {
+                @at-root .wpdtrt-gallery-gallery.gallery-columns-#{$i} .wpdtrt-gallery-gallery__tab {
                     max-width: 20%; // 5 columns
                 }
             }
@@ -671,14 +668,14 @@
         margin-bottom: 40px;
         overflow-x: visible;
 
-        .gallery-item {
+        &__tab {
             &,
             &:hover {
                 margin-bottom: 6px;
             }
 
             @for $i from 1 through 9 {
-                @at-root .wpdtrt-gallery-gallery.gallery-columns-#{$i} .gallery-item {
+                @at-root .wpdtrt-gallery-gallery.gallery-columns-#{$i} .wpdtrt-gallery-gallery__tab {
                     max-width: 100%; // 1 column
                 }
             }
@@ -695,7 +692,7 @@
     }
 
     @include media('>=desktop') {
-        .gallery-item {
+        &__tab {
 
             // if there is only one thumbnail, do display it
             &,
@@ -708,7 +705,7 @@
             }
 
             @for $i from 1 through 9 {
-                @at-root .wpdtrt-gallery-gallery.gallery-columns-#{$i} .gallery-item {
+                @at-root .wpdtrt-gallery-gallery.gallery-columns-#{$i} .wpdtrt-gallery-gallery__tab {
                     max-width: 50%; // 2 columns
                 }
             }
