@@ -557,12 +557,33 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 			if ( ! empty( $atts['link'] ) && 'file' === $atts['link'] ) {
 				$image_output = wp_get_attachment_link( $id, $atts['size'], false, false, false, $attr );
 			} elseif ( ! empty( $atts['link'] ) && 'none' === $atts['link'] && $usetabspattern ) {
+
+				/**
+				 * START TAB
+				 */
+
+				$panorama           = get_post_meta( $id, 'wpdtrt_gallery_attachment_panorama', true ); // used for JS dragging.
+				$rwgps_pageid       = get_post_meta( $id, 'wpdtrt_gallery_attachment_rwgps_pageid', true );
+				$soundcloud_pageid  = get_post_meta( $id, 'wpdtrt_gallery_attachment_soundcloud_pageid', true ); // used for SEO.
+				$soundcloud_trackid = get_post_meta( $id, 'wpdtrt_gallery_attachment_soundcloud_trackid', true ); // used for embed, see also http://stackoverflow.com/a/28182284.
+				$vimeo_pageid       = get_post_meta( $id, 'wpdtrt_gallery_attachment_vimeo_pageid', true ); // used for embed.
+
 				$tab_attrs  = " role='tab'";
 				$tab_attrs .= " class='gallery-item {$tabclass}'";
 				$tab_attrs .= " aria-controls='galleryid-{$id}-tabpanel-{$count}'";
 				$tab_attrs .= " id='galleryid-{$id}-tab-{$count}'";
 				$tab_attrs .= " data-kh-proxy='selectFocussed'";
 				$tab_attrs .= ' disabled';
+
+				if ( $rwgps_pageid ) {
+					$tab_attrs .= " data-rwgps-pageid='true'";
+				} elseif ( $soundcloud_pageid && $soundcloud_trackid ) {
+					$tab_attrs .= " data-soundcloud-pageid='true' data-soundcloud-trackid='true'"; 
+				} elseif ( $vimeo_pageid ) {
+					$tab_attrs .= " data-vimeo-pageid='true'";
+				} elseif ( '1' === $panorama ) {
+					$tab_attrs .= " data-panorama='true'";
+				}
 
 				if ( 1 === $count ) {
 					$tab_attrs .= " aria-selected='true'";
@@ -590,6 +611,10 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 				}
 
 				$image_output .= "</{$tabtag}>";
+
+				/**
+				 * END TAB
+				 */
 			} elseif ( ! empty( $atts['link'] ) && 'none' === $atts['link'] ) {
 				$image_output = wp_get_attachment_image( $id, $atts['size'], false, $attr );
 			} else {
@@ -671,51 +696,97 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 			$parent_id = $id;
 
 			foreach ( $attachments as $id => $attachment ) {
+				/**
+				 * START TABPANEL
+				 */
 
 				++$count;
 
-				$image_output = wp_get_attachment_image( $id, $atts['tabpanelimagesize'], false, $attr );
-				$image_meta   = wp_get_attachment_metadata( $id );
+				$image_output                = wp_get_attachment_image( $id, $atts['tabpanelimagesize'], false, $attr ); // TODO should this use a variable?.
+				$image_meta                  = wp_get_attachment_metadata( $id );
+				$image_size_desktop          = 'wpdtrt-gallery-desktop';
+				$image_size_desktop_expanded = 'wpdtrt-gallery-desktop-expanded';
+				$image_size_panorama         = 'wpdtrt-gallery-panorama';
+				$panorama                    = get_post_meta( $id, 'wpdtrt_gallery_attachment_panorama', true ); // used for JS dragging.
+				$rwgps_pageid                = get_post_meta( $id, 'wpdtrt_gallery_attachment_rwgps_pageid', true );
+				$soundcloud_pageid           = get_post_meta( $id, 'wpdtrt_gallery_attachment_soundcloud_pageid', true ); // used for SEO.
+				$soundcloud_trackid          = get_post_meta( $id, 'wpdtrt_gallery_attachment_soundcloud_trackid', true ); // used for embed, see also http://stackoverflow.com/a/28182284.
+				$vimeo_pageid                = get_post_meta( $id, 'wpdtrt_gallery_attachment_vimeo_pageid', true ); // used for embed.
+				// $image_size_mobile        = 'wpdtrt-gallery-mobile'; // TODO not implemented, needs enquire.js.
+				//
 				// $orientation  = '';
 				// if ( isset( $image_meta['height'], $image_meta['width'] ) ) {
 				// $orientation = ( $image_meta['height'] > $image_meta['width'] ) ? 'portrait' : 'landscape';
 				// }
-				if ( $usetabspattern ) {
-					/**
-					 * START TABPANEL
-					 */
+				// .
 
-					$tabpanel_attrs  = " role='tabpanel'";
-					$tabpanel_attrs .= " id='galleryid-{$id}-tabpanel-{$count}'";
-					$tabpanel_attrs .= " aria-labelledby='galleryid-{$id}-tab-{$count}'";
-					$tabpanel_attrs .= " tabindex='0'";
+				$tabpanel_attrs  = " role='tabpanel'";
+				$tabpanel_attrs .= " id='galleryid-{$id}-tabpanel-{$count}'";
+				$tabpanel_attrs .= " aria-labelledby='galleryid-{$id}-tab-{$count}'";
+				$tabpanel_attrs .= " tabindex='0'";
+				$tabpanel_attrs .= " data-id='{$id}'";
 
-					if ( $count > 1 ) {
-						$tabpanel_attrs .= ' hidden';
-					}
+				if ( $rwgps_pageid ) {
+					$tabpanel_attrs .= " data-rwgps-pageid='true'";
+				} elseif ( $soundcloud_pageid && $soundcloud_trackid ) {
+					$tabpanel_attrs .= " data-soundcloud-pageid='true' data-soundcloud-trackid='true'"; 
+				} elseif ( $vimeo_pageid ) {
+					$tabpanel_attrs .= " data-vimeo-pageid='true'";
+				} elseif ( '1' === $panorama ) {
+					$img_src_panorama = wp_get_attachment_image_src( $id, $image_size_panorama )[0];
+					$tabpanel_attrs  .= " data-src-panorama='{$img_src_panorama}'";
+					$tabpanel_attrs  .= " data-panorama='true'";
+				} else {
+					$image_size_desktop          = wp_get_attachment_image_src( $id, $image_size_desktop )[0];
+					$image_size_desktop_expanded = wp_get_attachment_image_src( $id, $image_size_desktop_expanded )[0];
+					$tabpanel_attrs             .= " data-src-desktop='{$image_size_desktop}'";
+					$tabpanel_attrs             .= " data-src-desktop-expanded='{$image_size_desktop_expanded}'";
+					// $img_src_mobile   = wp_get_attachment_image_src( $id, $image_size_mobile )[0];
+					// $tabpanel_attrs  .= " data-src-mobile='{$img_src_mobile}'";
+				}
 
-					if ( '' !== $tabpanelclass ) {
-						$tabpanel_attrs .= " class='{$tabpanelclass}'";
-					}
+				// Geolocation
+				// Could this be replaced by simply looking up the custom field?
+				if ( function_exists( 'wpdtrt_exif_get_attachment_metadata' ) ) {
+					$attachment_metadata     = wpdtrt_exif_get_attachment_metadata( $id );
+					$attachment_metadata_gps = wpdtrt_exif_get_attachment_metadata_gps( $attachment_metadata, 'number' );
+					$latitude                = $attachment_metadata_gps['latitude'];
+					$longitude               = $attachment_metadata_gps['longitude'];
+					$tabpanel_attrs         .= " data-latitude='{$latitude}'";
+					$tabpanel_attrs         .= " data-longitude='{$longitude}'";
+				}
 
-					$output .= "<div{$tabpanel_attrs}>";
+				if ( $count > 1 ) {
+					$tabpanel_attrs .= ' hidden';
+				}
 
-					/**
-					 * START TABPANEL ITEM
-					 */
+				if ( '' !== $tabpanelclass ) {
+					$tabpanel_attrs .= " class='{$tabpanelclass}'";
+				}
 
-					$tabpanelitem_attrs = '';
+				$output .= "<div{$tabpanel_attrs}>";
 
-					if ( '' !== $tabpanelitemclass ) {
-						$tabpanelitem_attrs .= " class='{$tabpanelitemclass}'";
-					}
+				/**
+				 * START TABPANEL ITEM
+				 */
 
-					$output .= "<{$tabpanelitemtag}{$tabpanelitem_attrs}>";
+				$tabpanelitem_attrs = '';
 
-					/**
-					 * START TABPANEL IMAGE
-					 */
+				if ( '' !== $tabpanelitemclass ) {
+					$tabpanelitem_attrs .= " class='{$tabpanelitemclass}'";
+				}
 
+				if ( $rwgps_pageid || ( $soundcloud_pageid && $soundcloud_trackid ) || $vimeo_pageid ) {
+					$tabpanelitemtag = 'div';
+				}
+
+				$output .= "<{$tabpanelitemtag}{$tabpanelitem_attrs}>";
+
+				/**
+				 * START TABPANEL IMAGE
+				 */
+
+				if ( ! $rwgps_pageid && ! $soundcloud_pageid && ! $soundcloud_trackid && ! $vimeo_pageid ) {
 					$tabpanelimage_attrs = '';
 
 					if ( '' !== $tabpanelimageclass ) {
@@ -725,47 +796,100 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 					$output .= "<{$tabpanelimagetag}{$tabpanelimage_attrs}>";
 					$output .= $image_output;
 					$output .= "</{$tabpanelimagetag}>";
+				}
 
-					// TODO.
-					$output .= "<div class='wpdtrt-gallery-viewer__embed'>";
-					$output .= "<iframe aria-hidden='true' title='Gallery media viewer.'></iframe>";
-					$output .= '</div>';
+				/**
+				 * END TABPANEL IMAGE
+				 */
 
-					if ( '' !== $captiontag && trim( $attachment->post_excerpt ) ) {
-						$enlargementcaption_attrs      = '';
-						$enlargementcaptionliner_attrs = '';
+				/**
+				 * START IFRAME EMBED
+				 */
 
-						if ( '' !== $tabpanelcaptionclass ) {
-							$enlargementcaption_attrs .= " class='{$tabpanelcaptionclass}'";
-						}
+				if ( $rwgps_pageid || ( $soundcloud_pageid && $soundcloud_trackid ) || $vimeo_pageid ) {
+					// ex-JS notes:
+					// autoplay disabled as working but inconsistent
+					// TODO update this to only apply on page load - i.e. if triggered (#31)
+					// if first thumbnail in the gallery or
+					// not first thumbnail but elected to display first
+					// if ($galleryItem.is(':first-child') || isDefault) {
+					// autoplay = false;
+					// }.
+					$autopause     = 'true'; // opposite of $autoplay.
+					$autoplay      = 'false';
+					$embed_attrs   = '';
+					$iframe_attrs  = " aria-describedby='galleryid-{$id}-tabpanel-{$count}-caption'";
+					$iframe_attrs .= " class='wpdtrt-gallery-viewer__iframe'";
 
-						if ( '' !== $tabpanelcaptionlinerclass ) {
-							$enlargementcaptionliner_attrs .= " class='{$tabpanelcaptionlinerclass}'";
-						}
-
-						$output .= "<{$tabpanelcaptiontag}{$enlargementcaption_attrs}>";
-						$output .= "<div{$enlargementcaptionliner_attrs}>";
-						$output .= wptexturize( $attachment->post_excerpt );
-						$output .= '</div>';
-						$output .= "</{$tabpanelcaptiontag}>";
+					if ( $rwgps_pageid ) {
+						$embed_attrs  .= " class='wpdtrt-gallery-viewer__embed wpdtrt-gallery-viewer__embed--rwgps'";
+						$iframe_attrs .= " src='//rwgps-embeds.com/routes/{$rwgps_pageid}/embed'";
+						$iframe_attrs .= " title='Ride With GPS map viewer. '";
+					} elseif ( $soundcloud_pageid && $soundcloud_trackid ) {
+						// TODO: player on live site displays a waveform, player on local dev doesn't.
+						$embed_attrs  .= " class='wpdtrt-gallery-viewer__embed wpdtrt-gallery-viewer__embed--soundcloud'";
+						$iframe_attrs .= " src='//w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/{$soundcloud_trackid}?auto_play={$autoplay}&hide_related=true&show_comments=false&show_user=false&show_reposts=false&visual=true'";
+						$iframe_attrs .= " title='SoundCloud player. '";
+					} elseif ( $vimeo_pageid ) {
+						// adapted from https://appleple.github.io/modal-video/.
+						$embed_attrs  .= " class='wpdtrt-gallery-viewer__embed wpdtrt-gallery-viewer__embed--vimeo'";
+						$iframe_attrs .= " allowfullscreen='true'";
+						$iframe_attrs .= " src='//player.vimeo.com/video/{$vimeo_pageid}?api=false&autopause={$autopause}&autoplay={$autoplay}&byline=false&loop=false&portrait=false&title=false&xhtml=false'";
+						$iframe_attrs .= " title='Vimeo player. '";
 					}
 
-					/**
-					 * END TABPANEL IMAGE
-					 */
-
-					$output .= "</{$tabpanelitemtag}>";
-
-					/**
-					 * END TABPANEL ITEM
-					 */
-
+					$output .= "<div{$embed_attrs}>";
+					$output .= "<iframe{$iframe_attrs}></iframe>";
 					$output .= '</div>';
-
-					/**
-					 * END TABPANEL
-					 */
 				}
+
+				/**
+				 * END IFRAME EMBED
+				 */
+
+				/**
+				 * START TABPANEL CAPTION
+				 */
+
+				if ( '' !== $captiontag && trim( $attachment->post_excerpt ) ) {
+					$enlargementcaption_attrs      = '';
+					$enlargementcaptionliner_attrs = '';
+
+					if ( '' !== $tabpanelcaptionclass ) {
+						$enlargementcaption_attrs .= " class='{$tabpanelcaptionclass}'";
+					}
+
+					if ( $rwgps_pageid || ( $soundcloud_pageid && $soundcloud_trackid ) || $vimeo_pageid ) {
+						$enlargementcaption_attrs .= " id='galleryid-{$id}-tabpanel-{$count}-caption'";
+						$tabpanelcaptiontag        = 'div';
+					}
+
+					if ( '' !== $tabpanelcaptionlinerclass ) {
+						$enlargementcaptionliner_attrs .= " class='{$tabpanelcaptionlinerclass}'";
+					}
+
+					$output .= "<{$tabpanelcaptiontag}{$enlargementcaption_attrs}>";
+					$output .= "<div{$enlargementcaptionliner_attrs}>";
+					$output .= wptexturize( $attachment->post_excerpt );
+					$output .= '</div>';
+					$output .= "</{$tabpanelcaptiontag}>";
+				}
+
+				/**
+				 * END TABPANEL CAPTION
+				 */
+
+				$output .= "</{$tabpanelitemtag}>";
+
+				/**
+				 * END TABPANEL ITEM
+				 */
+
+				$output .= '</div>';
+
+				/**
+				 * END TABPANEL
+				 */
 			}
 
 			$output .= '</div>';
@@ -1139,10 +1263,7 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 	/**
 	 * Method: filter_image_attributes
 	 *
-	 * Add data- attributes to tab and tabpanel images for use by the plugin JS.
-	 *
-	 * Note:
-	 * - Refactored due to clashes with Imgix using previous solution of link URL params.
+	 * Set image alt attribute.
 	 *
 	 * Parameters:
 	 *   $atts - HTML image attributes
@@ -1155,19 +1276,10 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 	 * - <https://developer.wordpress.org/reference/hooks/wp_get_attachment_image_attributes/>
 	 */
 	public function filter_image_attributes( array $atts, WP_Post $attachment ) : array {
-		$id                          = $attachment->ID;
-		$caption                     = wp_get_attachment_caption( $id );
-		$image_size_desktop          = 'wpdtrt-gallery-desktop';
-		$image_size_desktop_expanded = 'wpdtrt-gallery-desktop-expanded';
-		$image_size_panorama         = 'wpdtrt-gallery-panorama';
-		$panorama                    = get_post_meta( $id, 'wpdtrt_gallery_attachment_panorama', true ); // used for JS dragging.
-		$rwgps_pageid                = get_post_meta( $id, 'wpdtrt_gallery_attachment_rwgps_pageid', true );
-		$soundcloud_pageid           = get_post_meta( $id, 'wpdtrt_gallery_attachment_soundcloud_pageid', true ); // used for SEO.
-		$soundcloud_trackid          = get_post_meta( $id, 'wpdtrt_gallery_attachment_soundcloud_trackid', true ); // used for embed, see also http://stackoverflow.com/a/28182284.
-		$tab_img_class               = 'attachment-thumbnail size-thumbnail';
-		$tabpanel_img_class          = 'attachment-wpdtrt-gallery-desktop size-wpdtrt-gallery-desktop';
-		$vimeo_pageid                = get_post_meta( $id, 'wpdtrt_gallery_attachment_vimeo_pageid', true ); // used for embed.
-		// $image_size_mobile        = 'wpdtrt-gallery-mobile'; // TODO not implemented, needs enquire.js.
+		$id                 = $attachment->ID;
+		$caption            = wp_get_attachment_caption( $id );
+		$tab_img_class      = 'attachment-thumbnail size-thumbnail';
+		$tabpanel_img_class = 'attachment-wpdtrt-gallery-desktop size-wpdtrt-gallery-desktop';
 
 		/**
 		 * Either tab or tabpanel image
@@ -1176,52 +1288,12 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 		if ( $tab_img_class === $atts['class'] ) {
 			$atts['alt'] = $caption;
 		} elseif ( $tabpanel_img_class === $atts['class'] ) {
-			$atts['data-id'] = $id;
-			//
 			// Fix for missing alt text.
 			if ( '' === $atts['alt'] ) {
 				if ( '' !== $caption ) {
 					$atts['alt'] = $caption;
 				}
 			}
-
-			if ( '1' === $panorama ) {
-				$atts['data-src-panorama'] = wp_get_attachment_image_src( $id, $image_size_panorama )[0];
-			} else {
-				$atts['data-src-desktop']          = wp_get_attachment_image_src( $id, $image_size_desktop )[0];
-				$atts['data-src-desktop-expanded'] = wp_get_attachment_image_src( $id, $image_size_desktop_expanded )[0];
-				// $atts['data-src-mobile'] = wp_get_attachment_image_src( $id, $image_size_mobile )[0];
-			}
-		}
-
-		/**
-		 * Both tab and tabpanel image
-		 */
-
-		if ( '1' === $panorama ) {
-			$atts['data-panorama'] = $panorama;
-		}
-
-		// Geolocation
-		// Could this be replaced by simply looking up the custom field?
-		if ( function_exists( 'wpdtrt_exif_get_attachment_metadata' ) ) {
-			$attachment_metadata     = wpdtrt_exif_get_attachment_metadata( $id );
-			$attachment_metadata_gps = wpdtrt_exif_get_attachment_metadata_gps( $attachment_metadata, 'number' );
-			$atts['data-latitude']   = $attachment_metadata_gps['latitude'];
-			$atts['data-longitude']  = $attachment_metadata_gps['longitude'];
-		}
-
-		if ( $rwgps_pageid ) {
-			$atts['data-rwgps-pageid'] = rawurlencode( $rwgps_pageid );
-		}
-
-		if ( $soundcloud_pageid && $soundcloud_trackid ) {
-			$atts['data-soundcloud-pageid']  = rawurlencode( $soundcloud_pageid );
-			$atts['data-soundcloud-trackid'] = $soundcloud_trackid;
-		}
-
-		if ( $vimeo_pageid ) {
-			$atts['data-vimeo-pageid'] = $vimeo_pageid;
 		}
 
 		return $atts;

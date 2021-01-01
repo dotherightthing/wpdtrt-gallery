@@ -20,20 +20,6 @@
  */
 const wpdtrtGalleryUi = {
     animations: false,
-    imgData: [
-        'id',
-        'initial',
-        'latitude',
-        'longitude',
-        'panorama',
-        'rwgps-pageid',
-        'soundcloud-pageid',
-        'soundcloud-trackid',
-        'src-desktop',
-        'src-desktop-expanded',
-        'src-panorama',
-        'vimeo-pageid'
-    ],
 
     /**
      * @function setupAnimations
@@ -58,26 +44,6 @@ const wpdtrtGalleryUi = {
             } else {
                 wpdtrtGalleryUi.animations = true;
             }
-        });
-    },
-
-    /**
-     * @function copyImgDataToElement
-     * @summary Copy data- attributes from the image, to the parent tabpanel, to support plugin JS.
-     * @memberof wpdtrtGalleryUi
-     * @protected
-     *
-     * @param {external:jQuery} $ - jQuery
-     * @param {external:jQuery} $element - jQuery element
-     * {@link https://github.com/dotherightthing/wpdtrt-gallery/issues/51}
-     */
-    copyImgDataToElement: ($, $element) => {
-        const $elementImg = $element.find('img');
-
-        // copy the data attributes
-        $.each(wpdtrtGalleryUi.imgData, (key, value) => {
-            $element
-                .attr(`data-${value}`, $elementImg.attr(`data-${value}`));
         });
     },
 
@@ -336,98 +302,6 @@ const wpdtrtGalleryUi = {
         }
 
         return (!componentIsExpanded);
-    },
-
-    /**
-     * @function setupIframe
-     * @summary Configure the gallery iframe to display a video, audio file, or interactive map.
-     * @memberof wpdtrtGalleryUi
-     * @protected
-     *
-     * @param {external:jQuery} $tabpanel - jQuery gallery viewer
-     * @requires includes/attachment.php
-     * @since 3.0.0
-     */
-    setupIframe: function ($tabpanel) {
-        const $tabpanelIframe = $tabpanel.find('iframe');
-        const $tabpanelImg = $tabpanel.find('img');
-
-        // const isDefault = $tabpanel.data('initial');
-        const soundcloudPageId = $tabpanel.data('soundcloud-pageid');
-        const soundcloudTrackId = $tabpanel.data('soundcloud-trackid');
-        const rwgpsPageId = $tabpanel.data('rwgps-pageid');
-        const vimeoPageId = $tabpanel.data('vimeo-pageid');
-
-        let embedHeightTimer;
-
-        // Disabled as working but inconsistent
-        // TODO update this to only apply on page load - i.e. if triggered (#31)
-        const autoplay = false; // true;
-
-        // if first thumbnail in the gallery or
-        // not first thumbnail but elected to display first
-        // if ($galleryItem.is(':first-child') || isDefault) {
-        //  autoplay = false;
-        // }
-
-        // set the src of the video iframe and unhide it
-        if (vimeoPageId) {
-            // adapted from https://appleple.github.io/modal-video/
-            // TODO move to PHP
-            $tabpanelIframe
-                .attr({
-                    src: `//player.vimeo.com/video/${vimeoPageId}?api=false&autopause=${!autoplay}&autoplay=${autoplay}&byline=false&loop=false&portrait=false&title=false&xhtml=false`,
-                    allowfullscreen: 'true',
-                    title: 'Vimeo player'
-                })
-                .removeAttr('aria-hidden')
-                .css('height', 368);
-
-            $tabpanelImg
-                .attr('aria-hidden', 'true');
-        } else if (soundcloudPageId && soundcloudTrackId) {
-            // TODO move to PHP
-            $tabpanelIframe
-                .attr({
-                    src: `//w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/${soundcloudTrackId}?auto_play=${autoplay}&hide_related=true&show_comments=false&show_user=false&show_reposts=false&visual=true`,
-                    title: 'SoundCloud player'
-                })
-                .removeAttr('aria-hidden')
-                .css('height', 368);
-
-            $tabpanelImg
-                .attr('aria-hidden', 'true');
-        } else if (rwgpsPageId) {
-            // TODO move to PHP
-            $tabpanelIframe
-                .attr({
-                    src: `//rwgps-embeds.com/routes/${rwgpsPageId}/embed`,
-                    title: 'Ride With GPS map viewer'
-                })
-                .removeAttr('aria-hidden')
-                .css('height', 500);
-
-            embedHeightTimer = setTimeout(() => {
-                $tabpanelIframe
-                    .css('height', 500);
-            }, 500);
-
-            $tabpanelImg
-                .attr('aria-hidden', 'true');
-        } else {
-            // TODO move to PHP
-            $tabpanelIframe
-                .removeAttr('src allowfullscreen')
-                .attr({
-                    title: 'Gallery media viewer',
-                    'aria-hidden': 'true'
-                });
-
-            $tabpanelImg
-                .removeAttr('aria-hidden');
-
-            clearTimeout(embedHeightTimer);
-        }
     },
 
     /**
@@ -735,14 +609,11 @@ const wpdtrtGalleryUi = {
             .attr('data-enabled', true);
 
         $tabs.each((i, item) => {
-            wpdtrtGalleryUi.copyImgDataToElement($, $(item));
             wpdtrtGalleryUi.trackOnHover($, $(item)); // TODO change to panel onTabSelect
         });
 
         $tabPanels.each((i, item) => {
             const $tabpanel = $(item);
-
-            wpdtrtGalleryUi.copyImgDataToElement($, $tabpanel);
 
             $tabpanel
                 .prepend('<div class="wpdtrt-gallery-viewer__expand-wrapper"><button class="wpdtrt-gallery-viewer__expand" aria-expanded="false"><span class="says">Expand</span></button></div>')
@@ -750,7 +621,6 @@ const wpdtrtGalleryUi = {
 
             wpdtrtGalleryUi.setupImagePanel($tabpanel);
             wpdtrtGalleryUi.setupPanorama($tabpanel, $);
-            wpdtrtGalleryUi.setupIframe($tabpanel);
         });
 
         const $expandButton = $('.wpdtrt-gallery-viewer__expand');
