@@ -243,7 +243,10 @@ const wpdtrtGalleryUi = {
 
         // if the viewer is now expanded
         if ($component.attr('data-expanded') === 'true') {
-            if (!$tabpanel.data('panorama')) {
+            if ($tabpanel.data('panorama')) {
+                $tabpanelImg
+                    .attr('src', $tabpanel.data('src-panorama'));
+            } else {
                 $tabpanelImg
                     .attr('src', $tabpanel.data('src-desktop-expanded'));
             }
