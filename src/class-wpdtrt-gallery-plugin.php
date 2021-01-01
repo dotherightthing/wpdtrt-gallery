@@ -937,14 +937,12 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 		$result['link']    = 'none';
 
 		// additions:.
-		$result['tabclass']                  = '';
+		$result['tabclass']                  = 'wpdtrt-gallery-gallery__tab';
 		$result['tabtag']                    = 'button';
 		$result['tablinerclass']             = 'a';
 		$result['tablinertag']               = 'span';
 		$result['tablistclass']              = 'wpdtrt-gallery-gallery';
 		$result['tablisttitle']              = 'Select a photo to display';
-		// $result['tablisttitleclass']         = 'wpdtrt-gallery-gallery__header';
-		// $result['tablisttitletag']           = 'h3';
 		$result['tablistlabel']              = 'Choose photo to display';
 		$result['tabpanelclass']             = 'wpdtrt-gallery-viewer__tabpanel';
 		$result['tabpanelcaptionclass']      = 'wpdtrt-gallery-viewer__footer';
@@ -959,6 +957,8 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 		$result['titleclass']                = 'wpdtrt-gallery__header';
 		$result['titletag']                  = 'h2';
 		$result['usetabspattern']            = 'true';
+		// $result['tablisttitleclass']         = 'wpdtrt-gallery-gallery__header';
+		// $result['tablisttitletag']           = 'h3';
 
 		return $result;
 	}

@@ -483,7 +483,7 @@
         }
     }
 
-    .gallery-item {
+    &__tab {
         position: relative;
         width: calc(25% - 6px);
         // flex-grow: 0;
@@ -620,6 +620,12 @@
                 .a::before {
                     content: '\e90b';
                 }
+            }
+        }
+
+        &[disabled] {
+            .a {
+                opacity: .5;
             }
         }
 
