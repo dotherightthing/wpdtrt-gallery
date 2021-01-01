@@ -1,18 +1,18 @@
 @font-face {
-  font-family: 'icomoon';
-  src:  url('fonts/icomoon.eot?er5gon');
-  src:  url('fonts/icomoon.eot?er5gon#iefix') format('embedded-opentype'),
-    url('fonts/icomoon.ttf?er5gon') format('truetype'),
-    url('fonts/icomoon.woff?er5gon') format('woff'),
-    url('fonts/icomoon.svg?er5gon#icomoon') format('svg');
+  font-family: 'wpdtrt-gallery';
+  src:
+    url('fonts/wpdtrt-gallery.ttf?opzmf1') format('truetype'),
+    url('fonts/wpdtrt-gallery.woff?opzmf1') format('woff'),
+    url('fonts/wpdtrt-gallery.svg?opzmf1#wpdtrt-gallery') format('svg');
   font-weight: normal;
   font-style: normal;
+  font-display: block;
 }
 
-[class^="icon-"], [class*=" icon-"] {
+.icon {
   /* use !important to prevent issues with browser extensions that change fonts */
-  font-family: 'icomoon' !important;
-  speak: none;
+  font-family: 'wpdtrt-gallery' !important;
+  speak: never;
   font-style: normal;
   font-weight: normal;
   font-variant: normal;
@@ -24,12 +24,18 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.icon-video:before {
+.wpdtrt-gallery-icon-video:before {
   content: "\e90b";
 }
-.icon-panorama_horizontal:before {
+.wpdtrt-gallery-icon-panorama:before {
   content: "\e90a";
 }
-.icon-audio:before {
-  content: "\e90c";
+.wpdtrt-gallery-icon-image:before {
+  content: "\e90d";
+}
+.wpdtrt-gallery-icon-map:before {
+  content: "\e94c";
+}
+.wpdtrt-gallery-icon-soundcloud:before {
+  content: "\eac3";
 }

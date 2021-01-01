@@ -19,27 +19,12 @@
 // Plugins
 // -------------------------------------------------------------------
 
-// omitting the extension makes the classes available for extend
-// https://stackoverflow.com/questions/7111610/import-regular-css-file-in-scss-file/30279590#30279590
-@import '../icons/icomoon/style.css';
+$icomoon-font-path: '../icons/icomoon/fonts';
+@import '../icons/icomoon/style.scss';
 
 // -------------------------------------------------------------------
 // Extends
 // -------------------------------------------------------------------
-
-%wpdtrt-gallery-icon {
-    @extend %wpdtrt-plugin-boilerplate--text-sharpen;
-    // icomoon
-    // use !important to prevent issues with browser extensions that change fonts
-    // stylelint-disable-next-line declaration-no-important
-    font-family: 'icomoon' !important;
-    font-size: 1.1em;
-    line-height: 1;
-    font-weight: normal;
-    font-style: normal;
-    text-transform: none;
-    font-variant: normal;
-}
 
 // -------------------------------------------------------------------
 // Styles
@@ -300,7 +285,6 @@
     }
 
     &__icon-embed {
-        @extend %wpdtrt-gallery-icon;
         position: absolute;
         top: 50%;
         left: 50%;
@@ -313,9 +297,8 @@
     }
 
     &__icon-image-type {
-        @extend %wpdtrt-gallery-icon;
         position: absolute;
-        top: 15.5px;
+        top: 17px;
         right: 24px;
         z-index: 2;
         color: var(--wpdtrt-gallery-text-color);
@@ -373,16 +356,21 @@
     // }
 
     &__tabpanel {
+        #{$block}__liner {
+            @extend .icon;
+
+            &::before {
+                @extend #{$block}__icon-image-type;
+            }
+        }
+
         // -------------------------------------------------------------------
         // tabpanel image is a horizontal panorama
         // -------------------------------------------------------------------
 
         &[data-panorama] {
             #{$block}__liner {
-                &::before {
-                    @extend #{$block}__icon-image-type;
-                    content: '\e90a';
-                }
+                @extend .wpdtrt-gallery-icon-panorama;
 
                 .js & {
                     // stylelint-disable-next-line declaration-no-important
@@ -406,12 +394,15 @@
         // Display media icon behind iframe embeds to mitigate delayed load
         // -------------------------------------------------------------------
 
+        &[data-rwgps-pageid] {
+            #{$block}__liner {
+                @extend .wpdtrt-gallery-icon-soundcloud;
+            }
+        }
+
         &[data-soundcloud-pageid] {
             #{$block}__liner {
-                &::before {
-                    @extend #{$block}__icon-embed;
-                    content: '\e90c';
-                }
+                @extend .wpdtrt-gallery-icon-soundcloud;
 
                 #{$block}__embed {
                     @extend %wpdtrt-plugin-boilerplate--embedresponsively;
@@ -422,10 +413,7 @@
 
         &[data-vimeo-pageid] {
             #{$block}__liner {
-                &::before {
-                    @extend #{$block}__icon-embed;
-                    content: '\e90b';
-                }
+                @extend .wpdtrt-gallery-icon-video;
 
                 #{$block}__embed {
                     @extend %wpdtrt-plugin-boilerplate--embedresponsively;
@@ -455,16 +443,19 @@
             }
         }
 
-        &[data-soundcloud-pageid],
-        &[data-vimeo-pageid] {
-            #{$block}__img-wrapper {
-                min-height: 0; // loading height
-            }
-        }
+        // &[data-rwgps-pageid],
+        // &[data-soundcloud-pageid],
+        // &[data-vimeo-pageid] {
+        //     #{$block}__img-wrapper {
+        //         min-height: 0; // loading height
+        //     }
+        // }
     }
 }
 
 .wpdtrt-gallery-gallery {
+    $block: &;
+
     display: flex;
     position: relative; // stack on top of sticky nav
     // align-items: flex-start;
@@ -498,40 +489,6 @@
             }
         }
 
-        .a {
-            display: block; // better transition over state
-            position: relative; // AP for hover border
-            box-shadow: 0 0 0 0 currentColor;
-            outline-offset: -3px;
-
-            &::before {
-                @extend %wpdtrt-gallery-icon;
-
-                content: '+';
-                position: absolute;
-                top: 0;
-                right: 0;
-                width: 100%;
-                height: 100%;
-                vertical-align: top;
-                color: var(--wpdtrt-gallery-thumbnail-icon-color);
-                font-size: 1.5em;
-                line-height: 100%;
-                text-align: right;
-                text-shadow: -1px -1px 0 var(--wpdtrt-gallery-thumbnail-icon-shadow-color),
-                    1px -1px 0 var(--wpdtrt-gallery-thumbnail-icon-shadow-color),
-                    -1px 1px 0 var(--wpdtrt-gallery-thumbnail-icon-shadow-color),
-                    1px 1px 0 var(--wpdtrt-gallery-thumbnail-icon-shadow-color);
-                padding-right: .3em;
-                border: var(--wpdtrt-gallery-viewer-inset) solid transparent;
-            }
-
-            // TODO: this hides the overlaid icon
-            // img {
-            //     filter: grayscale(100%);
-            // }
-        }
-
         &,
         &:hover {
             margin-right: 6px;
@@ -542,7 +499,7 @@
             &:not([disabled]) {
                 cursor: pointer;
 
-                .a {
+                #{$block}__tab-liner {
                     &::before {
                         // unselected icon overstate
                         color: var(--wpdtrt-gallery-thumbnail-icon-shadow-color);
@@ -557,39 +514,32 @@
             }
         }
 
+        &:focus {
+            outline-offset: 1px;
+        }
+
+        &,
         &[aria-selected='true'] {
-            .a {
+            #{$block}__tab-liner {
+                @extend .wpdtrt-gallery-icon-image;
+            }
+        }
+
+        &[aria-selected='true'] {
+            #{$block}__tab-liner {
                 opacity: 1;
-                border-color: var(--wpdtrt-gallery-thumbnail-border-color-active);
-                cursor: not-allowed;
+                border-color: var(--wpdtrt-gallery-thumbnail-border-color-selected);
+                filter: brightness(1.3);
 
                 &::before {
-                    content: '-';
-                    // unselected icon overstate
-                    background-color: var(--wpdtrt-gallery-thumbnail-icon-color-active);
+                    background-color: var(--wpdtrt-gallery-thumbnail-icon-background-color-selected);
                     color: var(--wpdtrt-gallery-thumbnail-icon-shadow-color);
                     text-shadow: -1px -1px 0 var(--wpdtrt-gallery-thumbnail-icon-color),
                         1px -1px 0 var(--wpdtrt-gallery-thumbnail-icon-color),
                         -1px 1px 0 var(--wpdtrt-gallery-thumbnail-icon-color),
                         1px 1px 0 var(--wpdtrt-gallery-thumbnail-icon-color);
-                    // selected icon overstate // ?
                     border-color: transparent;
                     transition: none;
-                }
-
-                img {
-                    filter: none;
-                }
-            }
-        }
-
-        &[data-panorama],
-        &[data-soundcloud-pageid],
-        &[data-vimeo-pageid] {
-            .a {
-                &::before {
-                    @extend %wpdtrt-gallery-icon;
-                    padding-top: .3em;
                 }
             }
         }
@@ -597,10 +547,17 @@
         &[data-panorama] {
             &,
             &[aria-selected='true'] {
-                .a {
-                    &::before {
-                        content: '\e90a';
-                    }
+                #{$block}__tab-liner {
+                    @extend .wpdtrt-gallery-icon-panorama;
+                }
+            }
+        }
+
+        &[data-rwgps-pageid] {
+            &,
+            &[aria-selected='true'] {
+                #{$block}__tab-liner {
+                    @extend .wpdtrt-gallery-icon-map;
                 }
             }
         }
@@ -608,10 +565,8 @@
         &[data-soundcloud-pageid] {
             &,
             &[aria-selected='true'] {
-                .a {
-                    &::before {
-                        content: '\e90c';
-                    }
+                #{$block}__tab-liner {
+                    @extend .wpdtrt-gallery-icon-soundcloud;
                 }
             }
         }
@@ -619,10 +574,8 @@
         &[data-vimeo-pageid] {
             &,
             &[aria-selected='true'] {
-                .a {
-                    &::before {
-                        content: '\e90b';
-                    }
+                #{$block}__tab-liner {
+                    @extend .wpdtrt-gallery-icon-video;
                 }
             }
         }
@@ -631,7 +584,7 @@
             cursor: not-allowed;
 
             &:not([aria-selected='true']) {
-                .a {
+                #{$block}__tab-liner {
                     img {
                         opacity: .7;
                     }
@@ -644,6 +597,35 @@
             height: auto;
             max-width: 100%;
             margin: 0 auto;
+        }
+    }
+
+    &__tab-liner {
+        @extend .icon;
+        @extend .wpdtrt-gallery-icon-image;
+
+        display: block; // better transition over state
+        position: relative; // AP for hover border
+        box-shadow: 0 0 0 0 currentColor;
+        outline-offset: -3px;
+        filter: brightness(1.1);
+
+        &::before {
+            display: flex;
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            flex-direction: column;
+            justify-content: flex-start;
+            background-color: var(--wpdtrt-gallery-thumbnail-icon-background-color);
+            color: var(--wpdtrt-gallery-thumbnail-icon-color);
+            font-size: 1.2em;
+            text-align: right;
+            text-shadow: -1px -1px 0 var(--wpdtrt-gallery-thumbnail-icon-shadow-color),
+                1px -1px 0 var(--wpdtrt-gallery-thumbnail-icon-shadow-color),
+                -1px 1px 0 var(--wpdtrt-gallery-thumbnail-icon-shadow-color),
+                1px 1px 0 var(--wpdtrt-gallery-thumbnail-icon-shadow-color);
+            border: var(--wpdtrt-gallery-viewer-inset) solid transparent;
         }
     }
 

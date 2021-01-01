@@ -22,9 +22,11 @@
     --wpdtrt-gallery-bg-color-loading: hsla(0, 0%, 98%, 1);
     --wpdtrt-gallery-text-color: hsla(0, 0%, 100%, 1);
     --wpdtrt-gallery-icon-embed: hsla(0, 0%, 0%, .4);
-    --wpdtrt-gallery-thumbnail-border-color-active: hsla(0, 0%, 100%, 1);
+    --wpdtrt-gallery-thumbnail-border-color-selected: hsla(0, 0%, 100%, 1);
     --wpdtrt-gallery-thumbnail-icon-color: hsla(0, 0%, 100%, 1);
-    --wpdtrt-gallery-thumbnail-icon-color-active: hsla(0, 0%, 100%, 0);
+    --wpdtrt-gallery-thumbnail-icon-color-selected: hsla(0, 0%, 100%, 0);
+    --wpdtrt-gallery-thumbnail-icon-background-color: hsla(0, 0%, 100%, .3);
+    --wpdtrt-gallery-thumbnail-icon-background-color-selected: rgba(2, 1, 1, 0);
     --wpdtrt-gallery-thumbnail-icon-shadow-color: hsla(0, 0%, 0%, 1);
     --wpdtrt-gallery-viewer-inset-header: 5px 12px;
     --wpdtrt-gallery-viewer-inset: 4px;

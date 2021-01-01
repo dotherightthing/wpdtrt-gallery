@@ -939,7 +939,7 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 		// additions:.
 		$result['tabclass']                  = 'wpdtrt-gallery-gallery__tab';
 		$result['tabtag']                    = 'button';
-		$result['tablinerclass']             = 'a';
+		$result['tablinerclass']             = 'wpdtrt-gallery-gallery__tab-liner';
 		$result['tablinertag']               = 'span';
 		$result['tablistclass']              = 'wpdtrt-gallery-gallery';
 		$result['tablisttitle']              = 'Select a photo to display';
