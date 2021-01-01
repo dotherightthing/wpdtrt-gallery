@@ -525,6 +525,11 @@
                 padding-right: .3em;
                 border: var(--wpdtrt-gallery-viewer-inset) solid transparent;
             }
+
+            // TODO: this hides the overlaid icon
+            // img {
+            //     filter: grayscale(100%);
+            // }
         }
 
         &,
@@ -570,6 +575,10 @@
                     // selected icon overstate // ?
                     border-color: transparent;
                     transition: none;
+                }
+
+                img {
+                    filter: none;
                 }
             }
         }
@@ -621,8 +630,12 @@
         &[disabled] {
             cursor: not-allowed;
 
-            .a {
-                opacity: .5;
+            &:not([aria-selected='true']) {
+                .a {
+                    img {
+                        opacity: .7;
+                    }
+                }
             }
         }
 
