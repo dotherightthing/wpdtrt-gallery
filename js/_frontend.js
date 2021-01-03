@@ -146,9 +146,6 @@ const wpdtrtGalleryUi = {
         const $tabpanelImg = $tabpanel.find('img');
         const $tabpanelIframe = $tabpanel.find('iframe');
 
-        // read data- attributes
-        const rwgpsPageId = $tabpanel.data('rwgps-pageid');
-
         // the actual state
         const componentIsExpanded = $component.attr('data-expanded') === 'true';
 
