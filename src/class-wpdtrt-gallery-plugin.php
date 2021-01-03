@@ -459,7 +459,7 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 
 			if ( '' !== $tabspatternclass ) {
 				$component_attrs .= " class='{$tabspatternclass}'";
-				$component_attrs .= " data-enabled='false'";
+				$component_attrs .= " data-enabled='true'";
 				$component_attrs .= " data-expanded='false'";
 			}
 

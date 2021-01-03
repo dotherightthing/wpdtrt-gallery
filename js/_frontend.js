@@ -582,9 +582,6 @@ const wpdtrtGalleryUi = {
         $viewerLiner
             .attr('data-loading', true);
 
-        $gallery
-            .attr('data-enabled', true);
-
         $tabs.each((i, item) => {
             wpdtrtGalleryUi.trackOnHover($, $(item)); // TODO change to panel onTabSelect
         });
