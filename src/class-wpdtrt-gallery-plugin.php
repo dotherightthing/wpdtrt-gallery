@@ -1243,7 +1243,7 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 						// remove the old heading as it now appears in the gallery tabpanels area.
 						$section_inner_html = str_replace( $heading_html, '', $section_inner_html );
 					}
-				}/* elseif ( strlen( $heading_html ) > 0 ) {
+				} else {
 					// inject heading shortcode
 					// .
 					// if there's no gallery, wrap heading in gallery heading shortcode.
@@ -1253,7 +1253,7 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 
 					$section_html      .= $new_heading_html;
 					$section_inner_html = str_replace( $heading_html, '', $section_inner_html );
-				}*/
+				}
 
 				// wrap remaining content.
 				$section_html .= '<div class="entry-content">';
