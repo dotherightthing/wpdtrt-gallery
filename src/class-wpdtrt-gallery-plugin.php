@@ -255,7 +255,7 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 				'tabpanelswrapperclass'     => '',
 				'title'                     => '',
 				'titleclass'                => '',
-				'titledataanchorlinksid'    => '',
+				'titleextraattrs'           => '',
 				'titletag'                  => 'h2',
 				'titleanchorclass'          => '',
 				'titleanchorhref'           => '',
@@ -361,7 +361,7 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 		// tabpanels title - child of tabpanels wrapper.
 		$title                  = esc_html( $atts['title'] );
 		$titleclass             = $this->helper_sanitize_html_classes( $atts['titleclass'] );
-		$titledataanchorlinksid = esc_html( $atts['titledataanchorlinksid'] );
+		$titleextraattrs        = $atts['titleextraattrs'];
 		$titletag               = tag_escape( $atts['titletag'] );
 
 		// anchor is injected by wpdtrt-anchorlinks.
@@ -487,8 +487,8 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 					$title_wrapper_attrs .= " class='{$titleclass}'";
 				}
 
-				if ( '' !== $titledataanchorlinksid ) {
-					$title_attrs .= " data-anchorlinks-id='{$titledataanchorlinksid}'";
+				if ( '' !== $titleextraattrs ) {
+					$title_attrs .= $titleextraattrs;
 				}
 
 				$output .= "<div{$title_wrapper_attrs}>";
@@ -1213,7 +1213,8 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 						}
 
 						if ( '' !== $heading_data_anchorlinks_id ) {
-							$gallery_shortcode_attrs .= " titledataanchorlinksid='{$heading_data_anchorlinks_id}'";
+							$title_extra_attrs        = ' data-anchorlinks-id="' . $heading_data_anchorlinks_id . '"';
+							$gallery_shortcode_attrs .= " titleextraattrs='{$title_extra_attrs}'";
 						}
 
 						if ( '' !== $heading_anchor_class ) {
