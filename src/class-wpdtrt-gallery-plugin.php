@@ -511,6 +511,8 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 
 			if ( '' !== $tablistlabel ) {
 				$gallery_attrs .= " aria-label='{$tablistlabel}'";
+			} elseif ( '' !== $tablisttitletag ) {
+				$gallery_attrs .= " aria-labelledby='galleryid-{$id}-tablist-title'";
 			}
 
 			$gallery_div = str_replace( '>', $gallery_attrs . '>', $gallery_div );
@@ -532,7 +534,7 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 
 		if ( $usetabspattern ) {
 			if ( '' !== $tablisttitletag ) {
-				$tablisttitle_attrs = '';
+				$tablisttitle_attrs = " id='galleryid-{$id}-tablist-title'";
 
 				if ( '' !== $tablisttitleclass ) {
 					$tablisttitle_attrs .= " class='{$tablisttitleclass}'";
@@ -939,7 +941,8 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 		$result['tablinertag']               = 'span';
 		$result['tablistclass']              = 'wpdtrt-gallery-gallery';
 		$result['tablisttitle']              = 'Select a photo to display';
-		$result['tablistlabel']              = 'Choose photo to display';
+		$result['tablisttitleclass']         = 'wpdtrt-gallery-gallery__header';
+		$result['tablisttitletag']           = 'h3';
 		$result['tabpanelclass']             = 'wpdtrt-gallery-viewer__tabpanel';
 		$result['tabpanelcaptionclass']      = 'wpdtrt-gallery-viewer__footer';
 		$result['tabpanelcaptionlinerclass'] = 'wpdtrt-gallery-viewer__caption';
@@ -953,8 +956,6 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 		$result['titleclass']                = 'wpdtrt-gallery__header';
 		$result['titletag']                  = 'h2';
 		$result['usetabspattern']            = 'true';
-		// $result['tablisttitleclass']         = 'wpdtrt-gallery-gallery__header';
-		// $result['tablisttitletag']           = 'h3';
 
 		return $result;
 	}
