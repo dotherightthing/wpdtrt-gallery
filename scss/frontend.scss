@@ -413,7 +413,7 @@ $icomoon-font-path: '../icons/icomoon/fonts';
 
         &[data-vimeo-pageid] {
             #{$block}__liner {
-                @extend .wpdtrt-gallery-icon-video;
+                @extend .wpdtrt-gallery-icon-vimeo;
 
                 #{$block}__embed {
                     @extend %wpdtrt-plugin-boilerplate--embedresponsively;
@@ -555,7 +555,7 @@ $icomoon-font-path: '../icons/icomoon/fonts';
             &,
             &[aria-selected='true'] {
                 #{$block}__tab-liner {
-                    @extend .wpdtrt-gallery-icon-video;
+                    @extend .wpdtrt-gallery-icon-vimeo;
                 }
             }
         }

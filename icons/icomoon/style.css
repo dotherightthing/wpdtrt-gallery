@@ -1,9 +1,9 @@
 @font-face {
   font-family: 'wpdtrt-gallery';
   src:
-    url('fonts/wpdtrt-gallery.ttf?opzmf1') format('truetype'),
-    url('fonts/wpdtrt-gallery.woff?opzmf1') format('woff'),
-    url('fonts/wpdtrt-gallery.svg?opzmf1#wpdtrt-gallery') format('svg');
+    url('fonts/wpdtrt-gallery.ttf?uxo876') format('truetype'),
+    url('fonts/wpdtrt-gallery.woff?uxo876') format('woff'),
+    url('fonts/wpdtrt-gallery.svg?uxo876#wpdtrt-gallery') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -24,9 +24,6 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.wpdtrt-gallery-icon-video:before {
-  content: "\e90b";
-}
 .wpdtrt-gallery-icon-panorama:before {
   content: "\e90a";
 }
@@ -35,6 +32,9 @@
 }
 .wpdtrt-gallery-icon-map:before {
   content: "\e94c";
+}
+.wpdtrt-gallery-icon-vimeo:before {
+  content: "\eaa1";
 }
 .wpdtrt-gallery-icon-soundcloud:before {
   content: "\eac3";
