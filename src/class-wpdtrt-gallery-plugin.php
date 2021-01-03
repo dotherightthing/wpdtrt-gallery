@@ -256,11 +256,8 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 				'title'                     => '',
 				'titleclass'                => '',
 				'titleextraattrs'           => '',
+				'titleextrahtml'            => '',
 				'titletag'                  => 'h2',
-				'titleanchorclass'          => '',
-				'titleanchorhref'           => '',
-				'titleanchoriconclass'      => '',
-				'titleanchoriconlabel'      => '',
 				'usetabspattern'            => 'false',
 			),
 			$attr,
@@ -359,16 +356,11 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 		$tabpanelswrapperclass = $this->helper_sanitize_html_classes( $atts['tabpanelswrapperclass'] );
 
 		// tabpanels title - child of tabpanels wrapper.
-		$title                  = esc_html( $atts['title'] );
-		$titleclass             = $this->helper_sanitize_html_classes( $atts['titleclass'] );
-		$titleextraattrs        = $atts['titleextraattrs'];
-		$titletag               = tag_escape( $atts['titletag'] );
-
-		// anchor is injected by wpdtrt-anchorlinks.
-		$titleanchorclass     = $this->helper_sanitize_html_classes( $atts['titleanchorclass'] );
-		$titleanchorhref      = esc_url_raw( $atts['titleanchorhref'] );
-		$titleanchoriconclass = $this->helper_sanitize_html_classes( $atts['titleanchoriconclass'] );
-		$titleanchoriconlabel = esc_html( $atts['titleanchoriconlabel'] );
+		$title           = esc_html( $atts['title'] );
+		$titleclass      = $this->helper_sanitize_html_classes( $atts['titleclass'] );
+		$titleextraattrs = wp_kses_post( $atts['titleextraattrs'] );
+		$titleextrahtml  = wp_kses_post( $atts['titleextrahtml'] );
+		$titletag        = tag_escape( $atts['titletag'] );
 
 		// tabpanels liner - child of tabpanels wrapper.
 		$tabpanelslinerclass = $this->helper_sanitize_html_classes( $atts['tabpanelslinerclass'] );
@@ -495,10 +487,8 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 				$output .= "<{$titletag}{$title_attrs}>";
 				$output .= $title;
 
-				if ( ( '' !== $titleanchorclass ) && ( '' !== $titleanchorhref ) && ( '' !== $titleanchoriconlabel ) && ( '' !== $titleanchoriconclass ) ) {
-					$output .= "<a class='{$titleanchorclass}' href='{$titleanchorhref}'>";
-					$output .= "<span aria-label='{$titleanchoriconlabel}' class='{$titleanchoriconclass}'>#</span>";
-					$output .= '</a>';
+				if ( '' !== $titleextrahtml ) {
+					$output .= $titleextrahtml;
 				}
 
 				$output .= "</{$titletag}>";
@@ -1115,10 +1105,6 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 				$section                     = $div;
 				$gallery                     = null;
 				$gallery_shortcode           = '';
-				$heading_anchor_class        = '';
-				$heading_anchor_href         = '';
-				$heading_anchor_icon_class   = '';
-				$heading_anchor_icon_label   = '';
 				$heading_data_anchorlinks_id = '';
 				$heading_html                = '';
 				$heading_text                = '';
@@ -1155,16 +1141,10 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 				$heading_text                = explode( '<', $heading_text )[0];
 				$heading_data_anchorlinks_id = $heading->getAttribute( 'data-anchorlinks-id' );
 				$heading_anchor              = $heading->getElementsByTagName( 'a' );
+				$anchor_html                 = '';
 
 				if ( $heading_anchor->length > 0 ) {
-					$heading_anchor_class = $heading_anchor[0]->getAttribute( 'class' );
-					$heading_anchor_href  = $heading_anchor[0]->getAttribute( 'href' );
-					$heading_anchor_icon  = $heading_anchor[0]->getElementsByTagName( 'span' );
-
-					if ( $heading_anchor_icon->length > 0 ) {
-						$heading_anchor_icon_class = $heading_anchor_icon[0]->getAttribute( 'class' );
-						$heading_anchor_icon_label = $heading_anchor_icon[0]->getAttribute( 'aria-label' );
-					}
+					$heading_anchor_html = $this->render_html( $heading_anchor[0], true );
 				}
 
 				$section_class    = $section->getAttribute( 'class' ) . ' wpdtrt-gallery__section';
@@ -1214,23 +1194,9 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 
 						if ( '' !== $heading_data_anchorlinks_id ) {
 							$title_extra_attrs        = ' data-anchorlinks-id="' . $heading_data_anchorlinks_id . '"';
+							$title_extra_html         = $heading_anchor_html;
 							$gallery_shortcode_attrs .= " titleextraattrs='{$title_extra_attrs}'";
-						}
-
-						if ( '' !== $heading_anchor_class ) {
-							$gallery_shortcode_attrs .= " titleanchorclass='{$heading_anchor_class}'";
-						}
-
-						if ( '' !== $heading_anchor_href ) {
-							$gallery_shortcode_attrs .= " titleanchorhref='{$heading_anchor_href}'";
-						}
-
-						if ( '' !== $heading_anchor_icon_class ) {
-							$gallery_shortcode_attrs .= " titleanchoriconclass='{$heading_anchor_icon_class}'";
-						}
-
-						if ( '' !== $heading_anchor_icon_label ) {
-							$gallery_shortcode_attrs .= " titleanchoriconlabel='{$heading_anchor_icon_label}'";
+							$gallery_shortcode_attrs .= " titleextrahtml='{$title_extra_html}'";
 						}
 
 						$gallery_shortcode = str_replace( ']', $gallery_shortcode_attrs . ']', $gallery_shortcode );
