@@ -673,7 +673,6 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 
 			if ( '' !== $tabpanelswrapperclass ) {
 				$tabpanelswrapper_attrs .= " class='{$tabpanelswrapperclass}'";
-				$tabpanelswrapper_attrs .= " data-wpdtrt-anchorlinks-controls='highlighting'"; // TODO move to section.
 			}
 
 			$output .= "<div${tabpanelswrapper_attrs}>";
