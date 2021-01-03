@@ -125,29 +125,6 @@ const wpdtrtGalleryUi = {
     },
 
     /**
-     * @function stringToBoolean
-     * @summary Convert expanded state from a data-attribute string to a boolean.
-     * @memberof wpdtrtGalleryUi
-     * @protected
-     *
-     * @param {string} str - String
-     *
-     * @returns {boolean} componentIsExpanded
-     * @since 1.3.0
-     */
-    stringToBoolean: function (str) {
-        let bool = false;
-
-        if (str === 'true') {
-            bool = true;
-        } else if (str === 'false') {
-            bool = false;
-        }
-
-        return bool;
-    },
-
-    /**
      * @function toggleExpanded
      * @summary Expand or collapse the viewer.
      * @memberof wpdtrtGalleryUi
@@ -173,10 +150,10 @@ const wpdtrtGalleryUi = {
         const rwgpsPageId = $tabpanel.data('rwgps-pageid');
 
         // the actual state
-        const componentIsExpanded = $component.attr('data-expanded');
+        const componentIsExpanded = $component.attr('data-expanded') === 'true';
 
         // post-toggle states to reinstate
-        let userExpandedSaved = $component.attr('data-expanded-user');
+        let userExpandedSaved = $component.attr('data-expanded-user') === 'true';
 
         // this is problematic
         // because when the thumbnail is clicked
@@ -188,7 +165,7 @@ const wpdtrtGalleryUi = {
         // except info we want to retain such as the user state
         // which could always be left there
         // and if a type has some other data, that could trump it
-        const isLocked = $component.attr('data-lock-expanded');
+        const isLocked = $component.attr('data-lock-expanded') === 'true';
 
         // ------------------------------
         // update state
@@ -227,10 +204,10 @@ const wpdtrtGalleryUi = {
             // this will result in B being used from now on
 
             $component
-                .attr('data-expanded-user', !this.stringToBoolean(componentIsExpanded));
+                .attr('data-expanded-user', !componentIsExpanded);
 
             // for clarity
-            userExpandedSaved = !this.stringToBoolean(componentIsExpanded);
+            userExpandedSaved = !componentIsExpanded;
 
             // use the saved user value
             $component
