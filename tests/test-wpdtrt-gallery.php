@@ -579,7 +579,7 @@ class WPDTRT_GalleryTest extends WP_UnitTestCase {
 					<div class="wpdtrt-gallery-viewer__wrapper">
 						<figure class="wpdtrt-gallery-viewer__liner">
 							<div class="wpdtrt-gallery-viewer__img-wrapper"></div>
-							<div class="wpdtrt-gallery-viewer__embed">
+							<div class="wpdtrt-gallery-viewer__iframe-wrapper">
 								<iframe aria-hidden="true" title="Gallery media viewer."></iframe>
 							</div>
 							<figcaption class="wpdtrt-gallery-viewer__footer">

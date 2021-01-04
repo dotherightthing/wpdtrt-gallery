@@ -231,6 +231,11 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 				'exclude'                   => '',
 				'link'                      => '',
 				// additions:.
+				'iconclassimage'            => '',
+				'iconclasspanorama'         => '',
+				'iconclassrwgps'            => '',
+				'iconclasssoundcloud'       => '',
+				'iconclassrvimeo'           => '',
 				'tabspatternclass'          => '',
 				'tabclass'                  => '',
 				'tabtag'                    => '',
@@ -355,6 +360,13 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 		// tabpanels wrapper - wraps all tabpanel items.
 		$tabpanelswrapperclass = $this->helper_sanitize_html_classes( $atts['tabpanelswrapperclass'] );
 
+		// icon classes.
+		$iconclassimage      = $this->helper_sanitize_html_classes( $atts['iconclassimage'] );
+		$iconclasspanorama   = $this->helper_sanitize_html_classes( $atts['iconclasspanorama'] );
+		$iconclassrwgps      = $this->helper_sanitize_html_classes( $atts['iconclassrwgps'] );
+		$iconclasssoundcloud = $this->helper_sanitize_html_classes( $atts['iconclasssoundcloud'] );
+		$iconclassvimeo      = $this->helper_sanitize_html_classes( $atts['iconclassrvimeo'] );
+
 		// tabpanels title - child of tabpanels wrapper.
 		$title           = esc_html( $atts['title'] );
 		$titleclass      = $this->helper_sanitize_html_classes( $atts['titleclass'] );
@@ -473,7 +485,7 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 		if ( $usetabspattern ) {
 			if ( '' !== $titletag ) {
 				$title_wrapper_attrs = '';
-				$title_attrs = '';
+				$title_attrs         = '';
 
 				if ( '' !== $titleclass ) {
 					$title_wrapper_attrs .= " class='{$titleclass}'";
@@ -574,16 +586,6 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 				$tab_attrs .= " data-kh-proxy='selectFocussed'";
 				$tab_attrs .= ' disabled';
 
-				if ( $rwgps_pageid ) {
-					$tab_attrs .= " data-rwgps-pageid='true'";
-				} elseif ( $soundcloud_pageid && $soundcloud_trackid ) {
-					$tab_attrs .= " data-soundcloud-pageid='true' data-soundcloud-trackid='true'"; 
-				} elseif ( $vimeo_pageid ) {
-					$tab_attrs .= " data-vimeo-pageid='true'";
-				} elseif ( '1' === $panorama ) {
-					$tab_attrs .= " data-panorama='true'";
-				}
-
 				if ( 1 === $count ) {
 					$tab_attrs .= " aria-selected='true'";
 					$tab_attrs .= " tabindex='0'";
@@ -591,23 +593,53 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 					$tab_attrs .= " aria-selected='false'";
 					$tab_attrs .= " tabindex='-1'";
 				}
-				$linklinerattrs = '';
+
+				/**
+				 * START TAB LINER
+				 */
+
+				$tablinerattrs = '';
+				$iconclass    = '';
 
 				if ( '' !== $tablinerclass ) {
-					$linklinerattrs .= " class='{$tablinerclass}'";
+					if ( '1' === $panorama ) {
+						$iconclass = $iconclasspanorama;
+					} elseif ( $rwgps_pageid ) {
+						$iconclass = $iconclassrwgps;
+					} elseif ( $soundcloud_pageid && $soundcloud_trackid ) {
+						$iconclass = $iconclasssoundcloud;
+					} elseif ( $vimeo_pageid ) {
+						$iconclass = $iconclassvimeo;
+					} else {
+						$iconclass = $iconclassimage;
+					}
+
+					$tablinerattrs .= " class='{$tablinerclass} {$iconclass}'";
 				}
 
 				$image_output = "<{$tabtag}{$tab_attrs}>";
 
 				if ( '' !== $tablinertag ) {
-					$image_output .= "<{$tablinertag} {$linklinerattrs}>";
+					$image_output .= "<{$tablinertag} {$tablinerattrs}>";
 				}
 
+				/**
+				 * START TAB IMAGE
+				 */
+
 				$image_output .= wp_get_attachment_image( $id, $atts['size'], false, $attr );
+
+				/**
+				 * END TAB IMAGE
+				 */
 
 				if ( '' !== $tablinertag ) {
 					$image_output .= "</{$tablinertag}>";
 				}
+
+				/**
+				 * END TAB LINER
+				 */
 
 				$image_output .= "</{$tabtag}>";
 
@@ -727,7 +759,7 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 				if ( $rwgps_pageid ) {
 					$tabpanel_attrs .= " data-rwgps-pageid='true'";
 				} elseif ( $soundcloud_pageid && $soundcloud_trackid ) {
-					$tabpanel_attrs .= " data-soundcloud-pageid='true' data-soundcloud-trackid='true'"; 
+					$tabpanel_attrs .= " data-soundcloud-pageid='true' data-soundcloud-trackid='true'";
 				} elseif ( $vimeo_pageid ) {
 					$tabpanel_attrs .= " data-vimeo-pageid='true'";
 				} elseif ( '1' === $panorama ) {
@@ -769,6 +801,7 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 				 */
 
 				$tabpanelitem_attrs = '';
+				$iconclass         = '';
 
 				if ( '' !== $tabpanelitemclass ) {
 					$tabpanelitem_attrs .= " class='{$tabpanelitemclass}'";
@@ -788,7 +821,19 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 					$tabpanelimage_attrs = '';
 
 					if ( '' !== $tabpanelimageclass ) {
-						$tabpanelimage_attrs .= " class='{$tabpanelimageclass}'";
+						if ( '1' === $panorama ) {
+							$iconclass = $iconclasspanorama;
+						} elseif ( $rwgps_pageid ) {
+							$iconclass = $iconclassrwgps;
+						} elseif ( $soundcloud_pageid && $soundcloud_trackid ) {
+							$iconclass = $iconclasssoundcloud;
+						} elseif ( $vimeo_pageid ) {
+							$iconclass = $iconclassvimeo;
+						} else {
+							$iconclass = $iconclassimage;
+						}
+
+						$tabpanelimage_attrs .= " class='{$tabpanelimageclass} {$iconclass}'";
 					}
 
 					$output .= "<{$tabpanelimagetag}{$tabpanelimage_attrs}>";
@@ -813,24 +858,33 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 					// if ($galleryItem.is(':first-child') || isDefault) {
 					// autoplay = false;
 					// }.
+					if ( '1' === $panorama ) {
+						$iconclass = $iconclasspanorama;
+					} elseif ( $rwgps_pageid ) {
+						$iconclass = $iconclassrwgps;
+					} elseif ( $soundcloud_pageid && $soundcloud_trackid ) {
+						$iconclass = $iconclasssoundcloud;
+					} elseif ( $vimeo_pageid ) {
+						$iconclass = $iconclassvimeo;
+					} else {
+						$iconclass = $iconclassimage;
+					}
+
 					$autopause     = 'true'; // opposite of $autoplay.
 					$autoplay      = 'false';
-					$embed_attrs   = '';
+					$embed_attrs   = " class='wpdtrt-gallery-viewer__iframe-wrapper {$iconclass}'";
 					$iframe_attrs  = " aria-describedby='galleryid-{$id}-tabpanel-{$count}-caption'";
 					$iframe_attrs .= " class='wpdtrt-gallery-viewer__iframe'";
 
 					if ( $rwgps_pageid ) {
-						$embed_attrs  .= " class='wpdtrt-gallery-viewer__embed wpdtrt-gallery-viewer__embed--rwgps'";
 						$iframe_attrs .= " src='//rwgps-embeds.com/routes/{$rwgps_pageid}/embed'";
 						$iframe_attrs .= " title='Ride With GPS map viewer. '";
 					} elseif ( $soundcloud_pageid && $soundcloud_trackid ) {
 						// TODO: player on live site displays a waveform, player on local dev doesn't.
-						$embed_attrs  .= " class='wpdtrt-gallery-viewer__embed wpdtrt-gallery-viewer__embed--soundcloud'";
 						$iframe_attrs .= " src='//w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/{$soundcloud_trackid}?auto_play={$autoplay}&hide_related=true&show_comments=false&show_user=false&show_reposts=false&visual=true'";
 						$iframe_attrs .= " title='SoundCloud player. '";
 					} elseif ( $vimeo_pageid ) {
 						// adapted from https://appleple.github.io/modal-video/.
-						$embed_attrs  .= " class='wpdtrt-gallery-viewer__embed wpdtrt-gallery-viewer__embed--vimeo'";
 						$iframe_attrs .= " allowfullscreen='true'";
 						$iframe_attrs .= " src='//player.vimeo.com/video/{$vimeo_pageid}?api=false&autopause={$autopause}&autoplay={$autoplay}&byline=false&loop=false&portrait=false&title=false&xhtml=false'";
 						$iframe_attrs .= " title='Vimeo player. '";
@@ -863,11 +917,28 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 					}
 
 					if ( '' !== $tabpanelcaptionlinerclass ) {
+						if ( '1' === $panorama ) {
+							$iconclass = $iconclasspanorama;
+						} elseif ( $rwgps_pageid ) {
+							$iconclass = $iconclassrwgps;
+						} elseif ( $soundcloud_pageid && $soundcloud_trackid ) {
+							$iconclass = $iconclasssoundcloud;
+						} elseif ( $vimeo_pageid ) {
+							$iconclass = $iconclassvimeo;
+						} else {
+							$iconclass = $iconclassimage;
+						}
+
 						$enlargementcaptionliner_attrs .= " class='{$tabpanelcaptionlinerclass}'";
 					}
 
 					$output .= "<{$tabpanelcaptiontag}{$enlargementcaption_attrs}>";
 					$output .= "<div{$enlargementcaptionliner_attrs}>";
+
+					if ( '' !== $iconclass ) {
+						$output .= "<span class='{$iconclass}'></span>";
+					}
+
 					$output .= wptexturize( $attachment->post_excerpt );
 					$output .= '</div>';
 					$output .= "</{$tabpanelcaptiontag}>";
@@ -935,6 +1006,11 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 		$result['link']    = 'none';
 
 		// additions:.
+		$result['iconclasssoundcloud']       = 'wpdtrt-gallery-icon-soundcloud';
+		$result['iconclassimage']            = 'wpdtrt-gallery-icon-image';
+		$result['iconclassrwgps']            = 'wpdtrt-gallery-icon-map';
+		$result['iconclasspanorama']         = 'wpdtrt-gallery-icon-panorama';
+		$result['iconclassrvimeo']           = 'wpdtrt-gallery-icon-vimeo';
 		$result['tabclass']                  = 'wpdtrt-gallery-gallery__tab';
 		$result['tabtag']                    = 'button';
 		$result['tablinerclass']             = 'wpdtrt-gallery-gallery__tab-liner';
@@ -944,7 +1020,7 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 		$result['tablisttitleclass']         = 'wpdtrt-gallery-gallery__header';
 		$result['tablisttitletag']           = 'h3';
 		$result['tabpanelclass']             = 'wpdtrt-gallery-viewer__tabpanel';
-		$result['tabpanelcaptionclass']      = 'wpdtrt-gallery-viewer__footer';
+		$result['tabpanelcaptionclass']      = 'wpdtrt-gallery-viewer__caption-wrapper';
 		$result['tabpanelcaptionlinerclass'] = 'wpdtrt-gallery-viewer__caption';
 		$result['tabpanelcontrolsclass']     = 'wpdtrt-gallery-viewer__controls';
 		$result['tabpanelimageclass']        = 'wpdtrt-gallery-viewer__img-wrapper';
@@ -1234,11 +1310,6 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 				$content_replacements[] = $section_html;
 			}
 		}
-
-		// preg_match( '/wpdtrt-anchorlinks__anchor/', $section->getAttribute( 'class' ), $sections );
-
-
-
 
 		// phpcs:enable WordPress.NamingConventions
 

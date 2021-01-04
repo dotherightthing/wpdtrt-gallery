@@ -108,8 +108,8 @@ $icomoon-font-path: '../icons/icomoon/fonts';
         &[data-enabled='true'][data-expanded='false'] {
             &:focus {
                 .wpdtrt-gallery-viewer {
-                    &__footer {
-                        z-index: 1;
+                    &__caption-wrapper {
+                        z-index: 2;
                     }
                 }
             }
@@ -133,11 +133,12 @@ $icomoon-font-path: '../icons/icomoon/fonts';
                     margin: var(--wpdtrt-gallery-viewer-inset);
                 }
 
-                &__footer {
+                &__caption-wrapper {
                     position: absolute;
                     right: 0;
                     bottom: 0;
                     left: 0;
+                    z-index: 2;
                 }
 
                 &__liner {
@@ -194,27 +195,21 @@ $icomoon-font-path: '../icons/icomoon/fonts';
     &__caption {
         display: inline-block;
 
+        [class^='wpdtrt-gallery-icon-'],
+        [class*=' wpdtrt-gallery-icon-'] {
+            position: relative;
+            bottom: -.1em;
+            margin-right: 6px;
+        }
+
         &:empty {
             display: none;
-        }
-    }
-
-    &__embed {
-        &--soundcloud,
-        &--vimeo {
-            position: relative;
-            height: 0;
-            max-width: 100%;
-            padding-bottom: 56.25%;
-            overflow: hidden;
         }
     }
 
     &__iframe {
         position: relative;
         z-index: 1; // make buttons clickable
-        width: 100%;
-        height: 100%;
         border: 0;
         overflow: hidden;
     }
@@ -226,7 +221,7 @@ $icomoon-font-path: '../icons/icomoon/fonts';
         position: absolute;
         top: 0;
         right: 0;
-        z-index: 1;
+        z-index: 2;
         width: 56px;
         height: 56px;
         line-height: (56px - 4px - 4px);
@@ -265,33 +260,8 @@ $icomoon-font-path: '../icons/icomoon/fonts';
         }
     }
 
-    &__footer {
+    &__caption-wrapper {
         text-align: right;
-    }
-
-    &__icon-embed {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        z-index: 0;
-        color: var(--wpdtrt-gallery-icon-embed);
-        font-size: 48px;
-        line-height: 0;
-        margin-top: -(48px / 2);
-        margin-left: -(48px / 2);
-    }
-
-    &__icon-image-type {
-        position: absolute;
-        top: 17px;
-        right: 24px;
-        z-index: 2;
-        color: var(--wpdtrt-gallery-text-color);
-        font-size: 1.4em;
-        text-shadow: -1px -1px 0 var(--wpdtrt-gallery-border-color),
-            1px -1px 0 var(--wpdtrt-gallery-border-color),
-            -1px 1px 0 var(--wpdtrt-gallery-border-color),
-            1px 1px 0 var(--wpdtrt-gallery-border-color);
     }
 
     &__img-wrapper {
@@ -309,6 +279,8 @@ $icomoon-font-path: '../icons/icomoon/fonts';
         }
 
         > img {
+            position: relative;
+            z-index: 1; // stack above media icon
             width: 100%;
 
             // prevent mousedown+drag inside viewer from dragging a small version of the source panorama
@@ -341,22 +313,25 @@ $icomoon-font-path: '../icons/icomoon/fonts';
     // }
 
     &__tabpanel {
-        #{$block}__liner {
-            @extend .icon;
+
+        // Display media icon behind media to mitigate delayed load
+        #{$block}__img-wrapper,
+        #{$block}__iframe-wrapper {
+            position: relative;
+            background-color: var(--wpdtrt-gallery-bg-color-embed);
 
             &::before {
-                @extend #{$block}__icon-image-type;
+                position: absolute;
+                top: calc(50% - 24px);
+                left: calc(50% - 24px);
+                z-index: 0;
+                color: var(--wpdtrt-gallery-icon-embed);
+                font-size: 48px;
             }
         }
 
-        // -------------------------------------------------------------------
-        // tabpanel image is a horizontal panorama
-        // -------------------------------------------------------------------
-
         &[data-panorama] {
             #{$block}__liner {
-                @extend .wpdtrt-gallery-icon-panorama;
-
                 .js & {
                     // stylelint-disable-next-line declaration-no-important
                     background: none !important; // prevent conflict with JS scroll
@@ -375,36 +350,8 @@ $icomoon-font-path: '../icons/icomoon/fonts';
             }
         }
 
-        // -------------------------------------------------------------------
-        // Display media icon behind iframe embeds to mitigate delayed load
-        // -------------------------------------------------------------------
-
-        &[data-rwgps-pageid] {
-            #{$block}__liner {
-                @extend .wpdtrt-gallery-icon-soundcloud;
-            }
-        }
-
-        &[data-soundcloud-pageid] {
-            #{$block}__liner {
-                @extend .wpdtrt-gallery-icon-soundcloud;
-
-                #{$block}__embed {
-                    @extend %wpdtrt-plugin-boilerplate--embedresponsively;
-                    background-color: var(--wpdtrt-gallery-bg-color-embed);
-                }
-            }
-        }
-
-        &[data-vimeo-pageid] {
-            #{$block}__liner {
-                @extend .wpdtrt-gallery-icon-vimeo;
-
-                #{$block}__embed {
-                    @extend %wpdtrt-plugin-boilerplate--embedresponsively;
-                    background-color: var(--wpdtrt-gallery-bg-color-embed);
-                }
-            }
+        #{$block}__iframe-wrapper {
+            @extend %wpdtrt-plugin-boilerplate--embedresponsively;
         }
     }
 
@@ -419,14 +366,6 @@ $icomoon-font-path: '../icons/icomoon/fonts';
             }
         }
     }
-
-    @include media('>=tablet') {
-        &__liner {
-            &::before {
-                top: 20px;
-                right: 23px;
-            }
-        }
 }
 
 .wpdtrt-gallery-gallery {
@@ -475,13 +414,6 @@ $icomoon-font-path: '../icons/icomoon/fonts';
             outline-offset: 1px;
         }
 
-        &,
-        &[aria-selected='true'] {
-            #{$block}__tab-liner {
-                @extend .wpdtrt-gallery-icon-image;
-            }
-        }
-
         &[aria-selected='true'] {
             #{$block}__tab-liner {
                 opacity: 1;
@@ -496,42 +428,6 @@ $icomoon-font-path: '../icons/icomoon/fonts';
                 &::after {
                     background-color: var(--wpdtrt-gallery-tab-background-color-selected);
                     box-shadow: inset 0 0 0 3px var(--wpdtrt-gallery-tab-border-color-selected);
-                }
-            }
-        }
-
-        &[data-panorama] {
-            &,
-            &[aria-selected='true'] {
-                #{$block}__tab-liner {
-                    @extend .wpdtrt-gallery-icon-panorama;
-                }
-            }
-        }
-
-        &[data-rwgps-pageid] {
-            &,
-            &[aria-selected='true'] {
-                #{$block}__tab-liner {
-                    @extend .wpdtrt-gallery-icon-map;
-                }
-            }
-        }
-
-        &[data-soundcloud-pageid] {
-            &,
-            &[aria-selected='true'] {
-                #{$block}__tab-liner {
-                    @extend .wpdtrt-gallery-icon-soundcloud;
-                }
-            }
-        }
-
-        &[data-vimeo-pageid] {
-            &,
-            &[aria-selected='true'] {
-                #{$block}__tab-liner {
-                    @extend .wpdtrt-gallery-icon-vimeo;
                 }
             }
         }
@@ -557,9 +453,6 @@ $icomoon-font-path: '../icons/icomoon/fonts';
     }
 
     &__tab-liner {
-        @extend .icon;
-        @extend .wpdtrt-gallery-icon-image;
-
         display: block; // better transition over state
         position: relative; // AP for hover border
         outline-offset: -3px;
