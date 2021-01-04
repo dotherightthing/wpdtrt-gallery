@@ -82,6 +82,18 @@ $icomoon-font-path: '../icons/icomoon/fonts';
                     content: '-';
                 }
             }
+
+            &__iframe-wrapper,
+            &__img-wrapper {
+                border-top: 3px solid var(--wpdtrt-gallery-border-color);
+                border-bottom: 3px solid var(--wpdtrt-gallery-border-color);
+            }
+
+            &__iframe-wrapper {
+                &[data-soundcloud-pageid] {
+                    border-top: 0; // soundcloud has it's own top border
+                }
+            }
         }
     }
 
