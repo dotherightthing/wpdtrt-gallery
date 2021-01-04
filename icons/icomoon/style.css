@@ -1,15 +1,15 @@
 @font-face {
   font-family: 'wpdtrt-gallery';
   src:
-    url('fonts/wpdtrt-gallery.ttf?uxo876') format('truetype'),
-    url('fonts/wpdtrt-gallery.woff?uxo876') format('woff'),
-    url('fonts/wpdtrt-gallery.svg?uxo876#wpdtrt-gallery') format('svg');
+    url('fonts/wpdtrt-gallery.ttf?64nt26') format('truetype'),
+    url('fonts/wpdtrt-gallery.woff?64nt26') format('woff'),
+    url('fonts/wpdtrt-gallery.svg?64nt26#wpdtrt-gallery') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: block;
 }
 
-.icon {
+[class^="wpdtrt-gallery-icon-"], [class*=" wpdtrt-gallery-icon-"] {
   /* use !important to prevent issues with browser extensions that change fonts */
   font-family: 'wpdtrt-gallery' !important;
   speak: never;

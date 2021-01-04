@@ -3,15 +3,15 @@
 @font-face {
   font-family: '#{$icomoon-font-family}';
   src:
-    url('#{$icomoon-font-path}/#{$icomoon-font-family}.ttf?uxo876') format('truetype'),
-    url('#{$icomoon-font-path}/#{$icomoon-font-family}.woff?uxo876') format('woff'),
-    url('#{$icomoon-font-path}/#{$icomoon-font-family}.svg?uxo876##{$icomoon-font-family}') format('svg');
+    url('#{$icomoon-font-path}/#{$icomoon-font-family}.ttf?64nt26') format('truetype'),
+    url('#{$icomoon-font-path}/#{$icomoon-font-family}.woff?64nt26') format('woff'),
+    url('#{$icomoon-font-path}/#{$icomoon-font-family}.svg?64nt26##{$icomoon-font-family}') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: block;
 }
 
-.icon {
+[class^="wpdtrt-gallery-icon-"], [class*=" wpdtrt-gallery-icon-"] {
   /* use !important to prevent issues with browser extensions that change fonts */
   font-family: '#{$icomoon-font-family}' !important;
   speak: never;
