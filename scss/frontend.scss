@@ -67,21 +67,6 @@ $icomoon-font-path: '../icons/icomoon/fonts';
     }
 
     // -------------------------------------------------------------------
-    // sections without galleries
-    // the gallery viewer is in the template, but not all sections have galleries
-    // -------------------------------------------------------------------
-
-    // &[data-enabled='false'] {
-    //     .wpdtrt-gallery-viewer__liner {
-    //         // the gallery viewer is in the template,
-    //         // but not all sections have galleries
-    //         .no-js & {
-    //             display: none;
-    //         }
-    //     }
-    // }
-
-    // -------------------------------------------------------------------
     // viewer is enabled + expanded
     // -------------------------------------------------------------------
 
@@ -442,15 +427,6 @@ $icomoon-font-path: '../icons/icomoon/fonts';
                 right: 23px;
             }
         }
-
-        // &[data-rwgps-pageid],
-        // &[data-soundcloud-pageid],
-        // &[data-vimeo-pageid] {
-        //     #{$block}__img-wrapper {
-        //         min-height: 0; // loading height
-        //     }
-        // }
-    }
 }
 
 .wpdtrt-gallery-gallery {
