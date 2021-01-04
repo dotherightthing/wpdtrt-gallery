@@ -272,12 +272,6 @@ const wpdtrtGalleryUi = {
                 .removeAttr('tabindex');
         }
 
-        // update iframe size
-        if (rwgpsPageId) {
-            $tabpanelIframe
-                .attr('height', $tabpanelImg.height());
-        }
-
         return (!componentIsExpanded);
     },
 
