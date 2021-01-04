@@ -261,6 +261,7 @@ $icomoon-font-path: '../icons/icomoon/fonts';
     }
 
     &__caption-wrapper {
+        line-height: 1; // remove gap between expanded viewer and caption
         text-align: right;
     }
 
