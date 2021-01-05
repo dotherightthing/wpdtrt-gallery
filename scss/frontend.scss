@@ -252,23 +252,28 @@ $icomoon-font-path: '../icons/icomoon/fonts';
 
             &:hover,
             &:focus {
-                background-color: var(--wpdtrt-gallery-button-color-alt);
-                color: var(--wpdtrt-gallery-button-color-alt);
+                &:not([disabled]) {
+                    background-color: var(--wpdtrt-gallery-button-color-alt);
+                    color: var(--wpdtrt-gallery-button-color-alt);
+                }
             }
         }
 
         &:hover,
         &:focus {
-            background-color: var(--wpdtrt-gallery-border-color);
-            color: var(--wpdtrt-gallery-border-color);
-            text-shadow: -1px -1px 0 var(--wpdtrt-gallery-border-color-alt),
-                1px -1px 0 var(--wpdtrt-gallery-border-color-alt),
-                -1px 1px 0 var(--wpdtrt-gallery-border-color-alt),
-                1px 1px 0 var(--wpdtrt-gallery-border-color-alt);
+            &:not([disabled]) {
+                background-color: var(--wpdtrt-gallery-border-color);
+                color: var(--wpdtrt-gallery-border-color);
+                text-shadow: -1px -1px 0 var(--wpdtrt-gallery-border-color-alt),
+                    1px -1px 0 var(--wpdtrt-gallery-border-color-alt),
+                    -1px 1px 0 var(--wpdtrt-gallery-border-color-alt),
+                    1px 1px 0 var(--wpdtrt-gallery-border-color-alt);
+            }
         }
 
         &[disabled] {
             opacity: .7;
+            cursor: not-allowed;
         }
     }
 
