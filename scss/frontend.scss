@@ -500,14 +500,20 @@ $icomoon-font-path: '../icons/icomoon/fonts';
     }
 
     &__tab-hint {
-        // always visible as linked via aria-describedbt
+        // always visible as linked via aria-describedby
     }
 
     &__tab-hint-liner {
         // toggle on on tab focus
         display: none;
-        padding-top: 4px;
-        border-top: 2px solid var(--color-mono-medium2);
+        color: var(--wpdtrt-gallery-tab-hint-color);
+        padding-top: 16px;
+        border-top: 1px solid var(--wpdtrt-gallery-tab-hint-border-color);
+        margin-top: 20px;
+
+        p {
+            margin: 0;
+        }
     }
 
     &:focus-within {
