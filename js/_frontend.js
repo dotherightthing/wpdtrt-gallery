@@ -391,20 +391,15 @@ const wpdtrtGalleryUi = {
      * @since 3.0.0
      */
     setupImageLoading: function ($tabpanel) {
-        // const $gallery = $tabpanel.parents('.wpdtrt-gallery');
-        // const $expandButton = $gallery.find('.wpdtrt-gallery-viewer__expand');
-        // const $img = $tabpanel.find('img');
+        const $img = $tabpanel.find('img');
 
         // lazy loading
-        // if ($img) {
-        //     if ($img.attr('src') === '') {
-        //         const desktopSrc = $tabpanel.data('src-desktop');
-        //         $img.attr('src', desktopSrc);
-        //     }
-        // }
-
-        // setup viewer
-        // $expandButton.trigger('click');
+        if ($img) {
+            if ($img.attr('src') === '') {
+                const desktopSrc = $tabpanel.data('src-desktop');
+                $img.attr('src', desktopSrc);
+            }
+        }
     },
 
     /**
@@ -506,7 +501,7 @@ const wpdtrtGalleryUi = {
                 .prepend('<div class="wpdtrt-gallery-viewer__expand-wrapper"><button class="wpdtrt-gallery-viewer__expand" aria-expanded="false"><span class="says">Expand</span></button></div>')
                 .removeAttr('tabindex');
 
-            wpdtrtGalleryUi.setupImageLoading($tabpanel);
+            // wpdtrtGalleryUi.setupImageLoading($tabpanel);
             wpdtrtGalleryUi.setupPanoramaScrolling($tabpanel, $);
         });
 
