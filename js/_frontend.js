@@ -157,9 +157,9 @@ const wpdtrtGalleryUi = {
     toggleExpanded: function ($, $gallery, triggered) {
         const $expandButton = $gallery.find('.wpdtrt-gallery-viewer__expand');
         const $expandButtonText = $expandButton.find('.says');
-        const $tabpanel = $gallery.find('[role="tabpanel"]:not([hidden])');
-        const $tabpanelImg = $tabpanel.find('img');
         const $section = $gallery.parents('.wpdtrt-gallery__section').eq(0);
+        const $visibleTabPanel = $gallery.find('[role="tabpanel"]:not([hidden])');
+        const $visibleTabPanelImg = $visibleTabPanel.find('img');
 
         // the actual state
         // toggled to false by the reset function unless isUserExpanded
@@ -208,9 +208,9 @@ const wpdtrtGalleryUi = {
 
         // if the viewer is now expanded
         if ($gallery.attr('data-expanded') === 'true') {
-            if ($tabpanelImg.length && !$tabpanel.data('panorama')) {
-                $tabpanelImg
-                    .attr('src', $tabpanel.data('src-desktop-expanded'));
+            if ($visibleTabPanelImg.length && !$visibleTabPanel.data('panorama')) {
+                $visibleTabPanelImg
+                    .attr('src', $visibleTabPanel.data('src-desktop-expanded'));
             }
 
             $expandButton
@@ -226,9 +226,9 @@ const wpdtrtGalleryUi = {
         } else if ($gallery.attr('data-expanded') === 'false') {
             // if the viewer is now collapsed
 
-            if ($tabpanelImg.length && !$tabpanel.data('panorama')) {
-                $tabpanelImg
-                    .attr('src', $tabpanel.data('src-desktop'));
+            if ($visibleTabPanelImg.length && !$visibleTabPanel.data('panorama')) {
+                $visibleTabPanelImg
+                    .attr('src', $visibleTabPanel.data('src-desktop'));
             }
 
             $expandButton
