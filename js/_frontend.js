@@ -22,14 +22,47 @@ const wpdtrtGalleryUi = {
     animations: false,
 
     /**
-     * @function setupAnimations
-     * @summary Allow animations to be managed via browser preferences.
+     * @function autoExpandForComplexMedia
+     * @summary Expand the gallery if non-image media.
+     * @memberof wpdtrtGalleryUi
+     * @protected
+     *
+     * @param {external:jQuery} $tabpanel - jQuery gallery viewer
+     * @returns {boolean} autoExpanded
+     * @requires includes/attachment.php
+     * @since 3.0.0
+     */
+    autoExpandForComplexMedia: function ($tabpanel) {
+        let autoExpanded = false;
+        const $gallery = $tabpanel.parents('.wpdtrt-gallery').eq(0);
+
+        // const isDefault = $tabpanel.data('initial');
+        const panorama = $tabpanel.data('panorama');
+        const rwgps = $tabpanel.data('rwgps-pageid');
+        const soundcloud = $tabpanel.data('soundcloud-pageid') && $tabpanel.data('soundcloud-trackid');
+        const vimeo = $tabpanel.data('vimeo-pageid');
+
+        if (panorama || rwgps || soundcloud || vimeo) {
+            // set flag to expand viewer on triggerToggleExpanded
+            $gallery
+                .attr('data-expanded-locked', true);
+
+            autoExpanded = true;
+        }
+
+        return autoExpanded;
+    },
+
+    /**
+     * @function initAnimations
+     * @summary Initialise animations on page load.
+     * @description Allow animations to be managed via browser preferences.
      * @memberof wpdtrtGalleryUi
      * @protected
      *
      * @see https://github.com/dotherightthing/accessibility-research
      */
-    setupAnimations: function () {
+    initAnimations: function () {
         const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
 
         if (!mediaQuery || mediaQuery.matches) {
@@ -48,9 +81,66 @@ const wpdtrtGalleryUi = {
     },
 
     /**
-     * @function galleryLazyInit
-     * @summary Lazyload a gallery viewer when it is scrolled into view
-     * to defer automatic loading of initial enlargements.
+     * @function initGallery
+     * @summary Initialise a gallery on page load.
+     * @memberof wpdtrtGalleryUi
+     * @protected
+     *
+     * @param {external:jQuery} $ - jQuery
+     * @param {external:jQuery} $gallery - .wpdtrt-gallery
+     * @requires includes/attachment.php
+     * @since 3.0.0
+     */
+    initGallery: function ($, $gallery) {
+        const $tablist = $gallery.find('[role="tablist"]');
+        const $tabs = $tablist.find('[role="tab"]');
+        const $viewer = $gallery.find('.wpdtrt-gallery-viewer');
+        const $viewerLiner = $viewer.find('.wpdtrt-gallery-viewer__liner');
+        const $tabPanels = $viewer.find('[role="tabpanel"]');
+
+        $viewerLiner
+            .attr('data-loading', true);
+
+        $tabs.each((i, item) => {
+            wpdtrtGalleryUi.trackOnHover($, $(item)); // TODO change to panel onTabSelect
+        });
+
+        $tabPanels.each((i, item) => {
+            const $tabpanel = $(item);
+
+            $tabpanel
+                .prepend('<div class="wpdtrt-gallery-viewer__expand-wrapper"><button class="wpdtrt-gallery-viewer__expand" aria-expanded="false"><span class="says">Expand</span></button></div>')
+                .removeAttr('tabindex');
+
+            // wpdtrtGalleryUi.initImageLazyLoading($tabpanel);
+            wpdtrtGalleryUi.initPanoramaScrolling($tabpanel, $);
+        });
+
+        const $expandButton = $gallery.find('.wpdtrt-gallery-viewer__expand');
+
+        wpdtrtGalleryUi.trackOnHover($, $expandButton);
+
+        $expandButton.click((event) => {
+            const triggered = !event.originalEvent;
+
+            // prevent the click bubbling up to the viewer, creating an infinite loop
+            event
+                .stopPropagation();
+
+            const $currentGallery = $(event.target).parents('.wpdtrt-gallery').eq(0);
+
+            wpdtrtGalleryUi.toggleExpanded($, $currentGallery, triggered);
+        });
+
+        $viewerLiner
+            .removeAttr('data-loading');
+
+        wpdtrtGalleryUi.initAnimations();
+    },
+
+    /**
+     * @function initGalleryLazy
+     * @summary Init a gallery when it is scrolled into view to defer automatic loading of images.
      * @memberof wpdtrtGalleryUi
      * @protected
      *
@@ -59,7 +149,7 @@ const wpdtrtGalleryUi = {
      * {@link https://varvy.com/pagespeed/defer-images.html}
      * @since 3.0.0
      */
-    galleryLazyInit: ($) => {
+    initGalleryLazy: ($) => {
         const $sections = $('.wpdtrt-gallery');
 
         /**
@@ -74,7 +164,7 @@ const wpdtrtGalleryUi = {
                 if (change.intersectionRatio > 0.1) {
                     let $inView = $(change.target);
 
-                    wpdtrtGalleryUi.galleryInit($, $inView.find('.wpdtrt-gallery'));
+                    wpdtrtGalleryUi.initGallery($, $inView.find('.wpdtrt-gallery'));
                     observer.unobserve(change.target);
                 }
             });
@@ -94,13 +184,117 @@ const wpdtrtGalleryUi = {
         } else {
             // NOTE: this isn't loading images anymore as they are hardcoded in the tabPanels
             $sections.each((i, item) => {
-                wpdtrtGalleryUi.galleryInit($, $(item).find('.wpdtrt-gallery'));
+                wpdtrtGalleryUi.initGallery($, $(item).find('.wpdtrt-gallery'));
             });
         }
     },
 
     /**
-     * @function reset
+     * @function initImageLazyLoading
+     * @summary Update the gallery image.
+     * @memberof wpdtrtGalleryUi
+     * @protected
+     *
+     * @param {external:jQuery} $tabpanel - jQuery gallery viewer
+     * @requires includes/attachment.php
+     * @todo Reimplement lazy loading
+     * @since 3.0.0
+     */
+    initImageLazyLoading: function ($tabpanel) {
+        const $img = $tabpanel.find('img');
+
+        // lazy loading
+        if ($img) {
+            if ($img.attr('src') === '') {
+                const desktopSrc = $tabpanel.data('src-desktop');
+                $img.attr('src', desktopSrc);
+            }
+        }
+    },
+
+    /**
+     * @function initPanoramaScrolling
+     * @summary Setup the gallery panorama.
+     * @memberof wpdtrtGalleryUi
+     * @protected
+     *
+     * @param {external:jQuery} $tabpanel - jQuery gallery viewer
+     * @param {external:jQuery} $ - jQuery
+     * {@link https://stackoverflow.com/a/17308232/6850747}
+     * @since 3.0.0
+     * @todo Add startPosition parameter in media.php (panoramaPositionX)
+     * @todo Error - #57
+     */
+    initPanoramaScrolling: function ($tabpanel, $) {
+        const panorama = $tabpanel.data('panorama');
+        const $galleryImgWrapper = $tabpanel.find('.wpdtrt-gallery-viewer__img-wrapper');
+        let galleryScrollTimer;
+
+        if (panorama) {
+            // 'data-panorama toggles the overflow-x scrollbar
+            // which provides the correct $el[ 0 ].scrollWidth value
+
+            // TODO move into separate file, add a data- attribute
+            // timeout ensures that the related CSS has taken effect
+            setTimeout(() => {
+                const uiWidth = $galleryImgWrapper.outerWidth(true); // setTimeout reqd for this value
+                const actualWidth = $galleryImgWrapper[0].scrollWidth;
+                const wDiff = (actualWidth / uiWidth); // widths difference ratio
+                const mPadd = 75; // Mousemove padding
+                const damp = 10; // Mousemove response softness
+                let mX = 0; // Real mouse position
+                let mX2 = 0; // Modified mouse position
+                let posX = 0;
+                const mmAA = uiWidth - (mPadd * 2); // The mousemove available area
+                const mmAAr = (uiWidth / mmAA); // get available mousemove difference ratio
+                let tabindex = null;
+
+                $galleryImgWrapper
+                    .on('mousemove.galleryScroll', function (event) {
+                        mX = event.pageX - $(this).offset().left;
+                        mX2 = Math.min(Math.max(0, mX - mPadd), mmAA) * mmAAr;
+                    })
+                    .on('mouseenter.galleryScroll', () => {
+                        galleryScrollTimer = setInterval(() => {
+                            posX += (mX2 - posX) / damp; // zeno's paradox equation 'catching delay'
+                            $galleryImgWrapper.scrollLeft(posX * wDiff);
+                        }, 10);
+
+                        tabindex = $tabpanel.attr('data-tabindex');
+
+                        if (tabindex) {
+                            $tabpanel
+                                .attr('tabindex', tabindex)
+                                .removeAttr('data-tabindex');
+                        }
+                    })
+                    .on('mouseleave.galleryScroll', () => {
+                        clearInterval(galleryScrollTimer);
+                    })
+                    .on('mousedown.galleryScroll', () => {
+                        // Use the scroll bar without fighting the cursor-based panning
+                        clearInterval(galleryScrollTimer);
+
+                        // Prevent viewer container from stealing the focus
+                        tabindex = $tabpanel.attr('tabindex');
+
+                        if (tabindex) {
+                            $tabpanel
+                                .attr('data-tabindex', tabindex)
+                                .removeAttr('tabindex');
+                        }
+                    })
+                    .on('mouseup.galleryScroll', () => {
+                        // Reactivate the cursor-based panning
+                        $galleryImgWrapper
+                            .trigger('mouseenter.galleryScroll');
+                    });
+            }, 100);
+        }
+    },
+
+    /**
+     * @function resetGalleryState
      * @summary Prevents cross contamination between media types when changing the active tabpanel.
      * @memberof wpdtrtGalleryUi
      * @protected
@@ -108,7 +302,7 @@ const wpdtrtGalleryUi = {
      * @param {external:jQuery} $gallery - Gallery
      * @since 1.3.0
      */
-    reset: ($gallery) => {
+    resetGalleryState: ($gallery) => {
         const $expandButton = $gallery.find('.wpdtrt-gallery-viewer__expand');
 
         // remove forced expand used by panorama & iframe viewers
@@ -125,19 +319,25 @@ const wpdtrtGalleryUi = {
     },
 
     /**
-     * @function triggerToggleExpanded
-     * @summary Trigger the function which sets up the gallery state.
+     * @function scrollToElement
+     * @summary Scroll to top of element.
      * @memberof wpdtrtGalleryUi
      * @protected
      *
-     * @param {external:jQuery} $tabpanel - The active tabpanel
-     * @since 1.3.0
+     * @param {external:jQuery} $ - jQuery
+     * @param {external:jQuery} $target - Target
+     * @param {number} offset - Offset
+     * @param {number} duration - Duration
+     * @see https://web-design-weekly.com/snippets/scroll-to-position-with-jquery/
      */
-    triggerToggleExpanded: ($tabpanel) => {
-        const $expandButton = $tabpanel.find('.wpdtrt-gallery-viewer__expand');
-
-        // setup viewer
-        $expandButton.trigger('click');
+    scrollToElement: function ($, $target, offset, duration) {
+        if (wpdtrtGalleryUi.animations) {
+            $target.each(function () {
+                $('html, body').animate({
+                    scrollTop: $(this).offset().top - offset
+                }, duration);
+            });
+        }
     },
 
     /**
@@ -163,14 +363,14 @@ const wpdtrtGalleryUi = {
         const $visibleTabPanelImg = $visibleTabPanel.find('img');
 
         // the actual state
-        // toggled to false by the reset function unless isUserExpanded
+        // toggled to false by the resetGalleryState function unless isUserExpanded
         const isExpanded = $gallery.attr('data-expanded') === 'true';
 
         // post-toggle states to reinstate
         let isUserExpanded = $gallery.attr('data-expanded-user') === 'true';
 
         // locked state for use with iframe embeds
-        // removed by the reset function
+        // removed by the resetGalleryState function
         const isLockedExpanded = $gallery.attr('data-expanded-locked') === 'true';
 
         // ------------------------------
@@ -258,161 +458,19 @@ const wpdtrtGalleryUi = {
     },
 
     /**
-     * @function autoExpandForComplexMedia
-     * @summary Expand the gallery if non-image media.
+     * @function triggerToggleExpanded
+     * @summary Trigger the function which sets up the gallery state.
      * @memberof wpdtrtGalleryUi
      * @protected
      *
-     * @param {external:jQuery} $tabpanel - jQuery gallery viewer
-     * @returns {boolean} autoExpanded
-     * @requires includes/attachment.php
-     * @since 3.0.0
+     * @param {external:jQuery} $tabpanel - The active tabpanel
+     * @since 1.3.0
      */
-    autoExpandForComplexMedia: function ($tabpanel) {
-        let autoExpanded = false;
-        const $gallery = $tabpanel.parents('.wpdtrt-gallery').eq(0);
+    triggerToggleExpanded: ($tabpanel) => {
+        const $expandButton = $tabpanel.find('.wpdtrt-gallery-viewer__expand');
 
-        // const isDefault = $tabpanel.data('initial');
-        const panorama = $tabpanel.data('panorama');
-        const rwgps = $tabpanel.data('rwgps-pageid');
-        const soundcloud = $tabpanel.data('soundcloud-pageid') && $tabpanel.data('soundcloud-trackid');
-        const vimeo = $tabpanel.data('vimeo-pageid');
-
-        if (panorama || rwgps || soundcloud || vimeo) {
-            // set flag to expand viewer on triggerToggleExpanded
-            $gallery
-                .attr('data-expanded-locked', true);
-
-            autoExpanded = true;
-        }
-
-        return autoExpanded;
-    },
-
-    /**
-     * @function setupPanoramaScrolling
-     * @summary Setup the gallery panorama.
-     * @memberof wpdtrtGalleryUi
-     * @protected
-     *
-     * @param {external:jQuery} $tabpanel - jQuery gallery viewer
-     * @param {external:jQuery} $ - jQuery
-     * {@link https://stackoverflow.com/a/17308232/6850747}
-     * @since 3.0.0
-     * @todo Add startPosition parameter in media.php (panoramaPositionX)
-     * @todo Error - #57
-     */
-    setupPanoramaScrolling: function ($tabpanel, $) {
-        const panorama = $tabpanel.data('panorama');
-        const $galleryImgWrapper = $tabpanel.find('.wpdtrt-gallery-viewer__img-wrapper');
-        let galleryScrollTimer;
-
-        if (panorama) {
-            // 'data-panorama toggles the overflow-x scrollbar
-            // which provides the correct $el[ 0 ].scrollWidth value
-
-            // TODO move into separate file, add a data- attribute
-            // timeout ensures that the related CSS has taken effect
-            setTimeout(() => {
-                const uiWidth = $galleryImgWrapper.outerWidth(true); // setTimeout reqd for this value
-                const actualWidth = $galleryImgWrapper[0].scrollWidth;
-                const wDiff = (actualWidth / uiWidth); // widths difference ratio
-                const mPadd = 75; // Mousemove padding
-                const damp = 10; // Mousemove response softness
-                let mX = 0; // Real mouse position
-                let mX2 = 0; // Modified mouse position
-                let posX = 0;
-                const mmAA = uiWidth - (mPadd * 2); // The mousemove available area
-                const mmAAr = (uiWidth / mmAA); // get available mousemove difference ratio
-                let tabindex = null;
-
-                $galleryImgWrapper
-                    .on('mousemove.galleryScroll', function (event) {
-                        mX = event.pageX - $(this).offset().left;
-                        mX2 = Math.min(Math.max(0, mX - mPadd), mmAA) * mmAAr;
-                    })
-                    .on('mouseenter.galleryScroll', () => {
-                        galleryScrollTimer = setInterval(() => {
-                            posX += (mX2 - posX) / damp; // zeno's paradox equation 'catching delay'
-                            $galleryImgWrapper.scrollLeft(posX * wDiff);
-                        }, 10);
-
-                        tabindex = $tabpanel.attr('data-tabindex');
-
-                        if (tabindex) {
-                            $tabpanel
-                                .attr('tabindex', tabindex)
-                                .removeAttr('data-tabindex');
-                        }
-                    })
-                    .on('mouseleave.galleryScroll', () => {
-                        clearInterval(galleryScrollTimer);
-                    })
-                    .on('mousedown.galleryScroll', () => {
-                        // Use the scroll bar without fighting the cursor-based panning
-                        clearInterval(galleryScrollTimer);
-
-                        // Prevent viewer container from stealing the focus
-                        tabindex = $tabpanel.attr('tabindex');
-
-                        if (tabindex) {
-                            $tabpanel
-                                .attr('data-tabindex', tabindex)
-                                .removeAttr('tabindex');
-                        }
-                    })
-                    .on('mouseup.galleryScroll', () => {
-                        // Reactivate the cursor-based panning
-                        $galleryImgWrapper
-                            .trigger('mouseenter.galleryScroll');
-                    });
-            }, 100);
-        }
-    },
-
-    /**
-     * @function setupImageLoading
-     * @summary Update the gallery image.
-     * @memberof wpdtrtGalleryUi
-     * @protected
-     *
-     * @param {external:jQuery} $tabpanel - jQuery gallery viewer
-     * @requires includes/attachment.php
-     * @todo Reimplement lazy loading
-     * @since 3.0.0
-     */
-    setupImageLoading: function ($tabpanel) {
-        const $img = $tabpanel.find('img');
-
-        // lazy loading
-        if ($img) {
-            if ($img.attr('src') === '') {
-                const desktopSrc = $tabpanel.data('src-desktop');
-                $img.attr('src', desktopSrc);
-            }
-        }
-    },
-
-    /**
-     * @function scrollToElement
-     * @summary Scroll to top of element.
-     * @memberof wpdtrtGalleryUi
-     * @protected
-     *
-     * @param {external:jQuery} $ - jQuery
-     * @param {external:jQuery} $target - Target
-     * @param {number} offset - Offset
-     * @param {number} duration - Duration
-     * @see https://web-design-weekly.com/snippets/scroll-to-position-with-jquery/
-     */
-    scrollToElement: function ($, $target, offset, duration) {
-        if (wpdtrtGalleryUi.animations) {
-            $target.each(function () {
-                $('html, body').animate({
-                    scrollTop: $(this).offset().top - offset
-                }, duration);
-            });
-        }
+        // setup viewer
+        $expandButton.trigger('click');
     },
 
     /**
@@ -439,8 +497,8 @@ const wpdtrtGalleryUi = {
     },
 
     /**
-     * @function tabpanelInit
-     * @summary Re-initialise a gallery when the active tabpanel changes.
+     * @function updateGalleryState
+     * @summary Update the gallery when the active tabpanel changes.
      * @memberof wpdtrtGalleryUi
      * @protected
      *
@@ -449,73 +507,15 @@ const wpdtrtGalleryUi = {
      * @requires includes/attachment.php
      * @since 3.0.0
      */
-    tabpanelInit: function ($gallery, $tabpanel) {
+    updateGalleryState: function ($gallery, $tabpanel) {
         wpdtrtGalleryUi
-            .reset($gallery);
+            .resetGalleryState($gallery);
 
         wpdtrtGalleryUi
             .autoExpandForComplexMedia($tabpanel);
 
         wpdtrtGalleryUi
             .triggerToggleExpanded($tabpanel);
-    },
-
-    /**
-     * @function galleryInit
-     * @summary Initialise a gallery on page load.
-     * @memberof wpdtrtGalleryUi
-     * @protected
-     *
-     * @param {external:jQuery} $ - jQuery
-     * @param {external:jQuery} $gallery - .wpdtrt-gallery
-     * @requires includes/attachment.php
-     * @since 3.0.0
-     */
-    galleryInit: function ($, $gallery) {
-        const $tablist = $gallery.find('[role="tablist"]');
-        const $tabs = $tablist.find('[role="tab"]');
-        const $viewer = $gallery.find('.wpdtrt-gallery-viewer');
-        const $viewerLiner = $viewer.find('.wpdtrt-gallery-viewer__liner');
-        const $tabPanels = $viewer.find('[role="tabpanel"]');
-
-        $viewerLiner
-            .attr('data-loading', true);
-
-        $tabs.each((i, item) => {
-            wpdtrtGalleryUi.trackOnHover($, $(item)); // TODO change to panel onTabSelect
-        });
-
-        $tabPanels.each((i, item) => {
-            const $tabpanel = $(item);
-
-            $tabpanel
-                .prepend('<div class="wpdtrt-gallery-viewer__expand-wrapper"><button class="wpdtrt-gallery-viewer__expand" aria-expanded="false"><span class="says">Expand</span></button></div>')
-                .removeAttr('tabindex');
-
-            // wpdtrtGalleryUi.setupImageLoading($tabpanel);
-            wpdtrtGalleryUi.setupPanoramaScrolling($tabpanel, $);
-        });
-
-        const $expandButton = $gallery.find('.wpdtrt-gallery-viewer__expand');
-
-        wpdtrtGalleryUi.trackOnHover($, $expandButton);
-
-        $expandButton.click((event) => {
-            const triggered = !event.originalEvent;
-
-            // prevent the click bubbling up to the viewer, creating an infinite loop
-            event
-                .stopPropagation();
-
-            const $currentGallery = $(event.target).parents('.wpdtrt-gallery').eq(0);
-
-            wpdtrtGalleryUi.toggleExpanded($, $currentGallery, triggered);
-        });
-
-        $viewerLiner
-            .removeAttr('data-loading');
-
-        wpdtrtGalleryUi.setupAnimations();
     }
 };
 
@@ -524,21 +524,21 @@ const wpdtrtGalleryUi = {
 // (function ($) {
 //     $(window).on('load', () => {
 //         // defer initialisation of viewers, to reduce initial load time
-//         wpdtrtGalleryUi.galleryLazyInit($);
+//         wpdtrtGalleryUi.initGalleryLazy($);
 //     });
 // })(jQuery);
 /* eslint-enable wrap-iife */
 
-jQuery(document).ready(($) => {
+jQuery(($) => {
     const config = wpdtrt_gallery_config; // eslint-disable-line
 
     // replacement for disabled window.onload
     $('.wpdtrt-gallery').each((i, item) => {
         const $gallery = $(item);
-        wpdtrtGalleryUi.galleryInit($, $gallery);
+        wpdtrtGalleryUi.initGallery($, $gallery);
     });
 
-    console.log('wpdtrtGalleryUi.galleryInit'); // eslint-disable-line no-console
+    console.log('wpdtrtGalleryUi.initGallery'); // eslint-disable-line no-console
 
     document.querySelectorAll('.wpdtrt-gallery__section').forEach((tabbedCarousel) => {
         const tabbedCarouselInstance = new TabbedCarousel({
@@ -548,7 +548,7 @@ jQuery(document).ready(($) => {
                 const $tabpanel = $(selectedTabPanel);
                 const $gallery = $tabpanel.parents('.wpdtrt-gallery').eq(0);
 
-                wpdtrtGalleryUi.tabpanelInit($gallery, $tabpanel);
+                wpdtrtGalleryUi.updateGalleryState($gallery, $tabpanel);
             },
             selectionFollowsFocus: false
         });
