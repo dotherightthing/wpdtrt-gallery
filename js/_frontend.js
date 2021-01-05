@@ -158,6 +158,7 @@ const wpdtrtGalleryUi = {
         const $expandButton = $gallery.find('.wpdtrt-gallery-viewer__expand');
         const $expandButtonText = $expandButton.find('.says');
         const $section = $gallery.parents('.wpdtrt-gallery__section').eq(0);
+        const $tabpanel = $gallery.find('.wpdtrt-gallery-viewer__tabpanel');
         const $visibleTabPanel = $gallery.find('[role="tabpanel"]:not([hidden])');
         const $visibleTabPanelImg = $visibleTabPanel.find('img');
 
@@ -220,8 +221,18 @@ const wpdtrtGalleryUi = {
             $expandButtonText
                 .text('Collapse');
 
-            if (!triggered) {
-                wpdtrtGalleryUi.scrollToElement($, $section, 100, 150);
+            if (isLockedExpanded) {
+                $expandButton
+                    .prop('disabled', true);
+
+                $tabpanel
+                    .attr('tabindex', '0');
+            } else {
+                $expandButton
+                    .prop('disabled', false);
+
+                $tabpanel
+                    .removeAttr('tabindex');
             }
         } else if ($gallery.attr('data-expanded') === 'false') {
             // if the viewer is now collapsed
@@ -237,24 +248,10 @@ const wpdtrtGalleryUi = {
             // update the hidden button text
             $expandButtonText
                 .text('Expand');
-
-            if (!triggered) {
-                wpdtrtGalleryUi.scrollToElement($, $section, 100, 150);
-            }
         }
 
-        if (isLockedExpanded) {
-            $expandButton
-                .prop('disabled', true);
-
-            $tabpanel
-                .attr('tabindex', '0');
-        } else {
-            $expandButton
-                .prop('disabled', false);
-
-            $tabpanel
-                .removeAttr('tabindex');
+        if (!triggered) {
+            wpdtrtGalleryUi.scrollToElement($, $section, 100, 150);
         }
 
         return (!isExpanded);
@@ -274,7 +271,6 @@ const wpdtrtGalleryUi = {
     autoExpandForComplexMedia: function ($tabpanel) {
         let autoExpanded = false;
         const $gallery = $tabpanel.parents('.wpdtrt-gallery').eq(0);
-        const $expandButton = $gallery.find('.wpdtrt-gallery-viewer__expand');
 
         // const isDefault = $tabpanel.data('initial');
         const panorama = $tabpanel.data('panorama');
@@ -286,12 +282,6 @@ const wpdtrtGalleryUi = {
             // set flag to expand viewer on triggerToggleExpanded
             $gallery
                 .attr('data-expanded-locked', true);
-
-            $expandButton.trigger('click')
-                .prop('disabled', true);
-
-            $tabpanel
-                .attr('tabindex', '0');
 
             autoExpanded = true;
         }
