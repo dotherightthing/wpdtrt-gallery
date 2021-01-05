@@ -473,6 +473,8 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 				$component_attrs .= " class='{$tabspatternclass}'";
 				$component_attrs .= " data-enabled='true'";
 				$component_attrs .= " data-expanded='false'";
+				$component_attrs .= " data-expanded-locked='false'";
+				$component_attrs .= " data-expanded-user='false'";
 			}
 
 			$output .= "<div{$component_attrs}>";

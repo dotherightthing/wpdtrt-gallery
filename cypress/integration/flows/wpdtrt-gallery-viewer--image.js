@@ -171,7 +171,7 @@ describe('DTRT Gallery - Image Viewer', function () {
             cy.get('@wpdtrtGalleryViewer')
                 .should('have.attr', 'id', `${ sectionId }-viewer`)
                 .should('have.attr', 'data-expanded', 'false')
-                .should('not.have.attr', 'data-lock-expanded');
+                .should('not.have.attr', 'data-expanded-locked');
         });
 
         it('8. Passes Tenon validation', function () {
@@ -194,7 +194,7 @@ describe('DTRT Gallery - Image Viewer', function () {
             cy.get('@wpdtrtGalleryViewer')
                 .should('have.attr', 'id', `${ sectionId }-viewer`)
                 .should('have.attr', 'data-expanded', 'true')
-                .should('not.have.attr', 'data-lock-expanded');
+                .should('not.have.attr', 'data-expanded-locked');
         });
 
         it('2. Does contain a taller landscape image, described accessibly', function () {

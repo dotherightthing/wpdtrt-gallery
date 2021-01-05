@@ -171,7 +171,7 @@ describe('DTRT Gallery - Panorama Viewer', function () {
             cy.get('@wpdtrtGalleryViewer')
                 .should('have.attr', 'id', `${ sectionId }-viewer`)
                 .should('have.attr', 'data-expanded', 'true')
-                .should('have.attr', 'data-lock-expanded', 'true');
+                .should('have.attr', 'data-expanded-locked', 'true');
         });
 
         it('7. Passes Tenon validation', function () {

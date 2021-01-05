@@ -101,27 +101,43 @@ const wpdtrtGalleryUi = {
 
     /**
      * @function reset
-     * @summary Clean up gallery viewer attributes to prevent cross contamination between image types.
+     * @summary Prevents cross contamination between media types when changing the active tabpanel.
      * @memberof wpdtrtGalleryUi
      * @protected
      *
-     * @param {external:jQuery} $component - jQuery component
+     * @param {external:jQuery} $gallery - Gallery
      * @since 1.3.0
      */
-    reset: ($component) => {
-        const $expandButton = $component.find('.wpdtrt-gallery-viewer__expand');
+    reset: ($gallery) => {
+        const $expandButton = $gallery.find('.wpdtrt-gallery-viewer__expand');
 
         // remove forced expand used by panorama & iframe viewers
-        $component
-            .removeAttr('data-lock-expanded');
+        $gallery
+            .attr('data-expanded-locked', false);
 
-        if ($component.attr('data-expanded-user') === 'false') {
-            $component
+        if ($gallery.attr('data-expanded-user') === 'false') {
+            $gallery
                 .attr('data-expanded', false);
         }
 
         $expandButton
             .prop('disabled', false);
+    },
+
+    /**
+     * @function triggerToggleExpanded
+     * @summary Trigger the function which sets up the gallery state.
+     * @memberof wpdtrtGalleryUi
+     * @protected
+     *
+     * @param {external:jQuery} $tabpanel - The active tabpanel
+     * @since 1.3.0
+     */
+    triggerToggleExpanded: ($tabpanel) => {
+        const $expandButton = $tabpanel.find('.wpdtrt-gallery-viewer__expand');
+
+        // setup viewer
+        $expandButton.trigger('click');
     },
 
     /**
@@ -131,84 +147,58 @@ const wpdtrtGalleryUi = {
      * @protected
      *
      * @param {external:jQuery} $ - jQuery
-     * @param {external:jQuery} $component - jQuery component
+     * @param {external:jQuery} $gallery - Gallery
      * @param {boolean} triggered - Programmatically triggered
-     * @returns {boolean} componentIsExpanded
+     * @returns {boolean} isExpanded
      * @requires includes/attachment.php ?
      * @since 3.0.0
      * @todo pubsub or observer to fix expand button after keyboard-activated tabpanel change
      */
-    toggleExpanded: function ($, $component, triggered) {
-        const $expandButton = $component.find('.wpdtrt-gallery-viewer__expand');
+    toggleExpanded: function ($, $gallery, triggered) {
+        const $expandButton = $gallery.find('.wpdtrt-gallery-viewer__expand');
         const $expandButtonText = $expandButton.find('.says');
-        const $gallery = $component.find('.wpdtrt-gallery');
-        const $tabpanel = $component.find('[role="tabpanel"]:not([hidden])');
+        const $tabpanel = $gallery.find('[role="tabpanel"]:not([hidden])');
         const $tabpanelImg = $tabpanel.find('img');
-        const $tabpanelIframe = $tabpanel.find('iframe');
 
         // the actual state
-        const componentIsExpanded = $component.attr('data-expanded') === 'true';
+        // toggled to false by the reset function unless isUserExpanded
+        const isExpanded = $gallery.attr('data-expanded') === 'true';
 
         // post-toggle states to reinstate
-        let userExpandedSaved = $component.attr('data-expanded-user') === 'true';
+        let isUserExpanded = $gallery.attr('data-expanded-user') === 'true';
 
-        // this is problematic
-        // because when the thumbnail is clicked
-        // this attribute is still hanging around if used previously
-        // because of the sequence in which these Update functions run
-        // and clicking the thumbnail counts as a trigger for some reason
-        // there needs to be a cleanup or destroy or unload function
-        // which strips out all the fancy stuff
-        // except info we want to retain such as the user state
-        // which could always be left there
-        // and if a type has some other data, that could trump it
-        const isLocked = $component.attr('data-lock-expanded') === 'true';
+        // locked state for use with iframe embeds
+        // removed by the reset function
+        const isLockedExpanded = $gallery.attr('data-expanded-locked') === 'true';
 
         // ------------------------------
         // update state
         // ------------------------------
 
-        if (triggered && isLocked) {
-            // A - forced content state
-            // data-lock-expanded will only be present if the content type requires it
-            // and the button will be hidden so the user won't have to fight it
-            // set viewer state to state required by content type
-            $component
-                .attr('data-expanded', isLocked);
-
-            // this attribute is removed by the Reset function
-        } else if (triggered && userExpandedSaved) {
-            // B - last user state, only if triggered so we don't fight the user
+        if (triggered && isLockedExpanded) {
+            // A - forced content state - set viewer state to state required by content type
+            // data-expanded-locked will only be present if the content type requires it
+            // and the button will be disabled so the user won't have to fight it
+            $gallery
+                .attr('data-expanded', isLockedExpanded);
+        } else if (triggered && isUserExpanded) {
+            // B - set viewer state to last/saved toggle state
+            // only if triggered so we don't fight the user
             // user state may be present when moving from e.g. an image to an iframe and back
-            // NOTE: clicking on a thumbnail also fires the trigger.....
-            // set viewer state to last/saved toggle state
-            $component
-                .attr('data-expanded', userExpandedSaved);
-
-            // don't discard attribute after use
-            // so we can reinstate this when switching between types
-            // $viewer.removeAttr('data-expanded-user');
-        } else if (triggered) {
-            // C - clicking on a thumbnail before the button has been clicked yet
-            // no preference saved - so use the default
-            $component
-                .attr('data-expanded', false);
-        } else {
-            // D - toggle - clicking on the expand button to manually and explicitly toggle the state
+            $gallery
+                .attr('data-expanded', isUserExpanded);
+        } else if (!triggered) {
+            // C - toggle - clicking on the expand button to manually and explicitly toggle the state
             // sets the value of data-expanded-user if it is missing
             // save the inverse of the current state
             // as that is the state that we are changing TO
             // this will result in B being used from now on
 
-            $component
-                .attr('data-expanded-user', !componentIsExpanded);
+            $gallery
+                .attr('data-expanded-user', !isExpanded);
 
-            // for clarity
-            userExpandedSaved = !componentIsExpanded;
-
-            // use the saved user value
-            $component
-                .attr('data-expanded', userExpandedSaved);
+            $gallery
+                .attr('data-expanded', !isExpanded);
         }
 
         // ------------------------------
@@ -216,11 +206,8 @@ const wpdtrtGalleryUi = {
         // ------------------------------
 
         // if the viewer is now expanded
-        if ($component.attr('data-expanded') === 'true') {
-            if ($tabpanel.data('panorama')) {
-                $tabpanelImg
-                    .attr('src', $tabpanel.data('src-panorama'));
-            } else {
+        if ($gallery.attr('data-expanded') === 'true') {
+            if ($tabpanelImg.length && !$tabpanel.data('panorama')) {
                 $tabpanelImg
                     .attr('src', $tabpanel.data('src-desktop-expanded'));
             }
@@ -235,13 +222,10 @@ const wpdtrtGalleryUi = {
             if (!triggered) {
                 wpdtrtGalleryUi.scrollToElement($, $gallery, 100, 150);
             }
-        } else if ($component.attr('data-expanded') === 'false') {
+        } else if ($gallery.attr('data-expanded') === 'false') {
             // if the viewer is now collapsed
 
-            if ($tabpanel.data('panorama')) {
-                $tabpanelImg
-                    .attr('src', $tabpanel.data('src-panorama'));
-            } else {
+            if ($tabpanelImg.length && !$tabpanel.data('panorama')) {
                 $tabpanelImg
                     .attr('src', $tabpanel.data('src-desktop'));
             }
@@ -258,7 +242,7 @@ const wpdtrtGalleryUi = {
             }
         }
 
-        if (isLocked) {
+        if (isLockedExpanded) {
             $expandButton
                 .prop('disabled', true);
 
@@ -272,44 +256,50 @@ const wpdtrtGalleryUi = {
                 .removeAttr('tabindex');
         }
 
-        return (!componentIsExpanded);
+        return (!isExpanded);
     },
 
     /**
-     * @function updateIframe
-     * @summary Update the gallery iframe to display a video, audio file, or interactive map.
+     * @function autoExpandForComplexMedia
+     * @summary Expand the gallery if non-image media.
      * @memberof wpdtrtGalleryUi
      * @protected
      *
      * @param {external:jQuery} $tabpanel - jQuery gallery viewer
+     * @returns {boolean} autoExpanded
      * @requires includes/attachment.php
      * @since 3.0.0
      */
-    updateIframe: function ($tabpanel) {
-        const $component = $tabpanel.parents('.wpdtrt-gallery').eq(0);
-        const $expandButton = $component.find('.wpdtrt-gallery-viewer__expand');
+    autoExpandForComplexMedia: function ($tabpanel) {
+        const autoExpanded = false;
+        const $gallery = $tabpanel.parents('.wpdtrt-gallery').eq(0);
+        const $expandButton = $gallery.find('.wpdtrt-gallery-viewer__expand');
 
         // const isDefault = $tabpanel.data('initial');
-        const rwgpsPageId = $tabpanel.data('rwgps-pageid');
-        const soundcloudPageId = $tabpanel.data('soundcloud-pageid');
-        const soundcloudTrackId = $tabpanel.data('soundcloud-trackid');
-        const vimeoPageId = $tabpanel.data('vimeo-pageid');
+        const panorama = $tabpanel.data('panorama');
+        const rwgps = $tabpanel.data('rwgps-pageid');
+        const soundcloud = $tabpanel.data('soundcloud-pageid') && $tabpanel.data('soundcloud-trackid');
+        const vimeo = $tabpanel.data('vimeo-pageid');
 
-        if (rwgpsPageId || (soundcloudPageId && soundcloudTrackId) || vimeoPageId) {
-            // expand viewer
-            $component
-                .attr('data-lock-expanded', true);
+        if (panorama || rwgps || soundcloud || vimeo) {
+            // set flag to expand viewer on triggerToggleExpanded
+            $gallery
+                .attr('data-expanded-locked', true);
 
             $expandButton.trigger('click')
                 .prop('disabled', true);
 
             $tabpanel
                 .attr('tabindex', '0');
+
+            autoExpanded = true;
         }
+
+        return autoExpanded;
     },
 
     /**
-     * @function setupPanorama
+     * @function setupPanoramaScrolling
      * @summary Setup the gallery panorama.
      * @memberof wpdtrtGalleryUi
      * @protected
@@ -321,15 +311,10 @@ const wpdtrtGalleryUi = {
      * @todo Add startPosition parameter in media.php (panoramaPositionX)
      * @todo Error - #57
      */
-    setupPanorama: function ($tabpanel, $) {
+    setupPanoramaScrolling: function ($tabpanel, $) {
         const panorama = $tabpanel.data('panorama');
         const $galleryImgWrapper = $tabpanel.find('.wpdtrt-gallery-viewer__img-wrapper');
         let galleryScrollTimer;
-        let galleryScrollSetup;
-
-        $galleryImgWrapper.off('.galleryScroll');
-        clearInterval(galleryScrollTimer);
-        clearTimeout(galleryScrollSetup);
 
         if (panorama) {
             // 'data-panorama toggles the overflow-x scrollbar
@@ -337,7 +322,7 @@ const wpdtrtGalleryUi = {
 
             // TODO move into separate file, add a data- attribute
             // timeout ensures that the related CSS has taken effect
-            galleryScrollSetup = setTimeout(() => {
+            setTimeout(() => {
                 const uiWidth = $galleryImgWrapper.outerWidth(true); // setTimeout reqd for this value
                 const actualWidth = $galleryImgWrapper[0].scrollWidth;
                 const wDiff = (actualWidth / uiWidth); // widths difference ratio
@@ -391,49 +376,11 @@ const wpdtrtGalleryUi = {
                             .trigger('mouseenter.galleryScroll');
                     });
             }, 100);
-        } else {
-            // reset viewer type
-            $galleryImgWrapper
-                .off('.galleryScroll');
-
-            clearInterval(galleryScrollTimer);
-            clearTimeout(galleryScrollSetup);
         }
     },
 
     /**
-     * @function updatePanorama
-     * @summary Update the gallery panorama.
-     * @memberof wpdtrtGalleryUi
-     * @protected
-     *
-     * @param {external:jQuery} $tabpanel - jQuery gallery viewer
-     * {@link https://stackoverflow.com/a/17308232/6850747}
-     * @since 3.0.0
-     * @todo Add startPosition parameter in media.php (panoramaPositionX)
-     * @todo Error - #57
-     */
-    updatePanorama: function ($tabpanel) {
-        const panorama = $tabpanel.data('panorama');
-        const $component = $tabpanel.parents('.wpdtrt-gallery').eq(0);
-        const $expandButton = $component.find('.wpdtrt-gallery-viewer__expand');
-
-        if (panorama) {
-            // expand component (which wraps header)
-            $component
-                .attr('data-lock-expanded', true);
-
-            $expandButton.trigger('click')
-                .prop('disabled', true);
-        } else {
-            // reset viewer state
-            $component
-                .removeAttr('data-lock-expanded');
-        }
-    },
-
-    /**
-     * @function setupImagePanel
+     * @function setupImageLoading
      * @summary Update the gallery image.
      * @memberof wpdtrtGalleryUi
      * @protected
@@ -443,11 +390,10 @@ const wpdtrtGalleryUi = {
      * @todo Reimplement lazy loading
      * @since 3.0.0
      */
-    setupImagePanel: function ($tabpanel) {
-        const $component = $tabpanel.parents('.wpdtrt-gallery');
+    setupImageLoading: function ($tabpanel) {
+        // const $gallery = $tabpanel.parents('.wpdtrt-gallery');
+        // const $expandButton = $gallery.find('.wpdtrt-gallery-viewer__expand');
         // const $img = $tabpanel.find('img');
-        const $viewer = $component.find('.wpdtrt-gallery-viewer');
-        const $expandButton = $viewer.find('.wpdtrt-gallery-viewer__expand');
 
         // lazy loading
         // if ($img) {
@@ -458,7 +404,7 @@ const wpdtrtGalleryUi = {
         // }
 
         // setup viewer
-        $expandButton.trigger('click');
+        // $expandButton.trigger('click');
     },
 
     /**
@@ -508,7 +454,7 @@ const wpdtrtGalleryUi = {
 
     /**
      * @function tabpanelInit
-     * @summary Initialise a gallery viewer.
+     * @summary Re-initialise a gallery when the active tabpanel changes.
      * @memberof wpdtrtGalleryUi
      * @protected
      *
@@ -518,24 +464,19 @@ const wpdtrtGalleryUi = {
      * @since 3.0.0
      */
     tabpanelInit: function ($gallery, $tabpanel) {
-        // only update the viewer if a different tab was selected
-        // if ($tab.attr('aria-selected') === 'true') {
-        //     return;
-        // }
-
         wpdtrtGalleryUi
             .reset($gallery);
 
         wpdtrtGalleryUi
-            .updatePanorama($tabpanel);
+            .autoExpandForComplexMedia($tabpanel);
 
         wpdtrtGalleryUi
-            .updateIframe($tabpanel);
+            .triggerToggleExpanded($tabpanel);
     },
 
     /**
      * @function galleryInit
-     * @summary Initialise a gallery.
+     * @summary Initialise a gallery on page load.
      * @memberof wpdtrtGalleryUi
      * @protected
      *
@@ -545,30 +486,11 @@ const wpdtrtGalleryUi = {
      * @since 3.0.0
      */
     galleryInit: function ($, $gallery) {
-        // const $galleryHeader = $gallery.find('.wpdtrt-gallery__header');
-
         const $tablist = $gallery.find('[role="tablist"]');
         const $tabs = $tablist.find('[role="tab"]');
-
         const $viewer = $gallery.find('.wpdtrt-gallery-viewer');
         const $viewerLiner = $viewer.find('.wpdtrt-gallery-viewer__liner');
         const $tabPanels = $viewer.find('[role="tabpanel"]');
-        const $viewerWrapper = $viewer.find('.wpdtrt-gallery-viewer__wrapper');
-
-        // ?
-        // if ($viewer.attr('data-attachment')) {
-        //     return;
-        // }
-
-        if (!$tablist.length) {
-            $gallery
-                .removeAttr('id data-expanded');
-
-            $viewerWrapper
-                .remove();
-
-            return;
-        }
 
         $viewerLiner
             .attr('data-loading', true);
@@ -584,8 +506,8 @@ const wpdtrtGalleryUi = {
                 .prepend('<div class="wpdtrt-gallery-viewer__expand-wrapper"><button class="wpdtrt-gallery-viewer__expand" aria-expanded="false"><span class="says">Expand</span></button></div>')
                 .removeAttr('tabindex');
 
-            wpdtrtGalleryUi.setupImagePanel($tabpanel);
-            wpdtrtGalleryUi.setupPanorama($tabpanel, $);
+            wpdtrtGalleryUi.setupImageLoading($tabpanel);
+            wpdtrtGalleryUi.setupPanoramaScrolling($tabpanel, $);
         });
 
         const $expandButton = $('.wpdtrt-gallery-viewer__expand');
@@ -599,9 +521,9 @@ const wpdtrtGalleryUi = {
             event
                 .stopPropagation();
 
-            const $currentComponent = $(event.target).parents('.wpdtrt-gallery');
+            const $currentGallery = $(event.target).parents('.wpdtrt-gallery').eq(0);
 
-            wpdtrtGalleryUi.toggleExpanded($, $currentComponent, triggered);
+            wpdtrtGalleryUi.toggleExpanded($, $currentGallery, triggered);
         });
 
         $viewerLiner
