@@ -89,7 +89,7 @@ describe('DTRT Gallery - Panorama Viewer', function () {
         });
 
         it('5. Does contain a hidden embed iframe, hidden accessibly', function () {
-            cy.get('@wpdtrtGalleryViewer').find('.wpdtrt-gallery-viewer__embed > iframe')
+            cy.get('@wpdtrtGalleryViewer').find('.wpdtrt-gallery-viewer__iframe-wrapper > iframe')
                 .should('have.attr', 'aria-hidden', 'true')
                 .should('not.be.visible');
         });
@@ -153,7 +153,7 @@ describe('DTRT Gallery - Panorama Viewer', function () {
         });
 
         it('4. Does contain a hidden embed iframe, hidden accessibly', function () {
-            cy.get('@wpdtrtGalleryViewer').find('.wpdtrt-gallery-viewer__embed > iframe')
+            cy.get('@wpdtrtGalleryViewer').find('.wpdtrt-gallery-viewer__iframe-wrapper > iframe')
                 .should('have.attr', 'aria-hidden', 'true')
                 .should('not.be.visible');
         });
@@ -171,7 +171,7 @@ describe('DTRT Gallery - Panorama Viewer', function () {
             cy.get('@wpdtrtGalleryViewer')
                 .should('have.attr', 'id', `${ sectionId }-viewer`)
                 .should('have.attr', 'data-expanded', 'true')
-                .should('have.attr', 'data-always-expanded', 'true');
+                .should('have.attr', 'data-lock-expanded', 'true');
         });
 
         it('7. Passes Tenon validation', function () {

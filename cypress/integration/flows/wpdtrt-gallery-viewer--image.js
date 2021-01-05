@@ -90,7 +90,7 @@ describe('DTRT Gallery - Image Viewer', function () {
         });
 
         it('5. Does contain a hidden embed iframe, hidden accessibly', function () {
-            cy.get('@wpdtrtGalleryViewer').find('.wpdtrt-gallery-viewer__embed > iframe')
+            cy.get('@wpdtrtGalleryViewer').find('.wpdtrt-gallery-viewer__iframe-wrapper > iframe')
                 .should('have.attr', 'aria-hidden', 'true')
                 .should('not.be.visible');
         });
@@ -154,7 +154,7 @@ describe('DTRT Gallery - Image Viewer', function () {
         });
 
         it('5. Does contain a hidden embed iframe, hidden accessibly', function () {
-            cy.get('@wpdtrtGalleryViewer').find('.wpdtrt-gallery-viewer__embed > iframe')
+            cy.get('@wpdtrtGalleryViewer').find('.wpdtrt-gallery-viewer__iframe-wrapper > iframe')
                 .should('have.attr', 'aria-hidden', 'true')
                 .should('not.be.visible');
         });
@@ -171,7 +171,7 @@ describe('DTRT Gallery - Image Viewer', function () {
             cy.get('@wpdtrtGalleryViewer')
                 .should('have.attr', 'id', `${ sectionId }-viewer`)
                 .should('have.attr', 'data-expanded', 'false')
-                .should('not.have.attr', 'data-always-expanded');
+                .should('not.have.attr', 'data-lock-expanded');
         });
 
         it('8. Passes Tenon validation', function () {
@@ -194,7 +194,7 @@ describe('DTRT Gallery - Image Viewer', function () {
             cy.get('@wpdtrtGalleryViewer')
                 .should('have.attr', 'id', `${ sectionId }-viewer`)
                 .should('have.attr', 'data-expanded', 'true')
-                .should('not.have.attr', 'data-always-expanded');
+                .should('not.have.attr', 'data-lock-expanded');
         });
 
         it('2. Does contain a taller landscape image, described accessibly', function () {
@@ -209,7 +209,7 @@ describe('DTRT Gallery - Image Viewer', function () {
         });
 
         it('3. Does contain a hidden embed iframe, hidden accessibly', function () {
-            cy.get('@wpdtrtGalleryViewer').find('.wpdtrt-gallery-viewer__embed > iframe')
+            cy.get('@wpdtrtGalleryViewer').find('.wpdtrt-gallery-viewer__iframe-wrapper > iframe')
                 .should('have.attr', 'aria-hidden', 'true')
                 .should('not.be.visible');
         });
