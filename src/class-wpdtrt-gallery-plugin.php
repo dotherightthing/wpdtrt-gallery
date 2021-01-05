@@ -236,6 +236,7 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 				'iconclassrwgps'            => '',
 				'iconclasssoundcloud'       => '',
 				'iconclasskeyboardhint'     => '',
+				'iconclassmousehint'        => '',
 				'iconclassrvimeo'           => '',
 				'tabspatternclass'          => '',
 				'tabclass'                  => '',
@@ -373,6 +374,7 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 		$iconclassrwgps        = $this->helper_sanitize_html_classes( $atts['iconclassrwgps'] );
 		$iconclasssoundcloud   = $this->helper_sanitize_html_classes( $atts['iconclasssoundcloud'] );
 		$iconclasskeyboardhint = $this->helper_sanitize_html_classes( $atts['iconclasskeyboardhint'] );
+		$iconclassmousehint    = $this->helper_sanitize_html_classes( $atts['iconclassmousehint'] );
 		$iconclassvimeo        = $this->helper_sanitize_html_classes( $atts['iconclassrvimeo'] );
 
 		// tabpanels title - child of tabpanels wrapper.
@@ -570,12 +572,17 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 		if ( $usetabspattern ) {
 			if ( '' !== $tablisttitletag ) {
 				$tablisttitle_attrs = " id='galleryid-{$id}-tablist-title'";
+				$tabmousehint_icon  = '';
 
 				if ( '' !== $tablisttitleclass ) {
 					$tablisttitle_attrs .= " class='{$tablisttitleclass}'";
 				}
 
-				$output .= "<{$tablisttitletag}{$tablisttitle_attrs}>{$tablisttitle}</{$tablisttitletag}>";
+				if ( '' !== $iconclassmousehint ) {
+					$tabmousehint_icon .= "<span class='{$iconclassmousehint}' aria-label=''></span>";
+				}
+
+				$output .= "<{$tablisttitletag}{$tablisttitle_attrs}>{$tablisttitle}{$tabmousehint_icon}</{$tablisttitletag}>";
 			}
 		}
 
@@ -1085,6 +1092,7 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 		$result['iconclassrwgps']            = 'wpdtrt-gallery-icon-map';
 		$result['iconclasspanorama']         = 'wpdtrt-gallery-icon-panorama';
 		$result['iconclasskeyboardhint']     = 'wpdtrt-gallery-icon-keyboard';
+		$result['iconclassmousehint']        = 'wpdtrt-gallery-icon-hand-pointer-o';
 		$result['iconclassrvimeo']           = 'wpdtrt-gallery-icon-vimeo';
 		$result['tabclass']                  = 'wpdtrt-gallery-gallery__tab';
 		$result['tabtag']                    = 'button';

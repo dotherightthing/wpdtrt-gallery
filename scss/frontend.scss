@@ -396,6 +396,21 @@ $icomoon-font-path: '../icons/icomoon/fonts';
         }
     }
 
+    &__header {
+        background-color: var(--wpdtrt-gallery-title-background-color);
+        color: var(--wpdtrt-gallery-title-color);
+        padding: 2px 0;
+        margin-bottom: 12px;
+
+        [class^='wpdtrt-gallery-icon-'],
+        [class*=' wpdtrt-gallery-icon-'] {
+            position: relative;
+            bottom: -.2em;
+            float: right;
+            margin-left: 6px;
+        }
+    }
+
     &__tab {
         position: relative;
         background-color: var(--wpdtrt-gallery-bg-color-loading);
