@@ -235,10 +235,14 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 				'iconclasspanorama'         => '',
 				'iconclassrwgps'            => '',
 				'iconclasssoundcloud'       => '',
+				'iconclasstabhint'          => '',
 				'iconclassrvimeo'           => '',
 				'tabspatternclass'          => '',
 				'tabclass'                  => '',
 				'tabtag'                    => '',
+				'tabhintclass'              => '',
+				'tabhintlinerclass'         => '',
+				'tabhintttext'              => '',
 				'tablinerclass'             => '',
 				'tablinertag'               => '',
 				'tablistclass'              => '',
@@ -365,6 +369,7 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 		$iconclasspanorama   = $this->helper_sanitize_html_classes( $atts['iconclasspanorama'] );
 		$iconclassrwgps      = $this->helper_sanitize_html_classes( $atts['iconclassrwgps'] );
 		$iconclasssoundcloud = $this->helper_sanitize_html_classes( $atts['iconclasssoundcloud'] );
+		$iconclasstabhint    = $this->helper_sanitize_html_classes( $atts['iconclasstabhint'] );
 		$iconclassvimeo      = $this->helper_sanitize_html_classes( $atts['iconclassrvimeo'] );
 
 		// tabpanels title - child of tabpanels wrapper.
@@ -417,6 +422,10 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 		// tab - wraps thumbnail/icon.
 		$tabclass = $this->helper_sanitize_html_classes( $atts['tabclass'] );
 		$tabtag   = tag_escape( $atts['tabtag'] );
+
+		$tabhintclass      = $this->helper_sanitize_html_classes( $atts['tabhintclass'] );
+		$tabhintlinerclass = $this->helper_sanitize_html_classes( $atts['tabhintlinerclass'] );
+		$tabhinttext       = esc_html( $atts['tabhinttext'] );
 
 		// tab liner - child of tab.
 		$tablinerclass = $this->helper_sanitize_html_classes( $atts['tablinerclass'] );
@@ -529,6 +538,10 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 				$gallery_attrs .= " aria-labelledby='galleryid-{$id}-tablist-title'";
 			}
 
+			if ( '' !== $tabhinttext ) {
+				$gallery_attrs .= " aria-describedby='galleryid-{$id}-tabhint'";
+			}
+
 			$gallery_div = str_replace( '>', $gallery_attrs . '>', $gallery_div );
 			$gallery_div = str_replace( "class='gallery", "class='gallery " . $tablistclass, $gallery_div );
 		}
@@ -601,7 +614,7 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 				 */
 
 				$tablinerattrs = '';
-				$iconclass    = '';
+				$iconclass     = '';
 
 				if ( '' !== $tablinerclass ) {
 					if ( '1' === $panorama ) {
@@ -691,6 +704,37 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 				$output .= '<br style="clear: both" />';
 			}
 		}
+
+		/**
+		 * START TAB HINT
+		 */
+
+		if ( $usetabspattern ) {
+			$tabhint_attrs       = '';
+			$tabhint_liner_attrs = '';
+			$tabhint_icon        = '';
+
+			if ( '' !== $tabhintclass ) {
+				$tabhint_attrs .= " class='{$tabhintclass}'";
+				$tabhint_attrs .= " id='galleryid-{$id}-tabhint'";
+			}
+
+			if ( '' !== $tabhintlinerclass ) {
+				$tabhint_liner_attrs .= " class='{$tabhintlinerclass}'";
+			}
+
+			if ( '' !== $iconclasstabhint ) {
+				$tabhint_icon .= "<span class='{$iconclasstabhint}'></span>";
+			}
+
+			if ( '' !== $tabhinttext ) {
+				$output .= "<p{$tabhint_attrs}><span{$tabhintliner_attrs}>{$tabhint_icon}{$tabhinttext}</span></p>";
+			}
+		}
+
+		/**
+		 * END TAB HINT
+		 */
 
 		$output .= '</div>';
 
@@ -803,7 +847,7 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 				 */
 
 				$tabpanelitem_attrs = '';
-				$iconclass         = '';
+				$iconclass          = '';
 
 				if ( '' !== $tabpanelitemclass ) {
 					$tabpanelitem_attrs .= " class='{$tabpanelitemclass}'";
@@ -1013,9 +1057,13 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 		$result['iconclassimage']            = 'wpdtrt-gallery-icon-image';
 		$result['iconclassrwgps']            = 'wpdtrt-gallery-icon-map';
 		$result['iconclasspanorama']         = 'wpdtrt-gallery-icon-panorama';
+		$result['iconclasstabhint']          = 'wpdtrt-gallery-icon-TODO';
 		$result['iconclassrvimeo']           = 'wpdtrt-gallery-icon-vimeo';
 		$result['tabclass']                  = 'wpdtrt-gallery-gallery__tab';
 		$result['tabtag']                    = 'button';
+		$result['tabhintclass']              = 'wpdtrt-gallery-gallery__tab-hint';
+		$result['tabhintlinerclass']         = 'wpdtrt-gallery-gallery__tab-hint-liner';
+		$result['tabhinttext']               = 'Use LEFT and RIGHT arrows to select an image, ENTER to load it.';
 		$result['tablinerclass']             = 'wpdtrt-gallery-gallery__tab-liner';
 		$result['tablinertag']               = 'span';
 		$result['tablistclass']              = 'wpdtrt-gallery-gallery';

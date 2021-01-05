@@ -499,6 +499,23 @@ $icomoon-font-path: '../icons/icomoon/fonts';
         }
     }
 
+    &__tab-hint {
+        // always visible as linked via aria-describedbt
+    }
+
+    &__tab-hint-liner {
+        // toggle on on tab focus
+        display: none;
+        padding-top: 4px;
+        border-top: 2px solid var(--color-mono-medium2);
+    }
+
+    &:focus-within {
+        #{$block}__tab-hint-liner {
+            display: block;
+        }
+    }
+
     // -------------------------------------------------------------------
     // Media Queries
     // -------------------------------------------------------------------
