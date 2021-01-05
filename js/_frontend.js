@@ -159,6 +159,7 @@ const wpdtrtGalleryUi = {
         const $expandButtonText = $expandButton.find('.says');
         const $tabpanel = $gallery.find('[role="tabpanel"]:not([hidden])');
         const $tabpanelImg = $tabpanel.find('img');
+        const $section = $gallery.parents('.wpdtrt-gallery__section').eq(0);
 
         // the actual state
         // toggled to false by the reset function unless isUserExpanded
@@ -220,7 +221,7 @@ const wpdtrtGalleryUi = {
                 .text('Collapse');
 
             if (!triggered) {
-                wpdtrtGalleryUi.scrollToElement($, $gallery, 100, 150);
+                wpdtrtGalleryUi.scrollToElement($, $section, 100, 150);
             }
         } else if ($gallery.attr('data-expanded') === 'false') {
             // if the viewer is now collapsed
@@ -238,7 +239,7 @@ const wpdtrtGalleryUi = {
                 .text('Expand');
 
             if (!triggered) {
-                wpdtrtGalleryUi.scrollToElement($, $gallery, 100, 150);
+                wpdtrtGalleryUi.scrollToElement($, $section, 100, 150);
             }
         }
 
