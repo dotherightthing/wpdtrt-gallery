@@ -531,7 +531,10 @@ $icomoon-font-path: '../icons/icomoon/fonts';
         border-top: 1px solid var(--wpdtrt-gallery-tab-hint-border-color);
         margin-top: 20px;
 
-        p {
+        ul,
+        li {
+            list-style: none;
+            padding: 0;
             margin: 0;
         }
     }

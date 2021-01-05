@@ -246,7 +246,7 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 				'tabkeyboardtitletext'      => '',
 				'tabkeyboardhintclass'      => '',
 				'tabkeyboardhintlinerclass' => '',
-				'tabkeyboardhintttext'      => '',
+				'tabkeyboardhinttextlines'  => [],
 				'tablinerclass'             => '',
 				'tablinertag'               => '',
 				'tablistclass'              => '',
@@ -434,8 +434,14 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 
 		$tabkeyboardhintclass      = $this->helper_sanitize_html_classes( $atts['tabkeyboardhintclass'] );
 		$tabkeyboardhintlinerclass = $this->helper_sanitize_html_classes( $atts['tabkeyboardhintlinerclass'] );
-		$tabkeyboardhinttextline1  = esc_html( $atts['tabkeyboardhinttextline1'] );
-		$tabkeyboardhinttextline2  = esc_html( $atts['tabkeyboardhinttextline2'] );
+		$tabkeyboardhinttextlines  = [];
+		$loopindex                 = 0;
+
+		foreach ( $atts['tabkeyboardhinttextlines'] as $tabkeyboardhinttextline ) {
+			$tabkeyboardhinttextlines[ $loopindex ] = esc_html( $tabkeyboardhinttextline );
+
+			$loopindex++;
+		}
 
 		// tab liner - child of tab.
 		$tablinerclass = $this->helper_sanitize_html_classes( $atts['tablinerclass'] );
@@ -548,7 +554,7 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 				$gallery_attrs .= " aria-labelledby='galleryid-{$id}-tablist-title'";
 			}
 
-			if ( '' !== $tabkeyboardhinttextline1 ) {
+			if ( count( $tabkeyboardhinttextlines ) > 0 ) {
 				$gallery_attrs .= " aria-describedby='galleryid-{$id}-tabkeyboardhint'";
 			}
 
@@ -751,16 +757,17 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 				$tabkeyboardhint_icon .= "<span class='{$iconclasskeyboardhint}' aria-label=''></span>";
 			}
 
-			if ( '' !== $tabkeyboardhinttextline1 ) {
+			if ( count( $tabkeyboardhinttextlines ) > 0 ) {
 				$output .= "<div{$tabkeyboardhint_attrs}>";
 				$output .= "<div{$tabkeyboardhintliner_attrs}>";
 				$output .= "<{$tabkeyboardtitletag} class='{$tabkeyboardtitleclass}'>{$tabkeyboardtitletext} {$tabkeyboardhint_icon}</{$tabkeyboardtitletag}>";
-				$output .= "<p>{$tabkeyboardhinttextline1}</p>";
+				$output .= '<ul>';
 
-				if ( $tabkeyboardhinttextline2 ) {
-					$output .= "<p>{$tabkeyboardhinttextline2}</p>";
+				foreach ( $tabkeyboardhinttextlines as $tabkeyboardhinttextline ) {
+					$output .= "<li>{$tabkeyboardhinttextline}</li>";
 				}
 
+				$output .= '</ul>';
 				$output .= '</div>';
 				$output .= '</div>';
 			}
@@ -1098,11 +1105,10 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 		$result['tabtag']                    = 'button';
 		$result['tabkeyboardtitletag']       = 'h4';
 		$result['tabkeyboardtitleclass']     = 'wpdtrt-gallery-gallery__header';
-		$result['tabkeyboardtitletext']      = 'Keyboard hint';
+		$result['tabkeyboardtitletext']      = 'Keyboard instructions';
 		$result['tabkeyboardhintclass']      = 'wpdtrt-gallery-gallery__tab-hint';
 		$result['tabkeyboardhintlinerclass'] = 'wpdtrt-gallery-gallery__tab-hint-liner';
-		$result['tabkeyboardhinttextline1']  = 'Navigate with: LEFT + RIGHT arrows.';
-		$result['tabkeyboardhinttextline2']  = 'Select with: ENTER.';
+		$result['tabkeyboardhinttextlines']  = [ 'Navigate with: LEFT + RIGHT arrows', 'Select with: ENTER', 'Enlarge with: TAB then ENTER' ];
 		$result['tablinerclass']             = 'wpdtrt-gallery-gallery__tab-liner';
 		$result['tablinertag']               = 'span';
 		$result['tablistclass']              = 'wpdtrt-gallery-gallery';
