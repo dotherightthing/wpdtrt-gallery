@@ -3,9 +3,9 @@
 @font-face {
   font-family: '#{$icomoon-font-family}';
   src:
-    url('#{$icomoon-font-path}/#{$icomoon-font-family}.ttf?5dip5g') format('truetype'),
-    url('#{$icomoon-font-path}/#{$icomoon-font-family}.woff?5dip5g') format('woff'),
-    url('#{$icomoon-font-path}/#{$icomoon-font-family}.svg?5dip5g##{$icomoon-font-family}') format('svg');
+    url('#{$icomoon-font-path}/#{$icomoon-font-family}.ttf?13xgus') format('truetype'),
+    url('#{$icomoon-font-path}/#{$icomoon-font-family}.woff?13xgus') format('woff'),
+    url('#{$icomoon-font-path}/#{$icomoon-font-family}.svg?13xgus##{$icomoon-font-family}') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -26,6 +26,11 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.wpdtrt-gallery-icon-keyboard-o {
+  &:before {
+    content: $wpdtrt-gallery-icon-keyboard-o; 
+  }
+}
 .wpdtrt-gallery-icon-hand-pointer-o {
   &:before {
     content: $wpdtrt-gallery-icon-hand-pointer-o; 
@@ -54,11 +59,6 @@
 .wpdtrt-gallery-icon-soundcloud {
   &:before {
     content: $wpdtrt-gallery-icon-soundcloud; 
-  }
-}
-.wpdtrt-gallery-icon-keyboard {
-  &:before {
-    content: $wpdtrt-gallery-icon-keyboard; 
   }
 }
 

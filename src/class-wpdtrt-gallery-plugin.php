@@ -1098,7 +1098,7 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 		$result['iconclassimage']            = 'wpdtrt-gallery-icon-image';
 		$result['iconclassrwgps']            = 'wpdtrt-gallery-icon-map';
 		$result['iconclasspanorama']         = 'wpdtrt-gallery-icon-panorama';
-		$result['iconclasskeyboardhint']     = 'wpdtrt-gallery-icon-keyboard';
+		$result['iconclasskeyboardhint']     = 'wpdtrt-gallery-icon-keyboard-o';
 		$result['iconclassmousehint']        = 'wpdtrt-gallery-icon-hand-pointer-o';
 		$result['iconclassrvimeo']           = 'wpdtrt-gallery-icon-vimeo';
 		$result['tabclass']                  = 'wpdtrt-gallery-gallery__tab';
