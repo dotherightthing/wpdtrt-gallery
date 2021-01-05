@@ -838,6 +838,7 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 
 					$output .= "<{$tabpanelimagetag}{$tabpanelimage_attrs}>";
 					$output .= $image_output;
+					// $output .= preg_replace( '/src="[^"]*"/', 'src=""', $image_output ); // TODO: lazy loading.
 					$output .= "</{$tabpanelimagetag}>";
 				}
 

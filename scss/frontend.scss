@@ -292,6 +292,7 @@ $icomoon-font-path: '../icons/icomoon/fonts';
         }
 
         > img {
+            display: block; // respect width and height
             position: relative;
             z-index: 1; // stack above media icon
             width: 100%;

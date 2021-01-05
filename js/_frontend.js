@@ -60,7 +60,7 @@ const wpdtrtGalleryUi = {
      * @since 3.0.0
      */
     galleryLazyInit: ($) => {
-        const $sections = $('.wpdtrt-gallery__section');
+        const $sections = $('.wpdtrt-gallery');
 
         /**
          * Respond to an observed intersection.
@@ -446,19 +446,22 @@ const wpdtrtGalleryUi = {
      *
      * @param {external:jQuery} $tabpanel - jQuery gallery viewer
      * @requires includes/attachment.php
+     * @todo Reimplement lazy loading
      * @since 3.0.0
      */
     setupImagePanel: function ($tabpanel) {
         const $component = $tabpanel.parents('.wpdtrt-gallery');
-        // const $tabImage = $tab.find('img');
+        // const $img = $tabpanel.find('img');
         const $viewer = $component.find('.wpdtrt-gallery-viewer');
         const $expandButton = $viewer.find('.wpdtrt-gallery-viewer__expand');
 
-        // set the source of the large image which is uncropped
-        // after updatePanorama
-        if (!$tabpanel.find('img').length) {
-            $tabpanel.find('.wpdtrt-gallery-viewer__img-wrapper').append('<img/>');
-        }
+        // lazy loading
+        // if ($img) {
+        //     if ($img.attr('src') === '') {
+        //         const desktopSrc = $tabpanel.data('src-desktop');
+        //         $img.attr('src', desktopSrc);
+        //     }
+        // }
 
         // setup viewer
         $expandButton.trigger('click');
