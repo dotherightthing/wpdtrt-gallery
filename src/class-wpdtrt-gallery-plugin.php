@@ -613,29 +613,38 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 				 * START TAB LINER
 				 */
 
-				$tablinerattrs = '';
-				$iconclass     = '';
+				$tabliner_attrs = '';
+				$tabicon_attrs  = '';
 
 				if ( '' !== $tablinerclass ) {
 					if ( '1' === $panorama ) {
+						$iconalt   = 'Panorama image';
 						$iconclass = $iconclasspanorama;
 					} elseif ( $rwgps_pageid ) {
+						$iconalt   = 'Ride with GPS map';
 						$iconclass = $iconclassrwgps;
 					} elseif ( $soundcloud_pageid && $soundcloud_trackid ) {
+						$iconalt   = 'Soundcloud audio';
 						$iconclass = $iconclasssoundcloud;
 					} elseif ( $vimeo_pageid ) {
+						$iconalt   = 'Vimeo video';
 						$iconclass = $iconclassvimeo;
 					} else {
+						$iconalt   = 'Image';
 						$iconclass = $iconclassimage;
 					}
 
-					$tablinerattrs .= " class='{$tablinerclass} {$iconclass}'";
+					$tabicon_attrs .= " class='{$iconclass}'";
+					$tabicon_attrs .= " aria-label='{$iconalt}'";
+
+					$tabliner_attrs .= " class='{$tablinerclass}'";
 				}
 
 				$image_output = "<{$tabtag}{$tab_attrs}>";
 
 				if ( '' !== $tablinertag ) {
-					$image_output .= "<{$tablinertag} {$tablinerattrs}>";
+					$image_output .= "<{$tablinertag} {$tabliner_attrs}>";
+					$image_output .= "<span{$tabicon_attrs}></span>";
 				}
 
 				/**
