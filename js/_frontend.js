@@ -323,12 +323,11 @@ const wpdtrtGalleryUi = {
      */
     setupPanorama: function ($tabpanel, $) {
         const panorama = $tabpanel.data('panorama');
-        const $scrollLiner = $tabpanel.find('.wpdtrt-gallery-viewer__img-wrapper');
-        const $gal = $scrollLiner;
+        const $galleryImgWrapper = $tabpanel.find('.wpdtrt-gallery-viewer__img-wrapper');
         let galleryScrollTimer;
         let galleryScrollSetup;
 
-        $gal.off('.galleryScroll');
+        $galleryImgWrapper.off('.galleryScroll');
         clearInterval(galleryScrollTimer);
         clearTimeout(galleryScrollSetup);
 
@@ -339,23 +338,19 @@ const wpdtrtGalleryUi = {
             // TODO move into separate file, add a data- attribute
             // timeout ensures that the related CSS has taken effect
             galleryScrollSetup = setTimeout(() => {
-                // if (!$gal.length) {
-                //  return;
-                // }
-
-                const galW = $gal.outerWidth(true); // setTimeout reqd for this value
-                const galSW = $gal[0].scrollWidth;
-                const wDiff = (galSW / galW) - 1; // widths difference ratioÅ
+                const uiWidth = $galleryImgWrapper.outerWidth(true); // setTimeout reqd for this value
+                const actualWidth = $galleryImgWrapper[0].scrollWidth;
+                const wDiff = (actualWidth / uiWidth); // widths difference ratio
                 const mPadd = 75; // Mousemove padding
-                const damp = 20; // Mousemove response softness
+                const damp = 10; // Mousemove response softness
                 let mX = 0; // Real mouse position
                 let mX2 = 0; // Modified mouse position
                 let posX = 0;
-                const mmAA = galW - (mPadd * 2); // The mousemove available area
-                const mmAAr = (galW / mmAA); // get available mousemove difference ratio
+                const mmAA = uiWidth - (mPadd * 2); // The mousemove available area
+                const mmAAr = (uiWidth / mmAA); // get available mousemove difference ratio
                 let tabindex = null;
 
-                $gal
+                $galleryImgWrapper
                     .on('mousemove.galleryScroll', function (event) {
                         mX = event.pageX - $(this).offset().left;
                         mX2 = Math.min(Math.max(0, mX - mPadd), mmAA) * mmAAr;
@@ -363,10 +358,9 @@ const wpdtrtGalleryUi = {
                     .on('mouseenter.galleryScroll', () => {
                         galleryScrollTimer = setInterval(() => {
                             posX += (mX2 - posX) / damp; // zeno's paradox equation 'catching delay'
-                            $gal.scrollLeft(posX * wDiff);
+                            $galleryImgWrapper.scrollLeft(posX * wDiff);
                         }, 10);
 
-                        // TODO - test
                         tabindex = $tabpanel.attr('data-tabindex');
 
                         if (tabindex) {
@@ -393,13 +387,13 @@ const wpdtrtGalleryUi = {
                     })
                     .on('mouseup.galleryScroll', () => {
                         // Reactivate the cursor-based panning
-                        $gal
+                        $galleryImgWrapper
                             .trigger('mouseenter.galleryScroll');
                     });
             }, 100);
         } else {
             // reset viewer type
-            $gal
+            $galleryImgWrapper
                 .off('.galleryScroll');
 
             clearInterval(galleryScrollTimer);
