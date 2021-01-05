@@ -506,7 +506,7 @@ const wpdtrtGalleryUi = {
             wpdtrtGalleryUi.setupPanoramaScrolling($tabpanel, $);
         });
 
-        const $expandButton = $('.wpdtrt-gallery-viewer__expand');
+        const $expandButton = $gallery.find('.wpdtrt-gallery-viewer__expand');
 
         wpdtrtGalleryUi.trackOnHover($, $expandButton);
 
