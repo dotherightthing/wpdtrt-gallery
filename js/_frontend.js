@@ -109,8 +109,7 @@ const wpdtrtGalleryUi = {
             const $tabpanel = $(item);
 
             $tabpanel
-                .prepend('<div class="wpdtrt-gallery-viewer__expand-wrapper"><button class="wpdtrt-gallery-viewer__expand" aria-expanded="false"><span class="says">Expand</span></button></div>')
-                .removeAttr('tabindex');
+                .prepend('<div class="wpdtrt-gallery-viewer__expand-wrapper"><button class="wpdtrt-gallery-viewer__expand" aria-expanded="false"><span class="says">Expand</span></button></div>');
 
             // wpdtrtGalleryUi.initImageLazyLoading($tabpanel);
             wpdtrtGalleryUi.initPanoramaScrolling($tabpanel, $);
@@ -448,6 +447,10 @@ const wpdtrtGalleryUi = {
             // update the hidden button text
             $expandButtonText
                 .text('Expand');
+
+            $tabpanel
+                .removeAttr('tabindex');
+
         }
 
         if (!triggered) {
