@@ -272,7 +272,7 @@ const wpdtrtGalleryUi = {
      * @since 3.0.0
      */
     autoExpandForComplexMedia: function ($tabpanel) {
-        const autoExpanded = false;
+        let autoExpanded = false;
         const $gallery = $tabpanel.parents('.wpdtrt-gallery').eq(0);
         const $expandButton = $gallery.find('.wpdtrt-gallery-viewer__expand');
 
