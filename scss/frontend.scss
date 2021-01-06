@@ -421,9 +421,7 @@ $icomoon-font-path: '../icons/icomoon/fonts';
 .wpdtrt-gallery-gallery {
     $block: &;
 
-    display: flex;
     position: relative; // stack on top of sticky nav
-    justify-content: space-between;
 
     .js {
         &[style] {
@@ -601,12 +599,12 @@ $icomoon-font-path: '../icons/icomoon/fonts';
     }
 
     @include media('>=laptop') {
-        max-width: none;
-        flex-wrap: wrap;
         margin-bottom: 40px;
         overflow-x: visible;
 
         &__tab {
+            max-width: none;
+
             &,
             &:hover {
                 margin-bottom: 6px;
