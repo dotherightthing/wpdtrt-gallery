@@ -536,6 +536,16 @@ const wpdtrtGalleryUi = {
 jQuery(($) => {
     const config = wpdtrt_gallery_config; // eslint-disable-line
 
+    // IE9+ polyfill for forEach
+    if (window.NodeList && !NodeList.prototype.forEach) {
+        NodeList.prototype.forEach = Array.prototype.forEach;
+    }
+
+    // IE9+ polyfill for forEach
+    if (window.HTMLCollection && !HTMLCollection.prototype.forEach) {
+        HTMLCollection.prototype.forEach = Array.prototype.forEach;
+    }
+
     // replacement for disabled window.onload
     $('.wpdtrt-gallery').each((i, item) => {
         const $gallery = $(item);
