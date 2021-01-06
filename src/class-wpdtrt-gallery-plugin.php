@@ -84,6 +84,90 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 	 */
 
 	/**
+	 * Method: set_tabpanel_props
+	 *
+	 * Parameters:
+	 *   $gallery_props - Array
+	 *   $att_id - String?
+	 *   $atts - Array
+	 *   $count - Number
+	 *   $iconclassimage - String
+	 *   $iconclasspanorama - String
+	 *   $iconclassrwgps - String
+	 *   $iconclasssoundcloud - String
+	 *   $iconclassvimeo - String
+	 *   $tabpanelimagesize - String
+	 *   $tabpanelimagesizeexpanded - String
+	 *   $tabpanelimagesizepanorama - String
+	 *   $post_excerpt - string
+	 *
+	 * Returns:
+	 *   $array - $tabpanel_props
+	 */
+	public function set_tabpanel_props( Array $gallery_props, int $att_id, Array $atts, $count, string $iconclassimage, string $iconclasspanorama, string $iconclassrwgps, string $iconclasssoundcloud, string $iconclassvimeo, string $tabpanelimagesize, string $tabpanelimagesizeexpanded, string $tabpanelimagesizepanorama, string $post_excerpt ) : Array {
+		$tabpanel_props = [];
+
+		$tabpanel_props['att_id']             = $att_id;
+		$tabpanel_props['autopause']          = 'true'; // opposite of $autoplay.
+		$tabpanel_props['autoplay']           = 'false'; // ex-JS notes: autoplay disabled as working but inconsistent.
+		$tabpanel_props['caption_id']         = "{$gallery_props['id']}-tabpanel-{$count}-caption";
+		$tabpanel_props['iframe_fullscreen']  = '';
+		$tabpanel_props['image']              = wp_get_attachment_image_src( $att_id, $tabpanelimagesize )[0];
+		$tabpanel_props['image_expanded']     = wp_get_attachment_image_src( $att_id, $tabpanelimagesizeexpanded )[0];
+		$tabpanel_props['image_panorama']     = wp_get_attachment_image_src( $att_id, $tabpanelimagesizepanorama )[0];
+		$tabpanel_props['panorama']           = get_post_meta( $att_id, 'wpdtrt_gallery_attachment_panorama', true ); // used for JS dragging.
+		$tabpanel_props['post_excerpt']       = trim( $post_excerpt );
+		$tabpanel_props['rwgps_pageid']       = get_post_meta( $att_id, 'wpdtrt_gallery_attachment_rwgps_pageid', true );
+		$tabpanel_props['soundcloud_pageid']  = get_post_meta( $att_id, 'wpdtrt_gallery_attachment_soundcloud_pageid', true ); // used for SEO.
+		$tabpanel_props['soundcloud_trackid'] = get_post_meta( $att_id, 'wpdtrt_gallery_attachment_soundcloud_trackid', true ); // used for embed, see also http://stackoverflow.com/a/28182284.
+		$tabpanel_props['tab_id']             = "{$gallery_props['id']}-tab-{$count}";
+		$tabpanel_props['tabpanel_id']        = "{$gallery_props['id']}-tabpanel-{$count}";
+		$tabpanel_props['thumbnail']          = wp_get_attachment_image( $att_id, $atts['size'], false, '' );
+		$tabpanel_props['vimeo_pageid']       = get_post_meta( $att_id, 'wpdtrt_gallery_attachment_vimeo_pageid', true ); // used for embed.
+
+		// Map geolocation
+		// Could this be replaced by simply looking up the custom field?
+		if ( function_exists( 'wpdtrt_exif_get_attachment_metadata' ) ) {
+			$attachment_metadata         = wpdtrt_exif_get_attachment_metadata( $att_id );
+			$attachment_metadata_gps     = wpdtrt_exif_get_attachment_metadata_gps( $attachment_metadata, 'number' );
+			$tabpanel_props['latitude']  = $attachment_metadata_gps['latitude'];
+			$tabpanel_props['longitude'] = $attachment_metadata_gps['longitude'];
+		} else {
+			$tabpanel_props['latitude']  = '';
+			$tabpanel_props['longitude'] = '';
+		}
+
+		// Media types.
+		$tabpanel_props['iframe'] = $tabpanel_props['rwgps_pageid'] || ( $tabpanel_props['soundcloud_pageid'] && $tabpanel_props['soundcloud_trackid'] ) || $tabpanel_props['vimeo_pageid'];
+
+		if ( '1' === $tabpanel_props['panorama'] ) {
+			$tabpanel_props['iconalt']   = 'Panorama';
+			$tabpanel_props['iconclass'] = $iconclasspanorama;
+		} elseif ( $tabpanel_props['rwgps_pageid'] ) {
+			$tabpanel_props['iconalt']      = 'Map';
+			$tabpanel_props['iconclass']    = $iconclassrwgps;
+			$tabpanel_props['iframe_src']   = "//rwgps-embeds.com/routes/{$tabpanel_props['rwgps_pageid']}/embed";
+			$tabpanel_props['iframe_title'] = 'Ride With GPS map viewer';
+		} elseif ( $tabpanel_props['soundcloud_pageid'] && $tabpanel_props['soundcloud_trackid'] ) {
+			$tabpanel_props['iconalt']      = 'Audio';
+			$tabpanel_props['iconclass']    = $iconclasssoundcloud;
+			$tabpanel_props['iframe_src']   = "//w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/{$tabpanel_props['soundcloud_trackid']}?auto_play={$tabpanel_props['autoplay']}&hide_related=true&show_comments=false&show_user=false&show_reposts=false&visual=true";
+			$tabpanel_props['iframe_title'] = 'SoundCloud player';
+		} elseif ( $tabpanel_props['vimeo_pageid'] ) {
+			$tabpanel_props['iconalt']           = 'Video';
+			$tabpanel_props['iconclass']         = $iconclassvimeo;
+			$tabpanel_props['iframe_src']        = "//player.vimeo.com/video/{$tabpanel_props['vimeo_pageid']}?api=false&autopause={$tabpanel_props['autopause']}&autoplay={$tabpanel_props['autoplay']}&byline=false&loop=false&portrait=false&title=false&xhtml=false";
+			$tabpanel_props['iframe_title']      = 'Vimeo player';
+			$tabpanel_props['iframe_fullscreen'] = 'true';
+		} else {
+			$tabpanel_props['iconalt']   = 'Image';
+			$tabpanel_props['iconclass'] = $iconclassimage;
+		}
+
+		return $tabpanel_props;
+	}
+
+	/**
 	 * Group: Renderers
 	 * _____________________________________
 	 */
@@ -114,7 +198,6 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 
 		return preg_replace( '@^<' . $n->nodeName . '[^>]*>|</'. $n->nodeName . '>$@', '', $html ); // phpcs:ignore
 	}
-
 
 	/**
 	 * Method: render_js_frontend
@@ -166,6 +249,355 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 	}
 
 	/**
+	 * Method: render_tablist_start
+	 *
+	 * Parameters:
+	 *   $gallery_div - String
+	 *   $gallery_props - Array
+	 *   $tabkeyboardhinttextlines - Array
+	 *   $tablistlabel - String
+	 *   $tablisttitletag - String
+	 *   $tablistclass - String
+	 *
+	 * Returns:
+	 *   $html - HTML
+	 */
+	public function render_tablist_start( string $gallery_div, Array $gallery_props, Array $tabkeyboardhinttextlines, string $tablistlabel, string $tablisttitletag, string $tablistclass ) : string {
+		$attrs   = " role='tablist'";
+		$hint_id = '';
+
+		if ( count( $tabkeyboardhinttextlines ) > 0 ) {
+			$hint_id .= " {$gallery_props['tabhint_id']}";
+		}
+
+		if ( '' !== $tablistlabel ) {
+			$attrs .= " aria-label='{$tablistlabel}'";
+		} elseif ( '' !== $tablisttitletag ) {
+			$attrs .= " aria-labelledby='{$gallery_props['id']}-tablist-title{$hint_id}'";
+		}
+
+		$gallery_div = str_replace( '>', $attrs . '>', $gallery_div );
+		$gallery_div = str_replace( "class='gallery", "class='gallery " . $tablistclass, $gallery_div );
+
+		return $gallery_div;
+	}
+
+	/**
+	 * Method: render_tablist_title
+	 *
+	 * Parameters:
+	 *   $gallery_props - Array
+	 *   $tablisttitleclass - string
+	 *   $iconclassmousehint - string
+	 *   $tablisttitletag - string
+	 *   $tablisttitle - string
+	 *
+	 * Returns:
+	 *   $html - HTML
+	 */
+	public function render_tablist_title( Array $gallery_props, string $tablisttitleclass, string $iconclassmousehint, string $tablisttitletag, string $tablisttitle ) : string {
+		$html = '';
+
+		if ( '' !== $tablisttitletag ) {
+			$tablisttitle_attrs = " id='{$gallery_props['tablisttitle_id']}'";
+			$tabmousehint_icon  = '';
+
+			if ( '' !== $tablisttitleclass ) {
+				$tablisttitle_attrs .= " class='{$tablisttitleclass}'";
+			}
+
+			if ( '' !== $iconclassmousehint ) {
+				$tabmousehint_icon .= "<span class='{$iconclassmousehint}' aria-hidden='true'></span>";
+			}
+
+			$html .= "<{$tablisttitletag}{$tablisttitle_attrs}>{$tablisttitle}{$tabmousehint_icon}</{$tablisttitletag}>";
+		}
+
+		return $html;
+	}
+
+	/**
+	 * Method: render_tab
+	 *
+	 * Parameters:
+	 *   $tabpanel_props - Array
+	 *   $count - number
+	 *
+	 * Returns:
+	 *   $html - HTML
+	 */
+	public function render_tab( Array $tabpanel_props, int $count, string $tabclass, string $tablinerclass, string $tabtag, string $tablinertag ) : string {
+		$html = '';
+
+		$tab_attrs  = " role='tab'";
+		$tab_attrs .= " class='gallery-item {$tabclass}'";
+		$tab_attrs .= " aria-controls='{$tabpanel_props['tabpanel_id']}'";
+		$tab_attrs .= " id='{$tabpanel_props['tab_id']}'";
+		$tab_attrs .= " data-kh-proxy='selectFocussed'";
+		$tab_attrs .= ' disabled';
+
+		if ( 1 === $count ) {
+			$tab_attrs .= " aria-selected='true'";
+			$tab_attrs .= " tabindex='0'";
+		} else {
+			$tab_attrs .= " aria-selected='false'";
+			$tab_attrs .= " tabindex='-1'";
+		}
+
+		/**
+		 * START TAB LINER
+		 */
+
+		$tabliner_attrs = '';
+		$tabicon_attrs  = '';
+
+		if ( '' !== $tablinerclass ) {
+			$tabicon_attrs .= " class='{$tabpanel_props['iconclass']}'";
+			$tabicon_attrs .= " aria-label='{$tabpanel_props['iconalt']}. '";
+
+			$tabliner_attrs .= " class='{$tablinerclass}'";
+		}
+
+		$html .= "<{$tabtag}{$tab_attrs}>";
+
+		if ( '' !== $tablinertag ) {
+			$html .= "<{$tablinertag} {$tabliner_attrs}>";
+			$html .= "<span{$tabicon_attrs}></span>";
+		}
+
+		/**
+		 * START TAB IMAGE
+		 */
+
+		$html .= $tabpanel_props['thumbnail'];
+
+		/**
+		 * END TAB IMAGE
+		 */
+
+		if ( '' !== $tablinertag ) {
+			$html .= "</{$tablinertag}>";
+		}
+
+		/**
+		 * END TAB LINER
+		 */
+
+		$html .= "</{$tabtag}>";
+
+		return $html;
+	}
+
+	/**
+	 * Method: render_tab_hint
+	 *
+	 * Parameters:
+	 *   $gallery_props - Array
+	 *   $tabpanel_props - Array
+	 *   $tabkeyboardhintclass - string
+	 *   $tabkeyboardhintlinerclass - string
+	 *   $iconclasskeyboardhint - string
+	 *   $tabkeyboardtitletag - string
+	 *   $tabkeyboardtitleclass - string
+	 *   $tabkeyboardtitletext - string
+	 *   $tabkeyboardhinttextlines - Array
+	 *
+	 * Returns:
+	 *   $html - HTML
+	 */
+	public function render_tab_hint( Array $gallery_props, Array $tabpanel_props, string $tabkeyboardhintclass, string $tabkeyboardhintlinerclass, string $iconclasskeyboardhint, string $tabkeyboardtitletag, string $tabkeyboardtitleclass, string $tabkeyboardtitletext, Array $tabkeyboardhinttextlines ) : string {
+		$html = '';
+
+		$tabkeyboardhint_attrs      = '';
+		$tabkeyboardhintliner_attrs = '';
+		$tabkeyboardhint_icon       = '';
+
+		if ( '' !== $tabkeyboardhintclass ) {
+			$tabkeyboardhint_attrs .= " class='{$tabkeyboardhintclass}'";
+			$tabkeyboardhint_attrs .= " id='{$gallery_props['tabhint_id']}'";
+		}
+
+		if ( '' !== $tabkeyboardhintlinerclass ) {
+			$tabkeyboardhintliner_attrs .= " class='{$tabkeyboardhintlinerclass}'";
+		}
+
+		if ( '' !== $iconclasskeyboardhint ) {
+			$tabkeyboardhint_icon .= "<span class='{$iconclasskeyboardhint}' aria-hidden='true'></span>";
+		}
+
+		if ( count( $tabkeyboardhinttextlines ) > 0 ) {
+			$html .= "<div{$tabkeyboardhint_attrs}>";
+			$html .= "<div{$tabkeyboardhintliner_attrs}>";
+			$html .= "<{$tabkeyboardtitletag} class='{$tabkeyboardtitleclass}'>{$tabkeyboardtitletext} {$tabkeyboardhint_icon}</{$tabkeyboardtitletag}>";
+			$html .= '<ul>';
+
+			foreach ( $tabkeyboardhinttextlines as $tabkeyboardhinttextline ) {
+				$html .= "<li>{$tabkeyboardhinttextline}</li>";
+			}
+
+			$html .= '</ul>';
+			$html .= '</div>';
+			$html .= '</div>';
+		}
+
+		return $html;
+	}
+
+	/**
+	 * Method: render_tabpanel_iframe
+	 *
+	 * Parameters:
+	 *   $tabpanel_props - Array
+	 *
+	 * Returns:
+	 *   $html - HTML
+	 */
+	public function render_tabpanel_iframe( Array $tabpanel_props ) : string {
+		$html = '';
+
+		// TODO replace with inline icon.
+		$embed_attrs   = " class='wpdtrt-gallery-viewer__iframe-wrapper {$tabpanel_props['iconclass']}'";
+		$iframe_attrs  = " aria-describedby='{$tabpanel_props['caption_id']}'";
+		$iframe_attrs .= " class='wpdtrt-gallery-viewer__iframe'";
+
+		if ( $tabpanel_props['iframe'] ) {
+			$iframe_attrs .= " src='{$tabpanel_props['iframe_src']}'";
+			$iframe_attrs .= " title='{$tabpanel_props['iframe_title']}. '";
+
+			if ( '' !== $tabpanel_props['iframe_fullscreen'] ) {
+				// adapted from https://appleple.github.io/modal-video/.
+				$iframe_attrs .= ' allowfullscreen';
+			}
+		}
+
+		$html .= "<div{$embed_attrs}>";
+		$html .= "<iframe{$iframe_attrs}></iframe>";
+		$html .= '</div>';
+
+		return $html;
+	}
+
+	/**
+	 * Method: render_tabpanel_caption
+	 *
+	 * Parameters:
+	 *   $tabpanel_props - Array
+	 *   $tabpanelcaptionclass
+	 *   $tabpanelcaptionlinerclass
+	 *   $tabpanelcaptiontag
+	 *
+	 * Returns:
+	 *   $html - HTML
+	 */
+	public function render_tabpanel_caption( Array $tabpanel_props, string $tabpanelcaptionclass, string $tabpanelcaptionlinerclass, string $tabpanelcaptiontag ) : string {
+		$html = '';
+
+		$enlargementcaption_attrs      = '';
+		$enlargementcaptionliner_attrs = '';
+
+		if ( '' !== $tabpanelcaptionclass ) {
+			$enlargementcaption_attrs .= " class='{$tabpanelcaptionclass}'";
+		}
+
+		if ( $tabpanel_props['iframe'] ) {
+			$enlargementcaption_attrs .= " id='{$tabpanel_props['caption_id']}'";
+			$tabpanelcaptiontag        = 'div';
+		}
+
+		if ( '' !== $tabpanelcaptionlinerclass ) {
+			$enlargementcaptionliner_attrs .= " class='{$tabpanelcaptionlinerclass}'";
+		}
+
+		$html .= "<{$tabpanelcaptiontag}{$enlargementcaption_attrs}>";
+		$html .= "<div{$enlargementcaptionliner_attrs}>";
+
+		if ( '' !== $tabpanel_props['iconclass'] ) {
+			$html .= "<span class='{$tabpanel_props['iconclass']}'></span>";
+		}
+
+		$html .= wptexturize( $tabpanel_props['post_excerpt'] );
+		$html .= '</div>';
+		$html .= "</{$tabpanelcaptiontag}>";
+
+		return $html;
+	}
+
+	/**
+	 * Method: render_tabpanel_image
+	 *
+	 * Parameters:
+	 *   $tabpanel_props - Array
+	 *   $tabpanelimageclass - string
+	 *   $tabpanelimagetag - string
+	 *   $tabpanelimagesize - string
+	 *
+	 * Returns:
+	 *   $html - HTML
+	 */
+	public function render_tabpanel_image( Array $tabpanel_props, string $tabpanelimageclass, string $tabpanelimagetag, string $tabpanelimagesize ) : string {
+		$html = '';
+
+		$tabpanelimage_attrs = '';
+
+		if ( '' !== $tabpanelimageclass ) {
+			// TODO replace with inline icon.
+			$tabpanelimage_attrs .= " class='{$tabpanelimageclass} {$tabpanel_props['iconclass']}'";
+		}
+
+		$html .= "<{$tabpanelimagetag}{$tabpanelimage_attrs}>";
+
+		$html .= wp_get_attachment_image( $tabpanel_props['att_id'], $tabpanelimagesize, false, '' ); // TODO should this use a variable?.
+
+		// $html .= preg_replace( '/src="[^"]*"/', 'src=""', $image_output ); // TODO: lazy loading.
+		$html .= "</{$tabpanelimagetag}>";
+
+		return $html;
+	}
+
+	/**
+	 * Method: render_tabpanel_title
+	 *
+	 * Parameters:
+	 *   $titleclass - string
+	 *   $titleextraattrs - string
+	 *   $titletag - string
+	 *   $title - string
+	 *   $titleextrahtml - string
+	 *
+	 * Returns:
+	 *   $html - HTML
+	 */
+	public function render_tabpanel_title( string $titleclass, string $titleextraattrs, string $titletag, string $title, string $titleextrahtml ) : string {
+		$html = '';
+
+		if ( '' !== $titletag ) {
+			$title_wrapper_attrs = '';
+			$title_attrs         = '';
+
+			if ( '' !== $titleclass ) {
+				$title_wrapper_attrs .= " class='{$titleclass}'";
+			}
+
+			if ( '' !== $titleextraattrs ) {
+				$title_attrs .= $titleextraattrs;
+			}
+
+			$html .= "<div{$title_wrapper_attrs}>";
+			$html .= "<{$titletag}{$title_attrs}>";
+			$html .= $title;
+
+			if ( '' !== $titleextrahtml ) {
+				$html .= $titleextrahtml;
+			}
+
+			$html .= "</{$titletag}>";
+			$html .= '</div>';
+		}
+
+		return $html;
+	}
+
+	/**
 	 * Group: Filters
 	 * _____________________________________
 	 */
@@ -188,6 +620,8 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 	 * - <https://gist.github.com/mjsdiaz/7204576>
 	 */
 	public function filter_gallery_html( $output = '', $attr = null, $instance = null ) {
+		global $debug;
+
 		$post = get_post();
 
 		static $instance = 0;
@@ -261,6 +695,8 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 				'tabpanelclass'             => '',
 				'tabpanelimageclass'        => '',
 				'tabpanelimagesize'         => '',
+				'tabpanelimagesizeexpanded' => '',
+				'tabpanelimagesizepanorama' => '',
 				'tabpanelimagetag'          => $html5 ? 'div' : 'dt',
 				'tabpanelitemclass'         => '',
 				'tabpanelitemtag'           => $html5 ? 'figure' : 'dl',
@@ -399,9 +835,11 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 		}
 
 		// tabpanel image.
-		$tabpanelimageclass = $this->helper_sanitize_html_classes( $atts['tabpanelimageclass'] );
-		$tabpanelimagesize  = esc_html( $atts['tabpanelimagesize'] );
-		$tabpanelimagetag   = tag_escape( $atts['tabpanelimagetag'] );
+		$tabpanelimageclass        = $this->helper_sanitize_html_classes( $atts['tabpanelimageclass'] );
+		$tabpanelimagesize         = esc_html( $atts['tabpanelimagesize'] );
+		$tabpanelimagesizeexpanded = esc_html( $atts['tabpanelimagesizeexpanded'] );
+		$tabpanelimagesizepanorama = esc_html( $atts['tabpanelimagesizepanorama'] );
+		$tabpanelimagetag          = tag_escape( $atts['tabpanelimagetag'] );
 
 		if ( ! isset( $valid_tags[ $tabpanelimagetag ] ) ) {
 			$tabpanelimagetag = 'dt';
@@ -492,6 +930,18 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 		 */
 
 		if ( $usetabspattern ) {
+			$gallery_props                    = [];
+			$gallery_props['id']              = "galleryid-{$instance}";
+			$gallery_props['tabhint_id']      = "galleryid-{$instance}-tabhint";
+			$gallery_props['tablisttitle_id'] = "galleryid-{$instance}-tablist-title";
+			$count                            = 0;
+			$tabpanels_props                  = [];
+
+			foreach ( $attachments as $att_id => $attachment ) {
+				++$count;
+				$tabpanels_props[] = $this->set_tabpanel_props( $gallery_props, $att_id, $atts, $count, $iconclassimage, $iconclasspanorama, $iconclassrwgps, $iconclasssoundcloud, $iconclassvimeo, $tabpanelimagesize, $tabpanelimagesizeexpanded, $tabpanelimagesizepanorama, $attachment->post_excerpt );
+			}
+
 			$component_attrs = '';
 
 			if ( '' !== $tabspatternclass ) {
@@ -502,65 +952,16 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 				$component_attrs .= " data-expanded-user='false'";
 			}
 
-			$output .= "<div{$component_attrs}>";
+			$output .= "<div{$component_attrs}>\n";
+
+			$output .= $this->render_tabpanel_title( $titleclass, $titleextraattrs, $titletag, $title, $titleextrahtml ) . "\n";
 		}
-
-		/**
-		 * START TITLE
-		 */
-
-		if ( $usetabspattern ) {
-			if ( '' !== $titletag ) {
-				$title_wrapper_attrs = '';
-				$title_attrs         = '';
-
-				if ( '' !== $titleclass ) {
-					$title_wrapper_attrs .= " class='{$titleclass}'";
-				}
-
-				if ( '' !== $titleextraattrs ) {
-					$title_attrs .= $titleextraattrs;
-				}
-
-				$output .= "<div{$title_wrapper_attrs}>";
-				$output .= "<{$titletag}{$title_attrs}>";
-				$output .= $title;
-
-				if ( '' !== $titleextrahtml ) {
-					$output .= $titleextrahtml;
-				}
-
-				$output .= "</{$titletag}>";
-				$output .= '</div>';
-			}
-		}
-
-		/**
-		 * END TITLE
-		 */
 
 		/**
 		 * START TABLIST
 		 */
 
-		$gallery_div = "<div id='$selector' class='gallery galleryid-{$id} gallery-columns-{$columns} gallery-size-{$size_class}'>";
-
-		if ( $usetabspattern ) {
-			$gallery_attrs = " role='tablist'";
-
-			if ( '' !== $tablistlabel ) {
-				$gallery_attrs .= " aria-label='{$tablistlabel}'";
-			} elseif ( '' !== $tablisttitletag ) {
-				$gallery_attrs .= " aria-labelledby='galleryid-{$id}-tablist-title'";
-			}
-
-			if ( count( $tabkeyboardhinttextlines ) > 0 ) {
-				$gallery_attrs .= " aria-describedby='galleryid-{$id}-tabkeyboardhint'";
-			}
-
-			$gallery_div = str_replace( '>', $gallery_attrs . '>', $gallery_div );
-			$gallery_div = str_replace( "class='gallery", "class='gallery " . $tablistclass, $gallery_div );
-		}
+		$gallery_div = "<div id='$selector' class='gallery gallery-columns-{$columns} gallery-size-{$size_class}'>";
 
 		/**
 		 * Filters the default gallery shortcode CSS styles.
@@ -573,131 +974,32 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 		 * Note:
 		 * - Not used for wpdtrt-gallery enhancements as it discards the useful $id, $columns, $size_class attributes
 		 */
-		$output .= apply_filters( 'gallery_style', $gallery_style . $gallery_div );
-
 		if ( $usetabspattern ) {
-			if ( '' !== $tablisttitletag ) {
-				$tablisttitle_attrs = " id='galleryid-{$id}-tablist-title'";
-				$tabmousehint_icon  = '';
-
-				if ( '' !== $tablisttitleclass ) {
-					$tablisttitle_attrs .= " class='{$tablisttitleclass}'";
-				}
-
-				if ( '' !== $iconclassmousehint ) {
-					$tabmousehint_icon .= "<span class='{$iconclassmousehint}' aria-label=''></span>";
-				}
-
-				$output .= "<{$tablisttitletag}{$tablisttitle_attrs}>{$tablisttitle}{$tabmousehint_icon}</{$tablisttitletag}>";
-			}
+			$output .= $this->render_tablist_start( $gallery_div, $gallery_props, $tabkeyboardhinttextlines, $tablistlabel, $tablisttitletag, $tablistclass ) . "\n";
+		} else {
+			$output .= apply_filters( 'gallery_style', $gallery_style . $gallery_div ) . "\n";
 		}
 
 		$count = 0;
 		$i     = 0;
 
-		foreach ( $attachments as $id => $attachment ) {
+		foreach ( $attachments as $att_id => $attachment ) {
 
 			++$count;
 
-			$attr = ( trim( $attachment->post_excerpt ) && ! $usetabspattern ) ? array( 'aria-describedby' => "$selector-$id" ) : '';
+			$attr = ( $attachment->post_excerpt && ! $usetabspattern ) ? array( 'aria-describedby' => "$selector-$att_id" ) : '';
 
 			if ( ! empty( $atts['link'] ) && 'file' === $atts['link'] ) {
-				$image_output = wp_get_attachment_link( $id, $atts['size'], false, false, false, $attr );
+				$image_output = wp_get_attachment_link( $att_id, $atts['size'], false, false, false, $attr );
 			} elseif ( ! empty( $atts['link'] ) && 'none' === $atts['link'] && $usetabspattern ) {
-
-				/**
-				 * START TAB
-				 */
-
-				$panorama           = get_post_meta( $id, 'wpdtrt_gallery_attachment_panorama', true ); // used for JS dragging.
-				$rwgps_pageid       = get_post_meta( $id, 'wpdtrt_gallery_attachment_rwgps_pageid', true );
-				$soundcloud_pageid  = get_post_meta( $id, 'wpdtrt_gallery_attachment_soundcloud_pageid', true ); // used for SEO.
-				$soundcloud_trackid = get_post_meta( $id, 'wpdtrt_gallery_attachment_soundcloud_trackid', true ); // used for embed, see also http://stackoverflow.com/a/28182284.
-				$vimeo_pageid       = get_post_meta( $id, 'wpdtrt_gallery_attachment_vimeo_pageid', true ); // used for embed.
-
-				$tab_attrs  = " role='tab'";
-				$tab_attrs .= " class='gallery-item {$tabclass}'";
-				$tab_attrs .= " aria-controls='galleryid-{$id}-tabpanel-{$count}'";
-				$tab_attrs .= " id='galleryid-{$id}-tab-{$count}'";
-				$tab_attrs .= " data-kh-proxy='selectFocussed'";
-				$tab_attrs .= ' disabled';
-
-				if ( 1 === $count ) {
-					$tab_attrs .= " aria-selected='true'";
-					$tab_attrs .= " tabindex='0'";
-				} else {
-					$tab_attrs .= " aria-selected='false'";
-					$tab_attrs .= " tabindex='-1'";
-				}
-
-				/**
-				 * START TAB LINER
-				 */
-
-				$tabliner_attrs = '';
-				$tabicon_attrs  = '';
-
-				if ( '' !== $tablinerclass ) {
-					if ( '1' === $panorama ) {
-						$iconalt   = 'Panorama image';
-						$iconclass = $iconclasspanorama;
-					} elseif ( $rwgps_pageid ) {
-						$iconalt   = 'Ride with GPS map';
-						$iconclass = $iconclassrwgps;
-					} elseif ( $soundcloud_pageid && $soundcloud_trackid ) {
-						$iconalt   = 'Soundcloud audio';
-						$iconclass = $iconclasssoundcloud;
-					} elseif ( $vimeo_pageid ) {
-						$iconalt   = 'Vimeo video';
-						$iconclass = $iconclassvimeo;
-					} else {
-						$iconalt   = 'Image';
-						$iconclass = $iconclassimage;
-					}
-
-					$tabicon_attrs .= " class='{$iconclass}'";
-					$tabicon_attrs .= " aria-label='{$iconalt}'";
-
-					$tabliner_attrs .= " class='{$tablinerclass}'";
-				}
-
-				$image_output = "<{$tabtag}{$tab_attrs}>";
-
-				if ( '' !== $tablinertag ) {
-					$image_output .= "<{$tablinertag} {$tabliner_attrs}>";
-					$image_output .= "<span{$tabicon_attrs}></span>";
-				}
-
-				/**
-				 * START TAB IMAGE
-				 */
-
-				$image_output .= wp_get_attachment_image( $id, $atts['size'], false, $attr );
-
-				/**
-				 * END TAB IMAGE
-				 */
-
-				if ( '' !== $tablinertag ) {
-					$image_output .= "</{$tablinertag}>";
-				}
-
-				/**
-				 * END TAB LINER
-				 */
-
-				$image_output .= "</{$tabtag}>";
-
-				/**
-				 * END TAB
-				 */
+				// .
 			} elseif ( ! empty( $atts['link'] ) && 'none' === $atts['link'] ) {
-				$image_output = wp_get_attachment_image( $id, $atts['size'], false, $attr );
+				$image_output = wp_get_attachment_image( $att_id, $atts['size'], false, $attr );
 			} else {
-				$image_output = wp_get_attachment_link( $id, $atts['size'], true, false, false, $attr );
+				$image_output = wp_get_attachment_link( $att_id, $atts['size'], true, false, false, $attr );
 			}
 
-			$image_meta = wp_get_attachment_metadata( $id );
+			$image_meta = wp_get_attachment_metadata( $att_id );
 
 			$orientation = '';
 
@@ -713,7 +1015,9 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 				$output .= "<{$icontag} class='gallery-icon {$orientation}'>";
 			}
 
-			$output .= $image_output;
+			if ( ! $usetabspattern ) {
+				$output .= $image_output;
+			}
 
 			if ( $icontag && ! $usetabspattern ) {
 				$output .= "</{$icontag}>";
@@ -721,7 +1025,7 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 
 			if ( $captiontag && trim( $attachment->post_excerpt ) && ! $usetabspattern ) {
 				$output .= "
-					<{$captiontag} class='wp-caption-text gallery-caption' id='$selector-$id'>
+					<{$captiontag} class='wp-caption-text gallery-caption' id='$selector-$att_id'>
 					" . wptexturize( $attachment->post_excerpt ) . "
 					</{$captiontag}>";
 			}
@@ -730,54 +1034,22 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 				$output .= "</{$itemtag}>";
 			}
 
-			if ( ! $html5 && $columns > 0 && 0 === ++$i % $columns ) { // phpcs:ignore
+			if ( ! $html5 && $columns > 0 && 0 === ++$i % $columns && ! $usetabspattern ) { // phpcs:ignore
 				$output .= '<br style="clear: both" />';
 			}
 		}
 
-		/**
-		 * START TAB HINT
-		 */
-
 		if ( $usetabspattern ) {
-			$tabkeyboardhint_attrs      = '';
-			$tabkeyboardhintliner_attrs = '';
-			$tabkeyboardhint_icon       = '';
+			$output .= $this->render_tablist_title( $gallery_props, $tablisttitleclass, $iconclassmousehint, $tablisttitletag, $tablisttitle );
 
-			if ( '' !== $tabkeyboardhintclass ) {
-				$tabkeyboardhint_attrs .= " class='{$tabkeyboardhintclass}'";
-				$tabkeyboardhint_attrs .= " id='galleryid-{$id}-tabkeyboardhint'";
+			foreach ( $tabpanels_props as $tabpanel_props ) {
+				$output .= $this->render_tab( $tabpanel_props, $count, $tabclass, $tablinerclass, $tabtag, $tablinertag );
 			}
 
-			if ( '' !== $tabkeyboardhintlinerclass ) {
-				$tabkeyboardhintliner_attrs .= " class='{$tabkeyboardhintlinerclass}'";
-			}
-
-			if ( '' !== $iconclasskeyboardhint ) {
-				$tabkeyboardhint_icon .= "<span class='{$iconclasskeyboardhint}' aria-label=''></span>";
-			}
-
-			if ( count( $tabkeyboardhinttextlines ) > 0 ) {
-				$output .= "<div{$tabkeyboardhint_attrs}>";
-				$output .= "<div{$tabkeyboardhintliner_attrs}>";
-				$output .= "<{$tabkeyboardtitletag} class='{$tabkeyboardtitleclass}'>{$tabkeyboardtitletext} {$tabkeyboardhint_icon}</{$tabkeyboardtitletag}>";
-				$output .= '<ul>';
-
-				foreach ( $tabkeyboardhinttextlines as $tabkeyboardhinttextline ) {
-					$output .= "<li>{$tabkeyboardhinttextline}</li>";
-				}
-
-				$output .= '</ul>';
-				$output .= '</div>';
-				$output .= '</div>';
-			}
+			$output .= $this->render_tab_hint( $gallery_props, $tabpanel_props, $tabkeyboardhintclass, $tabkeyboardhintlinerclass, $iconclasskeyboardhint, $tabkeyboardtitletag, $tabkeyboardtitleclass, $tabkeyboardtitletext, $tabkeyboardhinttextlines );
 		}
 
-		/**
-		 * END TAB HINT
-		 */
-
-		$output .= '</div>';
+		$output .= '</div><!-- end gallery -->';
 
 		/**
 		 * END TABLIST
@@ -786,7 +1058,6 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 		/**
 		 * START TABPANELS WRAPPER
 		 */
-
 		if ( $usetabspattern ) {
 
 			$tabpanelswrapper_attrs = '';
@@ -796,7 +1067,7 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 				$tabpanelswrapper_attrs .= " class='{$tabpanelswrapperclass}'";
 			}
 
-			$output .= "<div${tabpanelswrapper_attrs}>";
+			$output .= "<div${tabpanelswrapper_attrs}>\n";
 
 			/**
 			 * START TABPANEL LINER
@@ -806,29 +1077,23 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 				$tabpanelsliner_attrs .= " class='{$tabpanelslinerclass}'";
 			}
 
-			$output .= "<div{$tabpanelsliner_attrs}>";
+			$output .= "<div{$tabpanelsliner_attrs}>\n";
 
 			$count     = 0;
 			$i         = 0;
 			$parent_id = $id;
 
-			foreach ( $attachments as $id => $attachment ) {
+			foreach ( $tabpanels_props as $tabpanel_props ) {
+				$att_id = $tabpanel_props['att_id'];
+
 				/**
 				 * START TABPANEL
 				 */
 
 				++$count;
 
-				$image_output                = wp_get_attachment_image( $id, $atts['tabpanelimagesize'], false, $attr ); // TODO should this use a variable?.
-				$image_meta                  = wp_get_attachment_metadata( $id );
-				$image_size_desktop          = 'wpdtrt-gallery-desktop';
-				$image_size_desktop_expanded = 'wpdtrt-gallery-desktop-expanded';
-				$image_size_panorama         = 'wpdtrt-gallery-panorama';
-				$panorama                    = get_post_meta( $id, 'wpdtrt_gallery_attachment_panorama', true ); // used for JS dragging.
-				$rwgps_pageid                = get_post_meta( $id, 'wpdtrt_gallery_attachment_rwgps_pageid', true );
-				$soundcloud_pageid           = get_post_meta( $id, 'wpdtrt_gallery_attachment_soundcloud_pageid', true ); // used for SEO.
-				$soundcloud_trackid          = get_post_meta( $id, 'wpdtrt_gallery_attachment_soundcloud_trackid', true ); // used for embed, see also http://stackoverflow.com/a/28182284.
-				$vimeo_pageid                = get_post_meta( $id, 'wpdtrt_gallery_attachment_vimeo_pageid', true ); // used for embed.
+				$image_meta   = wp_get_attachment_metadata( $att_id );
+
 				// $image_size_mobile        = 'wpdtrt-gallery-mobile'; // TODO not implemented, needs enquire.js.
 				//
 				// $orientation  = '';
@@ -836,41 +1101,36 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 				// $orientation = ( $image_meta['height'] > $image_meta['width'] ) ? 'portrait' : 'landscape';
 				// }
 				// .
-
 				$tabpanel_attrs  = " role='tabpanel'";
-				$tabpanel_attrs .= " id='galleryid-{$id}-tabpanel-{$count}'";
-				$tabpanel_attrs .= " aria-labelledby='galleryid-{$id}-tab-{$count}'";
+				$tabpanel_attrs .= " id='{$tabpanel_props['tabpanel_id']}'";
+				$tabpanel_attrs .= " aria-labelledby='{$tabpanel_props['tab_id']}'";
 				$tabpanel_attrs .= " tabindex='0'";
-				$tabpanel_attrs .= " data-id='{$id}'";
-
-				if ( $rwgps_pageid ) {
+				// $tabpanel_attrs .= " data-id='{$id}'";
+				// .
+				if ( $tabpanel_props['rwgps_pageid'] ) {
 					$tabpanel_attrs .= " data-rwgps-pageid='true'";
-				} elseif ( $soundcloud_pageid && $soundcloud_trackid ) {
-					$tabpanel_attrs .= " data-soundcloud-pageid='true' data-soundcloud-trackid='true'";
-				} elseif ( $vimeo_pageid ) {
+				} elseif ( $tabpanel_props['soundcloud_pageid'] ) {
+					$tabpanel_attrs .= " data-soundcloud-pageid='true'";
+				} elseif ( $tabpanel_props['soundcloud_trackid'] ) {
+					$tabpanel_attrs .= " data-soundcloud-trackid='true'";
+				} elseif ( $tabpanel_props['vimeo_pageid'] ) {
 					$tabpanel_attrs .= " data-vimeo-pageid='true'";
-				} elseif ( '1' === $panorama ) {
-					$img_src_panorama = wp_get_attachment_image_src( $id, $image_size_panorama )[0];
-					$tabpanel_attrs  .= " data-src-panorama='{$img_src_panorama}'";
-					$tabpanel_attrs  .= " data-panorama='true'";
+				} elseif ( '1' === $tabpanel_props['panorama'] ) {
+					$tabpanel_attrs .= " data-src-panorama='{$tabpanel_props['image_panorama']}'";
+					$tabpanel_attrs .= " data-panorama='true'";
 				} else {
-					$image_size_desktop          = wp_get_attachment_image_src( $id, $image_size_desktop )[0];
-					$image_size_desktop_expanded = wp_get_attachment_image_src( $id, $image_size_desktop_expanded )[0];
-					$tabpanel_attrs             .= " data-src-desktop='{$image_size_desktop}'";
-					$tabpanel_attrs             .= " data-src-desktop-expanded='{$image_size_desktop_expanded}'";
-					// $img_src_mobile   = wp_get_attachment_image_src( $id, $image_size_mobile )[0];
+					$tabpanel_attrs .= " data-src-desktop='{$tabpanel_props['image']}'";
+					$tabpanel_attrs .= " data-src-desktop-expanded='{$tabpanel_props['image_expanded']}'";
+					// $img_src_mobile   = wp_get_attachment_image_src( $att_id, $image_size_mobile )[0];
 					// $tabpanel_attrs  .= " data-src-mobile='{$img_src_mobile}'";
 				}
 
-				// Geolocation
-				// Could this be replaced by simply looking up the custom field?
-				if ( function_exists( 'wpdtrt_exif_get_attachment_metadata' ) ) {
-					$attachment_metadata     = wpdtrt_exif_get_attachment_metadata( $id );
-					$attachment_metadata_gps = wpdtrt_exif_get_attachment_metadata_gps( $attachment_metadata, 'number' );
-					$latitude                = $attachment_metadata_gps['latitude'];
-					$longitude               = $attachment_metadata_gps['longitude'];
-					$tabpanel_attrs         .= " data-latitude='{$latitude}'";
-					$tabpanel_attrs         .= " data-longitude='{$longitude}'";
+				if ( '' !== $tabpanel_props['latitude'] ) {
+					$tabpanel_attrs .= " data-latitude='{$tabpanel_props['latitude']}'";
+				}
+
+				if ( '' !== $tabpanel_props['longitude'] ) {
+					$tabpanel_attrs .= " data-longitude='{$tabpanel_props['longitude']}'";
 				}
 
 				if ( $count > 1 ) {
@@ -881,189 +1141,62 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 					$tabpanel_attrs .= " class='{$tabpanelclass}'";
 				}
 
-				$output .= "<div{$tabpanel_attrs}>";
+				$output .= "<div{$tabpanel_attrs}>\n";
 
 				/**
 				 * START TABPANEL ITEM
 				 */
 
 				$tabpanelitem_attrs = '';
-				$iconclass          = '';
 
 				if ( '' !== $tabpanelitemclass ) {
 					$tabpanelitem_attrs .= " class='{$tabpanelitemclass}'";
 				}
 
-				if ( $rwgps_pageid || ( $soundcloud_pageid && $soundcloud_trackid ) || $vimeo_pageid ) {
+				// override $atts.
+				if ( $tabpanel_props['panorama'] || $tabpanel_props['iframe'] ) {
 					$tabpanelitemtag = 'div';
 				}
 
-				$output .= "<{$tabpanelitemtag}{$tabpanelitem_attrs}>";
+				$output .= "<{$tabpanelitemtag}{$tabpanelitem_attrs}>\n";
 
-				/**
-				 * START TABPANEL IMAGE
-				 */
-
-				if ( ! $rwgps_pageid && ! $soundcloud_pageid && ! $soundcloud_trackid && ! $vimeo_pageid ) {
-					$tabpanelimage_attrs = '';
-
-					if ( '' !== $tabpanelimageclass ) {
-						if ( '1' === $panorama ) {
-							$iconclass = $iconclasspanorama;
-						} elseif ( $rwgps_pageid ) {
-							$iconclass = $iconclassrwgps;
-						} elseif ( $soundcloud_pageid && $soundcloud_trackid ) {
-							$iconclass = $iconclasssoundcloud;
-						} elseif ( $vimeo_pageid ) {
-							$iconclass = $iconclassvimeo;
-						} else {
-							$iconclass = $iconclassimage;
-						}
-
-						$tabpanelimage_attrs .= " class='{$tabpanelimageclass} {$iconclass}'";
-					}
-
-					$output .= "<{$tabpanelimagetag}{$tabpanelimage_attrs}>";
-					$output .= $image_output;
-					// $output .= preg_replace( '/src="[^"]*"/', 'src=""', $image_output ); // TODO: lazy loading.
-					$output .= "</{$tabpanelimagetag}>";
+				if ( $tabpanel_props['iframe'] ) {
+					$output .= $this->render_tabpanel_iframe( $tabpanel_props ) . "\n";
+				} else {
+					$output .= $this->render_tabpanel_image( $tabpanel_props, $tabpanelimageclass, $tabpanelimagetag, $tabpanelimagesize ) . "\n";
 				}
 
-				/**
-				 * END TABPANEL IMAGE
-				 */
-
-				/**
-				 * START IFRAME EMBED
-				 */
-
-				if ( $rwgps_pageid || ( $soundcloud_pageid && $soundcloud_trackid ) || $vimeo_pageid ) {
-					// ex-JS notes:
-					// autoplay disabled as working but inconsistent
-					// TODO update this to only apply on page load - i.e. if triggered (#31)
-					// if first thumbnail in the gallery or
-					// not first thumbnail but elected to display first
-					// if ($galleryItem.is(':first-child') || isDefault) {
-					// autoplay = false;
-					// }.
-					if ( '1' === $panorama ) {
-						$iconclass = $iconclasspanorama;
-					} elseif ( $rwgps_pageid ) {
-						$iconclass = $iconclassrwgps;
-					} elseif ( $soundcloud_pageid && $soundcloud_trackid ) {
-						$iconclass = $iconclasssoundcloud;
-					} elseif ( $vimeo_pageid ) {
-						$iconclass = $iconclassvimeo;
-					} else {
-						$iconclass = $iconclassimage;
-					}
-
-					$autopause     = 'true'; // opposite of $autoplay.
-					$autoplay      = 'false';
-					$embed_attrs   = " class='wpdtrt-gallery-viewer__iframe-wrapper {$iconclass}'";
-					$iframe_attrs  = " aria-describedby='galleryid-{$id}-tabpanel-{$count}-caption'";
-					$iframe_attrs .= " class='wpdtrt-gallery-viewer__iframe'";
-
-					if ( $rwgps_pageid ) {
-						$iframe_attrs .= " src='//rwgps-embeds.com/routes/{$rwgps_pageid}/embed'";
-						$iframe_attrs .= " title='Ride With GPS map viewer. '";
-					} elseif ( $soundcloud_pageid && $soundcloud_trackid ) {
-						// TODO: player on live site displays a waveform, player on local dev doesn't.
-						$iframe_attrs .= " src='//w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/{$soundcloud_trackid}?auto_play={$autoplay}&hide_related=true&show_comments=false&show_user=false&show_reposts=false&visual=true'";
-						$iframe_attrs .= " title='SoundCloud player. '";
-					} elseif ( $vimeo_pageid ) {
-						// adapted from https://appleple.github.io/modal-video/.
-						$iframe_attrs .= " allowfullscreen='true'";
-						$iframe_attrs .= " src='//player.vimeo.com/video/{$vimeo_pageid}?api=false&autopause={$autopause}&autoplay={$autoplay}&byline=false&loop=false&portrait=false&title=false&xhtml=false'";
-						$iframe_attrs .= " title='Vimeo player. '";
-					}
-
-					$output .= "<div{$embed_attrs}>";
-					$output .= "<iframe{$iframe_attrs}></iframe>";
-					$output .= '</div>';
+				if ( '' !== $captiontag && $tabpanel_props['post_excerpt'] ) {
+					$output .= $this->render_tabpanel_caption( $tabpanel_props, $tabpanelcaptionclass, $tabpanelcaptionlinerclass, $tabpanelcaptiontag ) . "\n";
 				}
 
-				/**
-				 * END IFRAME EMBED
-				 */
-
-				/**
-				 * START TABPANEL CAPTION
-				 */
-
-				if ( '' !== $captiontag && trim( $attachment->post_excerpt ) ) {
-					$enlargementcaption_attrs      = '';
-					$enlargementcaptionliner_attrs = '';
-
-					if ( '' !== $tabpanelcaptionclass ) {
-						$enlargementcaption_attrs .= " class='{$tabpanelcaptionclass}'";
-					}
-
-					if ( $rwgps_pageid || ( $soundcloud_pageid && $soundcloud_trackid ) || $vimeo_pageid ) {
-						$enlargementcaption_attrs .= " id='galleryid-{$id}-tabpanel-{$count}-caption'";
-						$tabpanelcaptiontag        = 'div';
-					}
-
-					if ( '' !== $tabpanelcaptionlinerclass ) {
-						if ( '1' === $panorama ) {
-							$iconclass = $iconclasspanorama;
-						} elseif ( $rwgps_pageid ) {
-							$iconclass = $iconclassrwgps;
-						} elseif ( $soundcloud_pageid && $soundcloud_trackid ) {
-							$iconclass = $iconclasssoundcloud;
-						} elseif ( $vimeo_pageid ) {
-							$iconclass = $iconclassvimeo;
-						} else {
-							$iconclass = $iconclassimage;
-						}
-
-						$enlargementcaptionliner_attrs .= " class='{$tabpanelcaptionlinerclass}'";
-					}
-
-					$output .= "<{$tabpanelcaptiontag}{$enlargementcaption_attrs}>";
-					$output .= "<div{$enlargementcaptionliner_attrs}>";
-
-					if ( '' !== $iconclass ) {
-						$output .= "<span class='{$iconclass}'></span>";
-					}
-
-					$output .= wptexturize( $attachment->post_excerpt );
-					$output .= '</div>';
-					$output .= "</{$tabpanelcaptiontag}>";
-				}
-
-				/**
-				 * END TABPANEL CAPTION
-				 */
-
-				$output .= "</{$tabpanelitemtag}>";
+				$output .= "</{$tabpanelitemtag}>\n";
 
 				/**
 				 * END TABPANEL ITEM
 				 */
 
-				$output .= '</div>';
+				$output .= '</div>' . "\n";
 
 				/**
 				 * END TABPANEL
 				 */
 			}
 
-			$output .= '</div>';
-
-			// TODO.
-			$output .= '</div>';
+			$output .= '</div><!-- end tabpanel liner -->' . "\n";
 
 			/**
 			 * END TABPANEL LINER
 			 */
+
+			$output .= '</div><!-- end tabpanels wrapper -->' . "\n";
 		}
 
 		/**
 		 * END TABPANELS WRAPPER
 		 */
 
-		$output .= '</div>';
+		$output .= '</div>' . "\n";
 
 		/**
 		 * END TABS PATTERN
@@ -1121,6 +1254,8 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 		$result['tabpanelcontrolsclass']     = 'wpdtrt-gallery-viewer__controls';
 		$result['tabpanelimageclass']        = 'wpdtrt-gallery-viewer__img-wrapper';
 		$result['tabpanelimagesize']         = 'wpdtrt-gallery-desktop';
+		$result['tabpanelimagesizeexpanded'] = 'wpdtrt-gallery-desktop-expanded';
+		$result['tabpanelimagesizepanorama'] = 'wpdtrt-gallery-panorama';
 		$result['tabpanelitemclass']         = 'wpdtrt-gallery-viewer__liner';
 		$result['tabpanelslinerclass']       = 'wpdtrt-gallery-viewer__wrapper';
 		$result['tabpanelswrapperclass']     = 'wpdtrt-gallery-viewer';
@@ -1436,8 +1571,8 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 	 * - <https://developer.wordpress.org/reference/hooks/wp_get_attachment_image_attributes/>
 	 */
 	public function filter_image_attributes( array $atts, WP_Post $attachment ) : array {
-		$id                 = $attachment->ID;
-		$caption            = wp_get_attachment_caption( $id );
+		$att_id             = $attachment->ID;
+		$caption            = wp_get_attachment_caption( $att_id );
 		$tab_img_class      = 'attachment-thumbnail size-thumbnail';
 		$tabpanel_img_class = 'attachment-wpdtrt-gallery-desktop size-wpdtrt-gallery-desktop';
 
