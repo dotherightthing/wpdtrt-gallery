@@ -451,7 +451,6 @@ const wpdtrtGalleryUi = {
 
             $tabpanel
                 .removeAttr('tabindex');
-
         }
 
         if (!triggered) {
