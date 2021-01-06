@@ -92,8 +92,7 @@ const wpdtrtGalleryUi = {
      * @since 3.0.0
      */
     initGallery: function ($, $gallery) {
-        const $tablist = $gallery.find('[role="tablist"]');
-        const $tabs = $tablist.find('[role="tab"]');
+        const $tabs = $gallery.find('[role="tab"]');
         const $viewer = $gallery.find('.wpdtrt-gallery-viewer');
         const $viewerLiner = $viewer.find('.wpdtrt-gallery-viewer__liner');
         const $tabPanels = $viewer.find('[role="tabpanel"]');
