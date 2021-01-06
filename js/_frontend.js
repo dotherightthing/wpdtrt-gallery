@@ -71,7 +71,7 @@ const wpdtrtGalleryUi = {
             wpdtrtGalleryUi.animations = true;
         }
 
-        if (mediaQuery) {
+        if (mediaQuery.addEventListener) {
             mediaQuery.addEventListener('change', () => {
                 if (mediaQuery.matches) {
                     wpdtrtGalleryUi.animations = false;
