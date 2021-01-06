@@ -5,5 +5,9 @@
   "viewportWidth": 1366,
   "viewportHeight": 768,
   "watchForFileChanges": true,
-  "projectId": "4ris9t"
+  "projectId": "4ris9t",
+  "retries": {
+    "runMode": 2,
+    "openMode": 2
+  }
 }

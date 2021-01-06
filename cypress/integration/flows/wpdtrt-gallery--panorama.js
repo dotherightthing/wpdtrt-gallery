@@ -19,9 +19,6 @@
 const componentClass = 'wpdtrt-gallery-viewer';
 const sectionId = 'itchy-feet';
 
-// https://github.com/Bkucera/cypress-plugin-retries
-Cypress.env('RETRIES', 2);
-
 describe('DTRT Gallery - Image Gallery Item', function () {
     before(function () {
         // load local tour diary page
