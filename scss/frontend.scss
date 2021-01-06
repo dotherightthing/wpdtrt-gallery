@@ -475,6 +475,15 @@ $icomoon-font-path: '../icons/icomoon/fonts';
 
         &:focus {
             outline-offset: 1px;
+
+            // &:focus-visible not used
+            // as accessible components applies the focus as if a keyboard user did so
+            // this also reveals otherwise-hidden keyboard shortcuts to mouse users
+            ~ #{$block}__tab-hint {
+                #{$block}__tab-hint-liner {
+                    @extend .wpdtrt-gallery__visuallyshown;
+                }
+            }
         }
 
         &[aria-selected='true'] {
@@ -572,12 +581,6 @@ $icomoon-font-path: '../icons/icomoon/fonts';
             list-style: none;
             padding: 0;
             margin: 0;
-        }
-    }
-
-    &:focus-within {
-        #{$block}__tab-hint-liner {
-            @extend .wpdtrt-gallery__visuallyshown;
         }
     }
 
