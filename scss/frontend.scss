@@ -52,6 +52,18 @@ $icomoon-font-path: '../icons/icomoon/fonts';
 
     display: contents;
 
+    span {
+        &[aria-hidden='true'] {
+            display: inline-block;
+        }
+    }
+
+    div {
+        &[aria-hidden='true'] {
+            display: block;
+        }
+    }
+
     &__header {
         position: relative; // AP
         margin-right: 72px; // space for expand button in collapsed state
@@ -544,8 +556,6 @@ $icomoon-font-path: '../icons/icomoon/fonts';
     &__tab-hint {
         // always visible as linked via aria-describedby
     }
-
-
 
     &__tab-hint-liner {
         // toggle on on tab focus
