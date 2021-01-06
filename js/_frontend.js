@@ -71,13 +71,15 @@ const wpdtrtGalleryUi = {
             wpdtrtGalleryUi.animations = true;
         }
 
-        mediaQuery.addEventListener('change', () => {
-            if (mediaQuery.matches) {
-                wpdtrtGalleryUi.animations = false;
-            } else {
-                wpdtrtGalleryUi.animations = true;
-            }
-        });
+        if (mediaQuery) {
+            mediaQuery.addEventListener('change', () => {
+                if (mediaQuery.matches) {
+                    wpdtrtGalleryUi.animations = false;
+                } else {
+                    wpdtrtGalleryUi.animations = true;
+                }
+            });
+        }
     },
 
     /**
