@@ -1098,7 +1098,7 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 
 				++$count;
 
-				$image_meta   = wp_get_attachment_metadata( $att_id );
+				$image_meta = wp_get_attachment_metadata( $att_id );
 
 				// $image_size_mobile        = 'wpdtrt-gallery-mobile'; // TODO not implemented, needs enquire.js.
 				//
