@@ -488,7 +488,7 @@ $icomoon-font-path: '../icons/icomoon/fonts';
 
                 #{$block}__tab-liner {
                     &::after {
-                        box-shadow: inset 0 0 0 2px var(--wpdtrt-gallery-tab-border-color-hover);
+                        box-shadow: 0 0 0 2px var(--wpdtrt-gallery-tab-border-color-hover) inset; // IE11 property order
                     }
                 }
             }
@@ -514,7 +514,7 @@ $icomoon-font-path: '../icons/icomoon/fonts';
 
                 &::after {
                     background-color: var(--wpdtrt-gallery-tab-background-color-selected);
-                    box-shadow: inset 0 0 0 3px var(--wpdtrt-gallery-tab-border-color-selected);
+                    box-shadow: 0 0 0 3px var(--wpdtrt-gallery-tab-border-color-selected) inset; // IE11 property order
                 }
 
                 [class^='wpdtrt-gallery-icon-'],
