@@ -50,8 +50,6 @@ $icomoon-font-path: '../icons/icomoon/fonts';
 .wpdtrt-gallery {
     $block: &;
 
-    display: contents;
-
     span {
         &[aria-hidden='true'] {
             display: inline-block;
@@ -128,6 +126,10 @@ $icomoon-font-path: '../icons/icomoon/fonts';
         }
     }
 
+    // ---------------------------------------------------
+    // MEDIA QUERIES
+    // ---------------------------------------------------
+
     @include media('<tablet') {
         #{$block}__header {
             > * {
@@ -158,8 +160,6 @@ $icomoon-font-path: '../icons/icomoon/fonts';
             }
 
             #{$block}__header > * {
-                // position: absolute;
-                // top: 0;
                 z-index: 2; // stack on top of sticky nav so that text can be selected
                 border: 0;
                 margin: var(--wpdtrt-gallery-viewer-inset);
@@ -192,22 +192,28 @@ $icomoon-font-path: '../icons/icomoon/fonts';
         }
     }
 
-    @include media('>=laptop') {
-        // -------------------------------------------------------------------
-        // viewer is enabled + collapsed
-        //
-        // heading and caption sit inside image area
-        // both text elements must be AP
-        // so that the inline invisible image
-        // can dictate the height that it needs to display fully
-        // and be available for ALT inspection
-        // -------------------------------------------------------------------
+    // ---------------------------------------------------
+    // FEATURE QUERIES
+    // ---------------------------------------------------
 
-        &[data-enabled='true'][data-expanded='false'] {
+    @supports (display: contents) { // Edge+
+        display: contents;
+    }
 
-            #{$block}__header > * {
-                position: absolute;
-                top: 0;
+    @supports (display: grid) { // Edge+
+        @include media('>=laptop') {
+            // -------------------------------------------------------------------
+            // viewer is enabled + collapsed
+            // -------------------------------------------------------------------
+
+            &[data-enabled='true'][data-expanded='false'] {
+
+                // grid layout is applied in parent theme
+                // but AP is determine in this plugin
+                #{$block}__header > * {
+                    position: absolute;
+                    top: 0;
+                }
             }
         }
     }
@@ -405,9 +411,9 @@ $icomoon-font-path: '../icons/icomoon/fonts';
         }
     }
 
-    // -------------------------------------------------------------------
-    // Media Queries
-    // -------------------------------------------------------------------
+    // ---------------------------------------------------
+    // MEDIA QUERIES
+    // ---------------------------------------------------
 
     @include media('<tablet') {
         &__expand {
@@ -599,9 +605,9 @@ $icomoon-font-path: '../icons/icomoon/fonts';
         }
     }
 
-    // -------------------------------------------------------------------
-    // Media Queries
-    // -------------------------------------------------------------------
+    // ---------------------------------------------------
+    // MEDIA QUERIES
+    // ---------------------------------------------------
 
     @include media('>=tablet') {
         &__tab {
