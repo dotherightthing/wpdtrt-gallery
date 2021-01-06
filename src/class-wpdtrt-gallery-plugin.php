@@ -322,6 +322,10 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 	 * Parameters:
 	 *   $tabpanel_props - Array
 	 *   $count - number
+	 *   $tabclass - string
+	 *   $tablinerclass - string
+	 *   $tabtag - string
+	 *   $tablinertag - string
 	 *
 	 * Returns:
 	 *   $html - HTML
@@ -1041,8 +1045,10 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 
 		if ( $usetabspattern ) {
 			$output .= $this->render_tablist_title( $gallery_props, $tablisttitleclass, $iconclassmousehint, $tablisttitletag, $tablisttitle );
+			$count   = 0;
 
 			foreach ( $tabpanels_props as $tabpanel_props ) {
+				++$count;
 				$output .= $this->render_tab( $tabpanel_props, $count, $tabclass, $tablinerclass, $tabtag, $tablinertag );
 			}
 
