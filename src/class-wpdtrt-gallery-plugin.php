@@ -1109,9 +1109,8 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 				// .
 				if ( $tabpanel_props['rwgps_pageid'] ) {
 					$tabpanel_attrs .= " data-rwgps-pageid='true'";
-				} elseif ( $tabpanel_props['soundcloud_pageid'] ) {
+				} elseif ( $tabpanel_props['soundcloud_pageid'] && $tabpanel_props['soundcloud_trackid'] ) {
 					$tabpanel_attrs .= " data-soundcloud-pageid='true'";
-				} elseif ( $tabpanel_props['soundcloud_trackid'] ) {
 					$tabpanel_attrs .= " data-soundcloud-trackid='true'";
 				} elseif ( $tabpanel_props['vimeo_pageid'] ) {
 					$tabpanel_attrs .= " data-vimeo-pageid='true'";
