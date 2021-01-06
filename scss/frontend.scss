@@ -453,10 +453,25 @@ $icomoon-font-path: '../icons/icomoon/fonts';
         margin-right: 6px;
         margin-bottom: 6px;
 
-        @for $i from 1 through 9 {
+        @for $i from 3 through 3 {
             .wpdtrt-gallery-gallery.gallery-columns-#{$i} & {
-                width: calc(#{(100 / $i) * 1%} - 6px); // $i columns
-                max-width: 33%;
+                $gutter: 6px;
+                width: calc(#{(100 / $i) * 1%} - #{$gutter} + #{$gutter/$i}); // $i columns
+                margin-right: $gutter;
+
+                &:nth-child(#{$i}n) {
+                    margin-right: 0;
+                }
+
+                @at-root .wpdtrt-gallery-gallery.gallery-columns-#{$i} .wpdtrt-gallery-gallery__header ~ .wpdtrt-gallery-gallery__tab {
+                    &:nth-child(#{$i}n) {
+                        margin-right: $gutter;
+                    }
+
+                    &:nth-child(#{$i}n + 1) {
+                        margin-right: 0;
+                    }
+                }
             }
         }
 
@@ -590,11 +605,7 @@ $icomoon-font-path: '../icons/icomoon/fonts';
 
     @include media('>=tablet') {
         &__tab {
-            @for $i from 1 through 9 {
-                .wpdtrt-gallery-gallery.gallery-columns-#{$i} & {
-                    max-width: 100px;
-                }
-            }
+            max-width: 100px;
         }
     }
 
