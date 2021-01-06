@@ -108,9 +108,18 @@ const wpdtrtGalleryUi = {
 
         $tabPanels.each((i, item) => {
             const $tabpanel = $(item);
+            const $iframe = $tabpanel.find('iframe');
+            const $img = $tabpanel.find('img');
+            let mediaId = '';
+
+            if ($iframe.length) {
+                mediaId = $iframe.attr('id');
+            } else if ($img.length) {
+                mediaId = $img.attr('id');
+            }
 
             $tabpanel
-                .prepend('<div class="wpdtrt-gallery-viewer__expand-wrapper"><button class="wpdtrt-gallery-viewer__expand" aria-expanded="false"><span class="says">Expand</span></button></div>');
+                .prepend(`<div class="wpdtrt-gallery-viewer__expand-wrapper"><button class="wpdtrt-gallery-viewer__expand" aria-controls="${mediaId}" aria-expanded="false"><span class="says">Expand</span></button></div>`);
 
             // wpdtrtGalleryUi.initImageLazyLoading($tabpanel);
             wpdtrtGalleryUi.initPanoramaScrolling($tabpanel, $);

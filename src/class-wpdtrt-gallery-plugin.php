@@ -115,6 +115,7 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 		$tabpanel_props['image']              = wp_get_attachment_image_src( $att_id, $tabpanelimagesize )[0];
 		$tabpanel_props['image_expanded']     = wp_get_attachment_image_src( $att_id, $tabpanelimagesizeexpanded )[0];
 		$tabpanel_props['image_panorama']     = wp_get_attachment_image_src( $att_id, $tabpanelimagesizepanorama )[0];
+		$tabpanel_props['media_id']           = "{$gallery_props['id']}-tabpanel-{$count}-media";
 		$tabpanel_props['panorama']           = get_post_meta( $att_id, 'wpdtrt_gallery_attachment_panorama', true ); // used for JS dragging.
 		$tabpanel_props['post_excerpt']       = trim( $post_excerpt );
 		$tabpanel_props['rwgps_pageid']       = get_post_meta( $att_id, 'wpdtrt_gallery_attachment_rwgps_pageid', true );
@@ -463,6 +464,7 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 		$embed_attrs   = " class='wpdtrt-gallery-viewer__iframe-wrapper {$tabpanel_props['iconclass']}'";
 		$iframe_attrs  = " aria-describedby='{$tabpanel_props['caption_id']}'";
 		$iframe_attrs .= " class='wpdtrt-gallery-viewer__iframe'";
+		$iframe_attrs .= " id='{$tabpanel_props['media_id']}'";
 
 		if ( $tabpanel_props['iframe'] ) {
 			$iframe_attrs .= " src='{$tabpanel_props['iframe_src']}'";
@@ -539,7 +541,9 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 	 *   $html - HTML
 	 */
 	public function render_tabpanel_image( Array $tabpanel_props, string $tabpanelimageclass, string $tabpanelimagetag, string $tabpanelimagesize ) : string {
-		$html = '';
+		$html        = '';
+		$image       = wp_get_attachment_image( $tabpanel_props['att_id'], $tabpanelimagesize, false, '' );
+		$image_attrs = " id='{$tabpanel_props['media_id']}'";
 
 		$tabpanelimage_attrs = '';
 
@@ -550,9 +554,10 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 
 		$html .= "<{$tabpanelimagetag}{$tabpanelimage_attrs}>";
 
-		$html .= wp_get_attachment_image( $tabpanel_props['att_id'], $tabpanelimagesize, false, '' ); // TODO should this use a variable?.
+		// inject ID for aria-controls, as we don't know this when filter_image_attributes is applied.
+		$html .= str_replace( '<img', "<img{$image_attrs}", $image );
 
-		// $html .= preg_replace( '/src="[^"]*"/', 'src=""', $image_output ); // TODO: lazy loading.
+		// $html .= preg_replace( '/src="[^"]*"/', 'src=""', $image ); // TODO: lazy loading // phpcs-disable
 		$html .= "</{$tabpanelimagetag}>";
 
 		return $html;
