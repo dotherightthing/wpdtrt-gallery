@@ -1049,7 +1049,7 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 			$output .= $this->render_tab_hint( $gallery_props, $tabpanel_props, $tabkeyboardhintclass, $tabkeyboardhintlinerclass, $iconclasskeyboardhint, $tabkeyboardtitletag, $tabkeyboardtitleclass, $tabkeyboardtitletext, $tabkeyboardhinttextlines );
 		}
 
-		$output .= '</div><!-- end gallery -->';
+		$output .= '</div>';
 
 		/**
 		 * END TABLIST
@@ -1154,7 +1154,7 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 				}
 
 				// override $atts.
-				if ( $tabpanel_props['panorama'] || $tabpanel_props['iframe'] ) {
+				if ( $tabpanel_props['iframe'] ) {
 					$tabpanelitemtag = 'div';
 				}
 
@@ -1183,13 +1183,13 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 				 */
 			}
 
-			$output .= '</div><!-- end tabpanel liner -->' . "\n";
+			$output .= '</div>' . "\n";
 
 			/**
 			 * END TABPANEL LINER
 			 */
 
-			$output .= '</div><!-- end tabpanels wrapper -->' . "\n";
+			$output .= '</div>' . "\n";
 		}
 
 		/**
