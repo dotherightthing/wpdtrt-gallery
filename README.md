@@ -56,9 +56,3 @@ See `scss/_variables.scss`.
 1. Gallery with audio: [Don't Believe The Hype - Day 13](https://dontbelievethehype.co.nz/tourdiaries/asia/east-asia/russia/13/exploring-irkutsk/#section-quirky-cuisine)
 1. Gallery with panorama: [Don't Believe The Hype - Day 13](https://dontbelievethehype.co.nz/tourdiaries/asia/east-asia/russia/13/exploring-irkutsk/#section-quirky-cuisine)
 1. Gallery with video: [Don't Believe The Hype - Day 11](https://dontbelievethehype.co.nz/tourdiaries/asia/east-asia/russia/11/exploring-chita/#section-soviet-style)
-
-## Unit tests
-
-```shell
-./node_modules/.bin/cypress open
-```
