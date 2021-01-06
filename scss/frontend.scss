@@ -66,6 +66,23 @@ $icomoon-font-path: '../icons/icomoon/fonts';
         }
     }
 
+    &__visuallyhidden {
+        position: absolute !important; /* stylelint-disable-line declaration-no-important */
+        width: 1px;
+        height: 1px;
+        clip: rect(1px, 1px, 1px, 1px);
+        word-wrap: normal !important; /* stylelint-disable-line declaration-no-important */
+        overflow: hidden;
+    }
+
+    &__visuallyshown {
+        position: relative !important; /* stylelint-disable-line declaration-no-important */
+        width: auto;
+        height: auto;
+        clip: none;
+        overflow: visible;
+    }
+
     // -------------------------------------------------------------------
     // viewer is enabled + expanded
     // -------------------------------------------------------------------
@@ -528,9 +545,13 @@ $icomoon-font-path: '../icons/icomoon/fonts';
         // always visible as linked via aria-describedby
     }
 
+
+
     &__tab-hint-liner {
         // toggle on on tab focus
-        display: none;
+
+        @extend .wpdtrt-gallery__visuallyhidden;
+
         color: var(--wpdtrt-gallery-tab-hint-color);
         padding-top: 16px;
         border-top: 1px solid var(--wpdtrt-gallery-tab-hint-border-color);
@@ -546,7 +567,7 @@ $icomoon-font-path: '../icons/icomoon/fonts';
 
     &:focus-within {
         #{$block}__tab-hint-liner {
-            display: block;
+            @extend .wpdtrt-gallery__visuallyshown;
         }
     }
 
