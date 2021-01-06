@@ -192,6 +192,25 @@ $icomoon-font-path: '../icons/icomoon/fonts';
         }
     }
 
+    @media print {
+        &__header {
+            /* stylelint-disable-next-line declaration-no-important */
+            display: inline-block !important;
+
+            /* stylelint-disable-next-line declaration-no-important */
+            border: var(--wpdtrt-gallery-viewer-inset) solid var(--wpdtrt-gallery-border-color) !important;
+
+            > * {
+                /* stylelint-disable-next-line declaration-no-important */
+                margin: 0 !important;
+            }
+        }
+
+        &__section {
+            page-break-before: always;
+        }
+    }
+
     // ---------------------------------------------------
     // FEATURE QUERIES
     // ---------------------------------------------------
@@ -656,5 +675,9 @@ $icomoon-font-path: '../icons/icomoon/fonts';
                 }
             }
         }
+    }
+
+    @media print {
+        display: none !important; /* stylelint-disable-line declaration-no-important */
     }
 }
