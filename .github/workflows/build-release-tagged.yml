@@ -17,21 +17,6 @@ jobs:
       matrix:
         node: [ '13.x' ]
 
-    steps:
-    # Downgrade from Composer 2 in ubuntu-latest, to Composer 1, as v2 causes issues
-    # https://github.com/actions/virtual-environments/issues/1816
-    # Fix: https://github.com/actions/virtual-environments/issues/1924
-    - name: Make sure we are using composer v1
-      run: |
-        sudo composer self-update --1
-        sudo chown $USER $HOME/.composer
-
-    # Fix Cypress cannot write to the cache directory due to file permissions
-    # https://github.com/cypress-io/cypress/issues/1281
-    - name: Give Cypress access permission to download to cache directory
-      run: |
-        sudo chown $USER $HOME/.cache
-
     # check out the repository, so the workflow can access it
     - name: Checkout repo
       uses: actions/checkout@v2
@@ -41,6 +26,23 @@ jobs:
       with:
         php-version: '7.2.15'
         node-version: ${{ matrix.node }}
+
+    steps:
+    # Downgrade from Composer 2 in ubuntu-latest, to Composer 1, as v2 causes issues
+    # https://github.com/actions/virtual-environments/issues/1816
+    # Fix: https://github.com/actions/virtual-environments/issues/1924
+    - name: Make sure we are using composer v1
+      run: |
+        sudo composer self-update --1
+        sudo chown $USER $HOME/.composer
+
+        composer-plugin-api
+
+    # Fix Cypress cannot write to the cache directory due to file permissions
+    # https://github.com/cypress-io/cypress/issues/1281
+    - name: Give Cypress access permission to download to cache directory
+      run: |
+        sudo chown $USER $HOME/.cache
     
     - name: Run build
       run: |
