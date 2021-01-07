@@ -7,7 +7,7 @@
   "watchForFileChanges": true,
   "projectId": "4ris9t",
   "retries": {
-    "runMode": 2,
+    "runMode": 0,
     "openMode": 2
   }
 }
