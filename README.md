@@ -54,5 +54,5 @@ See `scss/_variables.scss`.
 ## Demo pages
 
 1. Gallery with audio: [Don't Believe The Hype - Day 13](https://dontbelievethehype.co.nz/tourdiaries/asia/east-asia/russia/13/exploring-irkutsk/#section-quirky-cuisine)
-1. Gallery with panorama: [Don't Believe The Hype - Day 13](https://dontbelievethehype.co.nz/tourdiaries/asia/east-asia/russia/13/exploring-irkutsk/#section-quirky-cuisine)
+1. Gallery with panorama: [Don't Believe The Hype - Day 17](https://dontbelievethehype.co.nz/tourdiaries/asia/east-asia/russia/17/buguldeyka-to-yelantsy/#section-leaving-buguldeyka)
 1. Gallery with video: [Don't Believe The Hype - Day 11](https://dontbelievethehype.co.nz/tourdiaries/asia/east-asia/russia/11/exploring-chita/#section-soviet-style)

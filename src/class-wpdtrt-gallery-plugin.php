@@ -112,9 +112,6 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 		$tabpanel_props['autoplay']           = 'false'; // ex-JS notes: autoplay disabled as working but inconsistent.
 		$tabpanel_props['caption_id']         = "{$gallery_props['id']}-tabpanel-{$count}-caption";
 		$tabpanel_props['iframe_fullscreen']  = '';
-		$tabpanel_props['image']              = wp_get_attachment_image_src( $att_id, $tabpanelimagesize )[0];
-		$tabpanel_props['image_expanded']     = wp_get_attachment_image_src( $att_id, $tabpanelimagesizeexpanded )[0];
-		$tabpanel_props['image_panorama']     = wp_get_attachment_image_src( $att_id, $tabpanelimagesizepanorama )[0];
 		$tabpanel_props['media_id']           = "{$gallery_props['id']}-tabpanel-{$count}-media";
 		$tabpanel_props['panorama']           = get_post_meta( $att_id, 'wpdtrt_gallery_attachment_panorama', true ); // used for JS dragging.
 		$tabpanel_props['post_excerpt']       = trim( $post_excerpt );
@@ -144,6 +141,8 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 		if ( '1' === $tabpanel_props['panorama'] ) {
 			$tabpanel_props['iconalt']   = 'Panorama';
 			$tabpanel_props['iconclass'] = $iconclasspanorama;
+			$tabpanel_props['image']     = wp_get_attachment_image( $att_id, $tabpanelimagesizepanorama, false, '' );
+			$tabpanel_props['image_src'] = wp_get_attachment_image_src( $att_id, $tabpanelimagesizepanorama )[0];
 		} elseif ( $tabpanel_props['rwgps_pageid'] ) {
 			$tabpanel_props['iconalt']      = 'Map';
 			$tabpanel_props['iconclass']    = $iconclassrwgps;
@@ -161,8 +160,11 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 			$tabpanel_props['iframe_title']      = 'Vimeo player';
 			$tabpanel_props['iframe_fullscreen'] = 'true';
 		} else {
-			$tabpanel_props['iconalt']   = 'Image';
-			$tabpanel_props['iconclass'] = $iconclassimage;
+			$tabpanel_props['iconalt']            = 'Image';
+			$tabpanel_props['iconclass']          = $iconclassimage;
+			$tabpanel_props['image']              = wp_get_attachment_image( $att_id, $tabpanelimagesize, false, '' );
+			$tabpanel_props['image_src']          = wp_get_attachment_image_src( $att_id, $tabpanelimagesize )[0];
+			$tabpanel_props['image_expanded_src'] = wp_get_attachment_image_src( $att_id, $tabpanelimagesizeexpanded )[0];
 		}
 
 		return $tabpanel_props;
@@ -535,14 +537,13 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 	 *   $tabpanel_props - Array
 	 *   $tabpanelimageclass - string
 	 *   $tabpanelimagetag - string
-	 *   $tabpanelimagesize - string
 	 *
 	 * Returns:
 	 *   $html - HTML
 	 */
-	public function render_tabpanel_image( Array $tabpanel_props, string $tabpanelimageclass, string $tabpanelimagetag, string $tabpanelimagesize ) : string {
+	public function render_tabpanel_image( Array $tabpanel_props, string $tabpanelimageclass, string $tabpanelimagetag ) : string {
 		$html        = '';
-		$image       = wp_get_attachment_image( $tabpanel_props['att_id'], $tabpanelimagesize, false, '' );
+		$image       = $tabpanel_props['image'];
 		$image_attrs = " id='{$tabpanel_props['media_id']}'";
 
 		$tabpanelimage_attrs = '';
@@ -1126,11 +1127,11 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 				} elseif ( $tabpanel_props['vimeo_pageid'] ) {
 					$tabpanel_attrs .= " data-vimeo-pageid='true'";
 				} elseif ( '1' === $tabpanel_props['panorama'] ) {
-					$tabpanel_attrs .= " data-src-panorama='{$tabpanel_props['image_panorama']}'";
+					$tabpanel_attrs .= " data-src-panorama='{$tabpanel_props['image_src']}'";
 					$tabpanel_attrs .= " data-panorama='true'";
 				} else {
-					$tabpanel_attrs .= " data-src-desktop='{$tabpanel_props['image']}'";
-					$tabpanel_attrs .= " data-src-desktop-expanded='{$tabpanel_props['image_expanded']}'";
+					$tabpanel_attrs .= " data-src-desktop='{$tabpanel_props['image_src']}'";
+					$tabpanel_attrs .= " data-src-desktop-expanded='{$tabpanel_props['image_expanded_src']}'";
 					// $img_src_mobile   = wp_get_attachment_image_src( $att_id, $image_size_mobile )[0];
 					// $tabpanel_attrs  .= " data-src-mobile='{$img_src_mobile}'";
 				}
@@ -1173,7 +1174,7 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 				if ( $tabpanel_props['iframe'] ) {
 					$output .= $this->render_tabpanel_iframe( $tabpanel_props ) . "\n";
 				} else {
-					$output .= $this->render_tabpanel_image( $tabpanel_props, $tabpanelimageclass, $tabpanelimagetag, $tabpanelimagesize ) . "\n";
+					$output .= $this->render_tabpanel_image( $tabpanel_props, $tabpanelimageclass, $tabpanelimagetag ) . "\n";
 				}
 
 				if ( '' !== $captiontag && $tabpanel_props['post_excerpt'] ) {

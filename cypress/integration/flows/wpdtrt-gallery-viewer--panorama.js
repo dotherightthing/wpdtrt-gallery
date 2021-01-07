@@ -108,7 +108,7 @@ describe('DTRT Gallery - Panorama Viewer', function () {
             cy.get('@wpdtrtGallery').find('.wpdtrt-gallery-viewer__img-wrapper > img')
                 .should('exist')
                 // cannot check if .wpdtrt-gallery-viewer__img-wrapper has .scrollWidth
-                .should('have.css', 'width', '865px')
+                .should('have.css', 'width', '1369px')
                 // https://github.com/dotherightthing/wpdtrt-gallery/issues/65
                 .should('have.css', 'height', '368px')
                 .invoke('attr', 'alt')
