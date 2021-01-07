@@ -48,8 +48,7 @@ jobs:
       id: cache
       with:
         path: |
-          ~/.cache/Cypress
-          vendor
+          ~/.cache
         key: ${{ runner.os }}-${{ hashFiles('**/lockfiles') }}
 
     - name: Composer config
