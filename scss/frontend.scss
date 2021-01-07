@@ -513,7 +513,7 @@ $icomoon-font-path: '../icons/icomoon/fonts';
             }
         }
 
-        &:focus {
+        &:focus-visible {
             outline-offset: 1px;
 
             // &:focus-visible not used
