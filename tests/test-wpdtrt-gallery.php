@@ -445,9 +445,9 @@ class WPDTRT_GalleryTest extends WP_UnitTestCase {
 		$this->assertEquals(
 			'entry-content',
 			$dom
-				->getElementsByTagName( 'div' )[0] // wpdtrt-gallery__section
-				->getElementsByTagName( 'div' )[0] // wpdtrt-gallery
-				->nextSibling // entry-content
+				->getElementsByTagName( 'div' )[0] // wpdtrt-gallery__section.
+				->getElementsByTagName( 'div' )[0] // wpdtrt-gallery.
+				->nextSibling // entry-content.
 				->getAttribute( 'class' ),
 			'entry-content should be nested within section'
 		);
@@ -459,9 +459,9 @@ class WPDTRT_GalleryTest extends WP_UnitTestCase {
 		$this->assertEquals(
 			null,
 			$dom
-				->getElementsByTagName( 'div' )[0] // wpdtrt-gallery__section
-				->getElementsByTagName( 'div' )[0] // wpdtrt-gallery
-				->getElementsByTagName( 'div' )[0] // wpdtrt-gallery__header
+				->getElementsByTagName( 'div' )[0] // wpdtrt-gallery__section.
+				->getElementsByTagName( 'div' )[0] // wpdtrt-gallery.
+				->getElementsByTagName( 'div' )[0] // wpdtrt-gallery__header.
 				->nextSibling,
 			'header should not be followed by wpdtrt-gallery-gallery when there is no gallery'
 		);
@@ -471,7 +471,7 @@ class WPDTRT_GalleryTest extends WP_UnitTestCase {
 			'wpdtrt-gallery__header',
 			$dom
 				->getElementsByTagName( 'h2' )[0]
-				->parentNode // wpdtrt-gallery__header
+				->parentNode // wpdtrt-gallery__header.
 				->getAttribute( 'class' ),
 			'wpdtrt-gallery__header should wrap heading'
 		);
@@ -480,8 +480,8 @@ class WPDTRT_GalleryTest extends WP_UnitTestCase {
 			'wpdtrt-gallery',
 			$dom
 				->getElementsByTagName( 'h2' )[0]
-				->parentNode // wpdtrt-gallery__header
-				->parentNode // wpdtrt-gallery
+				->parentNode // wpdtrt-gallery__header.
+				->parentNode // wpdtrt-gallery.
 				->getAttribute( 'class' ),
 			'wpdtrt-gallery should wrap heading'
 		);
@@ -490,9 +490,9 @@ class WPDTRT_GalleryTest extends WP_UnitTestCase {
 			'highlighting',
 			$dom
 				->getElementsByTagName( 'h2' )[0]
-				->parentNode // wpdtrt-gallery__header
-				->parentNode // wpdtrt-gallery
-				->parentNode // wpdtrt-gallery__section
+				->parentNode // wpdtrt-gallery__header.
+				->parentNode // wpdtrt-gallery.
+				->parentNode // wpdtrt-gallery__section.
 				->getAttribute( 'data-wpdtrt-anchorlinks-controls' ),
 			'wpdtrt-gallery__section should control anchorlink highlighting'
 		);
@@ -595,7 +595,7 @@ class WPDTRT_GalleryTest extends WP_UnitTestCase {
 		$this->assertEquals(
 			'wpdtrt-anchorlinks__section wpdtrt-anchorlinks__anchor wpdtrt-gallery__section',
 			$dom
-				->getElementsByTagName( 'div' )[0] // wpdtrt-gallery__section
+				->getElementsByTagName( 'div' )[0] // wpdtrt-gallery__section.
 				->getAttribute( 'class' ),
 			'wpdtrt-gallery__section should be one of the section classnames'
 		);
@@ -606,9 +606,9 @@ class WPDTRT_GalleryTest extends WP_UnitTestCase {
 		$this->assertEquals(
 			'entry-content',
 			$dom
-				->getElementsByTagName( 'div' )[0] // wpdtrt-gallery__section
-				->getElementsByTagName( 'div' )[0] // wpdtrt-gallery
-				->nextSibling // entry-content
+				->getElementsByTagName( 'div' )[0] // wpdtrt-gallery__section.
+				->getElementsByTagName( 'div' )[0] // wpdtrt-gallery.
+				->nextSibling // entry-content.
 				->getAttribute( 'class' ),
 			'entry-content should follow wpdtrt-gallery'
 		);
@@ -620,9 +620,9 @@ class WPDTRT_GalleryTest extends WP_UnitTestCase {
 		$this->assertNotEquals(
 			null,
 			$dom
-				->getElementsByTagName( 'div' )[0] // wpdtrt-gallery__section
-				->getElementsByTagName( 'div' )[0] // wpdtrt-gallery
-				->nextSibling, // entry-content
+				->getElementsByTagName( 'div' )[0] // wpdtrt-gallery__section.
+				->getElementsByTagName( 'div' )[0] // wpdtrt-gallery.
+				->nextSibling, // entry-content.
 			'entry-content should be followed by wpdtrt-gallery-gallery when there is a gallery'
 		);
 
@@ -631,9 +631,9 @@ class WPDTRT_GalleryTest extends WP_UnitTestCase {
 		$this->assertEquals(
 			'wpdtrt-gallery-gallery',
 			$dom
-				->getElementsByTagName( 'div' )[0] // wpdtrt-gallery__section
-				->getElementsByTagName( 'div' )[0] // wpdtrt-gallery
-				->nextSibling // entry-content
+				->getElementsByTagName( 'div' )[0] // wpdtrt-gallery__section.
+				->getElementsByTagName( 'div' )[0] // wpdtrt-gallery.
+				->nextSibling // entry-content.
 				->getAttribute( 'class' ),
 			'entry-content should be followed by wpdtrt-gallery-gallery when there is a gallery'
 		);
@@ -643,7 +643,7 @@ class WPDTRT_GalleryTest extends WP_UnitTestCase {
 			'wpdtrt-gallery__header',
 			$dom
 				->getElementsByTagName( 'h2' )[0]
-				->parentNode // wpdtrt-gallery__header
+				->parentNode // wpdtrt-gallery__header.
 				->getAttribute( 'class' ),
 			'wpdtrt-gallery__header should wrap heading'
 		);
@@ -655,9 +655,9 @@ class WPDTRT_GalleryTest extends WP_UnitTestCase {
 			'wpdtrt-gallery-viewer',
 			$dom
 				->getElementsByTagName( 'h2' )[0]
-				->parentNode // wpdtrt-gallery__header
-				->nextSibling // wpdtrt-gallery-gallery
-				->nextSibling // wpdtrt-gallery-viewer
+				->parentNode // wpdtrt-gallery__header.
+				->nextSibling // wpdtrt-gallery-gallery.
+				->nextSibling // wpdtrt-gallery-viewer.
 				->getAttribute( 'class' ),
 			'wpdtrt-gallery-viewer should wrap heading'
 		);
@@ -667,9 +667,9 @@ class WPDTRT_GalleryTest extends WP_UnitTestCase {
 			'highlighting',
 			$dom
 				->getElementsByTagName( 'h2' )[0]
-				->parentNode // wpdtrt-gallery__header
-				->parentNode // wpdtrt-gallery
-				->parentNode // wpdtrt-gallery__section
+				->parentNode // wpdtrt-gallery__header.
+				->parentNode // wpdtrt-gallery.
+				->parentNode // wpdtrt-gallery__section.
 				->getAttribute( 'data-wpdtrt-anchorlinks-controls' ),
 			'wpdtrt-gallery__section should control link highlighting'
 		);
