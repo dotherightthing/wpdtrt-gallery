@@ -62,7 +62,7 @@ class WPDTRT_GalleryTest extends WP_UnitTestCase {
 		// Attachment (for testing custom sizes and meta).
 		$this->image_1 = $this->create_attachment( array(
 			'filename'       => 'images/test1.jpg',
-			'parent_post_id' => $this->post_for_test_image
+			'parent_post_id' => $this->post_for_test_image,
 		));
 
 		$this->thumbnail_size = 'thumbnail';
@@ -401,26 +401,6 @@ class WPDTRT_GalleryTest extends WP_UnitTestCase {
 		// https://stackoverflow.com/a/22270259/6850747.
 		$content = apply_filters( 'the_content', get_post_field( 'post_content', $this->post_with_no_gallery ) );
 
-		/*
-		Snapshot:
-
-		<div class="wpdtrt-anchorlinks__section wpdtrt-anchorlinks__anchor wpdtrt-gallery__section" data-wpdtrt-anchorlinks-controls="highlighting" id="section-heading" tabindex="-1">
-			<div class="wpdtrt-gallery" data-enabled="false" data-expanded="false">
-				<div class="wpdtrt-gallery__header">
-					<h2 data-anchorlinks-id="section-heading">
-						Section heading
-						<a class="wpdtrt-anchorlinks__anchor-link" href="#section-heading">
-							<span aria-label="Anchor" class="wpdtrt-anchorlinks__anchor-icon">#</span>
-						</a>
-					</h2>
-				</div>
-			</div>
-			<div class="entry-content">
-				<p>A short sentence</p>
-			</div>
-		</div>
-		*/
-
 		$dom = new DOMDocument();
 		$dom->loadHTML( mb_convert_encoding( $content, 'HTML-ENTITIES', 'UTF-8' ) );
 
@@ -434,44 +414,16 @@ class WPDTRT_GalleryTest extends WP_UnitTestCase {
 		$this->assertEquals(
 			'wpdtrt-anchorlinks__section wpdtrt-anchorlinks__anchor wpdtrt-gallery__section',
 			$dom
-				->getElementsByTagName( 'div' )[0] // wpdtrt-gallery__section
+				->getElementsByTagName( 'div' )[0]
 				->getAttribute( 'class' ),
 			'wpdtrt-gallery__section should be one of the section classnames'
 		);
-
-		/*
-		// this nextSibling test fails due to whitespace in the rendered content
-		// but works in real life.
-		$this->assertEquals(
-			'entry-content',
-			$dom
-				->getElementsByTagName( 'div' )[0] // wpdtrt-gallery__section.
-				->getElementsByTagName( 'div' )[0] // wpdtrt-gallery.
-				->nextSibling // entry-content.
-				->getAttribute( 'class' ),
-			'entry-content should be nested within section'
-		);
-		*/
-
-		/*
-		// this nextSibling test fails due to whitespace in the rendered content
-		// but works in real life.
-		$this->assertEquals(
-			null,
-			$dom
-				->getElementsByTagName( 'div' )[0] // wpdtrt-gallery__section.
-				->getElementsByTagName( 'div' )[0] // wpdtrt-gallery.
-				->getElementsByTagName( 'div' )[0] // wpdtrt-gallery__header.
-				->nextSibling,
-			'header should not be followed by wpdtrt-gallery-gallery when there is no gallery'
-		);
-		*/
 
 		$this->assertEquals(
 			'wpdtrt-gallery__header',
 			$dom
 				->getElementsByTagName( 'h2' )[0]
-				->parentNode // wpdtrt-gallery__header.
+				->parentNode
 				->getAttribute( 'class' ),
 			'wpdtrt-gallery__header should wrap heading'
 		);
@@ -480,8 +432,8 @@ class WPDTRT_GalleryTest extends WP_UnitTestCase {
 			'wpdtrt-gallery',
 			$dom
 				->getElementsByTagName( 'h2' )[0]
-				->parentNode // wpdtrt-gallery__header.
-				->parentNode // wpdtrt-gallery.
+				->parentNode
+				->parentNode
 				->getAttribute( 'class' ),
 			'wpdtrt-gallery should wrap heading'
 		);
@@ -490,9 +442,9 @@ class WPDTRT_GalleryTest extends WP_UnitTestCase {
 			'highlighting',
 			$dom
 				->getElementsByTagName( 'h2' )[0]
-				->parentNode // wpdtrt-gallery__header.
-				->parentNode // wpdtrt-gallery.
-				->parentNode // wpdtrt-gallery__section.
+				->parentNode
+				->parentNode
+				->parentNode
 				->getAttribute( 'data-wpdtrt-anchorlinks-controls' ),
 			'wpdtrt-gallery__section should control anchorlink highlighting'
 		);
@@ -515,69 +467,6 @@ class WPDTRT_GalleryTest extends WP_UnitTestCase {
 		// https://stackoverflow.com/a/22270259/6850747.
 		$content = apply_filters( 'the_content', get_post_field( 'post_content', $this->post_with_single_image_gallery ) );
 
-		/*
-		Snapshot:
-
-		<div class="wpdtrt-anchorlinks__section wpdtrt-anchorlinks__anchor wpdtrt-gallery__section" data-wpdtrt-anchorlinks-controls="highlighting" id="section-heading" tabindex="-1">
-			<div class="wpdtrt-gallery" data-enabled="true" data-expanded="false" data-expanded-locked="false" data-expanded-user="false">
-				<div class="wpdtrt-gallery__header">
-					<h2 data-anchorlinks-id="section-heading">
-						Section heading
-						<a class="wpdtrt-anchorlinks__anchor-link" href="#section-heading">
-							<span aria-label="Anchor" class="wpdtrt-anchorlinks__anchor-icon">#</span>
-						</a>
-					</h2>
-				</div>
-				<div id="gallery-12" class="gallery wpdtrt-gallery-gallery gallery-columns-3 gallery-size-thumbnail" role="tablist" aria-labelledby="galleryid-GALLERYID-tablist-title galleryid-GALLERYID-tabhint">
-					<h3 id="galleryid-GALLERYID-tablist-title" class="wpdtrt-gallery-gallery__header">
-						Select a photo to display
-						<span class="wpdtrt-gallery-icon-hand-pointer-o" aria-hidden="true"></span>
-					</h3>
-					<button role="tab" class="gallery-item wpdtrt-gallery-gallery__tab" aria-controls="galleryId-GALLERYID-tabpanel-1" id="galleryId-GALLERYID-tab-1" data-kh-proxy="selectFocussed" tabindex="0" aria-selected="true">
-						<span class="wpdtrt-gallery-gallery__tab-liner">
-							<span class="wpdtrt-gallery-icon-image" aria-label="Image. "></span>
-							<img width="300" height="300" src="THUMBNAIL.jpg" class="attachment-thumbnail size-thumbnail" alt="ALT" loading="lazy">
-						</span>
-					</button>
-					<div class="wpdtrt-gallery-gallery__tab-hint" id="galleryId-GALLERYID-tabhint">
-						<div class="wpdtrt-gallery-gallery__tab-hint-liner">
-							<h4 class="wpdtrt-gallery-gallery__header">
-								Keyboard instructions
-								<span class="wpdtrt-gallery-icon-keyboard-o" aria-hidden="true"></span>
-							</h4>
-							<ul>
-								<li>Navigate with: LEFT + RIGHT arrows</li>
-								<li>Select with: ENTER</li>
-								<li>Enlarge with: TAB then ENTER</li>
-							</ul>
-						</div>
-					</div>
-				</div>
-				<div class="wpdtrt-gallery-viewer">
-					<div class="wpdtrt-gallery-viewer__wrapper">
-						<div role="tabpanel" id="galleryId-GALLERYID-tabpanel-1" aria-labelledby="galleryId-GALLERYID-tab-1" data-src-desktop="IMAGE.jpg" data-src-desktop-expanded="https://dontbelievethehype.imgix.net/day_20150902/20150811_134600.jpg?auto=compress%2Cformat&amp;fit=scale&amp;h=487&amp;ixlib=php-3.3.0&amp;w=865&amp;wpsize=wpdtrt-gallery-desktop-expanded&amp;s=6db25be23d974211e3514de678d72f8d" class="wpdtrt-gallery-viewer__tabpanel">
-							<!-- expand button injected here -->
-							<figure class="wpdtrt-gallery-viewer__liner">
-								<div class="wpdtrt-gallery-viewer__img-wrapper wpdtrt-gallery-icon-image">
-									<img id="galleryId-GALLERYID-tabpanel-1-media" width="865" height="368" src="IMAGE.jpg" class="attachment-wpdtrt-gallery-desktop size-wpdtrt-gallery-desktop" alt="ALT" loading="lazy">
-								</div>
-								<figcaption class="wpdtrt-gallery-viewer__caption-wrapper">
-									<div class="wpdtrt-gallery-viewer__caption">
-										<span class="wpdtrt-gallery-icon-image"></span>
-										CAPTION
-									</div>
-								</figcaption>
-							</figure>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="entry-content">
-				<p>A short sentence</p>
-			</div>
-		</div>
-		*/
-
 		$dom = new DOMDocument();
 		$dom->loadHTML( mb_convert_encoding( $content, 'HTML-ENTITIES', 'UTF-8' ) );
 
@@ -595,81 +484,27 @@ class WPDTRT_GalleryTest extends WP_UnitTestCase {
 		$this->assertEquals(
 			'wpdtrt-anchorlinks__section wpdtrt-anchorlinks__anchor wpdtrt-gallery__section',
 			$dom
-				->getElementsByTagName( 'div' )[0] // wpdtrt-gallery__section.
+				->getElementsByTagName( 'div' )[0]
 				->getAttribute( 'class' ),
 			'wpdtrt-gallery__section should be one of the section classnames'
 		);
-
-		/*
-		// this nextSibling test fails due to whitespace in the rendered content
-		// but works in real life.
-		$this->assertEquals(
-			'entry-content',
-			$dom
-				->getElementsByTagName( 'div' )[0] // wpdtrt-gallery__section.
-				->getElementsByTagName( 'div' )[0] // wpdtrt-gallery.
-				->nextSibling // entry-content.
-				->getAttribute( 'class' ),
-			'entry-content should follow wpdtrt-gallery'
-		);
-		*/
-
-		/*
-		// this nextSibling test fails due to whitespace in the rendered content
-		// but works in real life.
-		$this->assertNotEquals(
-			null,
-			$dom
-				->getElementsByTagName( 'div' )[0] // wpdtrt-gallery__section.
-				->getElementsByTagName( 'div' )[0] // wpdtrt-gallery.
-				->nextSibling, // entry-content.
-			'entry-content should be followed by wpdtrt-gallery-gallery when there is a gallery'
-		);
-
-		// this nextSibling test fails due to whitespace in the rendered content
-		// but works in real life.
-		$this->assertEquals(
-			'wpdtrt-gallery-gallery',
-			$dom
-				->getElementsByTagName( 'div' )[0] // wpdtrt-gallery__section.
-				->getElementsByTagName( 'div' )[0] // wpdtrt-gallery.
-				->nextSibling // entry-content.
-				->getAttribute( 'class' ),
-			'entry-content should be followed by wpdtrt-gallery-gallery when there is a gallery'
-		);
-		*/
 
 		$this->assertEquals(
 			'wpdtrt-gallery__header',
 			$dom
 				->getElementsByTagName( 'h2' )[0]
-				->parentNode // wpdtrt-gallery__header.
+				->parentNode
 				->getAttribute( 'class' ),
 			'wpdtrt-gallery__header should wrap heading'
 		);
-
-		/*
-		// this nextSibling test fails due to whitespace in the rendered content
-		// but works in real life.
-		$this->assertEquals(
-			'wpdtrt-gallery-viewer',
-			$dom
-				->getElementsByTagName( 'h2' )[0]
-				->parentNode // wpdtrt-gallery__header.
-				->nextSibling // wpdtrt-gallery-gallery.
-				->nextSibling // wpdtrt-gallery-viewer.
-				->getAttribute( 'class' ),
-			'wpdtrt-gallery-viewer should wrap heading'
-		);
-		*/
 
 		$this->assertEquals(
 			'highlighting',
 			$dom
 				->getElementsByTagName( 'h2' )[0]
-				->parentNode // wpdtrt-gallery__header.
-				->parentNode // wpdtrt-gallery.
-				->parentNode // wpdtrt-gallery__section.
+				->parentNode
+				->parentNode
+				->parentNode
 				->getAttribute( 'data-wpdtrt-anchorlinks-controls' ),
 			'wpdtrt-gallery__section should control link highlighting'
 		);
