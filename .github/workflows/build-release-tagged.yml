@@ -20,11 +20,17 @@ jobs:
     steps:
     # Downgrade from Composer 2 in ubuntu-latest, to Composer 1, as v2 causes issues
     # https://github.com/actions/virtual-environments/issues/1816
-    # https://github.com/actions/virtual-environments/issues/1924
+    # Fix: https://github.com/actions/virtual-environments/issues/1924
     - name: Make sure we are using composer v1
       run: |
         sudo composer self-update --1
         sudo chown $USER $HOME/.composer
+
+    # Fix Cypress cannot write to the cache directory due to file permissions
+    # https://github.com/cypress-io/cypress/issues/1281
+    - name: Give Cypress access permission to write to cache directory
+      run: |
+        sudo chown $USER $HOME/.cache/Cypress
 
     # check out the repository, so the workflow can access it
     - name: Checkout repo
