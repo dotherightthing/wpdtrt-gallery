@@ -17,6 +17,7 @@ jobs:
       matrix:
         node: [ '13.x' ]
 
+    steps:
     # check out the repository, so the workflow can access it
     - name: Checkout repo
       uses: actions/checkout@v2
@@ -27,7 +28,6 @@ jobs:
         php-version: '7.2.15'
         node-version: ${{ matrix.node }}
 
-    steps:
     # Downgrade from Composer 2 in ubuntu-latest, to Composer 1, as v2 causes issues
     # https://github.com/actions/virtual-environments/issues/1816
     # Fix: https://github.com/actions/virtual-environments/issues/1924
