@@ -28,9 +28,9 @@ jobs:
 
     # Fix Cypress cannot write to the cache directory due to file permissions
     # https://github.com/cypress-io/cypress/issues/1281
-    - name: Give Cypress access permission to write to cache directory
+    - name: Give Cypress access permission to download to cache directory
       run: |
-        sudo chown $USER $HOME/.cache/Cypress
+        sudo chown $USER $HOME/.cache
 
     # check out the repository, so the workflow can access it
     - name: Checkout repo
