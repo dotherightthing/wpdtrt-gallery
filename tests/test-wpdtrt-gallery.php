@@ -70,7 +70,7 @@ class WPDTRT_GalleryTest extends WP_UnitTestCase {
 		// Post (for testing populated shortcode)
 		// NOTE: generated attachment is attached to post_for_test_image not post_with_single_image_gallery
 		// this is a chicken-and-egg scenario.
-		// post_content reflects pre-processing by wpdtrt-anchorlinks
+		// post_content reflects pre-processing by wpdtrt-anchorlinks.
 		$this->post_with_single_image_gallery = $this->create_post( array(
 			'post_title'   => 'Single image gallery test',
 			'post_content' => '<div class="wpdtrt-anchorlinks__section wpdtrt-anchorlinks__anchor" id="section-heading" tabindex="-1">[wpdtrt_gallery_shortcode_heading]<h2 data-anchorlinks-id="section-heading">Section heading<a class="wpdtrt-anchorlinks__anchor-link" href="#section-heading"><span aria-label="Anchor" class="wpdtrt-anchorlinks__anchor-icon">#</span></a></h2>[/wpdtrt_gallery_shortcode_heading][gallery link="file" ids="' . $this->image_1 . '"]<p>A short sentence.</p></div>',
