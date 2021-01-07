@@ -49,7 +49,6 @@ jobs:
       with:
         path: |
           ~/.cache/Cypress
-          node_modules
           vendor
         key: ${{ runner.os }}-${{ hashFiles('**/lockfiles') }}
 
