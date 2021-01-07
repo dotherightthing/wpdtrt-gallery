@@ -20,13 +20,17 @@ Note: A WordPress gallery must immediately follow the `<h2>` heading.
 
 ### Display the gallery viewer
 
-Within the editor:
+#### Within the content area
 
-```txt
-[wpdtrt_gallery_shortcode_heading]<h2>Heading to wrap</h2>[/wpdtrt_gallery_shortcode_heading]
-```
+When the plugin is enabled, DTRT Gallery replaces the existing WordPress `[gallery]` shortcode.
 
-In a PHP template, as a template tag:
+Galleries added via the WordPress WYSIWYG will automatically be enhanced.
+
+If a heading has no adjacent gallery, it will automatically be wrapped in `[wpdtrt_gallery_shortcode_heading]`.
+
+#### Outside the content area
+
+Headings may be manually wrapped in `[wpdtrt_gallery_shortcode_heading]`, as a template tag:
 
 ```php
 <?php
@@ -46,7 +50,7 @@ See `scss/_variables.scss`.
 1. The WordPress content filter looks for galleries within the markup injected by [DTRT Anchorlinks](https://github.com/dotherightthing/wpdtrt-anchorlinks):
 
 ```html
-<div class="wpdtrt-anchorlinks__anchor">
+<div class="'wpdtrt-anchorlinks__section wpdtrt-anchorlinks__anchor">
     <!-- h2, .gallery, etc -->
 </div>
 ```
