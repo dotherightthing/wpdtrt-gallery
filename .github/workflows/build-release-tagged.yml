@@ -36,8 +36,6 @@ jobs:
         sudo composer self-update --1
         sudo chown $USER $HOME/.composer
 
-        composer-plugin-api
-
     # Fix Cypress cannot write to the cache directory due to file permissions
     # https://github.com/cypress-io/cypress/issues/1281
     - name: Give Cypress access permission to download to cache directory
