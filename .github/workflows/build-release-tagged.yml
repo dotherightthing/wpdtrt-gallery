@@ -45,13 +45,13 @@ jobs:
     # https://github.com/cypress-io/github-action#install-cypress-only
     - name: Cache dependencies
       uses: actions/cache@v2
-        id: cache
-        with:
-          path: |
-            ~/.cache/Cypress
-            node_modules
-            vendor
-          key: ${{ runner.os }}-${{ hashFiles('**/lockfiles') }}
+      id: cache
+      with:
+        path: |
+          ~/.cache/Cypress
+          node_modules
+          vendor
+        key: ${{ runner.os }}-${{ hashFiles('**/lockfiles') }}
 
     - name: Composer config
       run: |
