@@ -141,7 +141,6 @@ describe('DTRT Gallery - Panorama Viewer', function () {
             cy.get('@wpdtrtGalleryTabPanel').find('.wpdtrt-gallery-viewer__expand')
                 .should('contain.text', 'Collapse')
                 .should('have.attr', 'aria-controls', `${galleryId}-tabpanel-1-media`);
-
         });
 
         it('6. Is expanded', function () {
