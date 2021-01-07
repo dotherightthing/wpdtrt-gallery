@@ -19,7 +19,7 @@
         "wiki": "https://github.com/dotherightthing/wpdtrt-gallery/wiki"
     },
     "require": {
-        "dotherightthing/wpdtrt-plugin-boilerplate": "^1.7.6"
+        "dotherightthing/wpdtrt-plugin-boilerplate": "^1.7.7"
     },
     "require-dev": {
         "composer-plugin-api": "^1.0",
