@@ -17,6 +17,7 @@
 
 const componentClass = 'wpdtrt-gallery';
 const sectionId = 'section-itchy-feet';
+const galleryId = 'galleryid-9';
 
 describe('DTRT Gallery - Panorama Viewer', function () {
     before(function () {
@@ -33,6 +34,9 @@ describe('DTRT Gallery - Panorama Viewer', function () {
         // the default gallery item is a panorama
         cy.get(`#${ sectionId } .${ componentClass }`)
             .as('wpdtrtGallery');
+
+        cy.get(`#${galleryId}-tabpanel-1`)
+            .as('wpdtrtGalleryTabPanel');
 
         // the thumbnail gallery that populates the viewer
         // NOT WORKING - requires scroll-to fix, test after gallery is tested
@@ -69,12 +73,12 @@ describe('DTRT Gallery - Panorama Viewer', function () {
 
         it('4. Does contain a panorama', function () {
             // check that the default markup has been transformed
-            cy.get('@wpdtrtGallery').find('.wpdtrt-gallery-viewer__tabpanel')
+            cy.get('@wpdtrtGalleryTabPanel')
                 .should('have.attr', 'data-panorama');
         });
 
         it('6. Does contain an expand button', function () {
-            cy.get('@wpdtrtGallery').find('.wpdtrt-gallery-viewer__expand')
+            cy.get('@wpdtrtGalleryTabPanel').find('.wpdtrt-gallery-viewer__expand')
                 .should('exist');
         });
 
@@ -95,6 +99,22 @@ describe('DTRT Gallery - Panorama Viewer', function () {
     });
 
     describe('C. Enhanced/Expanded state', function () {
+        it('1. Above the fold', function () {
+            cy.resetUI();
+
+            // scroll component into view,
+            // as Cypress can't always 'see' elements below the fold
+            cy.get('@wpdtrtGallery').find('.wpdtrt-gallery-viewer')
+                .scrollIntoView({
+                    duration: 1500,
+                    offset: {
+                        top: 0,
+                        left: 0
+                    }
+                })
+                .should('be.visible');
+        });
+
         it('2. Is enabled', function () {
             cy.get('@wpdtrtGallery')
                 .should('have.attr', 'data-enabled', 'true');
@@ -102,11 +122,10 @@ describe('DTRT Gallery - Panorama Viewer', function () {
 
         it('3. Does contain a panoramic image, described accessibly', function () {
             // check that the default markup has been transformed
-            cy.get('@wpdtrtGallery').find('.wpdtrt-gallery-viewer__tabpanel')
+            cy.get('@wpdtrtGalleryTabPanel')
                 .should('have.attr', 'data-panorama', 'true');
 
-            cy.get('@wpdtrtGallery').find('.wpdtrt-gallery-viewer__img-wrapper > img')
-                .should('exist')
+            cy.get('@wpdtrtGalleryTabPanel').find('.wpdtrt-gallery-viewer__img-wrapper > img')
                 // cannot check if .wpdtrt-gallery-viewer__img-wrapper has .scrollWidth
                 .should('have.css', 'width', '1369px')
                 // https://github.com/dotherightthing/wpdtrt-gallery/issues/65
@@ -116,16 +135,17 @@ describe('DTRT Gallery - Panorama Viewer', function () {
         });
 
         it('5. Does contain a expand button, disabled', function () {
-            cy.get('@wpdtrtGallery').find('.wpdtrt-gallery-viewer__expand')
-                .should('exist')
-                .should('have.prop', 'disabled')
-                .should('have.attr', 'aria-controls', `${ sectionId }-viewer`)
-                .should('contain.text', 'Show cropped image');
+            cy.get('@wpdtrtGalleryTabPanel').find('.wpdtrt-gallery-viewer__expand')
+                .should('have.prop', 'disabled');
+
+            cy.get('@wpdtrtGalleryTabPanel').find('.wpdtrt-gallery-viewer__expand')
+                .should('contain.text', 'Collapse')
+                .should('have.attr', 'aria-controls', `${galleryId}-tabpanel-1-media`);
+
         });
 
         it('6. Is expanded', function () {
             cy.get('@wpdtrtGallery')
-                .should('have.attr', 'id', `${ sectionId }-viewer`)
                 .should('have.attr', 'data-expanded', 'true')
                 .should('have.attr', 'data-expanded-locked', 'true');
         });

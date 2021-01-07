@@ -16,8 +16,9 @@
 // https://mochajs.org/#arrow-functions
 /* eslint-disable func-names */
 
-const componentClass = 'wpdtrt-gallery-viewer';
-const sectionId = 'a-new-bike';
+const componentClass = 'wpdtrt-gallery';
+const sectionId = 'section-a-new-bike';
+const galleryId = 'galleryid-12';
 
 describe('DTRT Gallery - Image Viewer', function () {
     before(function () {
@@ -33,11 +34,14 @@ describe('DTRT Gallery - Image Viewer', function () {
         // a gallery viewer that is below the fold won't have been transformed yet
         // the default gallery item is an image, which is accessible
         cy.get(`#${ sectionId } .${ componentClass }`)
-            .as('wpdtrtGalleryViewer');
+            .as('wpdtrtGallery');
+
+        cy.get(`#${galleryId}-tabpanel-1`)
+            .as('wpdtrtGalleryTabPanel');
 
         // the thumbnail gallery that populates the viewer
         // NOT WORKING - requires scroll-to fix, test after gallery is tested
-        // cy.get('@wpdtrtGalleryViewer').siblings('.gallery')
+        // cy.get('@wpdtrtGallery').siblings('.gallery')
         //  .as('galleryBelowFold');
 
         // @aliases for injected elements
@@ -50,11 +54,11 @@ describe('DTRT Gallery - Image Viewer', function () {
 
             // check that the plugin object is available
             cy.window()
-                .should('have.property', 'wpdtrt_gallery_ui');
+                .should('have.property', 'wpdtrtGalleryUi');
 
             // check that it's an object
             cy.window().then((win) => {
-                expect(win.wpdtrt_gallery_ui).to.be.a('object');
+                expect(win.wpdtrtGalleryUi).to.be.a('object');
             });
         });
     });
@@ -63,49 +67,36 @@ describe('DTRT Gallery - Image Viewer', function () {
     // template-parts/content-heading.php
     // when element is offscreen
     describe('B. Default state', function () {
-        it('1. Is a viewer', function () {
-            cy.resetUI();
-
-            cy.get('@wpdtrtGalleryViewer')
-                .should('have.class', 'wpdtrt-gallery-viewer');
+        it('2. Is enabled', function () {
+            cy.get('@wpdtrtGallery')
+                .should('have.attr', 'data-enabled', 'true');
         });
 
-        it('2. Is not enabled', function () {
-            cy.get('@wpdtrtGalleryViewer')
-                .should('have.attr', 'data-enabled', 'false');
-        });
-
-        it('3. Does not contain an image', function () {
-            cy.get('@wpdtrtGalleryViewer').find('.wpdtrt-gallery-viewer__img-wrapper > img')
-                .should('not.exist');
+        it('3. Does contain an image', function () {
+            cy.get('@wpdtrtGallery').find('.wpdtrt-gallery-viewer__img-wrapper > img')
+                .should('exist');
         });
 
         it('4. Does not contain a panorama', function () {
             // check that the default markup has been transformed
-            cy.get('@wpdtrtGalleryViewer')
+            cy.get('@wpdtrtGalleryTabPanel')
                 .should('not.have.attr', 'data-panorama');
         });
 
-        it('5. Does contain a hidden embed iframe, hidden accessibly', function () {
-            cy.get('@wpdtrtGalleryViewer').find('.wpdtrt-gallery-viewer__iframe-wrapper > iframe')
-                .should('have.attr', 'aria-hidden', 'true')
-                .should('not.be.visible');
-        });
-
-        it('6. Does not contain an expand button', function () {
-            cy.get('@wpdtrtGalleryViewer').find('.wpdtrt-gallery-viewer__expand')
-                .should('not.exist');
+        it('6. Does contain an expand button', function () {
+            cy.get('@wpdtrtGalleryTabPanel').find('.wpdtrt-gallery-viewer__expand')
+                .should('exist');
         });
 
         it('7. Is not expanded', function () {
-            cy.get('@wpdtrtGalleryViewer')
+            cy.get('@wpdtrtGallery')
                 .should('have.attr', 'data-expanded', 'false');
         });
 
         it('8. Passes Tenon validation', function () {
             this.skip();
 
-            cy.get('@wpdtrtGalleryViewer').then((galleryViewer) => {
+            cy.get('@wpdtrtGallery').then((galleryViewer) => {
                 // Add a wrapper around the component so that the HTML can be submitted independently
                 cy.task('tenonAnalyzeHtml', `${galleryViewer.wrap('<div/>').parent().html()}`)
                     .its('results').should('eq', []);
@@ -119,7 +110,7 @@ describe('DTRT Gallery - Image Viewer', function () {
 
             // scroll component into view,
             // as Cypress can't always 'see' elements below the fold
-            cy.get('@wpdtrtGalleryViewer')
+            cy.get('@wpdtrtGallery').find('.wpdtrt-gallery-viewer')
                 .scrollIntoView({
                     duration: 1500,
                     offset: {
@@ -131,50 +122,43 @@ describe('DTRT Gallery - Image Viewer', function () {
         });
 
         it('2. Is enabled', function () {
-            cy.get('@wpdtrtGalleryViewer')
+            cy.get('@wpdtrtGallery')
                 .should('have.attr', 'data-enabled', 'true');
         });
 
         it('3. Does contain a landscape image, described accessibly', function () {
-            cy.get('@wpdtrtGalleryViewer').find('.wpdtrt-gallery-viewer__img-wrapper > img')
+            cy.get('@wpdtrtGalleryTabPanel').find('.wpdtrt-gallery-viewer__img-wrapper > img')
                 .should('exist')
-                .should('have.css', 'width', '658px')
-                .should('have.css', 'height', '280px')
+                .should('have.css', 'width', '688.453125px')
+                .should('have.css', 'height', '292.890625px')
                 .invoke('attr', 'alt')
                 .should('match', /.+/); // alt !== ''
         });
 
         it('4. Does not contain a panorama', function () {
             // check that the default markup has been transformed
-            cy.get('@wpdtrtGalleryViewer')
+            cy.get('@wpdtrtGalleryTabPanel')
                 .should('not.have.attr', 'data-panorama');
         });
 
-        it('5. Does contain a hidden embed iframe, hidden accessibly', function () {
-            cy.get('@wpdtrtGalleryViewer').find('.wpdtrt-gallery-viewer__iframe-wrapper > iframe')
-                .should('have.attr', 'aria-hidden', 'true')
-                .should('not.be.visible');
-        });
-
         it('6. Does contain a visible expand button, shown accessibly', function () {
-            cy.get('@wpdtrtGalleryViewer').find('.wpdtrt-gallery-viewer__expand')
+            cy.get('@wpdtrtGalleryTabPanel').find('.wpdtrt-gallery-viewer__expand')
                 .should('exist')
                 .should('be.visible')
-                .should('have.attr', 'aria-controls', `${ sectionId }-viewer`)
-                .should('contain.text', 'Show uncropped image');
+                .should('have.attr', 'aria-controls', `${galleryId }-tabpanel-1-media`)
+                .should('contain.text', 'Expand');
         });
 
         it('7. Is not expanded', function () {
-            cy.get('@wpdtrtGalleryViewer')
-                .should('have.attr', 'id', `${ sectionId }-viewer`)
+            cy.get('@wpdtrtGallery')
                 .should('have.attr', 'data-expanded', 'false')
-                .should('not.have.attr', 'data-expanded-locked');
+                .should('have.attr', 'data-expanded-locked', 'false');
         });
 
         it('8. Passes Tenon validation', function () {
             this.skip();
 
-            cy.get('@wpdtrtGalleryViewer').then((galleryViewer) => {
+            cy.get('@wpdtrtGallery').then((galleryViewer) => {
                 // Add a wrapper around the component so that the HTML can be submitted independently
                 cy.task('tenonAnalyzeHtml', `${galleryViewer.wrap('<div/>').parent().html()}`)
                     .its('results').should('eq', []);
@@ -184,37 +168,30 @@ describe('DTRT Gallery - Image Viewer', function () {
 
     describe('D. Expanded state (system selection)', function () {
         it('1. Is expanded, expanded accessibly', function () {
-            cy.get('@wpdtrtGalleryViewer').find('.wpdtrt-gallery-viewer__expand')
+            cy.get('@wpdtrtGalleryTabPanel').find('.wpdtrt-gallery-viewer__expand')
                 .click()
-                .should('contain.text', 'Show cropped image');
+                .should('contain.text', 'Collapse');
 
-            cy.get('@wpdtrtGalleryViewer')
-                .should('have.attr', 'id', `${ sectionId }-viewer`)
+            cy.get('@wpdtrtGallery')
                 .should('have.attr', 'data-expanded', 'true')
-                .should('not.have.attr', 'data-expanded-locked');
+                .should('have.attr', 'data-expanded-locked', 'false');
         });
 
         it('2. Does contain a taller landscape image, described accessibly', function () {
             // can we use this.attr.src here or invoke?
 
-            cy.get('@wpdtrtGalleryViewer').find('.wpdtrt-gallery-viewer__img-wrapper > img')
+            cy.get('@wpdtrtGalleryTabPanel').find('.wpdtrt-gallery-viewer__img-wrapper > img')
                 .should('exist')
-                .should('have.css', 'width', '658px')
-                .should('have.css', 'height', '370px')
+                .should('have.css', 'width', '688.453125px')
+                .should('have.css', 'height', '387.59375px')
                 .invoke('attr', 'alt')
                 .should('match', /.+/); // alt !== ''
-        });
-
-        it('3. Does contain a hidden embed iframe, hidden accessibly', function () {
-            cy.get('@wpdtrtGalleryViewer').find('.wpdtrt-gallery-viewer__iframe-wrapper > iframe')
-                .should('have.attr', 'aria-hidden', 'true')
-                .should('not.be.visible');
         });
 
         it('4. Passes Tenon validation', function () {
             this.skip();
 
-            cy.get('@wpdtrtGalleryViewer').then((galleryViewer) => {
+            cy.get('@wpdtrtGallery').then((galleryViewer) => {
                 // Add a wrapper around the component so that the HTML can be submitted independently
                 cy.task('tenonAnalyzeHtml', `${galleryViewer.wrap('<div/>').parent().html()}`)
                     .its('results').should('eq', []);
