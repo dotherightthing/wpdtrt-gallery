@@ -81,7 +81,7 @@ $icomoon-font-path: '../icons/icomoon/fonts';
 
             &__tabpanel {
                 &[data-soundcloud-pageid] {
-                    #{$block}__iframe-wrapper {
+                    #{$block}-viewer__iframe-wrapper {
                         border-top: 0; // soundcloud has it's own top border
                     }
                 }
