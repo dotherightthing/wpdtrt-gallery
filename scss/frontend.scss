@@ -371,11 +371,6 @@ $icomoon-font-path: '../icons/icomoon/fonts';
             position: relative;
             z-index: 1; // stack above media icon
             width: 100%;
-
-            // prevent mousedown+drag inside viewer from dragging a small version of the source panorama
-            // sass-lint:disable no-vendor-prefixes
-            -webkit-user-drag: none;
-            // sass-lint:enable no-vendor-prefixes
         }
     }
 
