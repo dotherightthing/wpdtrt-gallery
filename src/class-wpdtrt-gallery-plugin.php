@@ -329,15 +329,21 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 	 *   $tablinerclass - string
 	 *   $tabtag - string
 	 *   $tablinertag - string
+	 *   $length - int
 	 *
 	 * Returns:
 	 *   $html - HTML
 	 */
-	public function render_tab( Array $tabpanel_props, int $count, string $tabclass, string $tablinerclass, string $tabtag, string $tablinertag ) : string {
-		$html = '';
+	public function render_tab( Array $tabpanel_props, int $count, string $tabclass, string $tablinerclass, string $tabtag, string $tablinertag, int $length ) : string {
+		$html       = '';
+		$last_class = '';
+
+		if ( $count === $length ) {
+			$last_class = " {$tabclass}--last";
+		}
 
 		$tab_attrs  = " role='tab'";
-		$tab_attrs .= " class='gallery-item {$tabclass}'";
+		$tab_attrs .= " class='gallery-item {$tabclass}{$last_class}'";
 		$tab_attrs .= " aria-controls='{$tabpanel_props['tabpanel_id']}'";
 		$tab_attrs .= " id='{$tabpanel_props['tab_id']}'";
 		$tab_attrs .= " data-kh-proxy='selectFocussed'";
@@ -992,7 +998,8 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 			$output .= apply_filters( 'gallery_style', $gallery_style . $gallery_div ) . "\n";
 		}
 
-		$i = 0;
+		$i      = 0;
+		$length = count( $attachments );
 
 		foreach ( $attachments as $id => $attachment ) {
 			$attr = ( $attachment->post_excerpt && ! $usetabspattern ) ? array( 'aria-describedby' => "$selector-$id" ) : '';
@@ -1047,7 +1054,7 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 
 			foreach ( $tabpanels_props as $tabpanel_props ) {
 				++$count;
-				$output .= $this->render_tab( $tabpanel_props, $count, $tabclass, $tablinerclass, $tabtag, $tablinertag );
+				$output .= $this->render_tab( $tabpanel_props, $count, $tabclass, $tablinerclass, $tabtag, $tablinertag, $length );
 			}
 
 			$output .= $this->render_tab_hint( $gallery_props, $tabpanel_props, $tabkeyboardhintclass, $tabkeyboardhintlinerclass, $iconclasskeyboardhint, $tabkeyboardtitletag, $tabkeyboardtitleclass, $tabkeyboardtitletext, $tabkeyboardhinttextlines );
