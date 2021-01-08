@@ -6,7 +6,7 @@ Tags: gallery, video, audio, map
 Requires at least: 5.3.3
 Tested up to: 5.3.3
 Requires PHP: 7.2.15
-Stable tag: 2.0.0
+Stable tag: 2.0.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -27,6 +27,13 @@ Gallery viewer which supports images, panoramas, maps, SoundCloud and Vimeo.
 See [WordPress Usage](README.md#wordpress-usage).
 
 == Changelog ==
+
+= 2.0.1 =
+* [3e86952] Remove broken script from package.json
+* [f5e9047] Sync gallery shortcode filter to original shortcode in media.php (fixes #126)
+* [6b80fff] Include name of function in source comment
+* [1c52530] Remove debugging code
+* [143629f] Hide keyboard hints from mouse/touch users (fixes #127) - excludes IE11
 
 = 2.0.0 =
 * Rebuild WordPress gallery shortcode to use keyboard-accessible WAI-ARIA Tabbed Carousel pattern
