@@ -521,8 +521,6 @@ $icomoon-font-path: '../icons/icomoon/fonts';
         }
 
         &:focus-visible {
-            outline-offset: 1px;
-
             // &:focus-visible not used
             // as accessible components applies the focus as if a keyboard user did so
             // this also reveals otherwise-hidden keyboard shortcuts to mouse users
@@ -575,7 +573,6 @@ $icomoon-font-path: '../icons/icomoon/fonts';
     &__tab-liner {
         display: block; // better transition over state
         position: relative; // AP for hover border
-        outline-offset: -3px;
         filter: brightness(1.1);
         pointer-events: none; // allow clicks to pass through to parent button in Safari
 
