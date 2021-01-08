@@ -30,19 +30,6 @@ $icomoon-font-path: '../icons/icomoon/fonts';
 // Styles
 // -------------------------------------------------------------------
 
-// Enlargement viewer
-
-// -------------------------------------------------------------------
-// Default state:
-// viewer is disabled, or
-// viewer is enabled + expanded
-//
-// heading and caption sit outside image area
-// so that the image/embed can be viewed in its entirety
-// background bleeds to area where the inset would be
-// via a border.
-// -------------------------------------------------------------------
-
 [hidden] {
     display: none;
 }
@@ -50,47 +37,23 @@ $icomoon-font-path: '../icons/icomoon/fonts';
 .wpdtrt-gallery {
     $block: &;
 
-    span {
-        &[aria-hidden='true'] {
-            display: inline-block;
-        }
-    }
-
-    div {
-        &[aria-hidden='true'] {
-            display: block;
-        }
-    }
+    position: relative; // AP for mobile expand button
 
     &__header {
         position: relative; // AP
-        margin-right: 72px; // space for expand button in collapsed state
+        z-index: 2;
+        min-height: 56px; // height of AP expand button
+        padding-right: 72px; // space for expand button, running the border underneath
+        border-bottom: 3px solid var(--wpdtrt-gallery-bg-color);
+        margin-bottom: 6px;
 
         > * {
             display: inline-block;
-            background-color: var(--wpdtrt-gallery-bg-color); // var(--wpdtrt-gallery-border-color);
+            background-color: var(--wpdtrt-gallery-bg-color);
             color: var(--wpdtrt-gallery-text-color);
             padding: var(--wpdtrt-gallery-viewer-inset-header);
-            border: var(--wpdtrt-gallery-viewer-inset) solid var(--wpdtrt-gallery-border-color);
             margin-bottom: 0;
         }
-    }
-
-    &__visuallyhidden {
-        position: absolute !important; /* stylelint-disable-line declaration-no-important */
-        width: 1px;
-        height: 1px;
-        clip: rect(1px, 1px, 1px, 1px);
-        word-wrap: normal !important; /* stylelint-disable-line declaration-no-important */
-        overflow: hidden;
-    }
-
-    &__visuallyshown {
-        position: relative !important; /* stylelint-disable-line declaration-no-important */
-        width: auto;
-        height: auto;
-        clip: none;
-        overflow: visible;
     }
 
     // -------------------------------------------------------------------
@@ -98,7 +61,7 @@ $icomoon-font-path: '../icons/icomoon/fonts';
     // -------------------------------------------------------------------
 
     &[data-enabled='true'][data-expanded='true'] {
-        .wpdtrt-gallery-viewer {
+        #{$block}-viewer {
             &__expand {
                 top: auto;
                 bottom: 0;
@@ -118,7 +81,7 @@ $icomoon-font-path: '../icons/icomoon/fonts';
 
             &__tabpanel {
                 &[data-soundcloud-pageid] {
-                    .wpdtrt-gallery-viewer__iframe-wrapper {
+                    #{$block}__iframe-wrapper {
                         border-top: 0; // soundcloud has it's own top border
                     }
                 }
@@ -130,50 +93,79 @@ $icomoon-font-path: '../icons/icomoon/fonts';
     // MEDIA QUERIES
     // ---------------------------------------------------
 
-    @include media('<tablet') {
-        #{$block}__header {
+    @include media('<laptop') {
+        &__header {
             > * {
                 // fit more text in before it wraps
-                font-size: 1.2em;
+                font-size: 1.2em; //
+            }
+        }
+
+        &[data-enabled='true'][data-expanded='false'] {
+            #{$block}__header {
+                > * {
+                    border: var(--wpdtrt-gallery-viewer-inset) solid var(--wpdtrt-gallery-border-color);
+                }
+            }
+
+            #{$block}-viewer {
+                &__expand {
+                    border: var(--wpdtrt-gallery-viewer-inset) solid var(--wpdtrt-gallery-border-color);
+                }
+            }
+        }
+
+        &[data-enabled='true'][data-expanded='true'] {
+            #{$block}__header {
+                > * {
+                    border: var(--wpdtrt-gallery-viewer-inset) solid var(--wpdtrt-gallery-border-color);
+                }
+            }
+
+            #{$block}-viewer {
+                &__caption,
+                &__expand {
+                    border: var(--wpdtrt-gallery-viewer-inset) solid var(--wpdtrt-gallery-border-color);
+                }
+
+                &__expand {
+                    top: 0;
+                    bottom: auto;
+                }
             }
         }
     }
 
-    @include media('>=tablet') {
-        // -------------------------------------------------------------------
-        // viewer is enabled + collapsed
-        //
-        // heading and caption sit inside image area
-        // both text elements must be AP
-        // so that the inline invisible image
-        // can dictate the height that it needs to display fully
-        // and be available for ALT inspection
-        // -------------------------------------------------------------------
+    @include media('>=laptop') {
+        &__header {
+            padding-right: 0;
+            border-bottom: 0;
+            margin-right: 72px; // space for expand button
+        }
 
         &[data-enabled='true'][data-expanded='false'] {
             &:focus {
-                .wpdtrt-gallery-viewer {
+                #{$block}-viewer {
                     &__caption-wrapper {
                         z-index: 2;
                     }
                 }
             }
 
-            #{$block}__header > * {
-                z-index: 2; // stack on top of sticky nav so that text can be selected
-                border: 0;
-                margin: var(--wpdtrt-gallery-viewer-inset);
+            #{$block}__header {
+                > * {
+                    z-index: 2; // stack on top of sticky nav so that text can be selected
 
-                .attachment & {
-                    padding-right: 0;
+                    .attachment & { // ?
+                        padding-right: 0;
+                    }
                 }
             }
 
-            .wpdtrt-gallery-viewer {
+            #{$block}-viewer {
                 &__caption,
                 &__expand {
                     border: 0;
-                    margin: var(--wpdtrt-gallery-viewer-inset);
                 }
 
                 &__caption-wrapper {
@@ -187,6 +179,38 @@ $icomoon-font-path: '../icons/icomoon/fonts';
                 &__liner {
                     // override inline styles, remove bgcolor so that caption is not fw
                     background: none !important; // stylelint-disable-line declaration-no-important
+                }
+            }
+        }
+    }
+
+    @include media('>=laptop') {
+        &[data-enabled='true'][data-expanded='false'] {
+            #{$block}__header {
+                > * {
+                    margin: var(--wpdtrt-gallery-viewer-inset);
+                }
+            }
+
+            #{$block}-viewer {
+                &__caption,
+                &__expand {
+                    margin: var(--wpdtrt-gallery-viewer-inset);
+                }
+            }
+        }
+
+        &[data-enabled='true'][data-expanded='true'] {
+            #{$block}__header {
+                > * {
+                    border: var(--wpdtrt-gallery-viewer-inset) solid var(--wpdtrt-gallery-border-color);
+                }
+            }
+
+            #{$block}-viewer {
+                &__caption,
+                &__expand {
+                    border: var(--wpdtrt-gallery-viewer-inset) solid var(--wpdtrt-gallery-border-color);
                 }
             }
         }
@@ -215,16 +239,14 @@ $icomoon-font-path: '../icons/icomoon/fonts';
     // FEATURE QUERIES
     // ---------------------------------------------------
 
-    @supports (display: contents) { // Edge+
-        display: contents;
+    @supports (display: grid) and (display: contents) { // Edge+
+        @include media('>=laptop') {
+            display: contents;
+        }
     }
 
     @supports (display: grid) { // Edge+
         @include media('>=laptop') {
-            // -------------------------------------------------------------------
-            // viewer is enabled + collapsed
-            // -------------------------------------------------------------------
-
             &[data-enabled='true'][data-expanded='false'] {
 
                 // grid layout is applied in parent theme
@@ -241,23 +263,15 @@ $icomoon-font-path: '../icons/icomoon/fonts';
 .wpdtrt-gallery-viewer {
     $block: &;
 
-    position: relative; // AP
-    z-index: 1; // stack on top of sticky nav so that text can be selected
-
     &:focus {
         outline: 0;
     }
 
-    &__expand-wrapper {
-        position: relative;
-    }
-
     &__caption,
     &__expand {
-        background-color: var(--wpdtrt-gallery-bg-color); // var(--wpdtrt-gallery-border-color);
+        background-color: var(--wpdtrt-gallery-bg-color);
         color: var(--wpdtrt-gallery-text-color);
         padding: var(--wpdtrt-gallery-viewer-inset-header);
-        border: var(--wpdtrt-gallery-viewer-inset) solid var(--wpdtrt-gallery-border-color);
     }
 
     &__caption {
@@ -292,7 +306,6 @@ $icomoon-font-path: '../icons/icomoon/fonts';
         z-index: 2;
         width: 56px;
         height: 56px;
-        line-height: (56px - 4px - 4px);
         text-shadow: -1px -1px 0 var(--wpdtrt-gallery-border-color),
             1px -1px 0 var(--wpdtrt-gallery-border-color),
             -1px 1px 0 var(--wpdtrt-gallery-border-color),
@@ -303,6 +316,7 @@ $icomoon-font-path: '../icons/icomoon/fonts';
         &::after {
             // the icon
             content: '+';
+            vertical-align: middle;
             font-size: 2em;
             font-weight: 100;
 
@@ -347,7 +361,7 @@ $icomoon-font-path: '../icons/icomoon/fonts';
             outline-offset: var(--wpdtrt-gallery-viewer-inset-inverse);
         }
 
-        @at-root .wpdtrt-gallery-viewer:focus-within & {
+        @at-root #{$block}-viewer:focus-within & {
             outline: var(--wpdtrt-gallery-viewer-inset) solid var(--wpdtrt-gallery-border-color-focus);
             outline-offset: var(--wpdtrt-gallery-viewer-inset-inverse);
         }
@@ -441,6 +455,15 @@ $icomoon-font-path: '../icons/icomoon/fonts';
             }
         }
     }
+
+    @include media('>=laptop') {
+        position: relative; // AP
+        z-index: 1; // stack on top of sticky nav so that text can be selected
+
+        &__expand-wrapper {
+            position: relative; // AP for expand button
+        }
+    }
 }
 
 .wpdtrt-gallery-gallery {
@@ -471,33 +494,17 @@ $icomoon-font-path: '../icons/icomoon/fonts';
     }
 
     &__tab {
-        position: relative;
+        $gutter: 6px;
+
+        display: inline-block;
+        width: 100px;
         background-color: var(--wpdtrt-gallery-bg-color-loading);
         padding: 0;
         border: 0;
-        margin-right: 6px;
-        margin-bottom: 6px;
+        margin: 0 $gutter $gutter 0;
 
-        @for $i from 3 through 3 {
-            .wpdtrt-gallery-gallery.gallery-columns-#{$i} & {
-                $gutter: 6px;
-                width: calc(#{(100 / $i) * 1%} - #{$gutter} + #{$gutter/$i}); // $i columns
-                margin-right: $gutter;
-
-                &:nth-child(#{$i}n) {
-                    margin-right: 0;
-                }
-
-                @at-root .wpdtrt-gallery-gallery.gallery-columns-#{$i} .wpdtrt-gallery-gallery__header ~ .wpdtrt-gallery-gallery__tab {
-                    &:nth-child(#{$i}n) {
-                        margin-right: $gutter;
-                    }
-
-                    &:nth-child(#{$i}n + 1) {
-                        margin-right: 0;
-                    }
-                }
-            }
+        &--last {
+            margin-right: 0;
         }
 
         &:hover,
@@ -521,7 +528,7 @@ $icomoon-font-path: '../icons/icomoon/fonts';
             // this also reveals otherwise-hidden keyboard shortcuts to mouse users
             ~ #{$block}__tab-hint {
                 #{$block}__tab-hint-liner {
-                    @extend .wpdtrt-gallery__visuallyshown;
+                    @extend %wpdtrt-gallery-visuallyshown;
                 }
             }
         }
@@ -609,7 +616,7 @@ $icomoon-font-path: '../icons/icomoon/fonts';
     &__tab-hint-liner {
         // toggle on on tab focus
 
-        @extend .wpdtrt-gallery__visuallyhidden;
+        @extend %wpdtrt-gallery-visuallyhidden;
 
         color: var(--wpdtrt-gallery-tab-hint-color);
         padding-top: 16px;
@@ -629,9 +636,15 @@ $icomoon-font-path: '../icons/icomoon/fonts';
     // MEDIA QUERIES
     // ---------------------------------------------------
 
-    @include media('>=tablet') {
-        &__tab {
-            max-width: 100px;
+    @include media('<laptop') {
+        width: 100%;
+        height: (100px + 6px);
+        white-space: nowrap;
+        overflow-x: auto;
+        overflow-y: hidden;
+
+        &__header {
+            @include wpdtrt-gallery-visuallyhidden; // as whitespace:nowrap means it can't display on top.
         }
     }
 
@@ -640,7 +653,36 @@ $icomoon-font-path: '../icons/icomoon/fonts';
         overflow-x: visible;
 
         &__tab {
-            max-width: none;
+            $gutter: 6px;
+
+            @for $i from 3 through 3 {
+                #{$block}.gallery-columns-#{$i} & {
+                    width: calc(#{(100 / $i) * 1%} - #{$gutter} + #{$gutter/$i}); // $i columns
+                    margin-right: $gutter;
+
+                    &,
+                    &--last {
+                        // remove the gutter from the last item in every 'row'
+                        &:nth-child(#{$i}n) {
+                            margin-right: 0;
+                        }
+                    }
+
+                    // if there is a header, it is the first item
+                    @at-root #{$block}.gallery-columns-#{$i} #{$block}__header ~ #{$block}__tab {
+                        &,
+                        &--last {
+                            &:nth-child(#{$i}n) {
+                                margin-right: $gutter;
+                            }
+
+                            &:nth-child(#{$i}n + 1) {
+                                margin-right: 0;
+                            }
+                        }
+                    }
+                }
+            }
 
             &,
             &:hover {
