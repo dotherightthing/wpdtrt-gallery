@@ -1113,14 +1113,14 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 				$tabpanel_attrs .= " aria-labelledby='{$tabpanel_props['tab_id']}'";
 
 				if ( $tabpanel_props['rwgps_pageid'] ) {
-					$tabpanel_attrs .= " tabindex='0'";
+					$tabpanel_attrs .= " data-iframe='true'";
 					$tabpanel_attrs .= " data-rwgps-pageid='true'";
 				} elseif ( $tabpanel_props['soundcloud_pageid'] && $tabpanel_props['soundcloud_trackid'] ) {
-					$tabpanel_attrs .= " tabindex='0'";
+					$tabpanel_attrs .= " data-iframe='true'";
 					$tabpanel_attrs .= " data-soundcloud-pageid='true'";
 					$tabpanel_attrs .= " data-soundcloud-trackid='true'";
 				} elseif ( $tabpanel_props['vimeo_pageid'] ) {
-					$tabpanel_attrs .= " tabindex='0'";
+					$tabpanel_attrs .= " data-iframe='true'";
 					$tabpanel_attrs .= " data-vimeo-pageid='true'";
 				} elseif ( '1' === $tabpanel_props['panorama'] ) {
 					// tabindex added on image wrapper instead.

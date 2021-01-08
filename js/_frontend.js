@@ -352,7 +352,7 @@ const wpdtrtGalleryUi = {
                 $expandButton
                     .prop('disabled', true);
 
-                $tabpanel.not('[data-panorama]')
+                $tabpanel.not('[data-panorama]').not('[data-iframe]')
                     .attr('tabindex', '0');
             } else {
                 $expandButton
