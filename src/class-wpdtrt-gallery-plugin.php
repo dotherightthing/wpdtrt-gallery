@@ -630,8 +630,6 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 	 * - <https://gist.github.com/mjsdiaz/7204576>
 	 */
 	public function filter_gallery_html( $output = '', $attr = null, $instance = null ) {
-		global $debug;
-
 		$post = get_post();
 
 		static $instance = 0;
