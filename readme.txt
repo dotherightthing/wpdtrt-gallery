@@ -6,7 +6,7 @@ Tags: gallery, video, audio, map
 Requires at least: 5.3.3
 Tested up to: 5.3.3
 Requires PHP: 7.2.15
-Stable tag: 2.0.1
+Stable tag: 2.0.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -27,6 +27,18 @@ Gallery viewer which supports images, panoramas, maps, SoundCloud and Vimeo.
 See [WordPress Usage](README.md#wordpress-usage).
 
 == Changelog ==
+
+= 2.0.2 =
+* [94dcf02] Lint SCSS
+* [f680826] Remove extra border above soundcloud iframe
+* [627eba7] Manage focus outlines in theme
+* [16f23f4] Allow user to drag panel image as the panorama mouseover pan has been removed
+* [717c8c1] Manage outline offset in theme
+* [3362669] Don't add a tabindex to the tabpanel when it contains an iframe containing focusable content controls
+* [84c05a3] Replace JS panorama panning with keyboard panning-on-focus
+* [ac4ca8d] Housekeeping
+* [ef748bc] Improve mobile layout
+* [3eeab85] Add class to last tab
 
 = 2.0.1 =
 * [3e86952] Remove broken script from package.json
