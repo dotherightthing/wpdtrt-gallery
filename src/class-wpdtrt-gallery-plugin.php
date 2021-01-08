@@ -548,10 +548,9 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 	 *   $html - HTML
 	 */
 	public function render_tabpanel_image( Array $tabpanel_props, string $tabpanelimageclass, string $tabpanelimagetag ) : string {
-		$html        = '';
-		$image       = $tabpanel_props['image'];
-		$image_attrs = " id='{$tabpanel_props['media_id']}'";
-
+		$html                = '';
+		$image               = $tabpanel_props['image'];
+		$image_attrs         = " id='{$tabpanel_props['media_id']}'";
 		$tabpanelimage_attrs = '';
 
 		if ( '' !== $tabpanelimageclass ) {
@@ -1105,19 +1104,10 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 
 				$image_meta = wp_get_attachment_metadata( $att_id );
 
-				// $image_size_mobile        = 'wpdtrt-gallery-mobile'; // TODO not implemented, needs enquire.js.
-				//
-				// $orientation  = '';
-				// if ( isset( $image_meta['height'], $image_meta['width'] ) ) {
-				// $orientation = ( $image_meta['height'] > $image_meta['width'] ) ? 'portrait' : 'landscape';
-				// }
-				// .
 				$tabpanel_attrs  = " role='tabpanel'";
 				$tabpanel_attrs .= " id='{$tabpanel_props['tabpanel_id']}'";
 				$tabpanel_attrs .= " aria-labelledby='{$tabpanel_props['tab_id']}'";
 				$tabpanel_attrs .= " tabindex='0'";
-				// $tabpanel_attrs .= " data-id='{$id}'";
-				// .
 				if ( $tabpanel_props['rwgps_pageid'] ) {
 					$tabpanel_attrs .= " data-rwgps-pageid='true'";
 				} elseif ( $tabpanel_props['soundcloud_pageid'] && $tabpanel_props['soundcloud_trackid'] ) {
@@ -1131,8 +1121,6 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 				} else {
 					$tabpanel_attrs .= " data-src-desktop='{$tabpanel_props['image_src']}'";
 					$tabpanel_attrs .= " data-src-desktop-expanded='{$tabpanel_props['image_expanded_src']}'";
-					// $img_src_mobile   = wp_get_attachment_image_src( $att_id, $image_size_mobile )[0];
-					// $tabpanel_attrs  .= " data-src-mobile='{$img_src_mobile}'";
 				}
 
 				if ( '' !== $tabpanel_props['latitude'] ) {
