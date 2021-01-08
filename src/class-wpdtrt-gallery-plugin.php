@@ -658,6 +658,12 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 		 * @param array  $attr     Attributes of the gallery shortcode.
 		 * @param int    $instance Unique numeric ID of this gallery shortcode instance.
 		 */
+		$output = '';
+
+		if ( ! empty( $output ) ) {
+			return $output;
+		}
+
 		$html5 = current_theme_supports( 'html5', 'gallery' );
 		$atts  = shortcode_atts(
 			array(
@@ -721,7 +727,7 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 			'gallery'
 		);
 
-		$id = intval( $atts['id'] );
+		$id = (int) $atts['id'];
 
 		if ( ! empty( $atts['include'] ) ) {
 			$_attachments = get_posts( // phpcs:ignore
@@ -799,7 +805,7 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 			$icontag = 'dt';
 		}
 
-		$columns   = intval( $atts['columns'] );
+		$columns   = (int) $atts['columns'];
 		$itemwidth = $columns > 0 ? floor( 100 / $columns ) : 100;
 		$float     = is_rtl() ? 'right' : 'left';
 
@@ -930,8 +936,8 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 			</style>\n\t\t";
 		}
 
-		$size_class = sanitize_html_class( $atts['size'] );
-		$output     = '';
+		$size_class  = sanitize_html_class( is_array( $atts['size'] ) ? implode( 'x', $atts['size'] ) : $atts['size'] );
+		$gallery_div = "<div id='$selector' class='gallery galleryid-{$id} gallery-columns-{$columns} gallery-size-{$size_class}'>";
 
 		/**
 		 * START TABS PATTERN
@@ -969,8 +975,6 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 		 * START TABLIST
 		 */
 
-		$gallery_div = "<div id='$selector' class='gallery gallery-columns-{$columns} gallery-size-{$size_class}'>";
-
 		/**
 		 * Filters the default gallery shortcode CSS styles.
 		 *
@@ -988,26 +992,22 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 			$output .= apply_filters( 'gallery_style', $gallery_style . $gallery_div ) . "\n";
 		}
 
-		$count = 0;
-		$i     = 0;
+		$i = 0;
 
-		foreach ( $attachments as $att_id => $attachment ) {
-
-			++$count;
-
-			$attr = ( $attachment->post_excerpt && ! $usetabspattern ) ? array( 'aria-describedby' => "$selector-$att_id" ) : '';
+		foreach ( $attachments as $id => $attachment ) {
+			$attr = ( $attachment->post_excerpt && ! $usetabspattern ) ? array( 'aria-describedby' => "$selector-$id" ) : '';
 
 			if ( ! empty( $atts['link'] ) && 'file' === $atts['link'] ) {
-				$image_output = wp_get_attachment_link( $att_id, $atts['size'], false, false, false, $attr );
+				$image_output = wp_get_attachment_link( $id, $atts['size'], false, false, false, $attr );
 			} elseif ( ! empty( $atts['link'] ) && 'none' === $atts['link'] && $usetabspattern ) {
 				$image_output = '';
 			} elseif ( ! empty( $atts['link'] ) && 'none' === $atts['link'] ) {
-				$image_output = wp_get_attachment_image( $att_id, $atts['size'], false, $attr );
+				$image_output = wp_get_attachment_image( $id, $atts['size'], false, $attr );
 			} else {
-				$image_output = wp_get_attachment_link( $att_id, $atts['size'], true, false, false, $attr );
+				$image_output = wp_get_attachment_link( $id, $atts['size'], true, false, false, $attr );
 			}
 
-			$image_meta = wp_get_attachment_metadata( $att_id );
+			$image_meta = wp_get_attachment_metadata( $id );
 
 			$orientation = '';
 
@@ -1015,35 +1015,29 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 				$orientation = ( $image_meta['height'] > $image_meta['width'] ) ? 'portrait' : 'landscape';
 			}
 
-			if ( $itemtag && ! $usetabspattern ) {
-				$output .= "<{$itemtag} class='gallery-item'>";
-			}
-
-			if ( $icontag && ! $usetabspattern ) {
-				$output .= "<{$icontag} class='gallery-icon {$orientation}'>";
-			}
-
 			if ( ! $usetabspattern ) {
-				$output .= $image_output;
-			}
-
-			if ( $icontag && ! $usetabspattern ) {
-				$output .= "</{$icontag}>";
-			}
-
-			if ( $captiontag && trim( $attachment->post_excerpt ) && ! $usetabspattern ) {
+				$output .= "<{$itemtag} class='gallery-item'>";
 				$output .= "
-					<{$captiontag} class='wp-caption-text gallery-caption' id='$selector-$att_id'>
-					" . wptexturize( $attachment->post_excerpt ) . "
-					</{$captiontag}>";
-			}
+					<{$icontag} class='gallery-icon {$orientation}'>
+						$image_output
+					</{$icontag}>";
 
-			if ( $itemtag && ! $usetabspattern ) {
+				if ( $captiontag && trim( $attachment->post_excerpt ) ) {
+					$output .= "
+						<{$captiontag} class='wp-caption-text gallery-caption' id='$selector-$id'>
+						" . wptexturize( $attachment->post_excerpt ) . "
+						</{$captiontag}>";
+				}
 				$output .= "</{$itemtag}>";
+
+				if ( ! $html5 && $columns > 0 && 0 === ++$i % $columns ) { // phpcs:ignore
+					$output .= '<br style="clear: both" />';
+				}
 			}
 
-			if ( ! $html5 && $columns > 0 && 0 === ++$i % $columns && ! $usetabspattern ) { // phpcs:ignore
-				$output .= '<br style="clear: both" />';
+			if ( ! $html5 && $columns > 0 && 0 !== $i % $columns ) {
+				$output .= "
+					<br style='clear: both' />";
 			}
 		}
 
@@ -1057,9 +1051,9 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 			}
 
 			$output .= $this->render_tab_hint( $gallery_props, $tabpanel_props, $tabkeyboardhintclass, $tabkeyboardhintlinerclass, $iconclasskeyboardhint, $tabkeyboardtitletag, $tabkeyboardtitleclass, $tabkeyboardtitletext, $tabkeyboardhinttextlines );
+			$output .= "
+				</div>\n";
 		}
-
-		$output .= '</div>';
 
 		/**
 		 * END TABLIST
