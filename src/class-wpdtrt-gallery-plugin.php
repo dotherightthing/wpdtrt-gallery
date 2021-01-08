@@ -558,6 +558,10 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 			$tabpanelimage_attrs .= " class='{$tabpanelimageclass} {$tabpanel_props['iconclass']}'";
 		}
 
+		if ( '1' === $tabpanel_props['panorama'] ) {
+			$tabpanelimage_attrs .= " tabindex='0'"; // allow panning via keyboard arrows.
+		}
+
 		$html .= "<{$tabpanelimagetag}{$tabpanelimage_attrs}>";
 
 		// inject ID for aria-controls, as we don't know this when filter_image_attributes is applied.
@@ -1107,18 +1111,23 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 				$tabpanel_attrs  = " role='tabpanel'";
 				$tabpanel_attrs .= " id='{$tabpanel_props['tabpanel_id']}'";
 				$tabpanel_attrs .= " aria-labelledby='{$tabpanel_props['tab_id']}'";
-				$tabpanel_attrs .= " tabindex='0'";
+
 				if ( $tabpanel_props['rwgps_pageid'] ) {
+					$tabpanel_attrs .= " tabindex='0'";
 					$tabpanel_attrs .= " data-rwgps-pageid='true'";
 				} elseif ( $tabpanel_props['soundcloud_pageid'] && $tabpanel_props['soundcloud_trackid'] ) {
+					$tabpanel_attrs .= " tabindex='0'";
 					$tabpanel_attrs .= " data-soundcloud-pageid='true'";
 					$tabpanel_attrs .= " data-soundcloud-trackid='true'";
 				} elseif ( $tabpanel_props['vimeo_pageid'] ) {
+					$tabpanel_attrs .= " tabindex='0'";
 					$tabpanel_attrs .= " data-vimeo-pageid='true'";
 				} elseif ( '1' === $tabpanel_props['panorama'] ) {
+					// tabindex added on image wrapper instead.
 					$tabpanel_attrs .= " data-src-panorama='{$tabpanel_props['image_src']}'";
 					$tabpanel_attrs .= " data-panorama='true'";
 				} else {
+					$tabpanel_attrs .= " tabindex='0'";
 					$tabpanel_attrs .= " data-src-desktop='{$tabpanel_props['image_src']}'";
 					$tabpanel_attrs .= " data-src-desktop-expanded='{$tabpanel_props['image_expanded_src']}'";
 				}

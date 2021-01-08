@@ -122,7 +122,6 @@ const wpdtrtGalleryUi = {
                 .prepend(`<div class="wpdtrt-gallery-viewer__expand-wrapper"><button class="wpdtrt-gallery-viewer__expand" aria-controls="${mediaId}" aria-expanded="false"><span class="says">Expand</span></button></div>`);
 
             // wpdtrtGalleryUi.initImageLazyLoading($tabpanel);
-            wpdtrtGalleryUi.initPanoramaScrolling($tabpanel, $);
         });
 
         const $expandButton = $gallery.find('.wpdtrt-gallery-viewer__expand');
@@ -218,87 +217,6 @@ const wpdtrtGalleryUi = {
                 const desktopSrc = $tabpanel.data('src-desktop');
                 $img.attr('src', desktopSrc);
             }
-        }
-    },
-
-    /**
-     * @function initPanoramaScrolling
-     * @summary Setup the gallery panorama.
-     * @memberof wpdtrtGalleryUi
-     * @protected
-     *
-     * @param {external:jQuery} $tabpanel - jQuery gallery viewer
-     * @param {external:jQuery} $ - jQuery
-     * {@link https://stackoverflow.com/a/17308232/6850747}
-     * @since 3.0.0
-     * @todo Add startPosition parameter in media.php (panoramaPositionX)
-     * @todo Error - #57
-     */
-    initPanoramaScrolling: function ($tabpanel, $) {
-        const panorama = $tabpanel.data('panorama');
-        const $galleryImgWrapper = $tabpanel.find('.wpdtrt-gallery-viewer__img-wrapper');
-        let galleryScrollTimer;
-
-        if (panorama) {
-            // 'data-panorama toggles the overflow-x scrollbar
-            // which provides the correct $el[ 0 ].scrollWidth value
-
-            // TODO move into separate file, add a data- attribute
-            // timeout ensures that the related CSS has taken effect
-            setTimeout(() => {
-                const uiWidth = $galleryImgWrapper.outerWidth(true); // setTimeout reqd for this value
-                const actualWidth = $galleryImgWrapper[0].scrollWidth;
-                const wDiff = (actualWidth / uiWidth); // widths difference ratio
-                const mPadd = 75; // Mousemove padding
-                const damp = 10; // Mousemove response softness
-                let mX = 0; // Real mouse position
-                let mX2 = 0; // Modified mouse position
-                let posX = 0;
-                const mmAA = uiWidth - (mPadd * 2); // The mousemove available area
-                const mmAAr = (uiWidth / mmAA); // get available mousemove difference ratio
-                let tabindex = null;
-
-                $galleryImgWrapper
-                    .on('mousemove.galleryScroll', function (event) {
-                        mX = event.pageX - $(this).offset().left;
-                        mX2 = Math.min(Math.max(0, mX - mPadd), mmAA) * mmAAr;
-                    })
-                    .on('mouseenter.galleryScroll', () => {
-                        galleryScrollTimer = setInterval(() => {
-                            posX += (mX2 - posX) / damp; // zeno's paradox equation 'catching delay'
-                            $galleryImgWrapper.scrollLeft(posX * wDiff);
-                        }, 10);
-
-                        tabindex = $tabpanel.attr('data-tabindex');
-
-                        if (tabindex) {
-                            $tabpanel
-                                .attr('tabindex', tabindex)
-                                .removeAttr('data-tabindex');
-                        }
-                    })
-                    .on('mouseleave.galleryScroll', () => {
-                        clearInterval(galleryScrollTimer);
-                    })
-                    .on('mousedown.galleryScroll', () => {
-                        // Use the scroll bar without fighting the cursor-based panning
-                        clearInterval(galleryScrollTimer);
-
-                        // Prevent viewer container from stealing the focus
-                        tabindex = $tabpanel.attr('tabindex');
-
-                        if (tabindex) {
-                            $tabpanel
-                                .attr('data-tabindex', tabindex)
-                                .removeAttr('tabindex');
-                        }
-                    })
-                    .on('mouseup.galleryScroll', () => {
-                        // Reactivate the cursor-based panning
-                        $galleryImgWrapper
-                            .trigger('mouseenter.galleryScroll');
-                    });
-            }, 100);
         }
     },
 
@@ -434,7 +352,7 @@ const wpdtrtGalleryUi = {
                 $expandButton
                     .prop('disabled', true);
 
-                $tabpanel
+                $tabpanel.not('[data-panorama]')
                     .attr('tabindex', '0');
             } else {
                 $expandButton
