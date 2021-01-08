@@ -618,7 +618,7 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 	 * Set attachment defaults.
 	 *
 	 * Note:
-	 * - Duplicated from wp-includes/media.php and enhanced
+	 * - Duplicated from ./wp-includes/media.php/gallery_shortcode and enhanced
 	 * - This affects the front-end, overriding the selections in wp-admin.
 	 *
 	 * Parameters:
