@@ -42,10 +42,7 @@ $icomoon-font-path: '../icons/icomoon/fonts';
     &__header {
         position: relative; // AP
         z-index: 2;
-        min-height: 56px; // height of AP expand button
-        padding-right: 72px; // space for expand button, running the border underneath
-        border-bottom: 3px solid var(--wpdtrt-gallery-bg-color);
-        margin-bottom: 6px;
+        margin-bottom: 24px;
 
         > * {
             display: inline-block;
@@ -56,9 +53,14 @@ $icomoon-font-path: '../icons/icomoon/fonts';
         }
     }
 
-    // -------------------------------------------------------------------
-    // viewer is enabled + expanded
-    // -------------------------------------------------------------------
+    &[data-enabled='true'] {
+        #{$block}__header {
+            min-height: 56px; // height of AP expand button
+            padding-right: 72px; // space for expand button, running the border underneath
+            border-bottom: 3px solid var(--wpdtrt-gallery-bg-color);
+            margin-bottom: 6px;
+        }
+    }
 
     &[data-enabled='true'][data-expanded='true'] {
         #{$block}-viewer {
@@ -101,6 +103,14 @@ $icomoon-font-path: '../icons/icomoon/fonts';
             }
         }
 
+        &[data-enabled='false'] {
+            #{$block}__header {
+                > * {
+                    border: var(--wpdtrt-gallery-viewer-inset) solid var(--wpdtrt-gallery-border-color);
+                }
+            }
+        }
+
         &[data-enabled='true'][data-expanded='false'] {
             #{$block}__header {
                 > * {
@@ -137,10 +147,12 @@ $icomoon-font-path: '../icons/icomoon/fonts';
     }
 
     @include media('>=laptop') {
-        &__header {
-            padding-right: 0;
-            border-bottom: 0;
-            margin-right: 72px; // space for expand button
+        &[data-enabled='true'] {
+            #{$block}__header {
+                padding-right: 0;
+                border-bottom: 0;
+                margin-right: 72px; // space for expand button
+            }
         }
 
         &[data-enabled='true'][data-expanded='false'] {
@@ -155,6 +167,7 @@ $icomoon-font-path: '../icons/icomoon/fonts';
             #{$block}__header {
                 > * {
                     z-index: 2; // stack on top of sticky nav so that text can be selected
+                    margin: var(--wpdtrt-gallery-viewer-inset);
 
                     .attachment & { // ?
                         padding-right: 0;
@@ -166,6 +179,7 @@ $icomoon-font-path: '../icons/icomoon/fonts';
                 &__caption,
                 &__expand {
                     border: 0;
+                    margin: var(--wpdtrt-gallery-viewer-inset);
                 }
 
                 &__caption-wrapper {
@@ -182,20 +196,11 @@ $icomoon-font-path: '../icons/icomoon/fonts';
                 }
             }
         }
-    }
 
-    @include media('>=laptop') {
-        &[data-enabled='true'][data-expanded='false'] {
+        &[data-enabled='false'] {
             #{$block}__header {
                 > * {
-                    margin: var(--wpdtrt-gallery-viewer-inset);
-                }
-            }
-
-            #{$block}-viewer {
-                &__caption,
-                &__expand {
-                    margin: var(--wpdtrt-gallery-viewer-inset);
+                    border: var(--wpdtrt-gallery-viewer-inset) solid var(--wpdtrt-gallery-border-color);
                 }
             }
         }
@@ -236,7 +241,7 @@ $icomoon-font-path: '../icons/icomoon/fonts';
     }
 
     // ---------------------------------------------------
-    // FEATURE QUERIES
+    // FEATURE * MEDIA QUERIES
     // ---------------------------------------------------
 
     @supports (display: grid) and (display: contents) { // Edge+
@@ -263,6 +268,11 @@ $icomoon-font-path: '../icons/icomoon/fonts';
 .wpdtrt-gallery-viewer {
     $block: &;
 
+    &__caption-wrapper {
+        line-height: 1; // remove gap between expanded viewer and caption
+        text-align: right;
+    }
+
     &__caption,
     &__expand {
         background-color: var(--wpdtrt-gallery-bg-color);
@@ -283,13 +293,6 @@ $icomoon-font-path: '../icons/icomoon/fonts';
         &:empty {
             display: none;
         }
-    }
-
-    &__iframe {
-        position: relative;
-        z-index: 1; // make buttons clickable
-        border: 0;
-        overflow: hidden;
     }
 
     // viewer expand/collapse button
@@ -343,9 +346,11 @@ $icomoon-font-path: '../icons/icomoon/fonts';
         }
     }
 
-    &__caption-wrapper {
-        line-height: 1; // remove gap between expanded viewer and caption
-        text-align: right;
+    &__iframe {
+        position: relative;
+        z-index: 1; // make buttons clickable
+        border: 0;
+        overflow: hidden;
     }
 
     &__img-wrapper {
@@ -371,16 +376,6 @@ $icomoon-font-path: '../icons/icomoon/fonts';
             opacity: 0;
         }
     }
-
-    // ?
-    //
-    // &[data-attachment] {
-    //     #{$block}__caption {
-    //         p {
-    //             margin-bottom: 0;
-    //         }
-    //     }
-    // }
 
     &__tabpanel {
 
@@ -551,6 +546,29 @@ $icomoon-font-path: '../icons/icomoon/fonts';
         }
     }
 
+    &__tab-hint {
+        // always visible as linked via aria-describedby
+    }
+
+    &__tab-hint-liner {
+        // toggle on on tab focus
+
+        @extend %wpdtrt-gallery-visuallyhidden;
+
+        color: var(--wpdtrt-gallery-tab-hint-color);
+        padding-top: 16px;
+        border-top: 1px solid var(--wpdtrt-gallery-tab-hint-border-color);
+        margin-top: 20px;
+        margin-bottom: 24px;
+
+        ul,
+        li {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+    }
+
     &__tab-liner {
         display: block; // better transition over state
         position: relative; // AP for hover border
@@ -584,29 +602,6 @@ $icomoon-font-path: '../icons/icomoon/fonts';
                 font-size: 1.1em;
                 line-height: .8;
             }
-        }
-    }
-
-    &__tab-hint {
-        // always visible as linked via aria-describedby
-    }
-
-    &__tab-hint-liner {
-        // toggle on on tab focus
-
-        @extend %wpdtrt-gallery-visuallyhidden;
-
-        color: var(--wpdtrt-gallery-tab-hint-color);
-        padding-top: 16px;
-        border-top: 1px solid var(--wpdtrt-gallery-tab-hint-border-color);
-        margin-top: 20px;
-        margin-bottom: 24px;
-
-        ul,
-        li {
-            list-style: none;
-            padding: 0;
-            margin: 0;
         }
     }
 
@@ -679,21 +674,6 @@ $icomoon-font-path: '../icons/icomoon/fonts';
 
         &__tab-hint-liner {
             margin-bottom: 0;
-        }
-    }
-
-    @include media('>=desktop') {
-        &__tab {
-
-            // if there is only one thumbnail, do display it
-            &,
-            &:first-child {
-                &:last-child {
-                    .js & {
-                        display: block;
-                    }
-                }
-            }
         }
     }
 
