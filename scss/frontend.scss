@@ -263,10 +263,6 @@ $icomoon-font-path: '../icons/icomoon/fonts';
 .wpdtrt-gallery-viewer {
     $block: &;
 
-    &:focus {
-        outline: 0;
-    }
-
     &__caption,
     &__expand {
         background-color: var(--wpdtrt-gallery-bg-color);
@@ -355,16 +351,6 @@ $icomoon-font-path: '../icons/icomoon/fonts';
     &__img-wrapper {
         min-width: 100%;
         background-color: var(--wpdtrt-gallery-bg-color-loading);
-
-        :focus & {
-            outline: var(--wpdtrt-gallery-viewer-inset) solid var(--wpdtrt-gallery-border-color-focus);
-            outline-offset: var(--wpdtrt-gallery-viewer-inset-inverse);
-        }
-
-        @at-root #{$block}-viewer:focus-within & {
-            outline: var(--wpdtrt-gallery-viewer-inset) solid var(--wpdtrt-gallery-border-color-focus);
-            outline-offset: var(--wpdtrt-gallery-viewer-inset-inverse);
-        }
 
         > img {
             display: block; // respect width and height
