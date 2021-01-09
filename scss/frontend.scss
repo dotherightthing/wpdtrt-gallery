@@ -446,6 +446,11 @@ $icomoon-font-path: '../icons/icomoon/fonts';
     $block: &;
 
     position: relative; // stack on top of sticky nav
+    width: 100%;
+    height: (100px + 6px);
+    white-space: nowrap;
+    overflow-x: auto; // scrollable row of thumbnails
+    overflow-y: hidden;
 
     .js {
         &[style] {
@@ -455,6 +460,8 @@ $icomoon-font-path: '../icons/icomoon/fonts';
     }
 
     &__header {
+        @extend %wpdtrt-gallery-visuallyhidden;
+
         background-color: var(--wpdtrt-gallery-title-background-color);
         color: var(--wpdtrt-gallery-title-color);
         padding: 2px 0;
@@ -609,73 +616,9 @@ $icomoon-font-path: '../icons/icomoon/fonts';
     // MEDIA QUERIES
     // ---------------------------------------------------
 
-    @include media('<laptop') {
-        width: 100%;
-        height: (100px + 6px);
-        white-space: nowrap;
-        overflow-x: auto;
-        overflow-y: hidden;
-
-        &__header {
-            @include wpdtrt-gallery-visuallyhidden; // as whitespace:nowrap means it can't display on top.
-        }
-    }
-
-    @include media('>=laptop') {
-        margin-bottom: 40px;
-        overflow-x: visible;
-
-        &__tab {
-            $gutter: 6px;
-
-            @for $i from 3 through 3 {
-                #{$block}.gallery-columns-#{$i} & {
-                    width: calc(#{(100 / $i) * 1%} - #{$gutter} + #{$gutter/$i}); // $i columns
-                    margin-right: $gutter;
-
-                    &,
-                    &--last {
-                        // remove the gutter from the last item in every 'row'
-                        &:nth-child(#{$i}n) {
-                            margin-right: 0;
-                        }
-                    }
-
-                    // if there is a header, it is the first item
-                    @at-root #{$block}.gallery-columns-#{$i} #{$block}__header ~ #{$block}__tab {
-                        &,
-                        &--last {
-                            &:nth-child(#{$i}n) {
-                                margin-right: $gutter;
-                            }
-
-                            &:nth-child(#{$i}n + 1) {
-                                margin-right: 0;
-                            }
-                        }
-                    }
-                }
-            }
-
-            &,
-            &:hover {
-                margin-bottom: 6px;
-            }
-
-            // if there is only one thumbnail, do display it
-            &:first-child {
-                &:last-child {
-                    .js & {
-                        display: inline-block;
-                    }
-                }
-            }
-        }
-
-        &__tab-hint-liner {
-            margin-bottom: 0;
-        }
-    }
+    // Desktop layout is handled in parent theme
+    // as reformatting is dependent on the technologies
+    // used there.
 
     @media print {
         display: none !important; /* stylelint-disable-line declaration-no-important */
