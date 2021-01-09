@@ -500,10 +500,8 @@ $tab-gutter-mobile-vert: 20px; // allows for visible Windows 10 overflow scrollb
                 }
             }
 
-            #{$block}__tabpanels {
-                &__expand {
-                    border: var(--wpdtrt-gallery-inset) solid var(--wpdtrt-gallery-border-color);
-                }
+            #{$block}__expand {
+                border: var(--wpdtrt-gallery-inset) solid var(--wpdtrt-gallery-border-color);
             }
         }
 
@@ -514,11 +512,9 @@ $tab-gutter-mobile-vert: 20px; // allows for visible Windows 10 overflow scrollb
                 }
             }
 
-            #{$block}__tabpanels {
-                &__caption,
-                &__expand {
-                    border: var(--wpdtrt-gallery-inset) solid var(--wpdtrt-gallery-border-color);
-                }
+            #{$block}__caption,
+            #{$block}__expand {
+                border: var(--wpdtrt-gallery-inset) solid var(--wpdtrt-gallery-border-color);
             }
         }
     }
