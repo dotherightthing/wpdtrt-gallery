@@ -95,8 +95,8 @@ const wpdtrtGalleryUi = {
      */
     initGallery: function ($, $gallery) {
         const $tabs = $gallery.find('[role="tab"]');
-        const $viewer = $gallery.find('.wpdtrt-gallery-viewer');
-        const $viewerLiner = $viewer.find('.wpdtrt-gallery-viewer__liner');
+        const $viewer = $gallery.find('.wpdtrt-gallery__tabpanels');
+        const $viewerLiner = $viewer.find('.wpdtrt-gallery__tabpanels-liner');
         const $tabPanels = $viewer.find('[role="tabpanel"]');
 
         $viewerLiner
@@ -119,12 +119,12 @@ const wpdtrtGalleryUi = {
             }
 
             $tabpanel
-                .prepend(`<div class="wpdtrt-gallery-viewer__expand-wrapper"><button class="wpdtrt-gallery-viewer__expand" aria-controls="${mediaId}" aria-expanded="false"><span class="says">Expand</span></button></div>`);
+                .prepend(`<div class="wpdtrt-gallery__expand-wrapper"><button class="wpdtrt-gallery__expand" aria-controls="${mediaId}" aria-expanded="false"><span class="says">Expand</span></button></div>`);
 
             // wpdtrtGalleryUi.initImageLazyLoading($tabpanel);
         });
 
-        const $expandButton = $gallery.find('.wpdtrt-gallery-viewer__expand');
+        const $expandButton = $gallery.find('.wpdtrt-gallery__expand');
 
         wpdtrtGalleryUi.trackOnHover($, $expandButton);
 
@@ -230,7 +230,7 @@ const wpdtrtGalleryUi = {
      * @since 1.3.0
      */
     resetGalleryState: ($gallery) => {
-        const $expandButton = $gallery.find('.wpdtrt-gallery-viewer__expand');
+        const $expandButton = $gallery.find('.wpdtrt-gallery__expand');
 
         // remove forced expand used by panorama & iframe viewers
         $gallery
@@ -282,10 +282,10 @@ const wpdtrtGalleryUi = {
      * @todo pubsub or observer to fix expand button after keyboard-activated tabpanel change
      */
     toggleExpanded: function ($, $gallery, triggered) {
-        const $expandButton = $gallery.find('.wpdtrt-gallery-viewer__expand');
+        const $expandButton = $gallery.find('.wpdtrt-gallery__expand');
         const $expandButtonText = $expandButton.find('.says');
         const $section = $gallery.parents('.wpdtrt-gallery__section').eq(0);
-        const $tabpanel = $gallery.find('.wpdtrt-gallery-viewer__tabpanel');
+        const $tabpanel = $gallery.find('.wpdtrt-gallery__tabpanel');
         const $visibleTabPanel = $gallery.find('[role="tabpanel"]:not([hidden])');
         const $visibleTabPanelImg = $visibleTabPanel.find('img');
 
@@ -397,7 +397,7 @@ const wpdtrtGalleryUi = {
      * @since 1.3.0
      */
     triggerToggleExpanded: ($tabpanel) => {
-        const $expandButton = $tabpanel.find('.wpdtrt-gallery-viewer__expand');
+        const $expandButton = $tabpanel.find('.wpdtrt-gallery__expand');
 
         // setup viewer
         $expandButton.trigger('click');
@@ -415,7 +415,7 @@ const wpdtrtGalleryUi = {
      * @since 1.8.7
      */
     trackOnHover: function ($, $element) {
-        const trackingClass = 'wpdtrt-gallery-viewer--track';
+        const trackingClass = 'wpdtrt-gallery__tabpanels--track';
 
         $element
             .on('mouseenter focus', function () {

@@ -469,9 +469,9 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 		$html = '';
 
 		// TODO replace with inline icon.
-		$embed_attrs   = " class='wpdtrt-gallery-viewer__iframe-wrapper {$tabpanel_props['iconclass']}'";
+		$embed_attrs   = " class='wpdtrt-gallery__iframe-wrapper {$tabpanel_props['iconclass']}'";
 		$iframe_attrs  = " aria-describedby='{$tabpanel_props['caption_id']}'";
-		$iframe_attrs .= " class='wpdtrt-gallery-viewer__iframe'";
+		$iframe_attrs .= " class='wpdtrt-gallery__iframe'";
 		$iframe_attrs .= " id='{$tabpanel_props['media_id']}'";
 
 		if ( $tabpanel_props['iframe'] ) {
@@ -714,7 +714,6 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 				'tabpanelcaptionclass'      => '',
 				'tabpanelcaptionlinerclass' => '',
 				'tabpanelcaptiontag'        => $html5 ? 'figcaption' : 'dd',
-				'tabpanelcontrolsclass'     => '',
 				'tabpanelclass'             => '',
 				'tabpanelimageclass'        => '',
 				'tabpanelimagesize'         => '',
@@ -1241,31 +1240,30 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 		$result['iconclasskeyboardhint']     = 'wpdtrt-gallery-icon-keyboard-o';
 		$result['iconclassmousehint']        = 'wpdtrt-gallery-icon-hand-pointer-o';
 		$result['iconclassrvimeo']           = 'wpdtrt-gallery-icon-vimeo';
-		$result['tabclass']                  = 'wpdtrt-gallery-gallery__tab';
+		$result['tabclass']                  = 'wpdtrt-gallery__tab';
 		$result['tabtag']                    = 'button';
 		$result['tabkeyboardtitletag']       = 'h4';
-		$result['tabkeyboardtitleclass']     = 'wpdtrt-gallery-gallery__header';
+		$result['tabkeyboardtitleclass']     = 'wpdtrt-gallery__tablist-header'; // shared class.
 		$result['tabkeyboardtitletext']      = 'Keyboard instructions';
-		$result['tabkeyboardhintclass']      = 'wpdtrt-gallery-gallery__tab-hint';
-		$result['tabkeyboardhintlinerclass'] = 'wpdtrt-gallery-gallery__tab-hint-liner';
+		$result['tabkeyboardhintclass']      = 'wpdtrt-gallery__tab-hint';
+		$result['tabkeyboardhintlinerclass'] = 'wpdtrt-gallery__tab-hint-liner';
 		$result['tabkeyboardhinttextlines']  = [ 'Navigate with: LEFT + RIGHT arrows', 'Select with: ENTER', 'Enlarge with: TAB then ENTER' ];
-		$result['tablinerclass']             = 'wpdtrt-gallery-gallery__tab-liner';
+		$result['tablinerclass']             = 'wpdtrt-gallery__tab-liner';
 		$result['tablinertag']               = 'span';
-		$result['tablistclass']              = 'wpdtrt-gallery-gallery';
+		$result['tablistclass']              = 'wpdtrt-gallery__tablist';
 		$result['tablisttitle']              = 'Select a photo to display';
-		$result['tablisttitleclass']         = 'wpdtrt-gallery-gallery__header';
+		$result['tablisttitleclass']         = 'wpdtrt-gallery__tablist-header';
 		$result['tablisttitletag']           = 'h3';
-		$result['tabpanelclass']             = 'wpdtrt-gallery-viewer__tabpanel';
-		$result['tabpanelcaptionclass']      = 'wpdtrt-gallery-viewer__caption-wrapper';
-		$result['tabpanelcaptionlinerclass'] = 'wpdtrt-gallery-viewer__caption';
-		$result['tabpanelcontrolsclass']     = 'wpdtrt-gallery-viewer__controls';
-		$result['tabpanelimageclass']        = 'wpdtrt-gallery-viewer__img-wrapper';
+		$result['tabpanelclass']             = 'wpdtrt-gallery__tabpanel';
+		$result['tabpanelcaptionclass']      = 'wpdtrt-gallery__caption-wrapper';
+		$result['tabpanelcaptionlinerclass'] = 'wpdtrt-gallery__caption';
+		$result['tabpanelimageclass']        = 'wpdtrt-gallery__img-wrapper';
 		$result['tabpanelimagesize']         = 'wpdtrt-gallery-desktop';
 		$result['tabpanelimagesizeexpanded'] = 'wpdtrt-gallery-desktop-expanded';
 		$result['tabpanelimagesizepanorama'] = 'wpdtrt-gallery-panorama';
-		$result['tabpanelitemclass']         = 'wpdtrt-gallery-viewer__liner';
-		$result['tabpanelslinerclass']       = 'wpdtrt-gallery-viewer__wrapper';
-		$result['tabpanelswrapperclass']     = 'wpdtrt-gallery-viewer';
+		$result['tabpanelitemclass']         = 'wpdtrt-gallery__tabpanels-liner';
+		$result['tabpanelslinerclass']       = 'wpdtrt-gallery__tabpanels-wrapper';
+		$result['tabpanelswrapperclass']     = 'wpdtrt-gallery__tabpanels';
 		$result['tabspatternclass']          = 'wpdtrt-gallery';
 		$result['titleclass']                = 'wpdtrt-gallery__header';
 		$result['titletag']                  = 'h2';

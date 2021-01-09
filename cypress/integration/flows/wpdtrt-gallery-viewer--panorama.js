@@ -78,7 +78,7 @@ describe('DTRT Gallery - Panorama Viewer', function () {
         });
 
         it('6. Does contain an expand button', function () {
-            cy.get('@wpdtrtGalleryTabPanel').find('.wpdtrt-gallery-viewer__expand')
+            cy.get('@wpdtrtGalleryTabPanel').find('.wpdtrt-gallery__expand')
                 .should('exist');
         });
 
@@ -104,7 +104,7 @@ describe('DTRT Gallery - Panorama Viewer', function () {
 
             // scroll component into view,
             // as Cypress can't always 'see' elements below the fold
-            cy.get('@wpdtrtGallery').find('.wpdtrt-gallery-viewer')
+            cy.get('@wpdtrtGallery').find('.wpdtrt-gallery__tabpanels')
                 .scrollIntoView({
                     duration: 1500,
                     offset: {
@@ -125,8 +125,8 @@ describe('DTRT Gallery - Panorama Viewer', function () {
             cy.get('@wpdtrtGalleryTabPanel')
                 .should('have.attr', 'data-panorama', 'true');
 
-            cy.get('@wpdtrtGalleryTabPanel').find('.wpdtrt-gallery-viewer__img-wrapper > img')
-                // cannot check if .wpdtrt-gallery-viewer__img-wrapper has .scrollWidth
+            cy.get('@wpdtrtGalleryTabPanel').find('.wpdtrt-gallery__img-wrapper > img')
+                // cannot check if .wpdtrt-gallery__img-wrapper has .scrollWidth
                 .should('have.css', 'width', '1369px')
                 // https://github.com/dotherightthing/wpdtrt-gallery/issues/65
                 .should('have.css', 'height', '368px')
@@ -135,10 +135,10 @@ describe('DTRT Gallery - Panorama Viewer', function () {
         });
 
         it('5. Does contain a expand button, disabled', function () {
-            cy.get('@wpdtrtGalleryTabPanel').find('.wpdtrt-gallery-viewer__expand')
+            cy.get('@wpdtrtGalleryTabPanel').find('.wpdtrt-gallery__expand')
                 .should('have.prop', 'disabled');
 
-            cy.get('@wpdtrtGalleryTabPanel').find('.wpdtrt-gallery-viewer__expand')
+            cy.get('@wpdtrtGalleryTabPanel').find('.wpdtrt-gallery__expand')
                 .should('contain.text', 'Collapse')
                 .should('have.attr', 'aria-controls', `${galleryId}-tabpanel-1-media`);
         });

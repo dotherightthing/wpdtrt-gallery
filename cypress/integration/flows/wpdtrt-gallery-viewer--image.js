@@ -73,7 +73,7 @@ describe('DTRT Gallery - Image Viewer', function () {
         });
 
         it('3. Does contain an image', function () {
-            cy.get('@wpdtrtGallery').find('.wpdtrt-gallery-viewer__img-wrapper > img')
+            cy.get('@wpdtrtGallery').find('.wpdtrt-gallery__img-wrapper > img')
                 .should('exist');
         });
 
@@ -84,7 +84,7 @@ describe('DTRT Gallery - Image Viewer', function () {
         });
 
         it('6. Does contain an expand button', function () {
-            cy.get('@wpdtrtGalleryTabPanel').find('.wpdtrt-gallery-viewer__expand')
+            cy.get('@wpdtrtGalleryTabPanel').find('.wpdtrt-gallery__expand')
                 .should('exist');
         });
 
@@ -110,7 +110,7 @@ describe('DTRT Gallery - Image Viewer', function () {
 
             // scroll component into view,
             // as Cypress can't always 'see' elements below the fold
-            cy.get('@wpdtrtGallery').find('.wpdtrt-gallery-viewer')
+            cy.get('@wpdtrtGallery').find('.wpdtrt-gallery__tabpanels')
                 .scrollIntoView({
                     duration: 1500,
                     offset: {
@@ -127,7 +127,7 @@ describe('DTRT Gallery - Image Viewer', function () {
         });
 
         it('3. Does contain a landscape image, described accessibly', function () {
-            cy.get('@wpdtrtGalleryTabPanel').find('.wpdtrt-gallery-viewer__img-wrapper > img')
+            cy.get('@wpdtrtGalleryTabPanel').find('.wpdtrt-gallery__img-wrapper > img')
                 .should('exist')
                 .should('have.css', 'width', '688.453125px')
                 .should('have.css', 'height', '292.890625px')
@@ -142,7 +142,7 @@ describe('DTRT Gallery - Image Viewer', function () {
         });
 
         it('6. Does contain a visible expand button, shown accessibly', function () {
-            cy.get('@wpdtrtGalleryTabPanel').find('.wpdtrt-gallery-viewer__expand')
+            cy.get('@wpdtrtGalleryTabPanel').find('.wpdtrt-gallery__expand')
                 .should('exist')
                 .should('be.visible')
                 .should('have.attr', 'aria-controls', `${galleryId }-tabpanel-1-media`)
@@ -168,7 +168,7 @@ describe('DTRT Gallery - Image Viewer', function () {
 
     describe('D. Expanded state (system selection)', function () {
         it('1. Is expanded, expanded accessibly', function () {
-            cy.get('@wpdtrtGalleryTabPanel').find('.wpdtrt-gallery-viewer__expand')
+            cy.get('@wpdtrtGalleryTabPanel').find('.wpdtrt-gallery__expand')
                 .click()
                 .should('contain.text', 'Collapse');
 
@@ -180,7 +180,7 @@ describe('DTRT Gallery - Image Viewer', function () {
         it('2. Does contain a taller landscape image, described accessibly', function () {
             // can we use this.attr.src here or invoke?
 
-            cy.get('@wpdtrtGalleryTabPanel').find('.wpdtrt-gallery-viewer__img-wrapper > img')
+            cy.get('@wpdtrtGalleryTabPanel').find('.wpdtrt-gallery__img-wrapper > img')
                 .should('exist')
                 .should('have.css', 'width', '688.453125px')
                 .should('have.css', 'height', '387.59375px')
