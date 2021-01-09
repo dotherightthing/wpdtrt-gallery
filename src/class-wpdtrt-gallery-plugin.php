@@ -713,6 +713,7 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 				'tabkeyboardhinttextlines'  => [],
 				'tablinerclass'             => '',
 				'tablinertag'               => '',
+				'tablistwrapperclass'       => '',
 				'tablistclass'              => '',
 				'tablistlabel'              => '',
 				'tablisttitle'              => '',
@@ -884,6 +885,9 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 		// tabpanel caption liner - child of tabpanel caption.
 		$tabpanelcaptionlinerclass = $this->helper_sanitize_html_classes( $atts['tabpanelcaptionlinerclass'] );
 
+		// tablistwrapper - wraps tablist-header, tablist, tabhint.
+		$tablistwrapperclass = $this->helper_sanitize_html_classes( $atts['tablistwrapperclass'] );
+
 		// tablist - wraps all tabs.
 		$tablistclass      = $this->helper_sanitize_html_classes( $atts['tablistclass'] );
 		$tablistlabel      = esc_attr( $atts['tablistlabel'] );
@@ -1002,6 +1006,18 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 		 * - Not used for wpdtrt-gallery enhancements as it discards the useful $id, $columns, $size_class attributes
 		 */
 		if ( $usetabspattern ) {
+			$wrapper_attrs = '';
+
+			if ( '' !== $tablistwrapperclass ) {
+				$wrapper_attrs .= " class='{$tablistwrapperclass}'";
+			}
+
+			// start tablist wrapper.
+			$output .= "<div{$wrapper_attrs}>";
+
+			$output .= $this->render_tablist_title( $gallery_props, $tablisttitleclass, $iconclassmousehint, $tablisttitletag, $tablisttitle );
+
+			// start tablist.
 			$output .= $this->render_tablist_start(
 				$gallery_div,
 				$gallery_props,
@@ -1065,7 +1081,6 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 		}
 
 		if ( $usetabspattern ) {
-			$output .= $this->render_tablist_title( $gallery_props, $tablisttitleclass, $iconclassmousehint, $tablisttitletag, $tablisttitle );
 			$count   = 0;
 
 			foreach ( $tabpanels_props as $tabpanel_props ) {
@@ -1073,7 +1088,13 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 				$output .= $this->render_tab( $tabpanel_props, $count, $tabclass, $tablinerclass, $tabtag, $tablinertag, $length );
 			}
 
+			// end tablist.
+			$output .= "
+				</div>\n";
+
 			$output .= $this->render_tab_hint( $gallery_props, $tabpanel_props, $tabkeyboardhintclass, $tabkeyboardhintlinerclass, $iconclasskeyboardhint, $tabkeyboardtitletag, $tabkeyboardtitleclass, $tabkeyboardtitletext, $tabkeyboardhinttextlines );
+
+			// end tablist wrapper.
 			$output .= "
 				</div>\n";
 		}
@@ -1264,6 +1285,7 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 		$result['tabkeyboardhinttextlines']  = [ 'Navigate with: LEFT + RIGHT arrows', 'Select with: ENTER', 'Enlarge with: TAB then ENTER' ];
 		$result['tablinerclass']             = 'wpdtrt-gallery__tab-liner';
 		$result['tablinertag']               = 'span';
+		$result['tablistwrapperclass']       = 'wpdtrt-gallery__tablist-wrapper';
 		$result['tablistclass']              = 'wpdtrt-gallery__tablist';
 		$result['tablisttitle']              = 'Select a photo to display';
 		$result['tablisttitleclass']         = 'wpdtrt-gallery__tablist-header';

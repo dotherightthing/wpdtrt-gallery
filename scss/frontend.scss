@@ -60,7 +60,46 @@ $tab-gutter-mobile-vert: 20px; // allows for visible Windows 10 overflow scrollb
     // TABLIST
     // ---------------------------------------------------
 
+    &__tablist-wrapper {
+        // mitigate the disorientating infinite scroll requirement of this WAI-ARIA pattern
+        // by adding a visual index for non-AT users
+        &:focus-within {
+            #{$block}__tab-liner {
+                &::before {
+                    content: counter(wpdtrt-gallery-tab-counter);
+                    position: absolute;
+                    top: 7px;
+                    left: 7px;
+                    z-index: 1;
+                    text-shadow: -1px -1px 0 var(--wpdtrt-gallery-border-color-alt),
+                        1px -1px 0 var(--wpdtrt-gallery-border-color-alt),
+                        -1px 1px 0 var(--wpdtrt-gallery-border-color-alt),
+                        1px 1px 0 var(--wpdtrt-gallery-border-color-alt);
+                }
+            }
+        }
+    }
+
+    &__tablist-header {
+        @extend %wpdtrt-gallery-visuallyhidden;
+
+        background-color: var(--wpdtrt-gallery-title-background-color);
+        color: var(--wpdtrt-gallery-title-color);
+        padding: 2px 0;
+        margin-bottom: 12px;
+
+        [class^='wpdtrt-gallery-icon-'],
+        [class*=' wpdtrt-gallery-icon-'] {
+            position: relative;
+            bottom: -.2em;
+            float: right;
+            margin-left: 6px;
+        }
+    }
+
     &__tablist {
+        counter-reset: wpdtrt-gallery-tab-counter;
+
         position: relative; // stack on top of sticky nav
         width: 100%;
         height: ($tab-gutter-mobile-vert + 100px + $tab-gutter-mobile-vert); // gutter + thumbnail + gutter
@@ -88,24 +127,9 @@ $tab-gutter-mobile-vert: 20px; // allows for visible Windows 10 overflow scrollb
         }
     }
 
-    &__tablist-header {
-        @extend %wpdtrt-gallery-visuallyhidden;
-
-        background-color: var(--wpdtrt-gallery-title-background-color);
-        color: var(--wpdtrt-gallery-title-color);
-        padding: 2px 0;
-        margin-bottom: 12px;
-
-        [class^='wpdtrt-gallery-icon-'],
-        [class*=' wpdtrt-gallery-icon-'] {
-            position: relative;
-            bottom: -.2em;
-            float: right;
-            margin-left: 6px;
-        }
-    }
-
     &__tab {
+        counter-increment: wpdtrt-gallery-tab-counter;
+
         display: inline-block;
         width: 100px;
         background-color: var(--wpdtrt-gallery-bg-color-loading);
@@ -126,17 +150,6 @@ $tab-gutter-mobile-vert: 20px; // allows for visible Windows 10 overflow scrollb
                     &::after {
                         box-shadow: 0 0 0 2px var(--wpdtrt-gallery-tab-border-color-hover) inset; // IE11 property order
                     }
-                }
-            }
-        }
-
-        &:focus-visible {
-            // &:focus-visible not used
-            // as accessible components applies the focus as if a keyboard user did so
-            // this also reveals otherwise-hidden keyboard shortcuts to mouse users
-            ~ #{$block}__tab-hint {
-                #{$block}__tab-hint-liner {
-                    @extend %wpdtrt-gallery-visuallyshown;
                 }
             }
         }
@@ -509,6 +522,16 @@ $tab-gutter-mobile-vert: 20px; // allows for visible Windows 10 overflow scrollb
     }
 
     @include media('>=laptop') {
+        &__tablist-wrapper {
+            &:focus-within {
+                // &:focus-visible can't be used due to the need for this wrapper,
+                // which limits tablist contents to only tabs
+                #{$block}__tab-hint-liner {
+                    @include wpdtrt-gallery-visuallyshown;
+                }
+            }
+        }
+
         &__tabpanels {
             z-index: 1; // stack on top of sticky nav so that text can be selected
         }
