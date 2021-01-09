@@ -273,8 +273,8 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 		string $tablisttitletag,
 		string $tablistclass
 	) : string {
-		$attrs         = " role='tablist'";
-		$hint_id       = '';
+		$attrs   = " role='tablist'";
+		$hint_id = '';
 
 		if ( count( $tabkeyboardhinttextlines ) > 0 ) {
 			$hint_id .= " {$gallery_props['tabhint_id']}";
@@ -1081,7 +1081,7 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 		}
 
 		if ( $usetabspattern ) {
-			$count   = 0;
+			$count = 0;
 
 			foreach ( $tabpanels_props as $tabpanel_props ) {
 				++$count;
