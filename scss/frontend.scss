@@ -225,9 +225,7 @@ $icomoon-font-path: '../icons/icomoon/fonts';
         &__header {
             /* stylelint-disable-next-line declaration-no-important */
             display: inline-block !important;
-
-            /* stylelint-disable-next-line declaration-no-important */
-            border: var(--wpdtrt-gallery-viewer-inset) solid var(--wpdtrt-gallery-border-color) !important;
+            border: 0;
 
             > * {
                 /* stylelint-disable-next-line declaration-no-important */
@@ -237,6 +235,13 @@ $icomoon-font-path: '../icons/icomoon/fonts';
 
         &__section {
             page-break-before: always;
+        }
+
+        &[data-enabled='true'] {
+            #{$block}__header {
+                padding-right: 0;
+                border: 0;
+            }
         }
     }
 
