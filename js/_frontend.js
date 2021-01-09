@@ -285,6 +285,7 @@ const wpdtrtGalleryUi = {
         const $expandButton = $gallery.find('.wpdtrt-gallery__expand');
         const $expandButtonText = $expandButton.find('.says');
         const $section = $gallery.parents('.wpdtrt-gallery__section').eq(0);
+        const $header = $section.find('.wpdtrt-gallery__header');
         const $tabpanel = $gallery.find('.wpdtrt-gallery__tabpanel');
         const $visibleTabPanel = $gallery.find('[role="tabpanel"]:not([hidden])');
         const $visibleTabPanelImg = $visibleTabPanel.find('img');
@@ -381,7 +382,7 @@ const wpdtrtGalleryUi = {
         }
 
         if (!triggered) {
-            wpdtrtGalleryUi.scrollToElement($, $section, 100, 150);
+            wpdtrtGalleryUi.scrollToElement($, $header, 16, 150);
         }
 
         return (!isExpanded);
