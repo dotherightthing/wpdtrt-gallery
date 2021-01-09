@@ -265,9 +265,16 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 	 * Returns:
 	 *   $html - HTML
 	 */
-	public function render_tablist_start( string $gallery_div, Array $gallery_props, Array $tabkeyboardhinttextlines, string $tablistlabel, string $tablisttitletag, string $tablistclass ) : string {
-		$attrs   = " role='tablist'";
-		$hint_id = '';
+	public function render_tablist_start(
+		string $gallery_div,
+		Array $gallery_props,
+		Array $tabkeyboardhinttextlines,
+		string $tablistlabel,
+		string $tablisttitletag,
+		string $tablistclass
+	) : string {
+		$attrs         = " role='tablist'";
+		$hint_id       = '';
 
 		if ( count( $tabkeyboardhinttextlines ) > 0 ) {
 			$hint_id .= " {$gallery_props['tabhint_id']}";
@@ -995,7 +1002,14 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 		 * - Not used for wpdtrt-gallery enhancements as it discards the useful $id, $columns, $size_class attributes
 		 */
 		if ( $usetabspattern ) {
-			$output .= $this->render_tablist_start( $gallery_div, $gallery_props, $tabkeyboardhinttextlines, $tablistlabel, $tablisttitletag, $tablistclass ) . "\n";
+			$output .= $this->render_tablist_start(
+				$gallery_div,
+				$gallery_props,
+				$tabkeyboardhinttextlines,
+				$tablistlabel,
+				$tablisttitletag,
+				$tablistclass
+			) . "\n";
 		} else {
 			$output .= apply_filters( 'gallery_style', $gallery_style . $gallery_div ) . "\n";
 		}
