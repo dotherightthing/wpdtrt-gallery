@@ -481,7 +481,7 @@ jQuery(($) => {
 
     console.log('wpdtrtGalleryUi.initGallery'); // eslint-disable-line no-console
 
-    document.querySelectorAll('.wpdtrt-gallery__section').forEach((tabbedCarousel) => {
+    document.querySelectorAll('.wpdtrt-gallery').forEach((tabbedCarousel) => {
         const tabbedCarouselInstance = new TabbedCarousel({
             initialSelection: '1', // tabbedCarousel.getAttribute('data-initial-selection'),
             instanceElement: tabbedCarousel,

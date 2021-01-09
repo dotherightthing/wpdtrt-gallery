@@ -56,29 +56,21 @@ $tab-gutter-mobile-vert: 20px; // allows for visible Windows 10 overflow scrollb
         }
     }
 
-    // ---------------------------------------------------
-    // TABLIST
-    // ---------------------------------------------------
-
-    &__tablist-wrapper {
-        // mitigate the disorientating infinite scroll requirement of this WAI-ARIA pattern
-        // by adding a visual index for non-AT users
-        &:focus-within {
-            #{$block}__tab-liner {
-                &::before {
-                    content: counter(wpdtrt-gallery-tab-counter);
-                    position: absolute;
-                    top: 7px;
-                    left: 7px;
-                    z-index: 1;
-                    text-shadow: -1px -1px 0 var(--wpdtrt-gallery-border-color-alt),
-                        1px -1px 0 var(--wpdtrt-gallery-border-color-alt),
-                        -1px 1px 0 var(--wpdtrt-gallery-border-color-alt),
-                        1px 1px 0 var(--wpdtrt-gallery-border-color-alt);
+    &.is-keyboard-navigation {
+        #{$block}__tablist {
+            &:focus-within {
+                #{$block}__tab-liner {
+                    &::before {
+                        display: block;
+                    }
                 }
             }
         }
     }
+
+    // ---------------------------------------------------
+    // TABLIST
+    // ---------------------------------------------------
 
     &__tablist-header {
         @extend %wpdtrt-gallery-visuallyhidden;
@@ -141,8 +133,7 @@ $tab-gutter-mobile-vert: 20px; // allows for visible Windows 10 overflow scrollb
             margin-right: (6px + 60px); // space for expand button
         }
 
-        &:hover,
-        &:focus {
+        &:hover {
             &:not([disabled]):not([aria-selected='true']) {
                 cursor: pointer;
 
@@ -198,6 +189,21 @@ $tab-gutter-mobile-vert: 20px; // allows for visible Windows 10 overflow scrollb
         position: relative; // AP for hover border
         filter: brightness(1.1);
         pointer-events: none; // allow clicks to pass through to parent button in Safari
+
+        // mitigate the disorientating infinite scroll requirement of this WAI-ARIA pattern
+        // by adding a visual index for non-AT users
+        &::before {
+            content: counter(wpdtrt-gallery-tab-counter);
+            display: none; // toggled on via .is-keyboard-navigation
+            position: absolute;
+            top: 7px;
+            left: 7px;
+            z-index: 1;
+            text-shadow: -1px -1px 0 var(--wpdtrt-gallery-border-color-alt),
+                1px -1px 0 var(--wpdtrt-gallery-border-color-alt),
+                -1px 1px 0 var(--wpdtrt-gallery-border-color-alt),
+                1px 1px 0 var(--wpdtrt-gallery-border-color-alt);
+        }
 
         &::after {
             content: '';
@@ -398,8 +404,7 @@ $tab-gutter-mobile-vert: 20px; // allows for visible Windows 10 overflow scrollb
             font-size: 2em;
             font-weight: 100;
 
-            &:hover,
-            &:focus {
+            &:hover {
                 &:not([disabled]) {
                     background-color: var(--wpdtrt-gallery-button-color-alt);
                     color: var(--wpdtrt-gallery-button-color-alt);
@@ -407,8 +412,7 @@ $tab-gutter-mobile-vert: 20px; // allows for visible Windows 10 overflow scrollb
             }
         }
 
-        &:hover,
-        &:focus {
+        &:hover {
             &:not([disabled]) {
                 background-color: var(--wpdtrt-gallery-border-color);
                 color: var(--wpdtrt-gallery-border-color);
@@ -438,26 +442,24 @@ $tab-gutter-mobile-vert: 20px; // allows for visible Windows 10 overflow scrollb
     }
 
     &[data-enabled='true'][data-expanded='true'] {
-        #{$block}__tabpanels {
-            &__expand {
-                line-height: 0;
+        #{$block}__expand {
+            line-height: 0;
 
-                &::after {
-                    content: '-';
-                }
+            &::after {
+                content: '-';
             }
+        }
 
-            &__iframe-wrapper,
-            &__img-wrapper {
-                border-top: 3px solid var(--wpdtrt-gallery-border-color);
-                border-bottom: 3px solid var(--wpdtrt-gallery-border-color);
-            }
+        #{$block}__iframe-wrapper,
+        #{$block}__img-wrapper {
+            border-top: 3px solid var(--wpdtrt-gallery-border-color);
+            border-bottom: 3px solid var(--wpdtrt-gallery-border-color);
+        }
 
-            &__tabpanel {
-                &[data-soundcloud-pageid] {
-                    #{$block}__iframe-wrapper {
-                        border-top: 0; // soundcloud has it's own top border
-                    }
+        #{$block}__tabpanel {
+            &[data-soundcloud-pageid] {
+                #{$block}__iframe-wrapper {
+                    border-top: 0; // soundcloud has it's own top border
                 }
             }
         }
@@ -522,12 +524,14 @@ $tab-gutter-mobile-vert: 20px; // allows for visible Windows 10 overflow scrollb
     }
 
     @include media('>=laptop') {
-        &__tablist-wrapper {
-            &:focus-within {
-                // &:focus-visible can't be used due to the need for this wrapper,
-                // which limits tablist contents to only tabs
-                #{$block}__tab-hint-liner {
-                    @include wpdtrt-gallery-visuallyshown;
+        &.is-keyboard-navigation {
+            #{$block}__tablist-wrapper {
+                &:focus-within {
+                    // &:focus-visible can't be used due to the need for this wrapper,
+                    // which limits tablist contents to only tabs
+                    #{$block}__tab-hint-liner {
+                        @include wpdtrt-gallery-visuallyshown;
+                    }
                 }
             }
         }
@@ -561,10 +565,8 @@ $tab-gutter-mobile-vert: 20px; // allows for visible Windows 10 overflow scrollb
 
         &[data-enabled='true'][data-expanded='false'] {
             &:focus {
-                #{$block}__tabpanels {
-                    &__caption-wrapper {
-                        z-index: 2;
-                    }
+                #{$block}__caption-wrapper {
+                    z-index: 2;
                 }
             }
 
@@ -579,25 +581,23 @@ $tab-gutter-mobile-vert: 20px; // allows for visible Windows 10 overflow scrollb
                 }
             }
 
-            #{$block}__tabpanels {
-                &__caption,
-                &__expand {
-                    border: 0;
-                    margin: var(--wpdtrt-gallery-inset);
-                }
+            #{$block}__caption,
+            #{$block}__expand {
+                border: 0;
+                margin: var(--wpdtrt-gallery-inset);
+            }
 
-                &__caption-wrapper {
-                    position: absolute;
-                    right: 0;
-                    bottom: 0;
-                    left: 0;
-                    z-index: 2;
-                }
+            #{$block}__caption-wrapper {
+                position: absolute;
+                right: 0;
+                bottom: 0;
+                left: 0;
+                z-index: 2;
+            }
 
-                &__liner {
-                    // override inline styles, remove bgcolor so that caption is not fw
-                    background: none !important; // stylelint-disable-line declaration-no-important
-                }
+            #{$block}__tabpanels-liner {
+                // override inline styles, remove bgcolor so that caption is not fw
+                background: none !important; // stylelint-disable-line declaration-no-important
             }
         }
 
@@ -616,11 +616,9 @@ $tab-gutter-mobile-vert: 20px; // allows for visible Windows 10 overflow scrollb
                 }
             }
 
-            #{$block}__tabpanels {
-                &__caption,
-                &__expand {
-                    border: var(--wpdtrt-gallery-inset) solid var(--wpdtrt-gallery-border-color);
-                }
+            #{$block}__caption,
+            #{$block}__expand {
+                border: var(--wpdtrt-gallery-inset) solid var(--wpdtrt-gallery-border-color);
             }
 
             #{$block}__expand {
