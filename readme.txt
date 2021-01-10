@@ -6,7 +6,7 @@ Tags: gallery, video, audio, map
 Requires at least: 5.3.3
 Tested up to: 5.3.3
 Requires PHP: 7.2.15
-Stable tag: 2.0.4
+Stable tag: 2.0.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -27,6 +27,13 @@ Gallery viewer which supports images, panoramas, maps, SoundCloud and Vimeo.
 See [WordPress Usage](README.md#wordpress-usage).
 
 == Changelog ==
+
+= 2.0.5 =
+* [f1bc253] Update accessible-components to version 1.0.2
+* [5351e54] Fix selectors
+* [b2227c5] Remove mobile specific size override from gallery heading as mobile layout now accommodates larger text better
+* [e3f4a80] Update accessible-components to version 1.0.1
+* [971716b] Move theme-dependent gallery styling into wpdtrt-gallery by leveraging new theme classname, refactor to mobile-first
 
 = 2.0.4 =
 * [9058e5d] Lint PHP
