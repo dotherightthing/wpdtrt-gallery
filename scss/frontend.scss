@@ -51,20 +51,9 @@ $tab-gutter-mobile-vert: 20px; // allows for visible Windows 10 overflow scrollb
             display: inline-block;
             background-color: var(--wpdtrt-gallery-bg-color);
             color: var(--wpdtrt-gallery-text-color);
+            font-size: 1.2em; // fit more text in before it wraps
             padding: var(--wpdtrt-gallery-inset-label);
             margin-bottom: 0;
-        }
-    }
-
-    &.is-keyboard-navigation {
-        #{$block}__tablist {
-            &:focus-within {
-                #{$block}__tab-liner {
-                    &::before {
-                        display: block;
-                    }
-                }
-            }
         }
     }
 
@@ -194,7 +183,7 @@ $tab-gutter-mobile-vert: 20px; // allows for visible Windows 10 overflow scrollb
         // by adding a visual index for non-AT users
         &::before {
             content: counter(wpdtrt-gallery-tab-counter);
-            display: none; // toggled on via .is-keyboard-navigation
+            display: none; // toggled on via [data-accessible-components-modality='keyboard']
             position: absolute;
             top: 7px;
             left: 7px;
@@ -368,6 +357,7 @@ $tab-gutter-mobile-vert: 20px; // allows for visible Windows 10 overflow scrollb
     }
 
     &__expand-wrapper {
+        // strip to left of expand button
         &::before {
             content: '';
             display: block;
@@ -401,7 +391,7 @@ $tab-gutter-mobile-vert: 20px; // allows for visible Windows 10 overflow scrollb
             // the icon
             content: '+';
             vertical-align: middle;
-            font-size: 2em;
+            font-size: 1.5em;
             font-weight: 100;
 
             &:hover {
@@ -433,11 +423,43 @@ $tab-gutter-mobile-vert: 20px; // allows for visible Windows 10 overflow scrollb
     // STATES
     // ---------------------------------------------------
 
+    @at-root [data-accessible-components-modality='keyboard'] {
+        #{$block}__tablist {
+            &:focus-within {
+                #{$block}__tab-liner {
+                    &::before {
+                        display: block; // thumbnail numbering
+                    }
+                }
+            }
+        }
+    }
+
+    &[data-enabled='false'] {
+        #{$block}__header {
+            > * {
+                border: var(--wpdtrt-gallery-inset) solid var(--wpdtrt-gallery-border-color);
+            }
+        }
+    }
+
     &[data-enabled='true'] {
         #{$block}__header {
             min-height: 56px; // height of AP expand button
             border-bottom: 3px solid var(--wpdtrt-gallery-bg-color);
             margin-bottom: 0;
+        }
+    }
+
+    &[data-enabled='true'][data-expanded='false'] {
+        #{$block}__header {
+            > * {
+                border: var(--wpdtrt-gallery-inset) solid var(--wpdtrt-gallery-border-color);
+            }
+        }
+
+        #{$block}__expand {
+            border: var(--wpdtrt-gallery-inset) solid var(--wpdtrt-gallery-border-color);
         }
     }
 
@@ -468,8 +490,7 @@ $tab-gutter-mobile-vert: 20px; // allows for visible Windows 10 overflow scrollb
         }
 
         #{$block}__expand {
-            line-height: 0;
-            margin: 0;
+            // line-height: 0;
 
             &::after {
                 content: '-';
@@ -478,150 +499,213 @@ $tab-gutter-mobile-vert: 20px; // allows for visible Windows 10 overflow scrollb
     }
 
     // ---------------------------------------------------
-    // MEDIA QUERIES
+    // FEATURE & MEDIA QUERIES
     // ---------------------------------------------------
 
-    @include media('<tablet') {
+    @include media('>=tablet') {
         &__expand {
             &::after {
-                font-size: 1.5em;
+                font-size: 2em;
             }
         }
     }
 
-    @include media('<laptop') {
-        &__header {
-            > * {
-                // fit more text in before it wraps
-                font-size: 1.2em; //
-            }
-        }
+    @supports (display: grid) { // Edge+
 
-        &[data-enabled='false'] {
-            #{$block}__header {
-                > * {
-                    border: var(--wpdtrt-gallery-inset) solid var(--wpdtrt-gallery-border-color);
+        /* stylelint-disable max-nesting-depth */
+
+        @include media('>=laptop') {
+            @at-root body[data-accessible-components-modality='keyboard'] .wpdtrt-dbth #{$block} {
+                #{$block}__tablist-wrapper {
+                    &:focus-within {
+                        // &:focus-visible can't be used due to the need for this wrapper,
+                        // which limits tablist contents to only tabs
+                        #{$block}__tab-hint-liner {
+                            @include wpdtrt-gallery-visuallyshown;
+                        }
+                    }
+                }
+
+                #{$block}__tablist {
+                    &:focus-within {
+                        #{$block}__tab-liner {
+                            &::before {
+                                display: none;
+                            }
+                        }
+                    }
                 }
             }
-        }
 
-        &[data-enabled='true'][data-expanded='false'] {
-            #{$block}__header {
-                > * {
-                    border: var(--wpdtrt-gallery-inset) solid var(--wpdtrt-gallery-border-color);
+            // body.wpdtrt-dbth added by theme, which uses CSS Grid for layout
+            @at-root .wpdtrt-dbth #{$block} {
+                &__header {
+                    margin-bottom: 40px;
                 }
-            }
 
-            #{$block}__expand {
-                border: var(--wpdtrt-gallery-inset) solid var(--wpdtrt-gallery-border-color);
-            }
-        }
-    }
+                &__tablist {
+                    // non-scrollable grid layout
+                    width: auto;
+                    height: auto;
+                    white-space: normal;
+                    margin-bottom: 40px;
+                    overflow-x: visible;
+                    overflow-y: visible;
 
-    @include media('>=laptop') {
-        &.is-keyboard-navigation {
-            #{$block}__tablist-wrapper {
-                &:focus-within {
-                    // &:focus-visible can't be used due to the need for this wrapper,
-                    // which limits tablist contents to only tabs
-                    #{$block}__tab-hint-liner {
-                        @include wpdtrt-gallery-visuallyshown;
+                    @for $i from 3 through 3 {
+                        &.gallery-columns-#{$i} {
+                            #{$block}__tab {
+                                width: calc(#{(100 / $i) * 1%} - #{$tab-gutter} + #{$tab-gutter/$i}); // $i columns
+                                margin: 0 $tab-gutter $tab-gutter 0;
+
+                                &,
+                                &--last {
+                                    // remove the gutter from the last item in every 'row'
+                                    &:nth-child(#{$i}n) {
+                                        margin-right: 0;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                &__tablist-header {
+                    @include wpdtrt-gallery-visuallyshown;
+                }
+
+                &__tab {
+                    &,
+                    &:hover {
+                        margin-bottom: 6px;
+                    }
+
+                    // if there is only one thumbnail, do display it
+                    &:first-child {
+                        &:last-child {
+                            .js & {
+                                display: inline-block;
+                            }
+                        }
+                    }
+                }
+
+                &__tab-liner {
+                    &::before {
+                        display: none;
+                    }
+                }
+
+                &__tab-hint-liner {
+                    margin-bottom: 0;
+                }
+
+                &__tabpanels {
+                    z-index: 1; // stack on top of sticky nav so that text can be selected
+                    margin-bottom: 40px;
+                }
+
+                &__expand-wrapper {
+                    position: relative; // AP for expand button
+
+                    &::before {
+                        display: none; // strip to left of expand button
+                    }
+                }
+
+                &__expand {
+                    opacity: 1;
+                    top: 0;
+                    bottom: auto;
+                    width: 56px;
+                    height: 56px;
+                }
+
+                &[data-enabled='true'] {
+                    #{$block}__header {
+                        height: 0; // targetting middlecenter affects the expand button positioning
+                        min-height: 0;
+                        border-bottom: 0;
+                        margin-right: 72px; // space for expand button
+                        margin-bottom: 0;
+                    }
+                }
+
+                &[data-enabled='true'][data-expanded='false'] {
+                    #{$block}__header {
+                        > * {
+                            position: absolute;
+                            top: 0;
+                            z-index: 2; // stack on top of sticky nav so that text can be selected
+                            border: 0;
+                            margin: var(--wpdtrt-gallery-inset);
+
+                            .attachment & { // ?
+                                padding-right: 0;
+                            }
+                        }
+                    }
+
+                    #{$block}__tabpanels-liner {
+                        // override inline styles, remove bgcolor so that caption is not fw
+                        background: none !important; // stylelint-disable-line declaration-no-important
+                    }
+
+                    #{$block}__caption,
+                    #{$block}__expand {
+                        border: 0;
+                        margin: var(--wpdtrt-gallery-inset);
+                    }
+
+                    #{$block}__caption-wrapper {
+                        position: absolute;
+                        right: 0;
+                        bottom: 0;
+                        left: 0;
+                        z-index: 2;
+                    }
+
+                    #{$block}__expand {
+                        border: 0;
+                    }
+
+                    &:focus {
+                        #{$block}__caption-wrapper {
+                            z-index: 2;
+                        }
+                    }
+                }
+
+                &[data-enabled='true'][data-expanded='true'] {
+                    #{$block}__header {
+                        height: auto;
+
+                        > * {
+                            border: var(--wpdtrt-gallery-inset) solid var(--wpdtrt-gallery-border-color);
+                        }
+                    }
+
+                    #{$block}__caption,
+                    #{$block}__expand {
+                        border: var(--wpdtrt-gallery-inset) solid var(--wpdtrt-gallery-border-color);
+                    }
+
+                    #{$block}__expand {
+                        top: auto;
+                        bottom: 0;
+                        width: calc( var(--wpdtrt-gallery-inset) + 56px + var(--wpdtrt-gallery-inset));
+                        height: calc( var(--wpdtrt-gallery-inset) + 56px + var(--wpdtrt-gallery-inset));
                     }
                 }
             }
         }
 
-        &__tabpanels {
-            z-index: 1; // stack on top of sticky nav so that text can be selected
-        }
+        /* stylelint-enable max-nesting-depth */
+    }
 
-        &__expand-wrapper {
-            position: relative; // AP for expand button
-
-            &::before {
-                display: none;
-            }
-        }
-
-        &__expand {
-            opacity: 1;
-            top: 0;
-            bottom: auto;
-            width: 56px;
-            height: 56px;
-        }
-
-        &[data-enabled='true'] {
-            #{$block}__header {
-                border-bottom: 0;
-                margin-right: 72px; // space for expand button
-            }
-        }
-
-        &[data-enabled='false'] {
-            #{$block}__header {
-                > * {
-                    border: var(--wpdtrt-gallery-inset) solid var(--wpdtrt-gallery-border-color);
-                }
-            }
-        }
-
-        &[data-enabled='true'][data-expanded='false'] {
-            &:focus {
-                #{$block}__caption-wrapper {
-                    z-index: 2;
-                }
-            }
-
-            #{$block}__header {
-                > * {
-                    z-index: 2; // stack on top of sticky nav so that text can be selected
-                    margin: var(--wpdtrt-gallery-inset);
-
-                    .attachment & { // ?
-                        padding-right: 0;
-                    }
-                }
-            }
-
-            #{$block}__caption,
-            #{$block}__expand {
-                border: 0;
-                margin: var(--wpdtrt-gallery-inset);
-            }
-
-            #{$block}__caption-wrapper {
-                position: absolute;
-                right: 0;
-                bottom: 0;
-                left: 0;
-                z-index: 2;
-            }
-
-            #{$block}__tabpanels-liner {
-                // override inline styles, remove bgcolor so that caption is not fw
-                background: none !important; // stylelint-disable-line declaration-no-important
-            }
-        }
-
-        &[data-enabled='true'][data-expanded='true'] {
-            #{$block}__header {
-                > * {
-                    border: var(--wpdtrt-gallery-inset) solid var(--wpdtrt-gallery-border-color);
-                }
-            }
-
-            #{$block}__caption,
-            #{$block}__expand {
-                border: var(--wpdtrt-gallery-inset) solid var(--wpdtrt-gallery-border-color);
-            }
-
-            #{$block}__expand {
-                top: auto;
-                bottom: 0;
-                width: calc(56px + var(--wpdtrt-gallery-inset));
-                height: calc(56px + var(--wpdtrt-gallery-inset));
-            }
+    @supports (display: grid) and (display: contents) { // Edge+
+        @include media('>=laptop') {
+            display: contents;
         }
     }
 
@@ -643,32 +727,9 @@ $tab-gutter-mobile-vert: 20px; // allows for visible Windows 10 overflow scrollb
 
         &[data-enabled='true'] {
             #{$block}__header {
-                padding-right: 0;
                 border: 0;
-            }
-        }
-    }
-
-    // ---------------------------------------------------
-    // FEATURE & MEDIA QUERIES
-    // ---------------------------------------------------
-
-    @supports (display: grid) and (display: contents) { // Edge+
-        @include media('>=laptop') {
-            display: contents;
-        }
-    }
-
-    @supports (display: grid) { // Edge+
-        @include media('>=laptop') {
-            &[data-enabled='true'][data-expanded='false'] {
-
-                // grid layout is applied in parent theme
-                // but AP is determine in this plugin
-                #{$block}__header > * {
-                    position: absolute;
-                    top: 0;
-                }
+                margin-right: 0;
+                margin-bottom: 0;
             }
         }
     }
