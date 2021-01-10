@@ -514,8 +514,8 @@ $tab-gutter-mobile-vert: 20px; // allows for visible Windows 10 overflow scrollb
         /* stylelint-disable max-nesting-depth */
 
         @include media('>=laptop') {
-            @at-root body[data-accessible-components-modality='keyboard'] .wpdtrt-dbth #{$block} {
-                #{$block}__tablist-wrapper {
+            @at-root body[data-accessible-components-modality='keyboard'].wpdtrt-dbth #{$block} {
+                &__tablist-wrapper {
                     &:focus-within {
                         // &:focus-visible can't be used due to the need for this wrapper,
                         // which limits tablist contents to only tabs
@@ -525,7 +525,7 @@ $tab-gutter-mobile-vert: 20px; // allows for visible Windows 10 overflow scrollb
                     }
                 }
 
-                #{$block}__tablist {
+                &__tablist {
                     &:focus-within {
                         #{$block}__tab-liner {
                             &::before {
