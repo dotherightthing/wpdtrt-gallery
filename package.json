@@ -53,7 +53,6 @@
   "homepage": "https://github.com/dotherightthing/wpdtrt-gallery",
   "srcDir": "/Volumes/DanBackup/Websites/wpdtrt-gallery",
   "devDependencies": {
-    "cypress": "^6.2.1",
     "wpdtrt-npm-scripts": "github:dotherightthing/wpdtrt-npm-scripts#semver:0.3.*"
   }
 }
