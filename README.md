@@ -22,9 +22,9 @@ Note: A WordPress gallery must immediately follow the `<h2>` heading.
 
 #### Within the content area
 
-When the plugin is enabled, DTRT Gallery replaces the existing WordPress `[gallery]` shortcode.
+When the plugin is enabled, DTRT Gallery replaces the existing WordPress `[gallery]` shortcode. For correct display please set `[gallery link="file"]`.
 
-Galleries added via the WordPress WYSIWYG will automatically be enhanced.
+Galleries added via the WordPress WYSIWYG will automatically be enhanced. For correct display please set *Gallery Settings > Link To: Media File*.
 
 If a heading has no adjacent gallery, it will automatically be wrapped in `[wpdtrt_gallery_shortcode_heading]`.
 
