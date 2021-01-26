@@ -5,17 +5,6 @@
 //   0.9.x - DTRT WordPress Plugin Boilerplate Generator
 //
 
-// -------------------------------------------------------------------
-// Breakpoints for include-media
-// see: https://gist.github.com/dotherightthing/06f33bf784279aa24072e0b6873c968c
-// usage: @include media()
-// -------------------------------------------------------------------
-
-@import 'node_modules/include-media/dist/include-media';
-
-$breakpoints: (
-    phone: 414px,
-    tablet: 768px,
-    laptop: 1366px,
-    desktop: 2000px
-);
+$icomoon-font-path: '../icons/icomoon/fonts';
+$tab-gutter: 6px;
+$tab-gutter-mobile-vert: 20px; // allows for visible Windows 10 overflow scrollbars

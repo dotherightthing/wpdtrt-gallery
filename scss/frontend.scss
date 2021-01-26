@@ -7,35 +7,33 @@
 //   0.8.13 - DTRT WordPress Plugin Boilerplate Generator
 //
 
-@import 'node_modules/accessible-components/scss/accessible-components-variables';
-// @import 'node_modules/accessible-components/scss/tabbed-carousel';
+// -------------------------------------------------------------------
+// Variables
+// -------------------------------------------------------------------
 
-@import 'vendor/dotherightthing/wpdtrt-plugin-boilerplate/scss/variables';
-@import 'vendor/dotherightthing/wpdtrt-plugin-boilerplate/scss/extends';
+@import '../node_modules/wpdtrt-scss//scss/variables/scss';
+@import 'node_modules/accessible-components/scss/accessible-components-variables';
 @import 'variables/scss';
 @import 'extends';
 
 // -------------------------------------------------------------------
-// Plugins
+// Mixins
 // -------------------------------------------------------------------
 
-$icomoon-font-path: '../icons/icomoon/fonts';
-@import '../icons/icomoon/style.scss';
-
-$tab-gutter: 6px;
-$tab-gutter-mobile-vert: 20px; // allows for visible Windows 10 overflow scrollbars
+@import '../node_modules/wpdtrt-scss/scss/mixins';
 
 // -------------------------------------------------------------------
 // Extends
 // -------------------------------------------------------------------
 
+@import '../node_modules/wpdtrt-scss/scss/extends';
+
 // -------------------------------------------------------------------
 // Styles
 // -------------------------------------------------------------------
 
-[hidden] {
-    display: none;
-}
+@import '../icons/icomoon/style.scss';
+@import '../node_modules/wpdtrt-scss/scss/_frontend';
 
 .wpdtrt-gallery {
     $block: &;
@@ -61,7 +59,7 @@ $tab-gutter-mobile-vert: 20px; // allows for visible Windows 10 overflow scrollb
     // ---------------------------------------------------
 
     &__tablist-header {
-        @extend %wpdtrt-gallery-visuallyhidden;
+        @extend %wpdtrt-scss-hide-visually;
 
         background-color: var(--wpdtrt-gallery-title-background-color);
         color: var(--wpdtrt-gallery-title-color);
@@ -230,7 +228,7 @@ $tab-gutter-mobile-vert: 20px; // allows for visible Windows 10 overflow scrollb
     &__tab-hint-liner {
         // toggle on on tab focus
 
-        @extend %wpdtrt-gallery-visuallyhidden;
+        @extend %wpdtrt-scss-hide-visually;
 
         color: var(--wpdtrt-gallery-tab-hint-color);
         padding-top: 16px;
@@ -318,7 +316,7 @@ $tab-gutter-mobile-vert: 20px; // allows for visible Windows 10 overflow scrollb
     }
 
     &__iframe-wrapper {
-        @extend %wpdtrt-plugin-boilerplate--embedresponsively;
+        @extend %wpdtrt-scss-embed;
     }
 
     &__iframe {
@@ -520,7 +518,7 @@ $tab-gutter-mobile-vert: 20px; // allows for visible Windows 10 overflow scrollb
                         // &:focus-visible can't be used due to the need for this wrapper,
                         // which limits tablist contents to only tabs
                         #{$block}__tab-hint-liner {
-                            @include wpdtrt-gallery-visuallyshown;
+                            @include wpdtrt-scss-show-visually;
                         }
                     }
                 }
@@ -570,7 +568,7 @@ $tab-gutter-mobile-vert: 20px; // allows for visible Windows 10 overflow scrollb
                 }
 
                 &__tablist-header {
-                    @include wpdtrt-gallery-visuallyshown;
+                    @include wpdtrt-scss-show-visually;
                 }
 
                 &__tab {

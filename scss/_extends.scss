@@ -9,28 +9,3 @@
 // Since:
 //   0.8.13 - DTRT WordPress Plugin Boilerplate Generator
 //
-
-@mixin wpdtrt-gallery-visuallyhidden() {
-    position: absolute !important; /* stylelint-disable-line declaration-no-important */
-    width: 1px;
-    height: 1px;
-    clip: rect(1px, 1px, 1px, 1px);
-    word-wrap: normal !important; /* stylelint-disable-line declaration-no-important */
-    overflow: hidden;
-}
-
-@mixin wpdtrt-gallery-visuallyshown() {
-    position: relative !important; /* stylelint-disable-line declaration-no-important */
-    width: auto;
-    height: auto;
-    clip: none;
-    overflow: visible;
-}
-
-%wpdtrt-gallery-visuallyhidden {
-    @include wpdtrt-gallery-visuallyhidden;
-}
-
-%wpdtrt-gallery-visuallyshown {
-    @include wpdtrt-gallery-visuallyshown;
-}

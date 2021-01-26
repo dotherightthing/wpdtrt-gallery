@@ -28,7 +28,8 @@
   },
   "dependencies": {
     "accessible-components": "git+https://github.com/dotherightthing/accessible-components.git",
-    "urijs": "^1.19.1"
+    "urijs": "^1.19.1",
+    "wpdtrt-scss": "github:dotherightthing/wpdtrt-scss#semver:*"
   },
   "config": {
     "wpdtrt_base_url_local": "http://dontbelievethehype.dan",
