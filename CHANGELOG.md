@@ -1,5 +1,7 @@
-* [f1bc253] Update accessible-components to version 1.0.2
-* [5351e54] Fix selectors
-* [b2227c5] Remove mobile specific size override from gallery heading as mobile layout now accommodates larger text better
-* [e3f4a80] Update accessible-components to version 1.0.1
-* [971716b] Move theme-dependent gallery styling into wpdtrt-gallery by leveraging new theme classname, refactor to mobile-first
+* [8fb7571] Update wpdtrt-plugin-boilerplate from 1.7.7 to 1.7.12
+* [bdbc5ba] Move styles to wpdtrt-scss
+* [ca8ad09] Move styles to wpdtrt-scss
+* [91e90dd] Ignore cypress config
+* [184cafb] Remove cypress as it will be managed by wpdtrt-npm-scripts
+* [fd2d407] Update cypress config
+* [0767588] Update README.md
