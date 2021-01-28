@@ -279,7 +279,7 @@ class WPDTRT_GalleryTest extends WP_UnitTestCase {
 		$args = array(
 			'method'  => 'POST',
 			'body'    => array(
-				// Required parameter #1 is passed in by Travis CI.
+				// Required parameter #1 is passed in by Github Actions CI.
 				'key'       => getenv( 'TENON_AUTH' ),
 				// Optional parameters:.
 				'level'     => 'AA',
