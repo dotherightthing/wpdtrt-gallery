@@ -278,8 +278,8 @@ function wpdtrt_gallery_plugin_init() {
 	 */
 	$ui_messages = array(
 		'demo_data_description'       => __( 'This demo was generated from the following data', 'wpdtrt-gallery' ),
-		'demo_data_displayed_length'  => __( 'results displayed', 'wpdtrt-gallery' ),
-		'demo_data_length'            => __( 'results', 'wpdtrt-gallery' ),
+		'demo_data_displayed_length'  => __( '# results displayed', 'wpdtrt-gallery' ),
+		'demo_data_length'            => __( '# results', 'wpdtrt-gallery' ),
 		'demo_data_title'             => __( 'Demo data', 'wpdtrt-gallery' ),
 		'demo_date_last_updated'      => __( 'Data last updated', 'wpdtrt-gallery' ),
 		'demo_sample_title'           => __( 'Demo sample', 'wpdtrt-gallery' ),
