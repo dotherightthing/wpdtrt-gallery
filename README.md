@@ -43,7 +43,7 @@ Headings may be manually wrapped in `[wpdtrt_gallery_shortcode_heading]`, as a t
 
 Core CSS properties may be overwritten by changing the variable values in your theme stylesheet.
 
-See `scss/_variables.scss`.
+See `scss/variables/_css.scss`.
 
 ## Dependencies
 
