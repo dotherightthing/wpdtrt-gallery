@@ -203,15 +203,16 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 	}
 
 	/**
-	 * Method: render_js_frontend
+	 * Add project-specific frontend scripts
 	 *
-	 * Add project-specific frontend scripts.
+	 * Use this function to:
+	 * - load scripts in addition to js/frontend-es5.js (via wp_enqueue_script)
+	 * - add keys to wpdtrt_gallery_config (via wp_localize_script)
 	 *
-	 * See:
-	 * - wpdtrt-plugin-boilerplate/src/Plugin.php
+	 * Don't use function this to:
+	 * - add ES6 scripts requiring transpiling (load them using frontend.txt instead)
 	 *
-	 * Since:
-	 *   0.7.1 - Added
+	 * @see wpdtrt-plugin-boilerplate/src/Plugin.php
 	 */
 	public function render_js_frontend() {
 		$attach_to_footer = true;
@@ -247,7 +248,7 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 			)
 		);
 
-		// Replace rather than extend, in order to specify dependencies:
+		// If editing this function, remove this line to replace the parent function.
 		// parent::render_js_frontend();.
 	}
 
