@@ -1,1 +1,2 @@
+./vendor/dotherightthing/wpdtrt-plugin-boilerplate/js/_backend.js
 ./js/_backend.js
