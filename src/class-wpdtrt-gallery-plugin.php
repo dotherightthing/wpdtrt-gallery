@@ -237,7 +237,7 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 			$attach_to_footer
 		);
 
-		// from Plugin.php.
+		// note: after wp_enqueue_script.
 		wp_localize_script( $this->get_prefix(),
 			$this->get_prefix() . '_config',
 			array(
