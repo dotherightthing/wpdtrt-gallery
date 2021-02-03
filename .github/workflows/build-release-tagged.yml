@@ -22,6 +22,7 @@ jobs:
     - name: Checkout repo
       uses: actions/checkout@v2
 
+    # MAMP Pro uses 7.2.20
     - name: Setup PHP
       uses: shivammathur/setup-php@v2
       with:
