@@ -326,24 +326,6 @@ function wpdtrt_gallery_plugin_init() {
 }
 
 /**
- * Group: Rewrite config
- */
-
-/**
- * Function: wpdtrt_gallery_rewrite_init
- *
- * Register Rewrite.
- */
-function wpdtrt_gallery_rewrite_init() {
-
-	global $wpdtrt_gallery_plugin;
-
-	$wpdtrt_gallery_rewrite = new WPDTRT_Gallery_Rewrite(
-		array()
-	);
-}
-
-/**
  * Group: Shortcode config
  */
 
@@ -368,65 +350,4 @@ function wpdtrt_gallery_shortcode_init() {
 			'selected_instance_options' => array(),
 		)
 	);
-}
-
-/**
- * Group: Taxonomy config
- */
-
-/**
- * Function: wpdtrt_gallery_taxonomy_init
- *
- * Register Taxonomy.
- *
- * Returns:
- *   object - Taxonomy/
- */
-function wpdtrt_gallery_taxonomy_init() {
-
-	global $wpdtrt_gallery_plugin;
-
-	$wpdtrt_gallery_taxonomy = new WPDTRT_Gallery_Taxonomy(
-		array()
-	);
-
-	// return a reference for unit testing.
-	return $wpdtrt_gallery_taxonomy;
-}
-
-/**
- * Group: Widget config
- */
-
-/**
- * Function: wpdtrt_gallery_widget_init
- *
- * Register a WordPress widget, passing in an instance of our custom widget class.
- *
- * Note:
- * - The plugin does not require registration, but widgets and shortcodes do.
- * - widget_init fires before init, unless init has a priority of 0
- *
- * Uses:
- *   ../../../../wp-includes/widgets.php
- *   https://github.com/dotherightthing/wpdtrt/tree/master/library/sidebars.php
- *
- * See:
- * - <https://codex.wordpress.org/Function_Reference/register_widget#Example>
- * - <https://wp-mix.com/wordpress-widget_init-not-working/>
- * - <https://codex.wordpress.org/Plugin_API/Action_Reference>
- *
- * TODO:
- * - Add form field parameters to the options array
- * - Investigate the 'classname' option
- */
-function wpdtrt_gallery_widget_init() {
-
-	global $wpdtrt_gallery_plugin;
-
-	$wpdtrt_gallery_widget = new WPDTRT_Gallery_Widget(
-		array()
-	);
-
-	register_widget( $wpdtrt_gallery_widget );
 }
