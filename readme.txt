@@ -6,7 +6,7 @@ Tags: gallery, video, audio, map
 Requires at least: 5.3.3
 Tested up to: 5.3.3
 Requires PHP: 7.2.15
-Stable tag: 2.0.8
+Stable tag: 2.0.9
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -27,6 +27,11 @@ Gallery viewer which supports images, panoramas, maps, SoundCloud and Vimeo.
 See [WordPress Usage](README.md#wordpress-usage).
 
 == Changelog ==
+
+= 2.0.9 =
+* [5a2cbb7] Update dependencies, update wpdtrt-plugin-boilerplate from 1.7.16 to 1.7.17
+* [895e3ba] Add missing variable to resolve error
+* [3cc5488] Remove redundant demo_shortcode_params (dotherightthing/wpdtrt-plugin-boilerplate#192)
 
 = 2.0.8 =
 * [ee6a003] Update wpdtrt-plugin-boilerplate from 1.7.15 to 1.7.16
