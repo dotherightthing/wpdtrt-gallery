@@ -28,7 +28,7 @@
   },
   "dependencies": {
     "accessible-components": "git+https://github.com/dotherightthing/accessible-components.git",
-    "urijs": "^1.19.1",
+    "urijs": "^1.19.6",
     "wpdtrt-scss": "github:dotherightthing/wpdtrt-scss#semver:*"
   },
   "config": {
