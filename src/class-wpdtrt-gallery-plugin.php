@@ -1420,177 +1420,187 @@ class WPDTRT_Gallery_Plugin extends DoTheRightThing\WPDTRT_Plugin_Boilerplate\r_
 	 * --- php
 	 * do_shortcode( '[wpdtrt_gallery]H2 heading text[/wpdtrt_gallery]' );
 	 * ---
-	 *
-	 * TODO:
-	 * - https://github.com/dotherightthing/wpdtrt-gallery/issues/81
 	 */
 	public function filter_content_inject_shortcode( string $content ) : string {
-		// Prevent DOMDocument from raising warnings about invalid HTML.
-		libxml_use_internal_errors( true );
+		global $wpdtrt_anchorlinks_plugin; // created by wpdtrt-anchorlinks.php.
 
-		$dom = new DOMDocument();
-		$dom->loadHTML( mb_convert_encoding( $content, 'HTML-ENTITIES', 'UTF-8' ) );
+		$wpdtrt_anchorlinks_plugin_options = $wpdtrt_anchorlinks_plugin->get_plugin_options();
 
-		// phpcs:disable WordPress.NamingConventions
+		if ( key_exists( 'value', $wpdtrt_anchorlinks_plugin_options['heading_level'] ) && ( 'null' !== $wpdtrt_anchorlinks_plugin_options['heading_level']['value'] ) ) {
+			$wpdtrt_anchorlinks_heading_level = $wpdtrt_anchorlinks_plugin_options['heading_level']['value'];
 
-		// Clear errors, so they aren't kept in memory.
-		libxml_clear_errors();
+			// Prevent DOMDocument from raising warnings about invalid HTML.
+			libxml_use_internal_errors( true );
 
-		// DOMDocument doesn't support HTML5, so we use a div rather than section element.
-		// These divs are now added by wpdtrt-anchorlinks.
-		// They are the direct descendants of the WP 'content'.
-		// They take the IDs required to highlight the 'active' anchor list link.
-		$content_replacements = [];
-		$headings             = $dom->getElementsByTagName( 'h2' );
-		$sections             = [];
+			$dom = new DOMDocument();
+			$dom->loadHTML( mb_convert_encoding( $content, 'HTML-ENTITIES', 'UTF-8' ) );
 
-		foreach ( $headings as $heading ) {
-			$div = $heading->parentNode;
+			// phpcs:disable WordPress.NamingConventions
 
-			// class is added to h2 by wpdtrt-anchorlinks->filter_content_anchors().
-			$is_section = 'wpdtrt-anchorlinks__section wpdtrt-anchorlinks__anchor' === $div->getAttribute( 'class' );
+			// Clear errors, so they aren't kept in memory.
+			libxml_clear_errors();
 
-			if ( $is_section ) {
-				$section                     = $div;
-				$gallery                     = null;
-				$gallery_shortcode           = '';
-				$heading_data_anchorlinks_id = '';
-				$heading_html                = '';
-				$heading_text                = '';
-				$section_attr                = ' data-wpdtrt-anchorlinks-controls="highlighting"';
-				$section_class               = 'wpdtrt-gallery__section';
-				$section_html                = '';
-				$section_id                  = '';
-				$section_inner_html          = $this->render_html( $section, false );
-				$section_tabindex            = '';
+			// DOMDocument doesn't support HTML5, so a div is used rather than a section element.
+			// These divs are added by wpdtrt-anchorlinks.
+			// They are the direct descendants of the WP 'content'.
+			// They take the data attributes required to highlight the 'active' anchor list link.
+			$content_replacements = [];
+			$headings             = $dom->getElementsByTagName( $wpdtrt_anchorlinks_heading_level );
+			$sections             = [];
 
-				// check if $heading sibling is gallery shortcode.
-				if ( null !== $heading->nextSibling ) {
-					// Check node type
-					// XML_TEXT_NODE = DOMText.
-					// XML_ELEMENT_NODE = DOMElement.
-					// See https://www.php.net/manual/en/class.domtext.php.
-					// See https://www.php.net/manual/en/dom.constants.php.
-					if ( XML_TEXT_NODE === $heading->nextSibling->nodeType ) {
-						// unsure why additional sibling is required.
-						$siblingText = $heading->nextSibling->wholeText;
+			foreach ( $headings as $heading ) {
+				$div = $heading->parentNode;
 
-						// substr would also work
-						// but I'm concerned about leading whitespace.
-						preg_match( '/\[gallery link="file" ids=/', $siblingText, $gallery_matches );
+				// class is added to div by wpdtrt-anchorlinks->filter_content_anchors().
+				$is_section = 'wpdtrt-anchorlinks__section' === $div->getAttribute( 'class' );
 
-						if ( count( $gallery_matches ) > 0 ) {
-							$gallery = $heading->nextSibling;
+				if ( $is_section ) {
+					$section            = $div;
+					$gallery            = null;
+					$gallery_shortcode  = '';
+					$heading_html       = '';
+					$heading_id         = '';
+					$heading_text       = '';
+					$section_attrs      = array( 'class', 'id', 'data-anchorlinks-id', 'data-anchorlinks-controls' );
+					$section_class      = 'wpdtrt-gallery__section';
+					$section_html       = '';
+					$section_id         = '';
+					$section_inner_html = $this->render_html( $section, false );
+
+					// check if $heading sibling is gallery shortcode.
+					if ( null !== $heading->nextSibling ) {
+						// Check node type
+						// XML_TEXT_NODE = DOMText.
+						// XML_ELEMENT_NODE = DOMElement.
+						// See https://www.php.net/manual/en/class.domtext.php.
+						// See https://www.php.net/manual/en/dom.constants.php.
+						if ( XML_TEXT_NODE === $heading->nextSibling->nodeType ) {
+							// unsure why additional sibling is required.
+							$siblingText = $heading->nextSibling->wholeText;
+
+							// substr would also work
+							// but I'm concerned about leading whitespace.
+							preg_match( '/\[gallery link="file" ids=/', $siblingText, $gallery_matches );
+
+							if ( count( $gallery_matches ) > 0 ) {
+								$gallery = $heading->nextSibling;
+							}
 						}
 					}
-				}
 
-				$heading_html                = $this->render_html( $heading, true );
-				$heading_text                = $this->render_html( $heading, false );
-				$heading_text                = explode( '<', $heading_text )[0];
-				$heading_data_anchorlinks_id = $heading->getAttribute( 'data-anchorlinks-id' );
-				$heading_anchor              = $heading->getElementsByTagName( 'a' );
-				$anchor_html                 = '';
+					$heading_html        = $this->render_html( $heading, true );
+					$heading_text        = $this->render_html( $heading, false );
+					$heading_text        = explode( '<', $heading_text )[0];
+					$heading_class       = $heading->getAttribute( 'class' ); // anchorlinks.
+					$heading_id          = $heading->getAttribute( 'id' ); // anchorlinks.
+					$heading_anchor      = $heading->getElementsByTagName( 'a' );
+					$heading_anchor_html = '';
+					$section_attrs_html  = '';
 
-				if ( $heading_anchor->length > 0 ) {
-					$heading_anchor_html = $this->render_html( $heading_anchor[0], true );
-				}
+					if ( $heading_anchor->length > 0 ) {
+						$heading_anchor_html = $this->render_html( $heading_anchor[0], true );
+					}
 
-				$section_class    = $section->getAttribute( 'class' ) . ' wpdtrt-gallery__section';
-				$section_id       = $section->getAttribute( 'id' );
-				$section_tabindex = $section->getAttribute( 'tabindex' );
+					foreach ( $section_attrs as $section_attr ) {
+						$val = $section->getAttribute( $section_attr );
 
-				/**
-				 * Rebuild the start of the sectioning element to add our own class and attributes.
-				 */
+						if ( $val ) {
+							if ( 'class' === $section_attr ) {
+								$val = $val . ' ' . $section_class;
+							}
 
-				$section_attrs  = " class='{$section_class}'";
-				$section_attrs .= $section_attr;
+							$section_attrs_html .= " {$section_attr}='{$val}'";
+						}
+					}
 
-				if ( strlen( $section_id ) > 0 ) {
-					$section_attrs .= ' id="' . $section_id . '"';
-				}
-
-				if ( strlen( $section_tabindex ) > 0 ) {
-					$section_attrs .= ' tabindex="' . $section_tabindex . '"';
-				}
-
-				$section_html .= "<div{$section_attrs}>";
-
-				if ( isset( $gallery ) ) {
 					/**
-					 * Remove existing gallery shortcode.
+					 * Rebuild the start of the sectioning element to add our own class and attributes.
 					 */
 
-					$gallery_shortcode = $this->render_html( $gallery, true );
+					$section_html .= "<div {$section_attrs_html}>";
 
-					if ( strlen( $gallery_shortcode ) > 0 ) {
-						$section_inner_html = str_replace( $gallery_shortcode, '', $section_inner_html );
-					}
-
-					preg_match( '/\[gallery link="file" ids=/', $gallery->nodeValue, $gallery_matches );
-
-					if ( count( $gallery_matches ) > 0 ) {
+					if ( isset( $gallery ) ) {
 						/**
-						 * Add custom attributes to gallery shortcode.
+						 * Remove existing gallery shortcode.
 						 */
 
-						$gallery_shortcode_attrs = '';
+						$gallery_shortcode = $this->render_html( $gallery, true );
 
-						if ( '' !== $heading_text ) {
-							$gallery_shortcode_attrs .= " title='{$heading_text}'";
+						if ( strlen( $gallery_shortcode ) > 0 ) {
+							$section_inner_html = str_replace( $gallery_shortcode, '', $section_inner_html );
 						}
 
-						if ( '' !== $heading_data_anchorlinks_id ) {
-							$title_extra_attrs        = ' data-anchorlinks-id="' . $heading_data_anchorlinks_id . '"';
-							$title_extra_html         = $heading_anchor_html;
+						preg_match( '/\[gallery link="file" ids=/', $gallery->nodeValue, $gallery_matches );
+
+						if ( count( $gallery_matches ) > 0 ) {
+							/**
+							 * Add custom attributes to gallery shortcode.
+							 */
+
+							$gallery_shortcode_attrs = '';
+							$title_extra_attrs       = '';
+							$title_extra_html        = '';
+
+							if ( '' !== $heading_text ) {
+								$gallery_shortcode_attrs .= " title='{$heading_text}'";
+							}
+
+							if ( '' !== $heading_id ) {
+								$title_extra_attrs .= ' id="' . $heading_id . '"';
+								$title_extra_html  .= $heading_anchor_html;
+							}
+
+							if ( '' !== $heading_class ) {
+								$title_extra_attrs .= ' class="' . $heading_class . '" ';
+							}
+
 							$gallery_shortcode_attrs .= " titleextraattrs='{$title_extra_attrs}'";
 							$gallery_shortcode_attrs .= " titleextrahtml='{$title_extra_html}'";
+
+							$gallery_shortcode = str_replace( ']', $gallery_shortcode_attrs . ']', $gallery_shortcode );
+
+							/**
+							 * Insert gallery shortcode before content.
+							 */
+
+							$section_html .= $gallery_shortcode; // this is the raw shortcode.
+
+							// remove the old heading as it now appears in the gallery tabpanels area.
+							$section_inner_html = str_replace( $heading_html, '', $section_inner_html );
 						}
+					} else {
+						// inject heading shortcode
+						// .
+						// if there's no gallery, wrap heading in gallery heading shortcode.
+						// headings are wrapped regardless of whether they precede galleries
+						// to apply the gallery heading styling.
+						$new_heading_html = '[wpdtrt_gallery_shortcode_heading]' . $heading_html . '[/wpdtrt_gallery_shortcode_heading]';
 
-						$gallery_shortcode = str_replace( ']', $gallery_shortcode_attrs . ']', $gallery_shortcode );
-
-						/**
-						 * Insert gallery shortcode before content.
-						 */
-
-						$section_html .= $gallery_shortcode; // this is the raw shortcode.
-
-						// remove the old heading as it now appears in the gallery tabpanels area.
+						$section_html      .= $new_heading_html;
 						$section_inner_html = str_replace( $heading_html, '', $section_inner_html );
 					}
-				} else {
-					// inject heading shortcode
-					// .
-					// if there's no gallery, wrap heading in gallery heading shortcode.
-					// headings are wrapped regardless of whether they precede galleries
-					// to apply the gallery heading styling.
-					$new_heading_html = '[wpdtrt_gallery_shortcode_heading]' . $heading_html . '[/wpdtrt_gallery_shortcode_heading]';
 
-					$section_html      .= $new_heading_html;
-					$section_inner_html = str_replace( $heading_html, '', $section_inner_html );
+					// wrap remaining content.
+					$section_html .= '<div class="entry-content">';
+					$section_html .= str_replace( '&nbsp;', ' ', $section_inner_html );
+					$section_html .= '</div>';
+
+					// end section.
+					$section_html .= '</div>';
+
+					// update output.
+					$content_replacements[] = $section_html;
 				}
-
-				// wrap remaining content.
-				$section_html .= '<div class="entry-content">';
-				$section_html .= str_replace( '&nbsp;', ' ', $section_inner_html );
-				$section_html .= '</div>';
-
-				// end section.
-				$section_html .= '</div>';
-
-				// update output.
-				$content_replacements[] = $section_html;
 			}
-		}
 
-		// phpcs:enable WordPress.NamingConventions
+			// phpcs:enable WordPress.NamingConventions
 
-		if ( count( $content_replacements ) > 0 ) {
-			$content = '';
+			if ( count( $content_replacements ) > 0 ) {
+				$content = '';
 
-			foreach ( $content_replacements as $content_replacement ) {
-				$content .= $content_replacement;
+				foreach ( $content_replacements as $content_replacement ) {
+					$content .= $content_replacement;
+				}
 			}
 		}
 

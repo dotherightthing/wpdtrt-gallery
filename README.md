@@ -47,10 +47,10 @@ See `scss/variables/_css.scss`.
 
 ## Dependencies
 
-1. The WordPress content filter looks for galleries within the markup injected by [DTRT Anchorlinks](https://github.com/dotherightthing/wpdtrt-anchorlinks):
+1. The WordPress content filter looks for galleries within the markup injected by [DTRT Anchorlinks](https://github.com/dotherightthing/wpdtrt-anchorlinks). It also uses the *Heading level* set in that plugin's admin screen.
 
 ```html
-<div class="'wpdtrt-anchorlinks__section wpdtrt-anchorlinks__anchor">
+<div class="wpdtrt-anchorlinks__section">
     <!-- h2, .gallery, etc -->
 </div>
 ```

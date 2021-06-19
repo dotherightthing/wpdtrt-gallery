@@ -445,7 +445,7 @@ class WPDTRT_GalleryTest extends WP_UnitTestCase {
 				->parentNode
 				->parentNode
 				->parentNode
-				->getAttribute( 'data-wpdtrt-anchorlinks-controls' ),
+				->getAttribute( 'data-anchorlinks-controls' ),
 			'wpdtrt-gallery__section should control anchorlink highlighting'
 		);
 	}
@@ -505,7 +505,7 @@ class WPDTRT_GalleryTest extends WP_UnitTestCase {
 				->parentNode
 				->parentNode
 				->parentNode
-				->getAttribute( 'data-wpdtrt-anchorlinks-controls' ),
+				->getAttribute( 'data-anchorlinks-controls' ),
 			'wpdtrt-gallery__section should control link highlighting'
 		);
 	}
