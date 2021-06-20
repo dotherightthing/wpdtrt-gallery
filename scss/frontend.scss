@@ -315,7 +315,7 @@
     }
 
     &__iframe-wrapper {
-        @extend %wpdtrt-scss-embed;
+        @include wpdtrt-scss-embed(846, 360);
     }
 
     &__iframe {
