@@ -58,5 +58,6 @@ See `scss/variables/_css.scss`.
 ## Demo pages
 
 1. Gallery with audio: [Don't Believe The Hype - Day 13](https://dontbelievethehype.co.nz/tourdiaries/asia/east-asia/russia/13/exploring-irkutsk/#section-quirky-cuisine)
+1. Gallery with map: [Don't Believe The Hype - Rainbow Road - Day 1](https://dontbelievethehype.co.nz/tourdiaries/south-island-nz/rainbow-road//1/picton-to-renwick/) (pending)
 1. Gallery with panorama: [Don't Believe The Hype - Day 17](https://dontbelievethehype.co.nz/tourdiaries/asia/east-asia/russia/17/buguldeyka-to-yelantsy/#section-leaving-buguldeyka)
 1. Gallery with video: [Don't Believe The Hype - Day 11](https://dontbelievethehype.co.nz/tourdiaries/asia/east-asia/russia/11/exploring-chita/#section-soviet-style)
