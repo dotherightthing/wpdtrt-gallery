@@ -12,7 +12,7 @@
 // -------------------------------------------------------------------
 
 @use '../node_modules/wpdtrt-scss/scss/variables/scss' as commonVariables;
-@use 'node_modules/accessible-components/scss/accessible-components-variables';
+@use '../node_modules/accessible-components/scss/accessible-components-variables';
 @use 'variables/scss' as localVariables;
 
 // -------------------------------------------------------------------
@@ -26,6 +26,8 @@
 @use '../node_modules/wpdtrt-scss/scss/mixins/show';
 @use '../node_modules/wpdtrt-scss/scss/mixins/type';
 @use '../node_modules/wpdtrt-scss/scss/mixins/viewport';
+
+@use '../node_modules/include-media/dist/include-media' as *;
 
 // -------------------------------------------------------------------
 // Extends
@@ -92,7 +94,7 @@
 
         position: relative; // stack on top of sticky nav
         width: 100%;
-        height: ($tab-gutter-mobile-vert + 100px + $tab-gutter-mobile-vert); // gutter + thumbnail + gutter
+        height: (localVariables.$tab-gutter-mobile-vert + 100px + localVariables.$tab-gutter-mobile-vert); // gutter + thumbnail + gutter
         white-space: nowrap;
         overflow-x: auto; // scrollable row of thumbnails
         overflow-y: hidden;
@@ -125,7 +127,7 @@
         background-color: var(--wpdtrt-gallery-bg-color-loading);
         padding: 0;
         border: 0;
-        margin: $tab-gutter-mobile-vert $tab-gutter $tab-gutter-mobile-vert 0;
+        margin: localVariables.$tab-gutter-mobile-vert localVariables.$tab-gutter localVariables.$tab-gutter-mobile-vert 0;
 
         &--last {
             margin-right: (6px + 60px); // space for expand button
@@ -371,7 +373,7 @@
             content: '';
             display: block;
             position: absolute;
-            top: ((-1 * 100px) + (-1 * $tab-gutter-mobile-vert)); // gutter + thumbnail + gutter
+            top: ((-1 * 100px) + (-1 * localVariables.$tab-gutter-mobile-vert)); // gutter + thumbnail + gutter
             right: 60px;
             width: 6px;
             height: 100px;
@@ -384,7 +386,7 @@
     &__expand {
         opacity: .9;
         position: absolute;
-        top: ((-1 * 100px) + (-1 * $tab-gutter-mobile-vert));// gutter + thumbnail + gutter
+        top: ((-1 * 100px) + (-1 * localVariables.$tab-gutter-mobile-vert));// gutter + thumbnail + gutter
         right: 0;
         z-index: 2;
         width: 60px;
@@ -564,8 +566,8 @@
                     @for $i from 3 through 3 {
                         &.gallery-columns-#{$i} {
                             #{$block}__tab {
-                                width: calc(#{(100 / $i) * 1%} - #{$tab-gutter} + #{$tab-gutter/$i}); // $i columns
-                                margin: 0 $tab-gutter $tab-gutter 0;
+                                width: calc(#{(100 / $i) * 1%} - #{localVariables.$tab-gutter} + #{localVariables.$tab-gutter/$i}); // $i columns
+                                margin: 0 localVariables.$tab-gutter localVariables.$tab-gutter 0;
 
                                 &,
                                 &--last {
