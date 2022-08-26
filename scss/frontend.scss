@@ -575,7 +575,7 @@ $breakpoints: map-merge((
                     @for $i from 3 through 3 {
                         &.gallery-columns-#{$i} {
                             #{$block}__tab {
-                                width: calc(#{(100 / $i) * 1%} - #{localVariables.$tab-gutter} + #{localVariables.$tab-gutter/$i}); // $i columns
+                                width: calc(#{calc(100 / $i) * 1%} - #{localVariables.$tab-gutter} + #{calc(localVariables.$tab-gutter/$i)}); // $i columns
                                 margin: 0 localVariables.$tab-gutter localVariables.$tab-gutter 0;
 
                                 &,
