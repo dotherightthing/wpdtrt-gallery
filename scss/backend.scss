@@ -7,7 +7,7 @@
 //   0.8.13 - DTRT WordPress Plugin Boilerplate Generator
 //
 
-@use '../node_modules/wpdtrt-scss/scss/index';
+@use '../node_modules/wpdtrt-scss/scss' as wpdtrt-scss;
 @use 'variables/scss' as *;
 
 // Attachment Page

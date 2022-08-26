@@ -7,14 +7,13 @@
 //   0.8.13 - DTRT WordPress Plugin Boilerplate Generator
 //
 
-// @use '../node_modules/wpdtrt-scss/scss/variables/scss' as vars; // @forward as not working
-@use '../node_modules/wpdtrt-scss/scss/index';
+@use '../node_modules/wpdtrt-scss/scss' as wpdtrt-scss;
 @use '../node_modules/accessible-components/scss/frontend';
 @use '../node_modules/include-media/dist/include-media' as *; // defines $breakpoints
 @use '../icons/icomoon/style.scss' as icomoon;
 @use 'variables/scss' as *;
 
-$breakpoints: map-merge($breakpoints, index.$wpdtrt-scss-breakpoints);
+$breakpoints: map-merge($breakpoints, wpdtrt-scss.$breakpoints);
 
 .wpdtrt-gallery {
     $block: &;
@@ -297,7 +296,7 @@ $breakpoints: map-merge($breakpoints, index.$wpdtrt-scss-breakpoints);
     }
 
     &__iframe-wrapper {
-        @include index.wpdtrt-scss-embed(846, 360);
+        @include wpdtrt-scss.embed(846, 360);
     }
 
     &__iframe {
@@ -499,7 +498,7 @@ $breakpoints: map-merge($breakpoints, index.$wpdtrt-scss-breakpoints);
                         // &:focus-visible can't be used due to the need for this wrapper,
                         // which limits tablist contents to only tabs
                         #{$block}__tab-hint-liner {
-                            @include index.wpdtrt-scss-show-visually;
+                            @include wpdtrt-scss.show-visually;
                         }
                     }
                 }
@@ -549,7 +548,7 @@ $breakpoints: map-merge($breakpoints, index.$wpdtrt-scss-breakpoints);
                 }
 
                 &__tablist-header {
-                    @include index.wpdtrt-scss-show-visually;
+                    @include wpdtrt-scss.show-visually;
                 }
 
                 &__tab {
