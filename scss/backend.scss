@@ -11,20 +11,20 @@
 // Variables
 // -------------------------------------------------------------------
 
-@import '../node_modules/wpdtrt-scss/scss/variables/scss';
-@import 'variables/scss';
+@use '../node_modules/wpdtrt-scss/scss/variables/scss';
+@use 'variables/scss';
 
 // -------------------------------------------------------------------
 // Mixins
 // -------------------------------------------------------------------
 
-@import '../node_modules/wpdtrt-scss/scss/mixins';
+@use '../node_modules/wpdtrt-scss/scss/mixins';
 
 // -------------------------------------------------------------------
 // Extends
 // -------------------------------------------------------------------
 
-@import '../node_modules/wpdtrt-scss/scss/extends';
+@use '../node_modules/wpdtrt-scss/scss/extends';
 
 // -------------------------------------------------------------------
 // Styles

@@ -11,27 +11,27 @@
 // Variables
 // -------------------------------------------------------------------
 
-@import '../node_modules/wpdtrt-scss/scss/variables/scss';
-@import 'node_modules/accessible-components/scss/accessible-components-variables';
-@import 'variables/scss';
+@use '../node_modules/wpdtrt-scss/scss/variables/scss';
+@use 'node_modules/accessible-components/scss/accessible-components-variables';
+@use 'variables/scss';
 
 // -------------------------------------------------------------------
 // Mixins
 // -------------------------------------------------------------------
 
-@import '../node_modules/wpdtrt-scss/scss/mixins';
+@use '../node_modules/wpdtrt-scss/scss/mixins';
 
 // -------------------------------------------------------------------
 // Extends
 // -------------------------------------------------------------------
 
-@import '../node_modules/wpdtrt-scss/scss/extends';
+@use '../node_modules/wpdtrt-scss/scss/extends';
 
 // -------------------------------------------------------------------
 // Styles
 // -------------------------------------------------------------------
 
-@import '../icons/icomoon/style.scss';
+@use '../icons/icomoon/style.scss';
 
 .wpdtrt-gallery {
     $block: &;
