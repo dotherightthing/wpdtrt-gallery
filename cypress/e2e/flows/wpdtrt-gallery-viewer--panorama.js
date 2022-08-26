@@ -1,5 +1,5 @@
 /**
- * @file cypress/integration/flows/wpdtrt-gallery-viewer--panorama.js
+ * @file cypress/e2e/flows/wpdtrt-gallery-viewer--panorama.js
  * @summary Cypress spec for End-to-End UI testing.
  * @requires DTRT WordPress Plugin Boilerplate Generator 0.8.13
  * {@link https://github.com/dotherightthing/wpdtrt-plugin-boilerplate/wiki/Testing-&-Debugging:-Cypress.io|Testing & Debugging: Cypress.io}
