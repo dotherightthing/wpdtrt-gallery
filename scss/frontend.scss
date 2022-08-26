@@ -19,13 +19,27 @@
 // Mixins
 // -------------------------------------------------------------------
 
-@use '../node_modules/wpdtrt-scss/scss/mixins' as commonMixins;
+@use '../node_modules/wpdtrt-scss/scss/mixins/colour';
+@use '../node_modules/wpdtrt-scss/scss/mixins/embed';
+@use '../node_modules/wpdtrt-scss/scss/mixins/hide';
+@use '../node_modules/wpdtrt-scss/scss/mixins/link';
+@use '../node_modules/wpdtrt-scss/scss/mixins/show';
+@use '../node_modules/wpdtrt-scss/scss/mixins/type';
+@use '../node_modules/wpdtrt-scss/scss/mixins/viewport';
 
 // -------------------------------------------------------------------
 // Extends
 // -------------------------------------------------------------------
 
-@use '../node_modules/wpdtrt-scss/scss/extends' as commonExtends;
+@use '../node_modules/wpdtrt-scss/scss/extends/attachment';
+@use '../node_modules/wpdtrt-scss/scss/extends/focus';
+@use '../node_modules/wpdtrt-scss/scss/extends/hide';
+@use '../node_modules/wpdtrt-scss/scss/extends/img';
+@use '../node_modules/wpdtrt-scss/scss/extends/layout';
+@use '../node_modules/wpdtrt-scss/scss/extends/link';
+@use '../node_modules/wpdtrt-scss/scss/extends/reset';
+@use '../node_modules/wpdtrt-scss/scss/extends/show';
+@use '../node_modules/wpdtrt-scss/scss/extends/type';
 
 // -------------------------------------------------------------------
 // Styles
@@ -57,7 +71,7 @@
     // ---------------------------------------------------
 
     &__tablist-header {
-        @extend %wpdtrt-scss-hide-visually;
+        @extend %hide.hide-visually;
 
         background-color: var(--wpdtrt-gallery-title-background-color);
         color: var(--wpdtrt-gallery-title-color);
@@ -226,7 +240,7 @@
     &__tab-hint-liner {
         // toggle on on tab focus
 
-        @extend %wpdtrt-scss-hide-visually;
+        @extend %hide.hide-visually;
 
         color: var(--wpdtrt-gallery-tab-hint-color);
         padding-top: 16px;
@@ -314,7 +328,7 @@
     }
 
     &__iframe-wrapper {
-        @include wpdtrt-scss-embed(846, 360);
+        @include embed.embed(846, 360);
     }
 
     &__iframe {
@@ -516,7 +530,7 @@
                         // &:focus-visible can't be used due to the need for this wrapper,
                         // which limits tablist contents to only tabs
                         #{$block}__tab-hint-liner {
-                            @include wpdtrt-scss-show-visually;
+                            @include show.show-visually;
                         }
                     }
                 }
@@ -566,7 +580,7 @@
                 }
 
                 &__tablist-header {
-                    @include wpdtrt-scss-show-visually;
+                    @include show.show-visually;
                 }
 
                 &__tab {
