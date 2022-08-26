@@ -27,7 +27,16 @@
 @use '../node_modules/wpdtrt-scss/scss/mixins/type';
 @use '../node_modules/wpdtrt-scss/scss/mixins/viewport';
 
-@use '../node_modules/include-media/dist/include-media' as *;
+@use '../node_modules/include-media/dist/include-media' as *; // defines $breakpoints
+
+$breakpoints: map-merge((
+    phone: 320px,
+    phone_large: 400px, // 414px
+    tablet_small: 550px,
+    tablet: 710px, // 768px
+    laptop: 1366px,
+    desktop: 2000px
+), $breakpoints);
 
 // -------------------------------------------------------------------
 // Extends
