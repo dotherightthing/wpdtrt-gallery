@@ -29,7 +29,7 @@
   "dependencies": {
     "accessible-components": "git+https://github.com/dotherightthing/accessible-components.git",
     "urijs": "^1.19.6",
-    "wpdtrt-scss": "github:dotherightthing/wpdtrt-scss#semver:*"
+    "wpdtrt-scss": "github:dotherightthing/wpdtrt-scss"
   },
   "config": {
     "wpdtrt_base_url_local": "http://dontbelievethehype.dan",
@@ -54,6 +54,6 @@
   "homepage": "https://github.com/dotherightthing/wpdtrt-gallery",
   "srcDir": "/Volumes/DanBackup/Websites/wpdtrt-gallery",
   "devDependencies": {
-    "wpdtrt-npm-scripts": "github:dotherightthing/wpdtrt-npm-scripts#semver:*"
+    "wpdtrt-npm-scripts": "github:dotherightthing/wpdtrt-npm-scripts"
   }
 }
