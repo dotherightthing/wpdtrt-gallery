@@ -42,6 +42,7 @@
     "lint": "npm run lint --prefix $npm_package_config_wpdtrt_npm_scripts",
     "release": "npm run release --prefix $npm_package_config_wpdtrt_npm_scripts",
     "test": "npm run test --prefix $npm_package_config_wpdtrt_npm_scripts",
+    "test:js": "npm run test:js --prefix $npm_package_config_wpdtrt_npm_scripts",
     "test:jsui": "npx cypress open",
     "version": "npm run version --prefix $npm_package_config_wpdtrt_npm_scripts",
     "watch": "nodemon"
