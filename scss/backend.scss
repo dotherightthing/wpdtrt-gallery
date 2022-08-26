@@ -7,42 +7,8 @@
 //   0.8.13 - DTRT WordPress Plugin Boilerplate Generator
 //
 
-// -------------------------------------------------------------------
-// Variables
-// -------------------------------------------------------------------
-
-@use '../node_modules/wpdtrt-scss/scss/variables/scss' as commonVariables;
-@use 'variables/scss' as localVariables;
-
-// -------------------------------------------------------------------
-// Mixins
-// -------------------------------------------------------------------
-
-@use '../node_modules/wpdtrt-scss/scss/mixins/colour';
-@use '../node_modules/wpdtrt-scss/scss/mixins/embed';
-@use '../node_modules/wpdtrt-scss/scss/mixins/hide';
-@use '../node_modules/wpdtrt-scss/scss/mixins/link';
-@use '../node_modules/wpdtrt-scss/scss/mixins/show';
-@use '../node_modules/wpdtrt-scss/scss/mixins/type';
-@use '../node_modules/wpdtrt-scss/scss/mixins/viewport';
-
-// -------------------------------------------------------------------
-// Extends
-// -------------------------------------------------------------------
-
-@use '../node_modules/wpdtrt-scss/scss/extends/attachment' as *;
-@use '../node_modules/wpdtrt-scss/scss/extends/focus' as *;
-@use '../node_modules/wpdtrt-scss/scss/extends/hide' as *;
-@use '../node_modules/wpdtrt-scss/scss/extends/img' as *;
-@use '../node_modules/wpdtrt-scss/scss/extends/layout' as *;
-@use '../node_modules/wpdtrt-scss/scss/extends/link' as *;
-@use '../node_modules/wpdtrt-scss/scss/extends/reset' as *;
-@use '../node_modules/wpdtrt-scss/scss/extends/show' as *;
-@use '../node_modules/wpdtrt-scss/scss/extends/type' as *;
-
-// -------------------------------------------------------------------
-// Styles
-// -------------------------------------------------------------------
+@use '../node_modules/wpdtrt-scss/scss/index';
+@use 'variables/scss' as *;
 
 // Attachment Page
 
@@ -56,5 +22,5 @@
 }
 
 .compat-field-wpdtrt-gallery-vimeo-pageid {
-    @extend %attachment-field-divider-last;
+    @extend %wpdtrt-scss-attachment-field-divider-last;
 }

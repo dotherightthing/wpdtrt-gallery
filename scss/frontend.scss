@@ -7,56 +7,14 @@
 //   0.8.13 - DTRT WordPress Plugin Boilerplate Generator
 //
 
-// -------------------------------------------------------------------
-// Variables
-// -------------------------------------------------------------------
-
-@use '../node_modules/wpdtrt-scss/scss/variables/scss' as commonVariables;
-@use '../node_modules/accessible-components/scss/accessible-components-variables';
-@use 'variables/scss' as localVariables;
-
-// -------------------------------------------------------------------
-// Mixins
-// -------------------------------------------------------------------
-
-// @use '../node_modules/wpdtrt-scss/scss/mixins/colour';
-@use '../node_modules/wpdtrt-scss/scss/mixins/embed';
-// @use '../node_modules/wpdtrt-scss/scss/mixins/hide';
-// @use '../node_modules/wpdtrt-scss/scss/mixins/link';
-@use '../node_modules/wpdtrt-scss/scss/mixins/show';
-// @use '../node_modules/wpdtrt-scss/scss/mixins/type';
-// @use '../node_modules/wpdtrt-scss/scss/mixins/viewport';
-
+// @use '../node_modules/wpdtrt-scss/scss/variables/scss' as vars; // @forward as not working
+@use '../node_modules/wpdtrt-scss/scss/index';
+@use '../node_modules/accessible-components/scss/frontend';
 @use '../node_modules/include-media/dist/include-media' as *; // defines $breakpoints
-
-$breakpoints: map-merge((
-    phone: 320px,
-    phone_large: 400px, // 414px
-    tablet_small: 550px,
-    tablet: 710px, // 768px
-    laptop: 1366px,
-    desktop: 2000px
-), $breakpoints);
-
-// -------------------------------------------------------------------
-// Extends
-// -------------------------------------------------------------------
-
-@use '../node_modules/wpdtrt-scss/scss/extends/attachment' as *;
-@use '../node_modules/wpdtrt-scss/scss/extends/focus' as *;
-@use '../node_modules/wpdtrt-scss/scss/extends/hide' as *;
-@use '../node_modules/wpdtrt-scss/scss/extends/img' as *;
-@use '../node_modules/wpdtrt-scss/scss/extends/layout' as *;
-@use '../node_modules/wpdtrt-scss/scss/extends/link' as *;
-@use '../node_modules/wpdtrt-scss/scss/extends/reset' as *;
-@use '../node_modules/wpdtrt-scss/scss/extends/show' as *;
-@use '../node_modules/wpdtrt-scss/scss/extends/type' as *;
-
-// -------------------------------------------------------------------
-// Styles
-// -------------------------------------------------------------------
-
 @use '../icons/icomoon/style.scss' as icomoon;
+@use 'variables/scss' as *;
+
+$breakpoints: map-merge($breakpoints, index.$wpdtrt-scss-breakpoints);
 
 .wpdtrt-gallery {
     $block: &;
@@ -82,7 +40,7 @@ $breakpoints: map-merge((
     // ---------------------------------------------------
 
     &__tablist-header {
-        @extend %hide-visually;
+        @extend %wpdtrt-scss-hide-visually;
 
         background-color: var(--wpdtrt-gallery-title-background-color);
         color: var(--wpdtrt-gallery-title-color);
@@ -103,7 +61,7 @@ $breakpoints: map-merge((
 
         position: relative; // stack on top of sticky nav
         width: 100%;
-        height: (localVariables.$tab-gutter-mobile-vert + 100px + localVariables.$tab-gutter-mobile-vert); // gutter + thumbnail + gutter
+        height: ($tab-gutter-mobile-vert + 100px + $tab-gutter-mobile-vert); // gutter + thumbnail + gutter
         white-space: nowrap;
         overflow-x: auto; // scrollable row of thumbnails
         overflow-y: hidden;
@@ -136,7 +94,7 @@ $breakpoints: map-merge((
         background-color: var(--wpdtrt-gallery-bg-color-loading);
         padding: 0;
         border: 0;
-        margin: localVariables.$tab-gutter-mobile-vert localVariables.$tab-gutter localVariables.$tab-gutter-mobile-vert 0;
+        margin: $tab-gutter-mobile-vert $tab-gutter $tab-gutter-mobile-vert 0;
 
         &--last {
             margin-right: (6px + 60px); // space for expand button
@@ -251,7 +209,7 @@ $breakpoints: map-merge((
     &__tab-hint-liner {
         // toggle on on tab focus
 
-        @extend %hide-visually;
+        @extend %wpdtrt-scss-hide-visually;
 
         color: var(--wpdtrt-gallery-tab-hint-color);
         padding-top: 16px;
@@ -339,7 +297,7 @@ $breakpoints: map-merge((
     }
 
     &__iframe-wrapper {
-        @include embed.embed(846, 360);
+        @include index.wpdtrt-scss-embed(846, 360);
     }
 
     &__iframe {
@@ -382,7 +340,7 @@ $breakpoints: map-merge((
             content: '';
             display: block;
             position: absolute;
-            top: ((-1 * 100px) + (-1 * localVariables.$tab-gutter-mobile-vert)); // gutter + thumbnail + gutter
+            top: ((-1 * 100px) + (-1 * $tab-gutter-mobile-vert)); // gutter + thumbnail + gutter
             right: 60px;
             width: 6px;
             height: 100px;
@@ -395,7 +353,7 @@ $breakpoints: map-merge((
     &__expand {
         opacity: .9;
         position: absolute;
-        top: ((-1 * 100px) + (-1 * localVariables.$tab-gutter-mobile-vert));// gutter + thumbnail + gutter
+        top: ((-1 * 100px) + (-1 * $tab-gutter-mobile-vert));// gutter + thumbnail + gutter
         right: 0;
         z-index: 2;
         width: 60px;
@@ -541,7 +499,7 @@ $breakpoints: map-merge((
                         // &:focus-visible can't be used due to the need for this wrapper,
                         // which limits tablist contents to only tabs
                         #{$block}__tab-hint-liner {
-                            @include show.show-visually;
+                            @include index.wpdtrt-scss-show-visually;
                         }
                     }
                 }
@@ -575,8 +533,8 @@ $breakpoints: map-merge((
                     @for $i from 3 through 3 {
                         &.gallery-columns-#{$i} {
                             #{$block}__tab {
-                                width: calc(#{calc(100 / $i) * 1%} - #{localVariables.$tab-gutter} + #{calc(localVariables.$tab-gutter/$i)}); // $i columns
-                                margin: 0 localVariables.$tab-gutter localVariables.$tab-gutter 0;
+                                width: calc(#{calc(100 / $i) * 1%} - #{$tab-gutter} + #{calc($tab-gutter/$i)}); // $i columns
+                                margin: 0 $tab-gutter $tab-gutter 0;
 
                                 &,
                                 &--last {
@@ -591,7 +549,7 @@ $breakpoints: map-merge((
                 }
 
                 &__tablist-header {
-                    @include show.show-visually;
+                    @include index.wpdtrt-scss-show-visually;
                 }
 
                 &__tab {
