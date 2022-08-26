@@ -19,13 +19,13 @@
 // Mixins
 // -------------------------------------------------------------------
 
-@use '../node_modules/wpdtrt-scss/scss/mixins/colour';
+// @use '../node_modules/wpdtrt-scss/scss/mixins/colour';
 @use '../node_modules/wpdtrt-scss/scss/mixins/embed';
-@use '../node_modules/wpdtrt-scss/scss/mixins/hide';
-@use '../node_modules/wpdtrt-scss/scss/mixins/link';
+// @use '../node_modules/wpdtrt-scss/scss/mixins/hide';
+// @use '../node_modules/wpdtrt-scss/scss/mixins/link';
 @use '../node_modules/wpdtrt-scss/scss/mixins/show';
-@use '../node_modules/wpdtrt-scss/scss/mixins/type';
-@use '../node_modules/wpdtrt-scss/scss/mixins/viewport';
+// @use '../node_modules/wpdtrt-scss/scss/mixins/type';
+// @use '../node_modules/wpdtrt-scss/scss/mixins/viewport';
 
 @use '../node_modules/include-media/dist/include-media' as *; // defines $breakpoints
 
