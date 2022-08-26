@@ -30,15 +30,15 @@
 // Extends
 // -------------------------------------------------------------------
 
-@use '../node_modules/wpdtrt-scss/scss/extends/attachment';
-@use '../node_modules/wpdtrt-scss/scss/extends/focus';
-@use '../node_modules/wpdtrt-scss/scss/extends/hide';
-@use '../node_modules/wpdtrt-scss/scss/extends/img';
-@use '../node_modules/wpdtrt-scss/scss/extends/layout';
-@use '../node_modules/wpdtrt-scss/scss/extends/link';
-@use '../node_modules/wpdtrt-scss/scss/extends/reset';
-@use '../node_modules/wpdtrt-scss/scss/extends/show';
-@use '../node_modules/wpdtrt-scss/scss/extends/type';
+@use '../node_modules/wpdtrt-scss/scss/extends/attachment' as *;
+@use '../node_modules/wpdtrt-scss/scss/extends/focus' as *;
+@use '../node_modules/wpdtrt-scss/scss/extends/hide' as *;
+@use '../node_modules/wpdtrt-scss/scss/extends/img' as *;
+@use '../node_modules/wpdtrt-scss/scss/extends/layout' as *;
+@use '../node_modules/wpdtrt-scss/scss/extends/link' as *;
+@use '../node_modules/wpdtrt-scss/scss/extends/reset' as *;
+@use '../node_modules/wpdtrt-scss/scss/extends/show' as *;
+@use '../node_modules/wpdtrt-scss/scss/extends/type' as *;
 
 // -------------------------------------------------------------------
 // Styles
@@ -56,5 +56,5 @@
 }
 
 .compat-field-wpdtrt-gallery-vimeo-pageid {
-    @extend %attachment.attachment-field-divider-last;
+    @extend %attachment-field-divider-last;
 }
