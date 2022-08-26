@@ -11,27 +11,27 @@
 // Variables
 // -------------------------------------------------------------------
 
-@use '../node_modules/wpdtrt-scss/scss/variables/scss';
+@use '../node_modules/wpdtrt-scss/scss/variables/scss' as commonVariables;
 @use 'node_modules/accessible-components/scss/accessible-components-variables';
-@use 'variables/scss';
+@use 'variables/scss' as localVariables;
 
 // -------------------------------------------------------------------
 // Mixins
 // -------------------------------------------------------------------
 
-@use '../node_modules/wpdtrt-scss/scss/mixins';
+@use '../node_modules/wpdtrt-scss/scss/mixins' as commonMixins;
 
 // -------------------------------------------------------------------
 // Extends
 // -------------------------------------------------------------------
 
-@use '../node_modules/wpdtrt-scss/scss/extends';
+@use '../node_modules/wpdtrt-scss/scss/extends' as commonExtends;
 
 // -------------------------------------------------------------------
 // Styles
 // -------------------------------------------------------------------
 
-@use '../icons/icomoon/style.scss';
+@use '../icons/icomoon/style.scss' as icomoon;
 
 .wpdtrt-gallery {
     $block: &;

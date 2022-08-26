@@ -5,4 +5,4 @@
 // @package     wpdtrt_gallery
 // @since       1.9.9
 
-@use 'variables/css';
+@use '../node_modules/wpdtrt-scss/scss/variables/css' as localCssVariables;
