@@ -20,7 +20,7 @@ const componentClass = 'wpdtrt-gallery';
 const anchorlinksId = 'a-new-bike';
 const galleryId = 'galleryid-12';
 
-describe('DTRT Gallery - Image Viewer', function () {
+describe(`DTRT Gallery - Image Viewer (using ${Cypress.browser.name} browser)`, function () {
     before(function () {
         // load local tour diary page
         cy.visit('/tourdiaries/asia/east-asia/china-1/1/newzealand-to-china/');
@@ -127,10 +127,23 @@ describe('DTRT Gallery - Image Viewer', function () {
         });
 
         it('3. Does contain a landscape image, described accessibly', function () {
+            const dimensions = {
+                chrome: {
+                    w: '688.4609375px', // and electron on sidecar iPad rather than large monitor..
+                    h: '292.890625px'
+                },
+                electron: {
+                    w: '688.453125px', // and chrome on large monitor rather than sidecar iPad..
+                    h: '292.890625px'
+                }
+            };
+
+            // Math.round(Number(('688.4609375px').replace('px', '')))
+
             cy.get('@wpdtrtGalleryTabPanel').find('.wpdtrt-gallery__img-wrapper > img')
                 .should('exist')
-                .should('have.css', 'width', '688.4609375px')
-                .should('have.css', 'height', '292.890625px')
+                .should('have.css', 'width', dimensions[Cypress.browser.name].w)
+                .should('have.css', 'height', dimensions[Cypress.browser.name].h)
                 .invoke('attr', 'alt')
                 .should('match', /.+/); // alt !== ''
         });
@@ -180,10 +193,21 @@ describe('DTRT Gallery - Image Viewer', function () {
         it('2. Does contain a taller landscape image, described accessibly', function () {
             // can we use this.attr.src here or invoke?
 
+            const dimensions = {
+                chrome: {
+                    w: '688.4609375px', // and electron on sidecar iPad rather than large monitor..
+                    h: '387.6015625px'
+                },
+                electron: {
+                    w: '688.453125px', // and chrome on large monitor rather than sidecar iPad..
+                    h: '387.59375px'
+                }
+            };
+
             cy.get('@wpdtrtGalleryTabPanel').find('.wpdtrt-gallery__img-wrapper > img')
                 .should('exist')
-                .should('have.css', 'width', '688.4609375px')
-                .should('have.css', 'height', '387.6015625px')
+                .should('have.css', 'width', dimensions[Cypress.browser.name].w)
+                .should('have.css', 'height', dimensions[Cypress.browser.name].h)
                 .invoke('attr', 'alt')
                 .should('match', /.+/); // alt !== ''
         });
