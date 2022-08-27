@@ -10,6 +10,12 @@ module.exports = defineConfig({
         openMode: 2,
         runMode: 0
     },
+    reporter: 'mochawesome',
+    reporterOptions: {
+        overwrite: false,
+        html: false,
+        json: true
+    },
     video: false,
     viewportWidth: 1366,
     viewportHeight: 768,

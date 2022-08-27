@@ -23,3 +23,4 @@ docs
 node_modules
 vendor
 # End
+mochawesome-report
