@@ -17,7 +17,7 @@
 /* eslint-disable func-names */
 
 const componentClass = 'wpdtrt-gallery';
-const sectionId = 'section-a-new-bike';
+const anchorlinksId = 'a-new-bike';
 const galleryId = 'galleryid-12';
 
 describe('DTRT Gallery - Image Viewer', function () {
@@ -33,7 +33,7 @@ describe('DTRT Gallery - Image Viewer', function () {
 
         // a gallery viewer that is below the fold won't have been transformed yet
         // the default gallery item is an image, which is accessible
-        cy.get(`#${ sectionId } .${ componentClass }`)
+        cy.get(`[data-anchorlinks-id='${ anchorlinksId }'] .${ componentClass }`)
             .as('wpdtrtGallery');
 
         cy.get(`#${galleryId}-tabpanel-1`)
@@ -45,7 +45,7 @@ describe('DTRT Gallery - Image Viewer', function () {
         //  .as('galleryBelowFold');
 
         // @aliases for injected elements
-        // cy.get(`#${ sectionId } .child-injected`).as('componentInjected');
+        // cy.get(`#${ anchorlinksId } .child-injected`).as('componentInjected');
     });
 
     describe('A. Configuration', function () {
@@ -129,7 +129,7 @@ describe('DTRT Gallery - Image Viewer', function () {
         it('3. Does contain a landscape image, described accessibly', function () {
             cy.get('@wpdtrtGalleryTabPanel').find('.wpdtrt-gallery__img-wrapper > img')
                 .should('exist')
-                .should('have.css', 'width', '688.453125px')
+                .should('have.css', 'width', '688.4609375px')
                 .should('have.css', 'height', '292.890625px')
                 .invoke('attr', 'alt')
                 .should('match', /.+/); // alt !== ''
@@ -182,8 +182,8 @@ describe('DTRT Gallery - Image Viewer', function () {
 
             cy.get('@wpdtrtGalleryTabPanel').find('.wpdtrt-gallery__img-wrapper > img')
                 .should('exist')
-                .should('have.css', 'width', '688.453125px')
-                .should('have.css', 'height', '387.59375px')
+                .should('have.css', 'width', '688.4609375px')
+                .should('have.css', 'height', '387.6015625px')
                 .invoke('attr', 'alt')
                 .should('match', /.+/); // alt !== ''
         });

@@ -16,7 +16,7 @@
 /* eslint-disable func-names */
 
 const componentClass = 'wpdtrt-gallery';
-const sectionId = 'section-itchy-feet';
+const anchorlinksId = 'itchy-feet';
 const galleryId = 'galleryid-9';
 
 describe('DTRT Gallery - Panorama Viewer', function () {
@@ -32,7 +32,7 @@ describe('DTRT Gallery - Panorama Viewer', function () {
 
         // a gallery viewer that is below the fold won't have been transformed yet
         // the default gallery item is a panorama
-        cy.get(`#${ sectionId } .${ componentClass }`)
+        cy.get(`[data-anchorlinks-id='${ anchorlinksId }'] .${ componentClass }`)
             .as('wpdtrtGallery');
 
         cy.get(`#${galleryId}-tabpanel-1`)
