@@ -10,7 +10,13 @@
 
 $_tests_dir = getenv( 'WP_TESTS_DIR' );
 
+// TODO sys_get_temp_dir() returns default of '/tmp' on Github Actions CI.
 if ( ! $_tests_dir ) {
+	// if the default value is returned.
+	if ( sys_get_temp_dir() === '/tmp' ) {
+		throw new Exception( 'sys_get_temp_dir returned /tmp. RUNNER_TEMP = ' . getenv( 'RUNNER_TEMP' ) );
+	}
+
 	$_tests_dir = rtrim( sys_get_temp_dir(), '/\\' ) . '/tmp/wordpress-tests-lib';
 }
 
