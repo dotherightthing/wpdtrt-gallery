@@ -28,7 +28,8 @@
         "phpunit/phpunit": "^7.5.14",
         "psy/psysh" : "~0.6",
         "wp-cli/wp-cli": "^2.3",
-        "dotherightthing/wpdtrt-exif": "^0.2.2"
+        "dotherightthing/wpdtrt-exif": "^0.2.2",
+        "yoast/phpunit-polyfills": "^1.0"
     },
     "extra": {
         "require-wp": [

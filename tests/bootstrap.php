@@ -21,6 +21,9 @@ if ( ! file_exists( $_tests_dir . '/includes/functions.php' ) ) {
 // Give access to tests_add_filter() function.
 require_once $_tests_dir . '/includes/functions.php';
 
+// The PHPUnit Polyfills library is a requirement for running the WP test suite.
+require_once dirname( dirname( __FILE__ ) ) . '/vendor/yoast/phpunit-polyfills/phpunitpolyfills-autoload.php';
+
 /**
  * Manually load the plugin being tested, and any dependencies.
  */
