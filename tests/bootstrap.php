@@ -8,16 +8,20 @@
  *   0.8.13 - DTRT WordPress Plugin Boilerplate Generator
  */
 
-$_tests_dir = getenv( 'WP_TESTS_DIR' );
+$_tests_dir   = getenv( 'WP_TESTS_DIR' );
 
-// TODO sys_get_temp_dir() returns default of '/tmp' on Github Actions CI.
+// https://docs.github.com/en/actions/learn-github-actions/environment-variables#default-environment-variables.
+$_ci          = getenv( 'CI' );
+$_ci_temp_dir = getenv( 'RUNNER_TEMP' );
+
 if ( ! $_tests_dir ) {
-	// if the default value is returned.
-	if ( sys_get_temp_dir() === '/tmp' ) {
-		throw new Exception( 'sys_get_temp_dir returned /tmp. RUNNER_TEMP = ' . getenv( 'RUNNER_TEMP' ) );
+	if ( isset( $ci, $_ci_temp_dir ) ) {
+		$_env_temp_dir = $_ci_temp_dir;
+	} else {
+		$_env_temp_dir = sys_get_temp_dir();
 	}
 
-	$_tests_dir = rtrim( sys_get_temp_dir(), '/\\' ) . '/tmp/wordpress-tests-lib';
+	$_tests_dir = rtrim( $_env_temp_dir, '/\\' ) . '/tmp/wordpress-tests-lib';
 }
 
 if ( ! file_exists( $_tests_dir . '/includes/functions.php' ) ) {
