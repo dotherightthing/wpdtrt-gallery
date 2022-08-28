@@ -21,7 +21,7 @@ if ( ! $_tests_dir ) {
 		$_env_temp_dir = sys_get_temp_dir();
 	}
 
-	$_tests_dir = rtrim( $_env_temp_dir, '/\\' ) . '/tmp/wordpress-tests-lib';
+	$_tests_dir = rtrim( $_env_temp_dir, '/\\' ) . '/wordpress-tests-lib';
 }
 
 if ( ! file_exists( $_tests_dir . '/includes/functions.php' ) ) {
