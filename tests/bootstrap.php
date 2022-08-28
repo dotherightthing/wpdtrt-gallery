@@ -14,11 +14,15 @@ $_tests_dir = getenv( 'WP_TESTS_DIR' );
 $_ci          = getenv( 'CI' );
 $_ci_temp_dir = getenv( 'RUNNER_TEMP' );
 
-echo isset( $_ci ) ? ( 'ci = true' ) : 'not ci';
-echo ' | ';
-echo isset( $_ci_temp_dir ) ? ( '_ci_temp_dir = ' . $_ci_temp_dir ) : 'not _ci_temp_dir';
-echo ' | ';
-echo isset( $ci, $_ci_temp_dir ) ? 'both set' : 'neither set';
+$debug = '';
+
+$debug .= isset( $_ci ) ? ( 'ci = true' ) : 'not ci';
+$debug .= ' | ';
+$debug .= isset( $_ci_temp_dir ) ? ( '_ci_temp_dir = ' . $_ci_temp_dir ) : 'not _ci_temp_dir';
+$debug .= ' | ';
+$debug .= isset( $ci, $_ci_temp_dir ) ? 'both set' : 'neither set';
+
+throw new Exception( $debug );
 
 if ( ! $_tests_dir ) {
 	if ( isset( $ci, $_ci_temp_dir ) ) {
