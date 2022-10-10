@@ -55,6 +55,6 @@
   "homepage": "https://github.com/dotherightthing/wpdtrt-gallery",
   "srcDir": "/Volumes/DanBackup/Websites/wpdtrt-gallery",
   "devDependencies": {
-    "wpdtrt-npm-scripts": "github:dotherightthing/wpdtrt-npm-scripts"
+    "wpdtrt-npm-scripts": "github:dotherightthing/wpdtrt-npm-scripts#semver:0.4.*"
   }
 }
