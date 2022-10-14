@@ -7,13 +7,32 @@
 //   0.8.13 - DTRT WordPress Plugin Boilerplate Generator
 //
 
+// -------------------------------------------------------------------
+// Imports
+// -------------------------------------------------------------------
+
+// Import wpdtrt-scss library helpers
 @use '../node_modules/wpdtrt-scss/scss' as wpdtrt-scss;
-@use '../node_modules/accessible-components/scss/frontend';
-@use '../node_modules/include-media/dist/include-media' as *; // defines $breakpoints
-@use '../icons/icomoon/style.scss' as icomoon;
+
+// Import `include media` library (including default `$breakpoint` map)
+@use '../node_modules/include-media/dist/include-media' as *;
+
+// Import local variables
 @use 'variables/scss' as *;
 
+// Import other libraries
+@use '../node_modules/accessible-components/scss/frontend';
+@use '../icons/icomoon/style.scss' as icomoon;
+
+// Extend default `$breakpoint` map from library variables
 $breakpoints: map-merge($breakpoints, wpdtrt-scss.$breakpoints);
+
+// Extend default `$breakpoint` map from local variables (optional)
+// $breakpoints: map-merge($breakpoints, $local-breakpoints);
+
+// -------------------------------------------------------------------
+// Styles
+// -------------------------------------------------------------------
 
 .wpdtrt-gallery {
     $block: &;
