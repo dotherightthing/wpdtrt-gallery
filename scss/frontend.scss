@@ -20,9 +20,11 @@
 // Import local variables
 @use 'variables/scss' as *;
 
-// Import other libraries
-@use '../node_modules/accessible-components/scss/frontend';
+// Import local icons
 @use '../icons/icomoon/style.scss' as *;
+
+// Import other libraries (optional)
+@use '../node_modules/accessible-components/scss/frontend';
 
 // Extend default `$breakpoint` map from library variables
 $breakpoints: map-merge($breakpoints, wpdtrt-scss.$breakpoints);

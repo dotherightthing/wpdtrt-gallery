@@ -1,6 +1,6 @@
 /* stylelint-disable */
 
-@use "variables" as *;
+@import "variables";
 
 @font-face {
   font-family: '#{$icomoon-font-family}';
