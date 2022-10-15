@@ -22,7 +22,7 @@
 
 // Import other libraries
 @use '../node_modules/accessible-components/scss/frontend';
-@use '../icons/icomoon/style.scss' as icomoon;
+@use '../icons/icomoon/style.scss' as *;
 
 // Extend default `$breakpoint` map from library variables
 $breakpoints: map-merge($breakpoints, wpdtrt-scss.$breakpoints);
